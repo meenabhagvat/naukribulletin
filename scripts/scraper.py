@@ -511,13 +511,565 @@ def run():
     print(f"✅ Done! Generated {new_pages} new pages")
     print(f"{'='*50}\n")
 
+    # Always rebuild listing pages and sitemap (even if no new pages,
+    # to keep counts and dates fresh)
+    rebuild_jobs_listing()
+    rebuild_affairs_listing()
+
+    # Regenerate sitemap
+    try:
+        import importlib.util, sys
+        sitemap_path = SITE_ROOT / "scripts" / "sitemap_gen.py"
+        spec = importlib.util.spec_from_file_location("sitemap_gen", sitemap_path)
+        sitemap_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(sitemap_mod)
+        sitemap_mod.run()
+    except Exception as e:
+        print(f"[SITEMAP] Error: {e}")
+
     # Push to GitHub (Cloudflare Pages auto-deploys)
     if new_pages > 0:
         today = date.today().strftime("%d %b %Y")
         git_push(f"Auto: {new_pages} new pages — {today}")
     else:
-        print("[GIT] No new pages, skipping push")
+        # Still push listing + sitemap updates even if no new job pages
+        git_push(f"Auto: Refresh listings & sitemap — {date.today().strftime('%d %b %Y')}")
 
 
 if __name__ == "__main__":
     run()
+
+
+# ─── LISTING PAGE REBUILDER ───────────────────────────────────────────────────
+
+def get_job_meta_from_html(html_path):
+    """Extract job metadata from a generated job detail page."""
+    try:
+        with open(html_path, encoding="utf-8") as f:
+            content = f.read()
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(content, "html.parser")
+
+        title_tag = soup.find("h1")
+        title = title_tag.get_text(strip=True) if title_tag else ""
+
+        dept_tag = soup.find(style=lambda s: s and "letter-spacing" in s and "FF6B00" in s)
+        dept = dept_tag.get_text(strip=True).title() if dept_tag else ""
+
+        rows = soup.find_all("tr")
+        data = {}
+        for row in rows:
+            cells = row.find_all("td")
+            if len(cells) == 2:
+                key = cells[0].get_text(strip=True).lower()
+                val = cells[1].get_text(strip=True)
+                data[key] = val
+
+        slug = html_path.parent.name
+        last_date = data.get("last date", "N/A")
+        vacancies = data.get("total vacancies", "N/A")
+        salary = data.get("salary / pay scale", "N/A")
+        location = data.get("location", "All India")
+        qualification = data.get("qualification", "N/A")
+
+        # Determine badge/category from qualification
+        qual_lower = qualification.lower()
+        if "engineer" in qual_lower or "b.tech" in qual_lower or "b.e" in qual_lower:
+            category = "Engineering"
+            cat_key = "engineering"
+        elif "post graduate" in qual_lower or "master" in qual_lower or "mba" in qual_lower:
+            category = "Post Graduate"
+            cat_key = "state"
+        elif "graduate" in qual_lower or "degree" in qual_lower or "b.sc" in qual_lower or "b.com" in qual_lower or "ba" in qual_lower:
+            category = "Graduate"
+            cat_key = "graduate"
+        elif "12th" in qual_lower or "intermediate" in qual_lower or "hsc" in qual_lower:
+            category = "12th Pass"
+            cat_key = "12th"
+        elif "10th" in qual_lower or "matriculation" in qual_lower or "ssc" in qual_lower:
+            category = "10th Pass"
+            cat_key = "10th"
+        else:
+            category = "Graduate"
+            cat_key = "graduate"
+
+        # Infer exam category from title/dept
+        title_dept = (title + " " + dept).lower()
+        if any(x in title_dept for x in ["ssc", "cgl", "chsl", "mts", "gd constable"]):
+            tab_cat = "ssc"
+        elif any(x in title_dept for x in ["railway", "rrb", "ntpc", "group d", "loco"]):
+            tab_cat = "railway"
+        elif any(x in title_dept for x in ["bank", "sbi", "ibps", "rbi", "nabard", "exim"]):
+            tab_cat = "banking"
+        elif any(x in title_dept for x in ["upsc", "ias", "ips", "civil service", "nda", "cds", "capf"]):
+            tab_cat = "upsc"
+        elif any(x in title_dept for x in ["army", "navy", "air force", "defence", "agniveer", "military"]):
+            tab_cat = "defence"
+        elif any(x in title_dept for x in ["police", "constable", "crpf", "bsf", "cisf", "itbp"]):
+            tab_cat = "police"
+        elif any(x in title_dept for x in ["teacher", "teaching", "professor", "lecturer", "kvs", "nvs"]):
+            tab_cat = "teaching"
+        else:
+            tab_cat = "state"
+
+        # Emoji icon by category
+        emoji_map = {
+            "ssc": "📋", "railway": "🚂", "banking": "🏦",
+            "upsc": "🏛️", "defence": "🪖", "police": "👮",
+            "teaching": "📚", "state": "🏢"
+        }
+
+        return {
+            "slug": slug,
+            "title": title,
+            "dept": dept,
+            "last_date": last_date,
+            "vacancies": vacancies,
+            "salary": salary,
+            "location": location,
+            "category": category,
+            "tab_cat": tab_cat,
+            "emoji": emoji_map.get(tab_cat, "📋"),
+        }
+    except Exception as e:
+        print(f"[META] Error reading {html_path}: {e}")
+        return None
+
+
+def build_job_card(job):
+    """Generate HTML for a single job card."""
+    urgency_badge = ""
+    ld = job.get("last_date", "N/A")
+    if ld != "N/A":
+        try:
+            from datetime import datetime
+            for fmt in ["%d %B %Y", "%d %b %Y", "%Y-%m-%d", "%d/%m/%Y"]:
+                try:
+                    ld_date = datetime.strptime(ld, fmt).date()
+                    days_left = (ld_date - date.today()).days
+                    if days_left <= 7:
+                        urgency_badge = '<span class="badge badge-urgent">🔥 URGENT</span>'
+                    else:
+                        urgency_badge = '<span class="badge badge-new">🟢 NEW</span>'
+                    break
+                except:
+                    continue
+        except:
+            urgency_badge = '<span class="badge badge-new">🟢 NEW</span>'
+    else:
+        urgency_badge = '<span class="badge badge-new">🟢 NEW</span>'
+
+    return f"""
+          <a href="/jobs/{job['slug']}/" class="card fade-up" style="text-decoration:none; color:inherit; display:block; position:relative; overflow:hidden;" data-category="{job['tab_cat']}">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--saffron);"></div>
+            <div style="padding-left:12px;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:10px;">
+                <div style="display:flex; gap:10px; align-items:flex-start; flex:1;">
+                  <div style="width:42px; height:42px; border-radius:10px; background:var(--saffron-pale); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">{job['emoji']}</div>
+                  <div>
+                    <div style="font-size:0.72rem; color:var(--grey-400); font-weight:500; margin-bottom:2px;">{job['dept']}</div>
+                    <div style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--navy);">{job['title']}</div>
+                  </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:4px; flex-shrink:0;">
+                  {urgency_badge}
+                  <span class="badge badge-category">{job['category']}</span>
+                </div>
+              </div>
+              <div style="display:flex; gap:16px; flex-wrap:wrap;">
+                <span style="font-size:0.8rem; color:var(--grey-700);">👥 {job['vacancies']}</span>
+                <span style="font-size:0.8rem; color:var(--grey-700);">📍 {job['location']}</span>
+                <span style="font-size:0.8rem; color:var(--grey-700);">💰 {job['salary']}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:12px; border-top:1px solid var(--grey-200);">
+                <span style="font-size:0.8rem; color:#E65100; font-weight:600;">⏰ Last Date: {job['last_date']}</span>
+                <span style="background:var(--navy); color:var(--white); padding:5px 14px; border-radius:6px; font-size:0.78rem; font-weight:600;">Apply Now →</span>
+              </div>
+            </div>
+          </a>"""
+
+
+def rebuild_jobs_listing():
+    """Scan all job pages and rebuild /jobs/index.html dynamically."""
+    jobs_dir = SITE_ROOT / "jobs"
+    jobs = []
+
+    for job_dir in sorted(jobs_dir.iterdir(), reverse=True):
+        if not job_dir.is_dir():
+            continue
+        index_file = job_dir / "index.html"
+        if not index_file.exists():
+            continue
+        meta = get_job_meta_from_html(index_file)
+        if meta and meta.get("title"):
+            jobs.append(meta)
+
+    print(f"[LISTING] Rebuilding jobs listing with {len(jobs)} jobs")
+
+    cards_html = "\n".join(build_job_card(j) for j in jobs)
+    count = len(jobs)
+    today_year = datetime.now().year
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latest Govt Jobs {today_year} — SSC, Railway, Banking, UPSC | NaukriBulletin</title>
+  <meta name="description" content="All latest govt job notifications {today_year}. Browse SSC, Railway, Banking, UPSC, Defence, Police jobs. Daily updated, free alerts.">
+  <link rel="canonical" href="https://naukribulletin.in/jobs/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/jobs/" class="active">Latest Jobs</a></li>
+        <li><a href="/current-affairs/">Current Affairs</a></li>
+        <li><a href="/results/">Results</a></li>
+        <li><a href="/admit-card/">Admit Card</a></li>
+        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div style="background:var(--navy); padding:40px 20px;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div style="color:var(--grey-400); font-size:0.8rem; margin-bottom:8px;">
+        <a href="/" style="color:var(--grey-400); text-decoration:none;">Home</a> › Latest Jobs
+      </div>
+      <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:800; color:var(--white); margin-bottom:8px;">
+        Latest <span style="color:var(--saffron);">Govt Jobs {today_year}</span>
+      </h1>
+      <p style="color:var(--grey-400); font-size:0.95rem;">{count}+ active notifications — updated daily by AI</p>
+    </div>
+  </div>
+
+  <div style="max-width:1200px; margin:0 auto; padding:0 20px;">
+    <div class="ad-slot ad-banner">Advertisement</div>
+  </div>
+
+  <div class="container">
+    <div class="two-col">
+      <section>
+        <div class="filter-tabs">
+          <div class="tab active" onclick="filterJobs('all', this)">All</div>
+          <div class="tab" onclick="filterJobs('ssc', this)">SSC</div>
+          <div class="tab" onclick="filterJobs('railway', this)">Railway</div>
+          <div class="tab" onclick="filterJobs('banking', this)">Banking</div>
+          <div class="tab" onclick="filterJobs('upsc', this)">UPSC</div>
+          <div class="tab" onclick="filterJobs('defence', this)">Defence</div>
+          <div class="tab" onclick="filterJobs('police', this)">Police</div>
+          <div class="tab" onclick="filterJobs('teaching', this)">Teaching</div>
+          <div class="tab" onclick="filterJobs('state', this)">State PSC</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <span style="font-size:0.85rem; color:var(--grey-700);">Showing <strong id="job-count">{count}</strong> jobs</span>
+          <select id="sort-select" onchange="sortJobs(this.value)" style="font-family:var(--font-body); font-size:0.82rem; border:1.5px solid var(--grey-200); border-radius:6px; padding:5px 10px; background:var(--white); color:var(--text);">
+            <option value="newest">Newest First</option>
+            <option value="urgent">Last Date (Urgent)</option>
+          </select>
+        </div>
+        <div id="jobs-list" style="display:flex; flex-direction:column; gap:12px;">
+{cards_html}
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <div class="telegram-cta">
+          <h3>📢 Free Job Alerts</h3>
+          <p>Get daily alerts on Telegram</p>
+          <a href="https://t.me/naukribulletin" class="telegram-btn">Join Channel →</a>
+        </div>
+        <div class="card">
+          <div style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:14px;">🔍 Filter by Category</div>
+          <select onchange="filterJobs(this.value, null)" style="width:100%; font-family:var(--font-body); font-size:0.85rem; border:1.5px solid var(--grey-200); border-radius:8px; padding:8px 12px; color:var(--text); background:var(--white);">
+            <option value="all">All Categories</option>
+            <option value="ssc">SSC</option>
+            <option value="railway">Railway</option>
+            <option value="banking">Banking</option>
+            <option value="upsc">UPSC</option>
+            <option value="defence">Defence</option>
+            <option value="police">Police</option>
+            <option value="teaching">Teaching</option>
+            <option value="state">State PSC</option>
+          </select>
+        </div>
+        <div class="ad-slot ad-sidebar">Advertisement</div>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
+          <p>India's smartest govt job portal. AI-powered daily job alerts, current affairs and exam updates — always free.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Jobs by Dept</h4>
+          <ul>
+            <li><a href="/jobs/">SSC Jobs</a></li>
+            <li><a href="/jobs/">Railway Jobs</a></li>
+            <li><a href="/jobs/">Banking Jobs</a></li>
+            <li><a href="/jobs/">UPSC Jobs</a></li>
+            <li><a href="/jobs/">Defence Jobs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/results/">Results</a></li>
+            <li><a href="/admit-card/">Admit Cards</a></li>
+            <li><a href="/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Current Affairs</h4>
+          <ul>
+            <li><a href="/current-affairs/">Daily Updates</a></li>
+            <li><a href="/current-affairs/">Economy</a></li>
+            <li><a href="/current-affairs/">Science & Tech</a></li>
+            <li><a href="/current-affairs/">International</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© {today_year} NaukriBulletin.in — All Rights Reserved</p>
+        <p>
+          <a href="/privacy/" style="color:var(--grey-400); text-decoration:none; margin-right:16px;">Privacy Policy</a>
+          <a href="/disclaimer/" style="color:var(--grey-400); text-decoration:none;">Disclaimer</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function filterJobs(category, el) {{
+      if (el) {{
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+      }}
+      const cards = document.querySelectorAll('#jobs-list a');
+      let count = 0;
+      cards.forEach(card => {{
+        if (category === 'all' || card.dataset.category === category) {{
+          card.style.display = 'block';
+          count++;
+        }} else {{
+          card.style.display = 'none';
+        }}
+      }});
+      document.getElementById('job-count').textContent = count;
+    }}
+
+    function sortJobs(val) {{
+      const list = document.getElementById('jobs-list');
+      const cards = Array.from(list.querySelectorAll('a'));
+      if (val === 'urgent') {{
+        cards.sort((a, b) => {{
+          const dateA = a.querySelector('span[style*="E65100"]')?.textContent || '';
+          const dateB = b.querySelector('span[style*="E65100"]')?.textContent || '';
+          return dateA.localeCompare(dateB);
+        }});
+        cards.forEach(c => list.appendChild(c));
+      }}
+    }}
+  </script>
+</body>
+</html>"""
+
+    output_path = SITE_ROOT / "jobs" / "index.html"
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"[LISTING] ✅ Rebuilt /jobs/index.html with {count} jobs")
+
+
+def get_affairs_meta_from_html(html_path):
+    """Extract current affairs metadata from a generated detail page."""
+    try:
+        with open(html_path, encoding="utf-8") as f:
+            content = f.read()
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(content, "html.parser")
+
+        title_tag = soup.find("h1")
+        title = title_tag.get_text(strip=True) if title_tag else ""
+
+        slug = html_path.parent.name
+
+        # Extract category from the orange header div
+        cat_div = soup.find(style=lambda s: s and "FF6B00" in str(s) and "letter-spacing" in str(s))
+        category_raw = cat_div.get_text(strip=True) if cat_div else "General"
+        # Strip date portion (e.g. "ECONOMY • 03 June 2026" -> "Economy")
+        category = category_raw.split("•")[0].strip().title() if "•" in category_raw else category_raw.strip().title()
+
+        # Extract exam relevance
+        exam_tag = soup.find(style=lambda s: s and "FF8C33" in str(s))
+        exam_rel = exam_tag.get_text(strip=True) if exam_tag else "All Exams"
+
+        # Extract summary
+        summary_p = soup.find("p", style=lambda s: s and "1.7" in str(s))
+        summary = summary_p.get_text(strip=True)[:120] + "..." if summary_p else ""
+
+        # Date from file modification time
+        from datetime import datetime
+        mtime = html_path.stat().st_mtime
+        date_str = datetime.fromtimestamp(mtime).strftime("%d %b")
+
+        cat_lower = category.lower()
+        cat_class_map = {
+            "economy": "cat-economy",
+            "science": "cat-science",
+            "international": "cat-international",
+            "sports": "cat-sports",
+            "awards": "cat-awards",
+            "government": "cat-government",
+            "environment": "cat-environment",
+        }
+        cat_class = next((v for k, v in cat_class_map.items() if k in cat_lower), "cat-government")
+
+        return {
+            "slug": slug,
+            "title": title,
+            "category": category,
+            "cat_class": cat_class,
+            "exam_rel": exam_rel,
+            "summary": summary,
+            "date_str": date_str,
+        }
+    except Exception as e:
+        print(f"[META] Error reading {html_path}: {e}")
+        return None
+
+
+def rebuild_affairs_listing():
+    """Scan all current-affairs pages and rebuild /current-affairs/index.html."""
+    affairs_dir = SITE_ROOT / "current-affairs"
+    items = []
+
+    for item_dir in sorted(affairs_dir.iterdir(), reverse=True):
+        if not item_dir.is_dir():
+            continue
+        index_file = item_dir / "index.html"
+        if not index_file.exists():
+            continue
+        meta = get_affairs_meta_from_html(index_file)
+        if meta and meta.get("title"):
+            items.append(meta)
+
+    print(f"[LISTING] Rebuilding current affairs listing with {len(items)} items")
+
+    cards_html = ""
+    for item in items:
+        date_parts = item['date_str'].split(" ")
+        day = date_parts[0] if date_parts else ""
+        month = date_parts[1] if len(date_parts) > 1 else ""
+        cards_html += f"""
+          <a href="/current-affairs/{item['slug']}/" class="affairs-card fade-up" style="text-decoration:none; color:inherit;">
+            <div style="background:var(--navy); border-radius:8px; padding:8px 10px; text-align:center; min-width:48px; color:var(--white); flex-shrink:0;">
+              <div style="font-family:var(--font-display); font-size:1.2rem; font-weight:800; line-height:1;">{day}</div>
+              <div style="font-size:0.65rem; opacity:0.7; text-transform:uppercase;">{month}</div>
+            </div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="cat-pill {item['cat_class']}">{item['category'].upper()}</span>
+                <span style="font-size:0.72rem; color:var(--grey-400);">📚 {item['exam_rel']}</span>
+              </div>
+              <div style="font-family:var(--font-display); font-size:0.95rem; font-weight:700; color:var(--navy); margin-bottom:6px; line-height:1.3;">{item['title']}</div>
+              <p style="font-size:0.82rem; color:var(--grey-700); line-height:1.5; margin:0;">{item['summary']}</p>
+            </div>
+          </a>"""
+
+    today_year = datetime.now().year
+    count = len(items)
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Current Affairs {today_year} for UPSC, SSC, Banking | NaukriBulletin</title>
+  <meta name="description" content="Daily current affairs {today_year} for UPSC, SSC, Railway, Banking exams. Economy, Science, International, Sports, Awards — AI-summarized exam-ready notes.">
+  <link rel="canonical" href="https://naukribulletin.in/current-affairs/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .affairs-card {{ background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:20px; display:flex; gap:16px; text-decoration:none; color:inherit; transition:all 0.25s; }}
+    .affairs-card:hover {{ border-color:var(--saffron); box-shadow:0 4px 20px rgba(255,107,0,0.1); transform:translateY(-1px); }}
+    .cat-pill {{ font-size:0.68rem; font-weight:700; padding:3px 8px; border-radius:4px; letter-spacing:0.04em; white-space:nowrap; }}
+    .cat-economy {{ background:#E8F5E9; color:#2E7D32; }}
+    .cat-science {{ background:#E3F2FD; color:#1565C0; }}
+    .cat-international {{ background:#F3E5F5; color:#6A1B9A; }}
+    .cat-sports {{ background:#FFF3E0; color:#E65100; }}
+    .cat-awards {{ background:#FCE4EC; color:#AD1457; }}
+    .cat-government {{ background:#E0F2F1; color:#00695C; }}
+    .cat-environment {{ background:#F1F8E9; color:#33691E; }}
+  </style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/jobs/">Latest Jobs</a></li>
+        <li><a href="/current-affairs/" class="active">Current Affairs</a></li>
+        <li><a href="/results/">Results</a></li>
+        <li><a href="/admit-card/">Admit Card</a></li>
+        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div style="background:var(--navy); padding:40px 20px;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div style="color:var(--grey-400); font-size:0.8rem; margin-bottom:8px;">
+        <a href="/" style="color:var(--grey-400); text-decoration:none;">Home</a> › Current Affairs
+      </div>
+      <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:800; color:var(--white); margin-bottom:8px;">
+        Daily <span style="color:var(--saffron);">Current Affairs {today_year}</span>
+      </h1>
+      <p style="color:var(--grey-400); font-size:0.95rem;">{count}+ articles — exam-ready summaries updated daily by AI</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="two-col">
+      <section>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+{cards_html}
+        </div>
+      </section>
+      <aside class="sidebar">
+        <div class="telegram-cta">
+          <h3>📢 Free Alerts</h3>
+          <p>Daily current affairs on Telegram</p>
+          <a href="https://t.me/naukribulletin" class="telegram-btn">Join Channel →</a>
+        </div>
+        <div class="ad-slot ad-sidebar">Advertisement</div>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <p>© {today_year} NaukriBulletin.in — All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>"""
+
+    output_path = SITE_ROOT / "current-affairs" / "index.html"
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"[LISTING] ✅ Rebuilt /current-affairs/index.html with {count} items")
