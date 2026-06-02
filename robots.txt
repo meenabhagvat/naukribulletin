@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://naukribulletin.in/sitemap.xml
+
+# Block irrelevant crawlers
+User-agent: SemrushBot
+Disallow: /
+User-agent: AhrefsBot
+Disallow: /
