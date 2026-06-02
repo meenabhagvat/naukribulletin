@@ -22,6 +22,10 @@ PRIORITY_MAP = {
     "syllabus": "0.7",
     "answer-key": "0.7",
     "mock-test": "0.6",
+    "about": "0.5",
+    "contact": "0.5",
+    "privacy": "0.3",
+    "disclaimer": "0.3",
 }
 
 CHANGEFREQ_MAP = {
@@ -31,6 +35,10 @@ CHANGEFREQ_MAP = {
     "results": "weekly",
     "admit-card": "weekly",
     "syllabus": "monthly",
+    "about": "monthly",
+    "contact": "monthly",
+    "privacy": "yearly",
+    "disclaimer": "yearly",
 }
 
 

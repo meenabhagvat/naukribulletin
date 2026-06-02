@@ -20,14 +20,25 @@ import subprocess
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+ADSENSE_CLIENT = os.environ.get("ADSENSE_CLIENT", "ca-pub-XXXXXXXXXX")
+ADSENSE_SLOT_TOP = os.environ.get("ADSENSE_SLOT_TOP", "XXXXXXXXXX")
+ADSENSE_SLOT_MID = os.environ.get("ADSENSE_SLOT_MID", "XXXXXXXXXX")
 SITE_ROOT = Path(__file__).parent.parent  # root of your site repo
 
 SOURCES = [
+    # Job sources
     {"url": "https://www.freejobalert.com/feed/", "type": "rss", "dept": "FreeJobAlert"},
     {"url": "https://www.sarkarinaukriblog.com/feeds/posts/default?alt=rss", "type": "rss", "dept": "Sarkari Naukri"},
     {"url": "https://www.indgovtjobs.in/feeds/posts/default?alt=rss", "type": "rss", "dept": "Govt Jobs"},
+    {"url": "https://www.sarkariresult.com/feed/", "type": "rss", "dept": "Sarkari Result"},
+    {"url": "https://www.rojgarresult.com/feed/", "type": "rss", "dept": "Rojgar Result"},
+    {"url": "https://www.freshersworld.com/feed", "type": "rss", "dept": "Freshers World"},
+    {"url": "https://www.govtjobpedia.com/feed/", "type": "rss", "dept": "Govt Job Pedia"},
+    # Current affairs / news sources
     {"url": "https://pib.gov.in/RSSNewRelease.aspx", "type": "rss", "dept": "PIB"},
     {"url": "https://newsonair.gov.in/rss.aspx", "type": "rss", "dept": "News on Air"},
+    {"url": "https://www.thehindu.com/news/national/feeder/default.rss", "type": "rss", "dept": "The Hindu"},
+    {"url": "https://indianexpress.com/feed/", "type": "rss", "dept": "Indian Express"},
 ]
 
 GROQ_MODELS = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
@@ -251,9 +262,47 @@ def generate_job_html(job, template_path=None):
   <title>{job.get('title', 'Govt Job')} — NaukriBulletin</title>
   <meta name="description" content="{job.get('meta_description', '')}">
   <link rel="canonical" href="https://naukribulletin.in/jobs/{slug}/">
+  <meta property="og:title" content="{job.get('title', 'Govt Job')}">
+  <meta property="og:description" content="{job.get('meta_description', '')}">
+  <meta property="og:url" content="https://naukribulletin.in/jobs/{slug}/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="robots" content="index, follow">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": "{job.get('title', '')}",
+    "description": "{job.get('summary', '')}",
+    "hiringOrganization": {{
+      "@type": "Organization",
+      "name": "{job.get('department', 'Government of India')}"
+    }},
+    "jobLocation": {{
+      "@type": "Place",
+      "address": {{
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressRegion": "{job.get('state', 'All India')}"
+      }}
+    }},
+    "datePosted": "{today}",
+    "validThrough": "{job.get('last_date', '')}",
+    "employmentType": "FULL_TIME",
+    "url": "https://naukribulletin.in/jobs/{slug}/"
+  }}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 <body>
   <nav class="nav-bar">
@@ -265,7 +314,7 @@ def generate_job_html(job, template_path=None):
 
   <!-- Ad Banner -->
   <div style="max-width:900px;margin:20px auto;padding:0 20px;">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_CLIENT}" data-ad-slot="{ADSENSE_SLOT_TOP}" data-ad-format="auto"></ins>
   </div>
 
   <main style="max-width:900px;margin:0 auto;padding:20px;">
@@ -333,7 +382,7 @@ def generate_job_html(job, template_path=None):
       </div>
 
       <!-- Ad -->
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_CLIENT}" data-ad-slot="{ADSENSE_SLOT_TOP}" data-ad-format="auto"></ins>
 
       <!-- Disclaimer -->
       <div style="background:#FFF3E8;border-left:4px solid #FF6B00;border-radius:0 8px 8px 0;padding:14px 18px;margin-top:24px;">
@@ -344,7 +393,7 @@ def generate_job_html(job, template_path=None):
     </article>
   </main>
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
 </body>
 </html>"""
@@ -407,12 +456,12 @@ def generate_affairs_html(affair):
       </div>
 
       <!-- Ad -->
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_CLIENT}" data-ad-slot="{ADSENSE_SLOT_TOP}" data-ad-format="auto"></ins>
 
     </article>
   </main>
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
 </body>
 </html>"""
@@ -721,6 +770,14 @@ def rebuild_jobs_listing():
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 <body>
 
