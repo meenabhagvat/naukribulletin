@@ -1,0 +1,61 @@
+name: Daily NaukriBulletin.in Daily Update
+
+on:
+  schedule:
+    # Runs at 6:30 AM IST (1:00 AM UTC) every day
+    - cron: '0 1 * * *'
+    # Also runs at 1:30 PM IST (8:00 AM UTC) for afternoon updates
+    - cron: '0 8 * * *'
+  
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # ── Checkout repo ──
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      # ── Setup Python ──
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # ── Install dependencies ──
+      - name: Install Dependencies
+        run: |
+          pip install requests beautifulsoup4 lxml
+
+      # ── Configure Git ──
+      - name: Configure Git
+        run: |
+          git config --global user.name "NaukriBulletin Bot"
+          git config --global user.email "bot@naukribulletin.in"
+
+      # ── Run Scraper ──
+      - name: Run Job Scraper & Generator
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python scripts/scraper.py
+
+      # ── Cloudflare Pages deploys automatically on push ──
+      # No extra step needed — CF Pages watches this repo
+      
+      # ── Optional: Post to Telegram channel ──
+      - name: Notify Telegram Channel
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          python scripts/telegram_notify.py
+        continue-on-error: true  # Don't fail if Telegram is down
