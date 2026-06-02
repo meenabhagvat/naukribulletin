@@ -265,7 +265,7 @@ def generate_job_html(job, template_path=None):
 <body>
   <nav class="nav-bar">
     <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>Sarkari<span>Pulse</span></a>
+      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
       <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;font-size:0.85rem;">← All Jobs</a>
     </div>
   </nav>
@@ -380,7 +380,7 @@ def generate_affairs_html(affair):
 
   <nav style="background:#0A0F2C;border-bottom:3px solid #FF6B00;padding:0 20px;">
     <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;height:60px;">
-      <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;text-decoration:none;">Sarkari<span style="color:#FF6B00;">Pulse</span></a>
+      <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;text-decoration:none;">NaukriBulletin</a>
     </div>
   </nav>
 
