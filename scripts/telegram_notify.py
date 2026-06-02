@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
 NaukriBulletin — Telegram Channel Notifier
-Posts daily job digest to Telegram channel for organic traffic
+Posts daily job digest to Telegram channel for organic traffic.
+Reads real job pages from jobs/ directory instead of hardcoded data.
 """
 
 import os
-import json
+import re
 import requests
 from datetime import date
 from pathlib import Path
@@ -13,7 +14,8 @@ from pathlib import Path
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 CHANNEL_ID = os.environ.get("TELEGRAM_CHANNEL_ID", "")
 SITE_ROOT = Path(__file__).parent.parent
-PROCESSED_FILE = SITE_ROOT / "scripts" / "processed.json"
+JOBS_DIR = SITE_ROOT / "jobs"
+SITE_URL = "https://naukribulletin.in"
 
 
 def send_message(text, parse_mode="HTML"):
@@ -35,42 +37,98 @@ def send_message(text, parse_mode="HTML"):
         return False
 
 
+def parse_job_page(job_dir):
+    """Extract title, vacancies, last date, dept from a job index.html."""
+    html_file = job_dir / "index.html"
+    if not html_file.exists():
+        return None
+
+    html = html_file.read_text(encoding="utf-8", errors="ignore")
+
+    # Title from <h1>
+    title_match = re.search(r'<h1[^>]*>(.*?)</h1>', html, re.DOTALL)
+    title = re.sub(r'<[^>]+>', '', title_match.group(1)).strip() if title_match else job_dir.name.replace("-", " ").title()
+
+    # Vacancies badge: 👥 Vacancies: 451
+    vac_match = re.search(r'Vacancies:\s*([\d,N/A]+)', html)
+    vacancies = vac_match.group(1).strip() if vac_match else "N/A"
+
+    # Last date badge: 📅 Last Date: ...
+    ld_match = re.search(r'Last Date:\s*([^<\n"]{3,40}?)(?:<|"|\n|$)', html)
+    last_date = ld_match.group(1).strip().rstrip('"').strip() if ld_match else "N/A"
+
+    # Department from meta or badge
+    dept_match = re.search(r'<span[^>]*>\s*🏛️\s*([^<]+)</span>', html)
+    dept = dept_match.group(1).strip() if dept_match else ""
+
+    slug = job_dir.name
+    url = f"{SITE_URL}/jobs/{slug}/"
+
+    return {
+        "title": title[:70],
+        "vacancies": vacancies,
+        "last_date": last_date[:25],
+        "dept": dept,
+        "url": url,
+    }
+
+
+def get_recent_jobs(limit=5):
+    """Get the most recently modified job directories."""
+    if not JOBS_DIR.exists():
+        return []
+
+    job_dirs = [d for d in JOBS_DIR.iterdir() if d.is_dir()]
+    # Sort by modification time, newest first
+    job_dirs.sort(key=lambda d: d.stat().st_mtime, reverse=True)
+
+    jobs = []
+    for d in job_dirs[:limit * 2]:  # parse extra in case some fail
+        job = parse_job_page(d)
+        if job:
+            jobs.append(job)
+        if len(jobs) >= limit:
+            break
+
+    return jobs
+
+
 def build_daily_digest():
-    """Build today's job digest message."""
+    """Build today's job digest message from real scraped jobs."""
     today = date.today().strftime("%d %B %Y")
-    
-    # Hardcoded sample — in production, read from today's generated jobs
-    message = f"""🇮🇳 <b>NaukriBulletin Daily Digest</b>
-📅 {today}
+    jobs = get_recent_jobs(limit=5)
 
-<b>🔥 Today's Top Job Notifications:</b>
+    lines = [
+        f"🇮🇳 <b>NaukriBulletin Daily Digest</b>",
+        f"📅 {today}",
+        "",
+        "<b>🔥 Today's Latest Government Job Notifications:</b>",
+        "",
+    ]
 
-1️⃣ <b>SSC CGL 2025</b>
-   👥 17,727 Vacancies | 🎓 Graduate
-   ⏰ Last Date: 20 June 2025
-   🔗 naukribulletin.in/jobs/ssc-cgl-2025/
+    if jobs:
+        emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+        for i, job in enumerate(jobs):
+            emoji = emojis[i] if i < len(emojis) else "🔹"
+            lines.append(f"{emoji} <b>{job['title']}</b>")
+            if job['vacancies'] and job['vacancies'] != "N/A":
+                lines.append(f"   👥 {job['vacancies']} Vacancies")
+            if job['last_date'] and job['last_date'] != "N/A":
+                lines.append(f"   ⏰ Last Date: {job['last_date']}")
+            lines.append(f"   🔗 {job['url']}")
+            lines.append("")
+    else:
+        lines.append("🔍 Check latest jobs at naukribulletin.in")
+        lines.append("")
 
-2️⃣ <b>RRB NTPC 2025</b>
-   👥 11,558 Vacancies | 🎓 12th Pass
-   ⏰ Last Date: 10 June 2025
-   🔗 naukribulletin.in/jobs/railway-ntpc-2025/
+    lines += [
+        f"📚 All Jobs: <a href=\"{SITE_URL}/jobs/\">{SITE_URL}/jobs/</a>",
+        "",
+        "👆 Share with friends preparing for govt exams!",
+        "🔔 Stay updated — forward this channel",
+    ]
 
-3️⃣ <b>SBI PO 2025</b>
-   👥 2,000 Vacancies | 🎓 Graduate
-   ⏰ Last Date: 15 June 2025
-   🔗 naukribulletin.in/jobs/sbi-po-2025/
-
-<b>📰 Today's Current Affairs (Exam Important):</b>
-• India GDP grows 7.8% in Q4 FY25
-• ISRO launches NVS-02 Navigation Satellite
-• India elected to UN Security Council
-
-📚 Full details: <a href="https://naukribulletin.in">naukribulletin.in</a>
-
-👆 Share with friends preparing for govt exams!
-🔔 Stay updated — forward this channel"""
-
-    return message
+    return "\n".join(lines)
 
 
 def notify():
@@ -79,8 +137,9 @@ def notify():
         return
 
     message = build_daily_digest()
+    print("[TELEGRAM] Sending digest:\n", message[:500])
     success = send_message(message)
-    
+
     if success:
         print("[TELEGRAM] ✅ Daily digest sent!")
     else:
