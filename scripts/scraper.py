@@ -23,16 +23,9 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 SITE_ROOT = Path(__file__).parent.parent  # root of your site repo
 
 SOURCES = [
-    # Central Govt
-    {"url": "https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/advtnoticesscnews.xml", "type": "rss", "dept": "SSC"},
-    {"url": "https://www.rrbcdg.gov.in/", "type": "html", "dept": "Railway"},
-    {"url": "https://www.ibps.in/", "type": "html", "dept": "Banking"},
-    {"url": "https://upsc.gov.in/", "type": "html", "dept": "UPSC"},
-    {"url": "https://joinindianarmy.nic.in/", "type": "html", "dept": "Army"},
-    {"url": "https://www.ncs.gov.in/", "type": "html", "dept": "NCS"},
-    # Employment News RSS
-    {"url": "https://www.employmentnews.gov.in/RSS/EnglishRSS.xml", "type": "rss", "dept": "Employment News"},
-    # PIB for current affairs
+    {"url": "https://www.freejobalert.com/feed/", "type": "rss", "dept": "FreeJobAlert"},
+    {"url": "https://www.sarkarinaukriblog.com/feeds/posts/default?alt=rss", "type": "rss", "dept": "Sarkari Naukri"},
+    {"url": "https://www.indgovtjobs.in/feeds/posts/default?alt=rss", "type": "rss", "dept": "Govt Jobs"},
     {"url": "https://pib.gov.in/RSSNewRelease.aspx", "type": "rss", "dept": "PIB"},
     {"url": "https://newsonair.gov.in/rss.aspx", "type": "rss", "dept": "News on Air"},
 ]
