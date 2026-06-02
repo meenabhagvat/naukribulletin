@@ -26,19 +26,16 @@ ADSENSE_SLOT_MID = os.environ.get("ADSENSE_SLOT_MID", "XXXXXXXXXX")
 SITE_ROOT = Path(__file__).parent.parent  # root of your site repo
 
 SOURCES = [
-    # Job sources
+    # Job sources (verified working)
     {"url": "https://www.freejobalert.com/feed/", "type": "rss", "dept": "FreeJobAlert"},
     {"url": "https://www.sarkarinaukriblog.com/feeds/posts/default?alt=rss", "type": "rss", "dept": "Sarkari Naukri"},
     {"url": "https://www.indgovtjobs.in/feeds/posts/default?alt=rss", "type": "rss", "dept": "Govt Jobs"},
-    {"url": "https://www.sarkariresult.com/feed/", "type": "rss", "dept": "Sarkari Result"},
-    {"url": "https://www.rojgarresult.com/feed/", "type": "rss", "dept": "Rojgar Result"},
-    {"url": "https://www.freshersworld.com/feed", "type": "rss", "dept": "Freshers World"},
-    {"url": "https://www.govtjobpedia.com/feed/", "type": "rss", "dept": "Govt Job Pedia"},
-    # Current affairs / news sources
+    {"url": "https://www.employmentnews.gov.in/feed/", "type": "rss", "dept": "Employment News"},
+    {"url": "https://www.ncs.gov.in/rss-feed/jobs", "type": "rss", "dept": "NCS Jobs"},
+    # Current affairs / news sources (verified working)
     {"url": "https://pib.gov.in/RSSNewRelease.aspx", "type": "rss", "dept": "PIB"},
     {"url": "https://newsonair.gov.in/rss.aspx", "type": "rss", "dept": "News on Air"},
     {"url": "https://www.thehindu.com/news/national/feeder/default.rss", "type": "rss", "dept": "The Hindu"},
-    {"url": "https://indianexpress.com/feed/", "type": "rss", "dept": "Indian Express"},
 ]
 
 GROQ_MODELS = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
@@ -585,10 +582,6 @@ def run():
         git_push(f"Auto: Refresh listings & sitemap — {date.today().strftime('%d %b %Y')}")
 
 
-if __name__ == "__main__":
-    run()
-
-
 # ─── LISTING PAGE REBUILDER ───────────────────────────────────────────────────
 
 def get_job_meta_from_html(html_path):
@@ -1130,3 +1123,7 @@ def rebuild_affairs_listing():
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"[LISTING] ✅ Rebuilt /current-affairs/index.html with {count} items")
+
+
+if __name__ == "__main__":
+    run()
