@@ -653,7 +653,7 @@ def generate_job_html(job):
       </div>
 
       <div style="text-align:center;margin:32px 0;">
-        <a href="{job.get('apply_link', '#')}" target="_blank" rel="nofollow noopener"
+        <a href="{job.get('apply_link') or job.get('source_url') or '#'}" target="_blank" rel="nofollow noopener"
            style="background:#FF6B00;color:#fff;padding:14px 40px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;display:inline-block;">
           Apply Online →
         </a>
