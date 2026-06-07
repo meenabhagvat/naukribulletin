@@ -8,6 +8,25 @@
   <link rel="canonical" href="https://naukribulletin.in/current-affairs/lpg-domestic-cylinder-price-hike/">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <!-- OneSignal Web Push -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "89e83d08-e30e-46f9-baec-f0167f8baa35",
+        notifyButton: { enable: true, size: 'medium', position: 'bottom-left',
+          text: { 'tip.state.unsubscribed': 'Get free job alerts!',
+                  'tip.state.subscribed': '✓ Job alerts active',
+                  'message.prenotify': 'Get instant govt job alerts' }
+        },
+        welcomeNotification: {
+          title: "NaukriBulletin Alerts ON 🎉",
+          message: "You'll get instant alerts for new govt jobs!"
+        }
+      });
+    });
+  </script>
 </head>
 <body style="font-family:'DM Sans',sans-serif;background:#F7F8FA;margin:0;">
   <nav style="background:#0A0F2C;border-bottom:3px solid #FF6B00;padding:0 20px;">

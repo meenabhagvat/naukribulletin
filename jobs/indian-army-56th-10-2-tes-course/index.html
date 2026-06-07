@@ -47,6 +47,25 @@
     gtag('js', new Date());
     gtag('config', 'G-6WQJ4W7T1N');
   </script>
+  <!-- OneSignal Web Push -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "89e83d08-e30e-46f9-baec-f0167f8baa35",
+        notifyButton: { enable: true, size: 'medium', position: 'bottom-left',
+          text: { 'tip.state.unsubscribed': 'Get free job alerts!',
+                  'tip.state.subscribed': '✓ Job alerts active',
+                  'message.prenotify': 'Get instant govt job alerts' }
+        },
+        welcomeNotification: {
+          title: "NaukriBulletin Alerts ON 🎉",
+          message: "You'll get instant alerts for new govt jobs!"
+        }
+      });
+    });
+  </script>
 </head>
 <body>
   <nav class="nav-bar">
