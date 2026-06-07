@@ -1065,7 +1065,7 @@ def rebuild_jobs_listing():
         <div class="telegram-cta">
           <h3>📢 Free Job Alerts</h3>
           <p>Get daily alerts on Telegram</p>
-          <a href="https://t.me/naukribulletin" class="telegram-btn">Join Channel →</a>
+          <a href="https://t.me/naukribulletin24" class="telegram-btn">Join Channel →</a>
         </div>
         <div class="card">
           <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:14px;">🔍 Filter by Category</div>
@@ -1294,7 +1294,7 @@ def rebuild_affairs_listing():
         <div class="telegram-cta">
           <h3>📢 Free Alerts</h3>
           <p>Daily current affairs on Telegram</p>
-          <a href="https://t.me/naukribulletin" class="telegram-btn">Join Channel →</a>
+          <a href="https://t.me/naukribulletin24" class="telegram-btn">Join Channel →</a>
         </div>
         <div class="ad-slot ad-sidebar">Advertisement</div>
       </aside>

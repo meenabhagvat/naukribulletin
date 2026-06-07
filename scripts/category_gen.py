@@ -471,7 +471,7 @@ def build_category_page(cat, jobs):
   <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
     <div style="background:#FFF3E8;border-radius:0 0 12px 12px;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
       <span style="font-size:0.82rem;color:#E65100;font-weight:600;">🔔 Get instant alerts for {cat['title']}</span>
-      <a href="https://t.me/naukribulletin" style="background:#FF6B00;color:#fff;padding:6px 16px;border-radius:6px;font-size:0.8rem;font-weight:700;text-decoration:none;">Join Telegram →</a>
+      <a href="https://t.me/naukribulletin24" style="background:#FF6B00;color:#fff;padding:6px 16px;border-radius:6px;font-size:0.8rem;font-weight:700;text-decoration:none;">Join Telegram →</a>
     </div>
   </div>
 
@@ -495,7 +495,7 @@ def build_category_page(cat, jobs):
         <div style="font-size:1.3rem;margin-bottom:8px;">📢</div>
         <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:6px;">Free Job Alerts</h3>
         <p style="color:#9BA3B8;font-size:0.8rem;margin-bottom:14px;">Get notified instantly on Telegram when new {cat['title']} are posted</p>
-        <a href="https://t.me/naukribulletin" style="display:block;background:#FF6B00;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">Join Free Channel →</a>
+        <a href="https://t.me/naukribulletin24" style="display:block;background:#FF6B00;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">Join Free Channel →</a>
       </div>
 
       <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:20px;">
@@ -612,7 +612,7 @@ def build_state_page(state_cfg, jobs):
       <div style="background:#0A0F2C;border-radius:14px;padding:20px;text-align:center;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:6px;">📢 Free Alerts</h3>
         <p style="color:#9BA3B8;font-size:0.8rem;margin-bottom:14px;">Get notified for {state_cfg['title']} on Telegram</p>
-        <a href="https://t.me/naukribulletin" style="display:block;background:#FF6B00;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">Join Free →</a>
+        <a href="https://t.me/naukribulletin24" style="display:block;background:#FF6B00;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">Join Free →</a>
       </div>
       <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:20px;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:12px;">📂 By Category</h3>
