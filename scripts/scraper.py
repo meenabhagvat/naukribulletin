@@ -1317,3 +1317,4 @@ def rebuild_affairs_listing():
 
 if __name__ == "__main__":
     run()
+
