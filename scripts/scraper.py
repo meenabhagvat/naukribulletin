@@ -805,7 +805,10 @@ def save_page(slug, html, folder):
 def git_push(message="Auto: Update"):
     try:
         subprocess.run(["git", "add", "."], cwd=SITE_ROOT, check=True)
-        subprocess.run(["git", "commit", "-m", message], cwd=SITE_ROOT, check=True)
+        # Commit first (may fail if nothing to commit — that's fine)
+        subprocess.run(["git", "commit", "-m", message], cwd=SITE_ROOT, check=False)
+        # Pull with rebase to avoid conflicts with parallel runs
+        subprocess.run(["git", "pull", "--rebase", "--autostash"], cwd=SITE_ROOT, check=False)
         subprocess.run(["git", "push"], cwd=SITE_ROOT, check=True)
         print(f"[GIT] Pushed: {message}")
     except subprocess.CalledProcessError as e:
