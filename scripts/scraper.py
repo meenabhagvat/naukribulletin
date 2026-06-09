@@ -1053,9 +1053,9 @@ def rebuild_syllabus():
     print(f"[SYLLABUS] Rebuilding syllabus page with {total} jobs across {len(CATS)} categories")
 
     # ── Tab buttons ───────────────────────────────────────────────────────────
-    tab_buttons = \'\n          \'.join(
-        f\'<button class="stab{\'  stab-active\' if i==0 else \'\'}" \'
-        f\'onclick="filterSyllabus(\'{c[0]}\',this)">{c[2]} {c[1]}</button>\'
+    tab_buttons = '\n          '.join(
+        f'<button class="stab{" stab-active" if i==0 else ""}" '
+        f'onclick="filterSyllabus(\'{c[0]}\',this)">{c[2]} {c[1]}</button>'
         for i, c in enumerate(CATS)
     )
 
