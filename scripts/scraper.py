@@ -890,6 +890,7 @@ def run():
         print(f"⚠  Failed sources ({len(failed_src)}): {', '.join(failed_src)}")
     print(f"{'='*60}\n")
 
+    rebuild_homepage()
     rebuild_jobs_listing()
     rebuild_affairs_listing()
     rebuild_syllabus()
