@@ -684,7 +684,7 @@ def generate_job_html(job):
             </div>
             <span style="font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:6px;background:#1d4ed8;color:#fff;white-space:nowrap;">Free</span>
           </a>
-          <a href="https://www.adda247.com/?utm_source=naukribulletin&utm_medium=affiliate" target="_blank" rel="noopener sponsored"
+          <a href="PASTE_YOUR_ADDA247_LINK_HERE" target="_blank" rel="noopener sponsored"
              style="display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;text-decoration:none;color:inherit;border-left:4px solid #f97316;">
             <div style="width:40px;height:40px;border-radius:8px;background:#f97316;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#fff;flex-shrink:0;">A2</div>
             <div style="flex:1;min-width:0;">
