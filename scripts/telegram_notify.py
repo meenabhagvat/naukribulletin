@@ -1,135 +1,310 @@
 #!/usr/bin/env python3
 """
-NaukriBulletin — Telegram Notifier
-Posts top 5 latest individual job notifications to channel
+NaukriBulletin — telegram_notify.py  (Phase 4 upgrade)
+-------------------------------------------------------
+Sends new job notifications to:
+  1. Telegram channel  @naukribulletin24
+  2. OneSignal web push  (App ID: 89e83d08-e30e-46f9-baec-f0167f8baa35)
+  3. (optional) Brevo email broadcast
+
+Environment variables required (set in GitHub Actions secrets):
+  TELEGRAM_BOT_TOKEN   — bot token from @BotFather
+  TELEGRAM_CHANNEL_ID  — e.g. @naukribulletin24 or numeric -100xxxxx
+  ONESIGNAL_APP_ID     — 89e83d08-e30e-46f9-baec-f0167f8baa35
+  ONESIGNAL_REST_KEY   — REST API key from OneSignal dashboard → Settings → Keys
+  BREVO_API_KEY        — optional, for email broadcast
 """
 
 import os
 import json
+import time
 import requests
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
 
-BOT_TOKEN  = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-CHANNEL_ID = os.environ.get("TELEGRAM_CHANNEL_ID", "")
-SITE_ROOT  = Path(__file__).parent.parent
-PROCESSED  = SITE_ROOT / "scripts" / "tg_posted.json"
+# ── Config ────────────────────────────────────────────────────────────────────
+TELEGRAM_TOKEN     = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHANNEL   = os.environ.get("TELEGRAM_CHANNEL_ID", "@naukribulletin24")
+ONESIGNAL_APP_ID   = os.environ.get("ONESIGNAL_APP_ID",   "89e83d08-e30e-46f9-baec-f0167f8baa35")
+ONESIGNAL_REST_KEY = os.environ.get("ONESIGNAL_REST_KEY", "")
+BREVO_API_KEY      = os.environ.get("BREVO_API_KEY",       "")
+SITE_URL           = "https://naukribulletin.in"
 
+# Path to the scraped jobs JSON (adjust to match your repo structure)
+JOBS_JSON_PATH = Path(__file__).parent / "_data" / "jobs.json"
+SENT_IDS_PATH  = Path(__file__).parent / "_data" / "notified_ids.json"
 
-def load_posted():
-    if PROCESSED.exists():
-        with open(PROCESSED) as f:
-            return set(json.load(f))
-    return set()
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
-
-def save_posted(slugs):
-    with open(PROCESSED, "w") as f:
-        json.dump(list(slugs), f)
-
-
-def get_latest_jobs(limit=5):
-    jobs_dir = SITE_ROOT / "jobs"
-    jobs = []
-    skip = {"ssc","railway","banking","upsc","defence","police","teaching",
-            "10th-pass","12th-pass","graduate","all-india","uttar-pradesh",
-            "bihar","madhya-pradesh","rajasthan","tamil-nadu","karnataka",
-            "maharashtra","gujarat","kerala","engineering"}
-
-    for job_dir in sorted(jobs_dir.iterdir(), reverse=True):
-        if not job_dir.is_dir() or job_dir.name in skip:
-            continue
-        idx = job_dir / "index.html"
-        if not idx.exists():
-            continue
+def load_json(path: Path, default):
+    if path.exists():
         try:
-            from bs4 import BeautifulSoup
-            with open(idx, encoding="utf-8") as f:
-                soup = BeautifulSoup(f.read(), "html.parser")
-
-            h1 = soup.find("h1")
-            title = h1.get_text(strip=True) if h1 else ""
-            if not title:
-                continue
-
-            rows = soup.find_all("tr")
-            data = {}
-            for row in rows:
-                cells = row.find_all("td")
-                if len(cells) == 2:
-                    data[cells[0].get_text(strip=True).lower()] = cells[1].get_text(strip=True)
-
-            jobs.append({
-                "slug":      job_dir.name,
-                "title":     title,
-                "dept":      data.get("department", ""),
-                "vacancies": data.get("total vacancies", "N/A"),
-                "last_date": data.get("last date", "N/A"),
-                "salary":    data.get("salary / pay scale", "N/A"),
-                "location":  data.get("location", "All India"),
-            })
+            return json.loads(path.read_text(encoding="utf-8"))
         except Exception:
-            continue
+            return default
+    return default
 
-    return jobs[:limit]
+
+def save_json(path: Path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def send_message(text):
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    resp = requests.post(url, json={
-        "chat_id":    CHANNEL_ID,
-        "text":       text,
-        "parse_mode": "HTML",
+def get_new_jobs(jobs: list, sent_ids: set) -> list:
+    """Return jobs that haven't been notified yet."""
+    new = [j for j in jobs if j.get("id") and j["id"] not in sent_ids]
+    # Sort by post_date descending, newest first
+    new.sort(key=lambda j: j.get("post_date", ""), reverse=True)
+    return new
+
+
+# ── Telegram ──────────────────────────────────────────────────────────────────
+
+def format_telegram_message(job: dict) -> str:
+    title    = job.get("title", "New Job")
+    org      = job.get("organization", "")
+    deadline = job.get("last_date", "")
+    posts    = job.get("total_posts", "")
+    url      = job.get("url") or f"{SITE_URL}/jobs/{job.get('slug', '')}"
+    category = job.get("category", "")
+    state    = job.get("state", "")
+
+    lines = [f"🔔 *{escape_md(title)}*"]
+    if org:       lines.append(f"🏢 {escape_md(org)}")
+    if posts:     lines.append(f"📋 Posts: *{escape_md(str(posts))}*")
+    if deadline:  lines.append(f"⏰ Last Date: *{escape_md(deadline)}*")
+    if category:  lines.append(f"📌 {escape_md(category)}")
+    if state:     lines.append(f"📍 {escape_md(state)}")
+    lines.append(f"")
+    lines.append(f"[👉 View Details & Apply]({url})")
+    lines.append(f"")
+    lines.append(f"_@naukribulletin24_")
+    return "\n".join(lines)
+
+
+def escape_md(text: str) -> str:
+    """Escape MarkdownV2 special chars for Telegram."""
+    special = r"\_*[]()~`>#+-=|{}.!"
+    return "".join(f"\\{c}" if c in special else c for c in str(text))
+
+
+def send_telegram(job: dict) -> bool:
+    if not TELEGRAM_TOKEN:
+        print("[Telegram] No token — skipping")
+        return False
+
+    msg = format_telegram_message(job)
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {
+        "chat_id":    TELEGRAM_CHANNEL,
+        "text":       msg,
+        "parse_mode": "MarkdownV2",
         "disable_web_page_preview": False,
-    }, timeout=15)
-    return resp.status_code == 200
+    }
+    try:
+        r = requests.post(url, json=payload, timeout=10)
+        if r.status_code == 200:
+            print(f"[Telegram] ✓ Sent: {job.get('title')}")
+            return True
+        else:
+            print(f"[Telegram] ✗ {r.status_code}: {r.text[:200]}")
+            return False
+    except Exception as e:
+        print(f"[Telegram] ✗ Exception: {e}")
+        return False
 
 
-def run():
-    if not BOT_TOKEN or not CHANNEL_ID:
-        print("[TELEGRAM] Missing BOT_TOKEN or CHANNEL_ID, skipping")
+# ── OneSignal Web Push ────────────────────────────────────────────────────────
+
+def send_onesignal_push(job: dict) -> bool:
+    """
+    Send a web push to ALL subscribed users via OneSignal REST API.
+    Docs: https://documentation.onesignal.com/reference/create-notification
+    """
+    if not ONESIGNAL_REST_KEY:
+        print("[OneSignal] No REST key — skipping")
+        return False
+
+    title    = job.get("title", "New Govt Job")
+    org      = job.get("organization", "")
+    deadline = job.get("last_date", "")
+    url      = job.get("url") or f"{SITE_URL}/jobs/{job.get('slug', '')}"
+
+    # Build subtitle
+    subtitle_parts = []
+    if org:      subtitle_parts.append(org)
+    if deadline: subtitle_parts.append(f"Last: {deadline}")
+    subtitle = " · ".join(subtitle_parts) if subtitle_parts else "NaukriBulletin.in"
+
+    # Category-based segment targeting (optional — falls back to All)
+    category = job.get("category", "").lower()
+    segment_map = {
+        "ssc":        "SSC",
+        "railway":    "Railway",
+        "banking":    "Banking",
+        "police":     "Police",
+        "teaching":   "Teaching",
+        "defence":    "Defence",
+    }
+    segment = segment_map.get(category, "All")
+
+    payload = {
+        "app_id": ONESIGNAL_APP_ID,
+        # Target: all subscribers (or specific segment if you create them in dashboard)
+        "included_segments": ["All"],
+        "headings":  {"en": title[:64]},
+        "contents":  {"en": subtitle[:128]},
+        "url":       url,
+        "web_push_topic": f"job-{category}" if category else "job-general",
+        # Small icon shown in notification (must be https)
+        "chrome_web_icon":  f"{SITE_URL}/assets/images/nb-icon-192.png",
+        "chrome_web_badge": f"{SITE_URL}/assets/images/nb-badge-72.png",
+        # Collapse key — replaces old push with same category (prevents flooding)
+        "collapse_id": f"nb-{category}" if category else "nb-general",
+        # TTL 12 hours
+        "ttl": 43200,
+        # Track for analytics
+        "data": {
+            "job_id":   job.get("id", ""),
+            "category": category,
+        }
+    }
+
+    headers = {
+        "Content-Type":  "application/json",
+        "Authorization": f"Basic {ONESIGNAL_REST_KEY}",
+    }
+
+    try:
+        r = requests.post(
+            "https://onesignal.com/api/v1/notifications",
+            json=payload, headers=headers, timeout=15
+        )
+        data = r.json()
+        if r.status_code == 200 and data.get("id"):
+            print(f"[OneSignal] ✓ Push sent: {data['id']} | {title[:50]}")
+            return True
+        else:
+            print(f"[OneSignal] ✗ {r.status_code}: {json.dumps(data)[:300]}")
+            return False
+    except Exception as e:
+        print(f"[OneSignal] ✗ Exception: {e}")
+        return False
+
+
+# ── Brevo email broadcast (optional) ─────────────────────────────────────────
+
+def send_brevo_campaign(jobs: list) -> bool:
+    """
+    Optionally trigger a transactional Brevo email to 'Syllabus Downloads' list.
+    Uses template ID 1 (configure in Brevo dashboard).
+    Only fires if 3+ new jobs found (avoid spam for single jobs).
+    """
+    if not BREVO_API_KEY or len(jobs) < 3:
+        return False
+
+    job_html = "".join(
+        f'<li><a href="{j.get("url","#")}">{j.get("title","")}</a>'
+        f' — {j.get("organization","")}'
+        f' | Last: {j.get("last_date","—")}</li>'
+        for j in jobs[:10]
+    )
+
+    payload = {
+        "sender":    {"name": "NaukriBulletin", "email": "alerts@naukribulletin.in"},
+        "to":        [{"email": "naukribulletin24@gmail.com"}],  # replace with list send
+        "subject":   f"🔔 {len(jobs)} New Govt Jobs — {datetime.now().strftime('%d %b %Y')}",
+        "htmlContent": f"""
+          <h2>New Government Jobs Today</h2>
+          <ul>{job_html}</ul>
+          <p><a href="{SITE_URL}">View all jobs at NaukriBulletin.in</a></p>
+          <p style="font-size:12px;color:#999">
+            You're receiving this because you downloaded a syllabus PDF.
+            <a href="{{{{unsubscribe}}}}">Unsubscribe</a>
+          </p>
+        """
+    }
+
+    try:
+        r = requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            json=payload,
+            headers={"api-key": BREVO_API_KEY, "Content-Type": "application/json"},
+            timeout=15
+        )
+        if r.status_code == 201:
+            print(f"[Brevo] ✓ Email sent for {len(jobs)} jobs")
+            return True
+        else:
+            print(f"[Brevo] ✗ {r.status_code}: {r.text[:200]}")
+            return False
+    except Exception as e:
+        print(f"[Brevo] ✗ Exception: {e}")
+        return False
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+def main():
+    print(f"\n{'='*55}")
+    print(f"NaukriBulletin Notifier — {datetime.now(timezone.utc).isoformat()}")
+    print(f"{'='*55}")
+
+    # Load scraped jobs
+    jobs = load_json(JOBS_JSON_PATH, [])
+    if not jobs:
+        print("[Main] No jobs found in jobs.json — exiting")
         return
 
-    posted  = load_posted()
-    jobs    = get_latest_jobs(10)
-    new_jobs = [j for j in jobs if j["slug"] not in posted]
+    # Load already-notified IDs
+    sent_data = load_json(SENT_IDS_PATH, {"ids": [], "last_run": ""})
+    sent_ids  = set(sent_data.get("ids", []))
+
+    print(f"[Main] Total jobs: {len(jobs)} | Already notified: {len(sent_ids)}")
+
+    new_jobs = get_new_jobs(jobs, sent_ids)
+    print(f"[Main] New jobs to notify: {len(new_jobs)}")
 
     if not new_jobs:
-        print("[TELEGRAM] No new jobs to post")
+        print("[Main] Nothing new — done")
         return
 
-    today = date.today().strftime("%d %B %Y")
+    # Cap at 5 notifications per run (avoid flooding)
+    batch = new_jobs[:5]
+    newly_sent_ids = []
 
-    # Build digest message
-    lines = [f"🇮🇳 <b>NaukriBulletin — {today}</b>\n📢 Latest Govt Job Alerts:\n"]
+    for i, job in enumerate(batch):
+        job_id = job["id"]
+        print(f"\n[{i+1}/{len(batch)}] {job.get('title','?')} ({job_id})")
 
-    for i, job in enumerate(new_jobs[:5], 1):
-        lines.append(f"{i}️⃣ <b>{job['title']}</b>")
-        if job['dept']:
-            lines.append(f"   🏢 {job['dept']}")
-        if job['vacancies'] != "N/A":
-            lines.append(f"   👥 {job['vacancies']} Vacancies")
-        if job['last_date'] != "N/A":
-            lines.append(f"   ⏰ Last Date: {job['last_date']}")
-        if job['salary'] != "N/A":
-            lines.append(f"   💰 {job['salary']}")
-        lines.append(f"   🔗 https://naukribulletin.in/jobs/{job['slug']}/")
-        lines.append("")
+        tg_ok = send_telegram(job)
+        # Small delay between Telegram messages to avoid rate limiting
+        if i < len(batch) - 1:
+            time.sleep(1.5)
 
-    lines.append("📌 All Jobs: https://naukribulletin.in/jobs/")
-    lines.append("🔔 Share with friends preparing for govt exams!")
+        # OneSignal: only send push for first job per run (avoid notification fatigue)
+        # Change to: `if True:` to push all new jobs
+        if i == 0:
+            send_onesignal_push(job)
 
-    message = "\n".join(lines)
-    print(f"[TELEGRAM] Posting {len(new_jobs[:5])} new jobs...")
+        if tg_ok:
+            newly_sent_ids.append(job_id)
 
-    if send_message(message):
-        for job in new_jobs[:5]:
-            posted.add(job["slug"])
-        save_posted(posted)
-        print(f"[TELEGRAM] ✅ Posted successfully to {CHANNEL_ID}")
-    else:
-        print(f"[TELEGRAM] ❌ Failed to post")
+    # Brevo batch email (optional, for 3+ new jobs)
+    send_brevo_campaign(new_jobs)
+
+    # Persist notified IDs (keep last 5000 to prevent file bloat)
+    all_ids = list(sent_ids) + newly_sent_ids
+    all_ids = all_ids[-5000:]
+
+    save_json(SENT_IDS_PATH, {
+        "ids":      all_ids,
+        "last_run": datetime.now(timezone.utc).isoformat(),
+        "last_batch_count": len(newly_sent_ids)
+    })
+
+    print(f"\n[Main] Done. Notified {len(newly_sent_ids)} jobs this run.")
 
 
 if __name__ == "__main__":
-    run()
+    main()
