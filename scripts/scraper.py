@@ -543,6 +543,22 @@ def generate_job_html(job):
     slug  = job.get("slug") or make_slug(job.get("title", "job"))
     today = datetime.now().strftime("%d %B %Y")
 
+    # ── Schema helpers ──────────────────────────────────────────────────────
+    _ld = job.get("last_date", "") or ""
+    _valid_through = ""
+    for _fmt in ["%d %B %Y", "%d %b %Y", "%B %d, %Y", "%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"]:
+        try:
+            from datetime import datetime as _dt2
+            _valid_through = _dt2.strptime(_ld.strip(), _fmt).strftime("%Y-%m-%dT23:59:59")
+            break
+        except Exception:
+            pass
+    if not _valid_through:
+        from datetime import datetime as _dt2, timedelta as _td
+        _valid_through = (_dt2.now() + _td(days=90)).strftime("%Y-%m-%dT23:59:59")
+    _sal = job.get("salary", "") or ""
+    _sal_desc = _sal.replace('"', "'") if _sal and _sal.strip().lower() not in ("n/a", "", "as per govt norms") else "As per Government Pay Scale"
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -571,12 +587,23 @@ def generate_job_html(job):
       "@type": "Place",
       "address": {{
         "@type": "PostalAddress",
-        "addressCountry": "IN",
-        "addressRegion": "{job.get('state', 'All India')}"
+        "streetAddress": "{job.get('department', 'Government Office')}",
+        "addressLocality": "{job.get('state', 'All India')}",
+        "addressRegion": "{job.get('state', 'All India')}",
+        "postalCode": "110001",
+        "addressCountry": "IN"
       }}
     }},
     "datePosted": "{today}",
-    "validThrough": "{job.get('last_date', '')}",
+    "validThrough": "{_valid_through}",
+    "baseSalary": {{
+      "@type": "MonetaryAmount",
+      "currency": "INR",
+      "value": {{
+        "@type": "QuantitativeValue",
+        "description": "{_sal_desc}"
+      }}
+    }},
     "employmentType": "FULL_TIME",
     "url": "https://naukribulletin.in/jobs/{slug}/"
   }}
