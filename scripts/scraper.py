@@ -19,7 +19,7 @@ import subprocess
 
 GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "")
 GEMINI_API_KEY  = os.environ.get("GEMINI_API_KEY", "")
-ADSENSE_CLIENT  = os.environ.get("ADSENSE_CLIENT", "ca-pub-XXXXXXXXXX")
+ADSENSE_CLIENT  = os.environ.get("ADSENSE_CLIENT", "ca-pub-1001412206051588")
 ADSENSE_SLOT_TOP = os.environ.get("ADSENSE_SLOT_TOP", "XXXXXXXXXX")
 ADSENSE_SLOT_MID = os.environ.get("ADSENSE_SLOT_MID", "XXXXXXXXXX")
 SITE_ROOT = Path(__file__).parent.parent
@@ -593,6 +593,7 @@ def generate_job_html(job):
   <meta property="og:description" content="{job.get('meta_description', '')}">
   <meta property="og:url" content="https://naukribulletin.in/jobs/{slug}/">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://naukribulletin.in/assets/logo-256.png">
   <meta name="twitter:card" content="summary">
   <meta name="robots" content="index, follow">
   <script type="application/ld+json">
