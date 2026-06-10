@@ -114,6 +114,7 @@ SOURCES = [
         "url": "https://joinindianarmy.nic.in/",
         "fallback_url": "https://joinindianarmy.nic.in/",
         "type": "html",
+        "selector": ".notification-list a, table tr td a, h3 a",
         "dept": "Indian Army",
         "category": "defence",
         "priority": 1,
@@ -162,6 +163,7 @@ SOURCES = [
         "url": "https://www.bpsc.bih.nic.in/Notices.aspx",
         "fallback_url": "https://www.bpsc.bih.nic.in/Notices.aspx",
         "type": "html",
+        "selector": "table tr td a, .Notif a, #ContentPlaceHolder1_GridView1 tr td a",
         "dept": "BPSC (Bihar)",
         "category": "state",
         "state": "Bihar",
@@ -182,6 +184,7 @@ SOURCES = [
         "url": "https://rpsc.rajasthan.gov.in/LatestNotification",
         "fallback_url": "https://rpsc.rajasthan.gov.in/LatestNotification",
         "type": "html",
+        "selector": "table tr td a, .notification-list a",
         "dept": "RPSC (Rajasthan)",
         "category": "state",
         "state": "Rajasthan",
@@ -192,6 +195,7 @@ SOURCES = [
         "url": "https://www.tnpsc.gov.in/notifications.html",
         "fallback_url": "https://www.tnpsc.gov.in/notifications.html",
         "type": "html",
+        "selector": "table.table tr td a, .notif-list li a",
         "dept": "TNPSC (Tamil Nadu)",
         "category": "state",
         "state": "Tamil Nadu",
@@ -202,6 +206,7 @@ SOURCES = [
         "url": "https://kpsc.kar.nic.in/NewNotifications.aspx",
         "fallback_url": "https://kpsc.kar.nic.in/NewNotifications.aspx",
         "type": "html",
+        "selector": "#ContentPlaceHolder1_gvLatestNotifications tr td a, table tr td a",
         "dept": "KPSC (Karnataka)",
         "category": "state",
         "state": "Karnataka",
@@ -212,6 +217,7 @@ SOURCES = [
         "url": "https://www.mpsc.gov.in/en/advertisements",
         "fallback_url": "https://www.mpsc.gov.in/en/advertisements",
         "type": "html",
+        "selector": ".adv-table tr td a, table tr td a",
         "dept": "MPSC (Maharashtra)",
         "category": "state",
         "state": "Maharashtra",
@@ -232,6 +238,7 @@ SOURCES = [
         "url": "https://hpsc.gov.in/Advertisements.aspx",
         "fallback_url": "https://hpsc.gov.in/Advertisements.aspx",
         "type": "html",
+        "selector": "#ContentPlaceHolder1_GridView1 tr td a, table tr td a",
         "dept": "HPSC (Haryana)",
         "category": "state",
         "state": "Haryana",
@@ -242,6 +249,7 @@ SOURCES = [
         "url": "https://apsc.nic.in/notification",
         "fallback_url": "https://apsc.nic.in/notification",
         "type": "html",
+        "selector": ".notification a, table tr td a",
         "dept": "APSC (Assam)",
         "category": "state",
         "state": "Assam",
@@ -293,6 +301,7 @@ SOURCES = [
         "url": "https://tgpsc.telangana.gov.in/Notifications.aspx",
         "fallback_url": "https://tgpsc.telangana.gov.in/Notifications.aspx",
         "type": "html",
+        "selector": "table tr td a, .notify-list a",
         "dept": "TGPSC (Telangana)",
         "category": "state",
         "state": "Telangana",
@@ -303,6 +312,7 @@ SOURCES = [
         "url": "https://psc.ap.gov.in/Home/Notifications",
         "fallback_url": "https://psc.ap.gov.in/Home/Notifications",
         "type": "html",
+        "selector": "table tr td a, .notif a",
         "dept": "APPSC (Andhra Pradesh)",
         "category": "state",
         "state": "Andhra Pradesh",
@@ -323,6 +333,7 @@ SOURCES = [
         "url": "https://wbpsc.gov.in/Notifications",
         "fallback_url": "https://wbpsc.gov.in/Notifications",
         "type": "html",
+        "selector": "table tr td a, .content-area a",
         "dept": "WBPSC (West Bengal)",
         "category": "state",
         "state": "West Bengal",
@@ -353,6 +364,7 @@ SOURCES = [
         "url": "https://www.jpsc.gov.in/advertisement.html",
         "fallback_url": "https://www.jpsc.gov.in/advertisement.html",
         "type": "html",
+        "selector": "table tr td a, .advt-list a",
         "dept": "JPSC (Jharkhand)",
         "category": "state",
         "state": "Jharkhand",
@@ -385,6 +397,7 @@ SOURCES = [
         "url": "https://www.ntpc.co.in/en/career/current-openings",
         "fallback_url": "https://www.ntpc.co.in/en/career/current-openings",
         "type": "html",
+        "selector": "table tr td a, .openings a",
         "dept": "NTPC",
         "category": "engineering",
         "priority": 1,
@@ -412,6 +425,7 @@ SOURCES = [
         "url": "https://nalco.gov.in/career.aspx",
         "fallback_url": "https://nalco.gov.in/career.aspx",
         "type": "html",
+        "selector": "table tr td a, .career a",
         "dept": "NALCO",
         "category": "engineering",
         "priority": 2,
@@ -468,6 +482,7 @@ SOURCES = [
         "url": "https://www.allahabadhighcourt.in/recruitment.html",
         "fallback_url": "https://www.allahabadhighcourt.in/recruitment.html",
         "type": "html",
+        "selector": "table tr td a, .recr-list a",
         "dept": "Allahabad High Court",
         "category": "state",
         "state": "Uttar Pradesh",
@@ -478,6 +493,7 @@ SOURCES = [
         "url": "https://www.mphc.gov.in/recruitment.html",
         "fallback_url": "https://www.mphc.gov.in/recruitment.html",
         "type": "html",
+        "selector": "table tr td a, .notification a",
         "dept": "MP High Court",
         "category": "state",
         "state": "Madhya Pradesh",
@@ -500,6 +516,7 @@ SOURCES = [
         "url": "https://www.esic.nic.in/recruitment",
         "fallback_url": "https://www.esic.nic.in/recruitment",
         "type": "html",
+        "selector": "table tr td a, .recr a",
         "dept": "ESIC",
         "category": "state",
         "priority": 1,
@@ -509,6 +526,7 @@ SOURCES = [
         "url": "https://www.aiims.edu/en/jobs.html",
         "fallback_url": "https://www.aiims.edu/en/jobs.html",
         "type": "html",
+        "selector": "table tr td a, .job-list a",
         "dept": "AIIMS Delhi",
         "category": "teaching",
         "priority": 1,
@@ -527,6 +545,7 @@ SOURCES = [
         "url": "https://nhm.gov.in/index1.php?lang=1&level=1&sublinkid=971&lid=154",
         "fallback_url": "https://nhm.gov.in/index1.php?lang=1&level=1&sublinkid=971&lid=154",
         "type": "html",
+        "selector": "table tr td a, li a",
         "dept": "NHM",
         "category": "state",
         "priority": 2,
@@ -565,6 +584,7 @@ SOURCES = [
         "url": "https://www.du.ac.in/index.php?page=jobs",
         "fallback_url": "https://www.du.ac.in/index.php?page=jobs",
         "type": "html",
+        "selector": "table tr td a, .jobs-list a",
         "dept": "Delhi University",
         "category": "teaching",
         "priority": 2,
@@ -594,6 +614,7 @@ SOURCES = [
         "url": "https://itbpolice.nic.in/RecruitmentPortal.aspx",
         "fallback_url": "https://itbpolice.nic.in/RecruitmentPortal.aspx",
         "type": "html",
+        "selector": ".recruitment-list a, table tr td a",
         "dept": "ITBP",
         "category": "police",
         "priority": 2,
@@ -614,6 +635,7 @@ SOURCES = [
         "url": "https://www.rrbchennai.gov.in/",
         "fallback_url": "https://www.rrbchennai.gov.in/",
         "type": "html",
+        "selector": "table tr td a, .notice a, li a",
         "dept": "RRB Chennai",
         "category": "railway",
         "priority": 2,
@@ -710,15 +732,29 @@ def make_slug(title):
 
 # ─── SCRAPER ──────────────────────────────────────────────────────────────────
 
-def _get(url, timeout=20):
-    """GET with rotating UA, retry once on failure."""
-    headers = {"User-Agent": next_ua(), "Accept": "application/xml, text/xml, */*"}
+def _get(url, timeout=20, is_html=False):
+    """GET with rotating UA, retry once on failure.
+    is_html=True sends browser-like Accept headers (needed for .gov.in HTML pages).
+    """
+    if is_html:
+        accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+    else:
+        accept = "application/xml, text/xml, */*"
+    headers = {
+        "User-Agent": next_ua(),
+        "Accept": accept,
+        "Accept-Language": "en-IN,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+    }
     try:
-        r = requests.get(url, timeout=timeout, headers=headers)
+        r = requests.get(url, timeout=timeout, headers=headers, allow_redirects=True)
         r.raise_for_status()
         return r
     except requests.exceptions.HTTPError as e:
-        if e.response.status_code in (403, 404, 410):
+        code = e.response.status_code if e.response is not None else 0
+        if code in (403, 404, 410):
             return None          # permanent failure — skip silently
         raise
     except Exception:
@@ -726,7 +762,7 @@ def _get(url, timeout=20):
         time.sleep(2)
         try:
             headers["User-Agent"] = next_ua()
-            return requests.get(url, timeout=timeout, headers=headers)
+            return requests.get(url, timeout=timeout, headers=headers, allow_redirects=True)
         except Exception:
             return None
 
@@ -739,7 +775,7 @@ def scrape_rss(url, dept, fallback_url=None):
     if not resp or not resp.content.strip():
         if fallback_url:
             print(f"  [SCRAPER] RSS unavailable, trying HTML fallback: {fallback_url}")
-            return scrape_html(fallback_url, dept)
+            return scrape_html_smart(fallback_url, dept)
         return items
 
     try:
@@ -763,10 +799,12 @@ def scrape_rss(url, dept, fallback_url=None):
     return items
 
 
-def scrape_html(url, dept):
-    """Fetch HTML notification page and extract visible text."""
+def scrape_html(url, dept, selector=None):
+    """Fetch HTML notification page and extract visible text (legacy blob method).
+    Prefer scrape_html_smart() for list pages.
+    """
     items = []
-    resp = _get(url)
+    resp = _get(url, is_html=True)
     if not resp:
         return items
     try:
@@ -774,7 +812,6 @@ def scrape_html(url, dept):
         for tag in soup(["script", "style", "nav", "footer", "header", "aside"]):
             tag.decompose()
         text = soup.get_text(separator="\n")
-        # Clean up excessive blank lines
         text = re.sub(r"\n{3,}", "\n\n", text).strip()
         items.append({
             "title":       f"Latest Notifications from {dept}",
@@ -787,6 +824,123 @@ def scrape_html(url, dept):
     except Exception as e:
         print(f"  [SCRAPER] HTML error {url}: {e}")
     return items
+
+
+def scrape_html_smart(url, dept, selector=None):
+    """Smart HTML scraper: extracts individual notification rows.
+
+    Strategy (tried in order):
+    1. Per-source CSS selector from SOURCES config  → individual <a> or <li> elements
+    2. Generic table-row extraction                 → <tr> rows with links
+    3. Generic link-list extraction                 → <a> tags matching job keywords
+    4. Fall back to scrape_html (blob)              → single item
+
+    Returns a list of items, each being one notification.
+    """
+    JOB_KEYWORDS = re.compile(
+        r"(recruit|vacanc|post|appoint|notif|advertis|appl|exam|result|admit|syllabus)",
+        re.IGNORECASE,
+    )
+
+    resp = _get(url, is_html=True)
+    if not resp:
+        return []
+
+    try:
+        soup = BeautifulSoup(resp.content, "html.parser")
+    except Exception as e:
+        print(f"  [SMART] Parse error {url}: {e}")
+        return []
+
+    items = []
+
+    # ── Strategy 1: explicit CSS selector ───────────────────────────────────
+    if selector:
+        try:
+            nodes = soup.select(selector)[:15]
+            for node in nodes:
+                link_tag = node if node.name == "a" else node.find("a")
+                title = node.get_text(separator=" ", strip=True)[:200]
+                href  = link_tag["href"] if link_tag and link_tag.get("href") else url
+                if href.startswith("/"):
+                    from urllib.parse import urlparse
+                    base = urlparse(url)
+                    href = f"{base.scheme}://{base.netloc}{href}"
+                if title:
+                    items.append({
+                        "title":       title,
+                        "description": title,
+                        "link":        href,
+                        "pubDate":     str(date.today()),
+                        "dept":        dept,
+                        "source_url":  url,
+                    })
+            if items:
+                return items
+        except Exception as e:
+            print(f"  [SMART] Selector error: {e}")
+
+    # ── Strategy 2: table rows with links ───────────────────────────────────
+    for table in soup.find_all("table")[:5]:
+        rows = table.find_all("tr")
+        if len(rows) < 3:
+            continue
+        for row in rows[1:16]:  # skip header row, take up to 15
+            cells = row.find_all(["td", "th"])
+            if not cells:
+                continue
+            link_tag = row.find("a", href=True)
+            # find the cell with the most text (notification title)
+            text_cell = max(cells, key=lambda c: len(c.get_text(strip=True)))
+            title = text_cell.get_text(separator=" ", strip=True)[:200]
+            if not title or len(title) < 10:
+                continue
+            href = url
+            if link_tag:
+                href = link_tag["href"]
+                if href.startswith("/"):
+                    from urllib.parse import urlparse
+                    base = urlparse(url)
+                    href = f"{base.scheme}://{base.netloc}{href}"
+            items.append({
+                "title":       title,
+                "description": title,
+                "link":        href,
+                "pubDate":     str(date.today()),
+                "dept":        dept,
+                "source_url":  url,
+            })
+        if items:
+            return items
+
+    # ── Strategy 3: anchor tags matching job keywords ────────────────────────
+    for a in soup.find_all("a", href=True)[:100]:
+        text = a.get_text(strip=True)
+        if len(text) < 15 or len(text) > 300:
+            continue
+        if not JOB_KEYWORDS.search(text):
+            continue
+        href = a["href"]
+        if href.startswith("/"):
+            from urllib.parse import urlparse
+            base = urlparse(url)
+            href = f"{base.scheme}://{base.netloc}{href}"
+        items.append({
+            "title":       text,
+            "description": text,
+            "link":        href,
+            "pubDate":     str(date.today()),
+            "dept":        dept,
+            "source_url":  url,
+        })
+        if len(items) >= 10:
+            break
+
+    if items:
+        return items
+
+    # ── Strategy 4: fall back to blob ───────────────────────────────────────
+    return scrape_html(url, dept)
 
 
 # ─── AI FORMATTER ─────────────────────────────────────────────────────────────
@@ -1237,7 +1391,8 @@ def run():
         if source["type"] == "rss":
             items = scrape_rss(url, dept, fallback_url=source.get("fallback_url"))
         else:
-            items = scrape_html(url, dept)
+            selector = source.get("selector")
+            items = scrape_html_smart(url, dept, selector=selector)
 
         if not items:
             print(f"  ⚠ No items fetched — source may be down")
