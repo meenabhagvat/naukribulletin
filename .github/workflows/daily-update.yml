@@ -83,6 +83,14 @@ jobs:
           git push
         continue-on-error: true
 
+      - name: Sync dist/ for deployment
+        run: |
+          rsync -a --delete \
+            --exclude='.git' --exclude='.github' --exclude='scripts' \
+            --exclude='*.py' --exclude='node_modules' --exclude='dist' \
+            --exclude='.wrangler' --exclude='.wranglerignore' \
+            . dist/
+
       - name: Deploy to Cloudflare Workers
         run: |
           npm install -g wrangler
@@ -96,4 +104,4 @@ jobs:
         if: failure()
         run: |
           echo "::warning::One or more steps failed — check logs above"
-          echo "Failure at $(date -u '+%Y-%m-%d %H:%M UTC')" 
+          echo "Failure at $(date -u '+%Y-%m-%d %H:%M UTC')"
