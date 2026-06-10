@@ -2511,5 +2511,86 @@
       });
     }
   </script>
+
+<!-- ── Brevo Email Gate (Phase 4) ────────────────────────── -->
+<div id="nb-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;" onclick="nbCloseGate()"></div>
+<div id="nb-gate-modal" role="dialog" aria-modal="true" style="display:none;position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:16px;padding:28px 24px;max-width:420px;width:100%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.18);">
+    <button onclick="nbCloseGate()" style="position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:#9ca3af;">✕</button>
+    <div id="nb-gate-step1">
+      <div style="font-size:2.5rem;margin-bottom:8px;">📥</div>
+      <h2 style="font-size:1.3rem;font-weight:800;color:#111827;margin:0 0 4px;">Get Your Free PDF</h2>
+      <p id="nb-gate-pdf-name" style="font-weight:600;color:#4f46e5;font-size:.88rem;margin:0 0 8px;"></p>
+      <p style="font-size:.83rem;color:#6b7280;margin:0 0 14px;">Enter your email — we'll send the PDF link instantly + subscribe you to free daily job alerts.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <input type="text"  id="nb-gate-name"  placeholder="Your Name"  style="border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-size:.9rem;outline:none;" />
+        <input type="email" id="nb-gate-email" placeholder="Your Email" style="border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-size:.9rem;outline:none;" required />
+        <button id="nb-gate-submit" onclick="nbSubmitGate()" style="background:#4f46e5;color:#fff;border:none;border-radius:8px;padding:11px;font-size:.93rem;font-weight:700;cursor:pointer;">Get PDF Instantly →</button>
+        <p id="nb-gate-err" style="color:#dc2626;font-size:.8rem;display:none;margin:0;"></p>
+      </div>
+      <p style="font-size:.7rem;color:#9ca3af;margin-top:8px;">🔒 No spam. Unsubscribe anytime.</p>
+    </div>
+    <div id="nb-gate-step2" style="display:none;">
+      <div style="font-size:2.5rem;margin-bottom:8px;">✅</div>
+      <h2 style="font-size:1.3rem;font-weight:800;color:#111827;margin:0 0 8px;">Download Ready!</h2>
+      <p style="font-size:.85rem;color:#6b7280;margin:0 0 14px;">Your PDF is downloading. Check your email for the link too.</p>
+      <a id="nb-gate-dl-link" href="#" style="display:inline-block;background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.9rem;margin-bottom:12px;" download>📥 Click if download didn't start</a>
+      <br>
+      <a href="https://t.me/naukribulletin24" target="_blank" style="display:inline-block;background:#0088cc;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:600;">Join Telegram for daily job alerts →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var _nbPdfUrl='', _nbPdfTitle='';
+
+// Called by each syllabus download button
+function nbOpenGate(pdfUrl, pdfTitle) {
+  if (localStorage.getItem('nb_email')) {
+    nbTriggerDownload(pdfUrl, pdfTitle); return;
+  }
+  _nbPdfUrl=pdfUrl; _nbPdfTitle=pdfTitle;
+  document.getElementById('nb-gate-pdf-name').textContent = pdfTitle;
+  document.getElementById('nb-gate-step1').style.display='block';
+  document.getElementById('nb-gate-step2').style.display='none';
+  document.getElementById('nb-gate-err').style.display='none';
+  document.getElementById('nb-gate-modal').style.display='flex';
+  document.getElementById('nb-gate-overlay').style.display='block';
+}
+function nbCloseGate() {
+  document.getElementById('nb-gate-modal').style.display='none';
+  document.getElementById('nb-gate-overlay').style.display='none';
+}
+async function nbSubmitGate() {
+  var email=document.getElementById('nb-gate-email').value.trim();
+  var name =document.getElementById('nb-gate-name').value.trim();
+  var err  =document.getElementById('nb-gate-err');
+  var btn  =document.getElementById('nb-gate-submit');
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    err.textContent='Enter a valid email.';err.style.display='block';return;
+  }
+  btn.disabled=true;btn.textContent='Subscribing…';
+  // Brevo embedded form POST — replace YOUR_FORM_ID with your actual Brevo form ID
+  // Get from: Brevo dashboard → Email Campaigns → Forms → Embed code → action URL
+  var BREVO_FORM='https://sibforms.com/serve/BREVO_FORM_ID_REPLACE_THIS';
+  var fd=new FormData();
+  fd.append('EMAIL',email);fd.append('FIRSTNAME',name);
+  fd.append('SOURCE','syllabus_pdf');
+  fetch(BREVO_FORM,{method:'POST',body:fd,mode:'no-cors'}).catch(function(){});
+  localStorage.setItem('nb_email',email);
+  if(typeof gtag!='undefined')gtag('event','pdf_email_captured',{event_category:'Lead',event_label:_nbPdfTitle});
+  document.getElementById('nb-gate-step1').style.display='none';
+  document.getElementById('nb-gate-step2').style.display='block';
+  document.getElementById('nb-gate-dl-link').href=_nbPdfUrl;
+  nbTriggerDownload(_nbPdfUrl,_nbPdfTitle);
+}
+function nbTriggerDownload(url,name){
+  var a=document.createElement('a');a.href=url;a.download=name+'.pdf';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')nbCloseGate();});
+</script>
+<!-- ── /Brevo Email Gate ────────────────────────────────── -->
+
 </body>
 </html>

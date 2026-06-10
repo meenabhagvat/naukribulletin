@@ -325,6 +325,27 @@ def save_processed(hashes):
         json.dump(list(hashes), f)
 
 
+def export_jobs_json(jobs_list: list):
+    """Export new jobs to scripts/_data/jobs.json for telegram_notify.py"""
+    data_dir = Path(__file__).parent / "_data"
+    data_dir.mkdir(exist_ok=True)
+    out_path  = data_dir / "jobs.json"
+    # Load existing
+    existing = []
+    if out_path.exists():
+        try:
+            existing = json.loads(out_path.read_text())
+        except Exception:
+            existing = []
+    # Merge — keep last 500 entries
+    existing_ids = {j.get("id") for j in existing}
+    new = [j for j in jobs_list if j.get("id") not in existing_ids]
+    merged = (new + existing)[:500]
+    out_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2))
+    print(f"[EXPORT] jobs.json updated: {len(new)} new / {len(merged)} total")
+
+
+
 def make_hash(text):
     return hashlib.md5(text.encode()).hexdigest()[:12]
 
@@ -824,9 +845,10 @@ def run():
     print(f"Sources: {len(SOURCES)} | Phase 1 upgraded scraper")
     print(f"{'='*60}\n")
 
-    processed  = load_processed()
-    new_pages  = 0
-    failed_src = []
+    processed     = load_processed()
+    new_pages     = 0
+    failed_src    = []
+    collected_jobs = []
 
     # Sort by priority (1 = highest) so most important sources process first
     for source in sorted(SOURCES, key=lambda s: s.get("priority", 9)):
@@ -876,6 +898,11 @@ def run():
                     slug, html = generate_job_html(job)
                     save_page(slug, html, "jobs")
                     new_pages += 1
+                    # Collect for JSON export (notify.py needs this)
+                    job["id"]   = job.get("id") or slug
+                    job["slug"] = slug
+                    job["url"]  = f"{SITE_URL}/jobs/{slug}/"
+                    collected_jobs.append(job)
             else:
                 affairs = formatted if isinstance(formatted, list) else [formatted]
                 for affair in affairs:
@@ -910,6 +937,9 @@ def run():
         print(f"[SITEMAP] Error: {e}")
 
     today_str = date.today().strftime("%d %b %Y")
+    if collected_jobs:
+        export_jobs_json(collected_jobs)
+
     if new_pages > 0:
         git_push(f"Auto: {new_pages} new pages — {today_str}")
     else:
@@ -1532,7 +1562,7 @@ def rebuild_jobs_listing():
         <li><a href="/">Home</a></li>
         <li><a href="/jobs/" class="active">Latest Jobs</a></li>
         <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
+        <li><a href="/cut-off/">Cut Off</a></li>
         <li><a href="/admit-card/">Admit Card</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
       </ul>
@@ -1636,7 +1666,7 @@ def rebuild_jobs_listing():
         <div class="footer-col">
           <h4>Resources</h4>
           <ul>
-            <li><a href="/results/">Results</a></li>
+            <li><a href="/cut-off/">Cut Off</a></li>
             <li><a href="/admit-card/">Admit Cards</a></li>
             <li><a href="/syllabus/">Syllabus</a></li>
             <li><a href="/current-affairs/">Current Affairs</a></li>
@@ -1789,7 +1819,7 @@ def rebuild_affairs_listing():
         <li><a href="/">Home</a></li>
         <li><a href="/jobs/">Latest Jobs</a></li>
         <li><a href="/current-affairs/" class="active">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
+        <li><a href="/cut-off/">Cut Off</a></li>
         <li><a href="/admit-card/">Admit Card</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
       </ul>
