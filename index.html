@@ -1468,6 +1468,15 @@
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
+        const selected = tab.textContent.trim().toLowerCase().replace(' ', '');
+        document.querySelectorAll('.job-card').forEach(card => {
+          const cat = (card.dataset.category || '').toLowerCase();
+          if (selected === 'all' || cat === selected || cat.includes(selected)) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
       });
     });
 
