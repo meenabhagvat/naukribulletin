@@ -17,6 +17,7 @@ import subprocess
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 
+GH_MODELS_TOKEN = os.environ.get("GH_MODELS_TOKEN", "")
 GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "")
 GEMINI_API_KEY  = os.environ.get("GEMINI_API_KEY", "")
 ADSENSE_CLIENT  = os.environ.get("ADSENSE_CLIENT", "ca-pub-1001412206051588")
@@ -37,7 +38,7 @@ SOURCES = [
 
     # ── CENTRAL / NATIONAL ─────────────────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/ssc/feed/",
+        "url": "https://news.google.com/rss/search?q=SSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "SSC",
         "category": "ssc",
@@ -54,7 +55,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/upsc/feed/",
+        "url": "https://news.google.com/rss/search?q=UPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "UPSC",
         "category": "upsc",
@@ -80,7 +81,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/reserve-bank-of-india/feed/",
+        "url": "https://news.google.com/rss/search?q=RBI%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "RBI",
         "category": "banking",
@@ -88,7 +89,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/central-government/feed/",
+        "url": "https://news.google.com/rss/search?q=central%20government%20jobs%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "NCS (National Career Service)",
         "category": "state",
@@ -116,7 +117,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/indian-navy/feed/",
+        "url": "https://news.google.com/rss/search?q=Indian%20Navy%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "Indian Navy",
         "category": "defence",
@@ -133,7 +134,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/crpf/feed/",
+        "url": "https://news.google.com/rss/search?q=CRPF%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "CRPF",
         "category": "police",
@@ -153,7 +154,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/bpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=BPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "BPSC (Bihar)",
         "category": "state",
@@ -162,7 +163,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/mppsc/feed/",
+        "url": "https://news.google.com/rss/search?q=MPPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "MPPSC (Madhya Pradesh)",
         "category": "state",
@@ -171,7 +172,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/rpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=RPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "RPSC (Rajasthan)",
         "category": "state",
@@ -180,7 +181,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/tnpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=TNPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "TNPSC (Tamil Nadu)",
         "category": "state",
@@ -189,7 +190,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/kpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=KPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "KPSC (Karnataka)",
         "category": "state",
@@ -198,7 +199,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/mpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=MPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "MPSC (Maharashtra)",
         "category": "state",
@@ -217,7 +218,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/hpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=HPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "HPSC (Haryana)",
         "category": "state",
@@ -226,7 +227,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/apsc/feed/",
+        "url": "https://news.google.com/rss/search?q=APSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "APSC (Assam)",
         "category": "state",
@@ -276,7 +277,7 @@ SOURCES = [
 
     # ── MISSING STATE PSCs ─────────────────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/tspsc/feed/",
+        "url": "https://news.google.com/rss/search?q=TSPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "TGPSC (Telangana)",
         "category": "state",
@@ -285,7 +286,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/appsc/feed/",
+        "url": "https://news.google.com/rss/search?q=APPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "APPSC (Andhra Pradesh)",
         "category": "state",
@@ -304,7 +305,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/wbpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=WBPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "WBPSC (West Bengal)",
         "category": "state",
@@ -323,7 +324,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/hppsc/feed/",
+        "url": "https://news.google.com/rss/search?q=HPPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "HPPSC (Himachal Pradesh)",
         "category": "state",
@@ -332,7 +333,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/jpsc/feed/",
+        "url": "https://news.google.com/rss/search?q=JPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "JPSC (Jharkhand)",
         "category": "state",
@@ -351,7 +352,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/dsssb/feed/",
+        "url": "https://news.google.com/rss/search?q=DSSSB%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "DSSSB (Delhi)",
         "category": "state",
@@ -362,7 +363,7 @@ SOURCES = [
 
     # ── PSUs / CENTRAL ORGS ────────────────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/ntpc/feed/",
+        "url": "https://news.google.com/rss/search?q=NTPC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "NTPC",
         "category": "engineering",
@@ -379,7 +380,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/ongc/feed/",
+        "url": "https://news.google.com/rss/search?q=ONGC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "ONGC",
         "category": "engineering",
@@ -387,7 +388,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/nalco/feed/",
+        "url": "https://news.google.com/rss/search?q=NALCO%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "NALCO",
         "category": "engineering",
@@ -404,7 +405,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/rec/feed/",
+        "url": "https://news.google.com/rss/search?q=REC%20Limited%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "REC",
         "category": "engineering",
@@ -412,7 +413,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/nabard/feed/",
+        "url": "https://news.google.com/rss/search?q=NABARD%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "NABARD",
         "category": "banking",
@@ -420,7 +421,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/punjab-national-bank/feed/",
+        "url": "https://news.google.com/rss/search?q=PNB%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "PNB",
         "category": "banking",
@@ -439,7 +440,7 @@ SOURCES = [
 
     # ── HIGH COURTS ────────────────────────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/allahabad-high-court/feed/",
+        "url": "https://news.google.com/rss/search?q=Allahabad%20High%20Court%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "Allahabad High Court",
         "category": "state",
@@ -448,7 +449,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/mp-high-court/feed/",
+        "url": "https://news.google.com/rss/search?q=MP%20High%20Court%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "MP High Court",
         "category": "state",
@@ -457,7 +458,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/rajasthan-high-court/feed/",
+        "url": "https://news.google.com/rss/search?q=Rajasthan%20High%20Court%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "Rajasthan High Court",
         "category": "state",
@@ -468,7 +469,7 @@ SOURCES = [
 
     # ── HEALTH / MEDICAL ───────────────────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/esic/feed/",
+        "url": "https://news.google.com/rss/search?q=ESIC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "ESIC",
         "category": "state",
@@ -476,7 +477,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/aiims/feed/",
+        "url": "https://news.google.com/rss/search?q=AIIMS%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "AIIMS Delhi",
         "category": "teaching",
@@ -484,7 +485,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/icmr/feed/",
+        "url": "https://news.google.com/rss/search?q=ICMR%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "ICMR",
         "category": "teaching",
@@ -492,7 +493,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/nhm/feed/",
+        "url": "https://news.google.com/rss/search?q=NHM%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "NHM",
         "category": "state",
@@ -502,7 +503,7 @@ SOURCES = [
 
     # ── TEACHING / UNIVERSITIES ────────────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/ugc/feed/",
+        "url": "https://news.google.com/rss/search?q=UGC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "UGC",
         "category": "teaching",
@@ -519,7 +520,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/iit/feed/",
+        "url": "https://news.google.com/rss/search?q=IIT%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "IIT Delhi",
         "category": "teaching",
@@ -527,7 +528,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/delhi-university/feed/",
+        "url": "https://news.google.com/rss/search?q=Delhi%20University%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "Delhi University",
         "category": "teaching",
@@ -537,7 +538,7 @@ SOURCES = [
 
     # ── POLICE / PARAMILITARY (additional) ────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/bsf/feed/",
+        "url": "https://news.google.com/rss/search?q=BSF%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "BSF",
         "category": "police",
@@ -545,7 +546,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/cisf/feed/",
+        "url": "https://news.google.com/rss/search?q=CISF%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "CISF",
         "category": "police",
@@ -553,7 +554,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/itbp/feed/",
+        "url": "https://news.google.com/rss/search?q=ITBP%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "ITBP",
         "category": "police",
@@ -561,7 +562,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/ssb/feed/",
+        "url": "https://news.google.com/rss/search?q=SSB%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "SSB",
         "category": "police",
@@ -571,7 +572,7 @@ SOURCES = [
 
     # ── RAILWAYS (additional boards) ───────────────────────────────────────
     {
-        "url": "https://www.freejobalert.com/tag/rrb-chennai/feed/",
+        "url": "https://news.google.com/rss/search?q=RRB%20Chennai%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "RRB Chennai",
         "category": "railway",
@@ -579,7 +580,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/rrb-mumbai/feed/",
+        "url": "https://news.google.com/rss/search?q=RRB%20Mumbai%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "RRB Mumbai",
         "category": "railway",
@@ -587,7 +588,7 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/tag/rrb-allahabad/feed/",
+        "url": "https://news.google.com/rss/search?q=RRB%20Allahabad%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
         "type": "rss",
         "dept": "RRB Allahabad",
         "category": "railway",
@@ -596,6 +597,7 @@ SOURCES = [
     },
 ]
 
+GITHUB_MODELS = ["openai/gpt-4o-mini", "meta/llama-3.3-70b-instruct", "mistral-ai/mistral-large-2411"]
 GROQ_MODELS  = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
 GEMINI_MODEL = "gemini-1.5-flash"
 
@@ -928,6 +930,30 @@ Return a JSON array of up to 5 items, each:
 """
 
 
+def call_github_models(prompt):
+    for model in GITHUB_MODELS:
+        try:
+            resp = requests.post(
+                "https://models.inference.ai.azure.com/chat/completions",
+                headers={"Authorization": f"Bearer {GH_MODELS_TOKEN}", "Content-Type": "application/json"},
+                json={
+                    "model": model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 1000,
+                    "temperature": 0.1,
+                },
+                timeout=30,
+            )
+            if resp.status_code == 200:
+                return resp.json()["choices"][0]["message"]["content"]
+            if resp.status_code == 429:
+                print(f"  [GITHUB_MODELS] Rate limited on {model}, trying next...")
+                time.sleep(3)
+        except Exception as e:
+            print(f"  [GITHUB_MODELS] Error with {model}: {e}")
+    return None
+
+
 def call_groq(prompt):
     for model in GROQ_MODELS:
         try:
@@ -992,7 +1018,10 @@ def format_with_ai(item, content_type="job"):
     else:
         prompt = AFFAIRS_PROMPT.format(raw_text=raw_text)
 
-    result = call_groq(prompt)
+    result = call_github_models(prompt) if GH_MODELS_TOKEN else None
+    if not result:
+        print("  [AI] GitHub Models failed/unavailable, trying Groq...")
+        result = call_groq(prompt)
     if not result:
         print("  [AI] Groq failed, trying Gemini...")
         result = call_gemini(prompt)
