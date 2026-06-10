@@ -667,6 +667,130 @@ def build_state_page(state_cfg, jobs):
     return html
 
 
+# ── STATE HUB PAGE ────────────────────────────────────────────────────────────
+
+def build_state_hub():
+    """Generate /jobs/state/ — a grid listing all 20 state job pages."""
+    yr = datetime.now().year
+
+    state_cards = ""
+    for s in STATE_PAGES:
+        if s["slug"] == "all-india":
+            continue
+        emoji = s.get("emoji", "🏢")
+        state_cards += f"""
+    <a href="/jobs/{s['slug']}/" class="state-hub-card">
+      <span class="state-hub-emoji">{emoji}</span>
+      <span class="state-hub-name">{s['title'].replace(' Govt Jobs','')}</span>
+      <span class="state-hub-arrow">→</span>
+    </a>"""
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>State PSC Jobs {yr} — All State Government Jobs | NaukriBulletin</title>
+  <meta name="description" content="Browse government jobs by state. Find latest PSC, Police, TET and other state recruitment notifications for all Indian states. Updated daily.">
+  <link rel="canonical" href="https://naukribulletin.in/jobs/state/">
+  <meta property="og:title" content="State PSC Jobs {yr} — NaukriBulletin">
+  <meta property="og:url" content="https://naukribulletin.in/jobs/state/">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .state-hub-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin: 28px 0;
+    }}
+    .state-hub-card {{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 18px 12px;
+      background: #fff;
+      border: 1px solid #E8EBF4;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #2D3350;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-align: center;
+      transition: box-shadow .15s, border-color .15s;
+    }}
+    .state-hub-card:hover {{
+      border-color: #6C63FF;
+      box-shadow: 0 4px 16px rgba(108,99,255,.12);
+    }}
+    .state-hub-emoji {{ font-size: 1.6rem; }}
+    .state-hub-name {{ color: #2D3350; line-height: 1.3; }}
+    .state-hub-arrow {{ color: #9BA3B8; font-size: 0.8rem; }}
+    @media(max-width:480px){{
+      .state-hub-grid{{ grid-template-columns: repeat(2, 1fr); }}
+    }}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo"><img src="/assets/logo-256.png" alt="NaukriBulletin" height="32"> NaukriBulletin</a>
+      <nav class="main-nav">
+        <a href="/jobs/">All Jobs</a>
+        <a href="/jobs/state/" class="active">State PSC</a>
+        <a href="/current-affairs/">Current Affairs</a>
+        <a href="/results/">Results</a>
+        <a href="/admit-card/">Admit Card</a>
+      </nav>
+      <button class="hamburger" aria-label="Menu">&#9776;</button>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:860px;padding-top:32px;">
+    <nav class="breadcrumb" style="font-size:0.8rem;color:#9BA3B8;margin-bottom:16px;">
+      <a href="/" style="color:#9BA3B8;text-decoration:none;">Home</a> › 
+      <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;">Jobs</a> › 
+      <span>State PSC</span>
+    </nav>
+
+    <h1 style="font-size:1.6rem;font-weight:700;color:#1A1D2E;margin-bottom:8px;">
+      State Government Jobs {yr}
+    </h1>
+    <p style="color:#6B7280;margin-bottom:4px;">
+      Browse the latest PSC, police, teaching, and other government recruitment notifications by state.
+    </p>
+
+    <a href="/jobs/all-india/" style="display:inline-flex;align-items:center;gap:8px;background:#EEF2FF;color:#4338CA;border-radius:8px;padding:10px 18px;font-weight:600;text-decoration:none;margin:16px 0;font-size:0.9rem;">
+      🇮🇳 All India Govt Jobs →
+    </a>
+
+    <div class="state-hub-grid">
+      {state_cards}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© {yr} NaukriBulletin. All rights reserved.</p>
+      <nav class="footer-links">
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/disclaimer/">Disclaimer</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/js/main.js" defer></script>
+</body>
+</html>"""
+    return html
+
+
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 
 def run():
@@ -709,6 +833,14 @@ def run():
             fc = len([j for j in jobs if sm.lower() in j["location"].lower() or sm.lower() in j["title"].lower() or sm.lower() in j["dept"].lower()])
         print(f"  [STATE] /jobs/{state['slug']}/ — {fc} jobs")
         total += 1
+
+    # State hub page (/jobs/state/)
+    state_hub_dir = SITE_ROOT / "jobs" / "state"
+    state_hub_dir.mkdir(parents=True, exist_ok=True)
+    with open(state_hub_dir / "index.html", "w", encoding="utf-8") as f:
+        f.write(build_state_hub())
+    print(f"  [HUB]  /jobs/state/ — {len(STATE_PAGES)-1} states listed")
+    total += 1
 
     print(f"\n✅ {total} category/state pages generated")
     print(f"{'='*56}\n")
