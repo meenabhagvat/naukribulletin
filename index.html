@@ -793,6 +793,8 @@
     }
 
     /* ── AD PLACEHOLDER ── */
+    /* hide empty ad slots until AdSense approved */
+    .ad-slot:empty, .ad-slot-banner:empty, .ad-slot-sidebar:empty { display: none !important; }
     .ad-slot {
       background: var(--grey-200);
       border-radius: 8px;
@@ -811,9 +813,51 @@
     @media (max-width: 768px) {
       .main { grid-template-columns: 1fr; }
       .sidebar { order: -1; }
-      .nav-links { display: none; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .hero-stats { gap: 20px; }
+      .hamburger {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: #1A1D2E;
+        flex-direction: column;
+        padding: 12px 20px 24px;
+        gap: 2px;
+        border-top: 2px solid #FF6B35;
+        z-index: 9999;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { list-style: none; }
+      .nav-links a {
+        display: block;
+        padding: 12px 8px;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
     }
 
     /* ── ANIMATIONS ── */
@@ -957,7 +1001,7 @@
 
   <!-- AD BANNER -->
   <div style="max-width:1200px; margin:0 auto; padding: 0 20px;">
-    <div class="ad-slot ad-slot-banner">Advertisement</div>
+    <div class="ad-slot ad-slot-banner"></div>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -1212,7 +1256,7 @@
       </div>
 
       <!-- AD -->
-      <div class="ad-slot ad-slot-banner">Advertisement</div>
+      <div class="ad-slot ad-slot-banner"></div>
 
       <!-- CURRENT AFFAIRS SECTION -->
       <div class="section-header" style="margin-top: 32px;">
@@ -1302,7 +1346,7 @@
       </div>
 
       <!-- Ad Slot -->
-      <div class="ad-slot ad-slot-sidebar">Advertisement</div>
+      <div class="ad-slot ad-slot-sidebar"></div>
 
       <!-- Current Affairs Sidebar -->
             <div class="sidebar-card">
