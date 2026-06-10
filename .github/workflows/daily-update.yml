@@ -32,7 +32,7 @@ jobs:
           cache: 'pip'
 
       - name: Install Dependencies
-        run: pip install requests beautifulsoup4 lxml
+        run: pip install requests beautifulsoup4 lxml feedparser
 
       - name: Configure Git
         run: |

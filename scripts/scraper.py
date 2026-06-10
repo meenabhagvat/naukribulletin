@@ -9,6 +9,7 @@ import json
 import time
 import hashlib
 import requests
+import feedparser
 from datetime import datetime, date
 from bs4 import BeautifulSoup
 from pathlib import Path
@@ -705,8 +706,28 @@ def _get(url, timeout=20, is_html=False):
 
 
 def scrape_rss(url, dept, fallback_url=None):
-    """Fetch RSS. If RSS fails and a fallback HTML URL exists, fall back."""
+    """Fetch RSS. Uses feedparser for Google News URLs, requests+BS4 for others."""
     items = []
+
+    # Google News RSS requires feedparser (handles their redirect/encoding)
+    if "news.google.com" in url:
+        try:
+            feed = feedparser.parse(url)
+            for entry in feed.entries[:20]:
+                items.append({
+                    "title":       entry.get("title", ""),
+                    "description": entry.get("summary", entry.get("title", "")),
+                    "link":        entry.get("link", url),
+                    "pubDate":     str(entry.get("published", str(date.today()))),
+                    "dept":        dept,
+                    "source_url":  url,
+                })
+            if items:
+                return items
+        except Exception as e:
+            print(f"  [SCRAPER] feedparser error {url}: {e}")
+        return items
+
     resp = _get(url)
 
     if not resp or not resp.content.strip():
