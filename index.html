@@ -1497,7 +1497,12 @@
           msg.style = 'text-align:center;padding:2rem;color:#888;font-size:15px;';
           document.querySelector('.jobs-grid') && document.querySelector('.jobs-grid').appendChild(msg);
         }
-        msg.innerHTML = visible === 0 ? '📋 No ' + tab.textContent.trim() + ' jobs on homepage right now. <a href="/jobs/' + selected.replace(' psc','').replace(' ','') + '/" style="color:#e07b00">View all ' + tab.textContent.trim() + ' jobs →</a>' : '';
+        if (visible === 0) {
+          msg.style.display = 'block';
+          msg.innerHTML = '📋 No ' + tab.textContent.trim() + ' jobs on homepage right now. <a href="/jobs/" style="color:#e07b00;font-weight:500">View all jobs →</a>';
+        } else {
+          msg.style.display = 'none';
+        }
       });
     });
 
