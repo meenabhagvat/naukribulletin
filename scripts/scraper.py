@@ -1528,11 +1528,12 @@ def rebuild_homepage():
         html, flags=re.DOTALL
     )
 
-    # 4. Fix hero stats
-    html = re.sub(r'<div class="stat-num">1[,\d]+<span>\+</span></div>\s*<div class="stat-label">Active Job Notifications</div>',
-        f'<div class="stat-num">{jobs_display}<span></span></div>\n          <div class="stat-label">Active Job Notifications</div>', html)
-    html = re.sub(r'<div class="stat-num">[\d,]+<span>\+</span></div>\s*<div class="stat-label">Total Vacancies</div>',
-        f'<div class="stat-num">{vac_display}<span></span></div>\n          <div class="stat-label">Total Vacancies</div>', html)
+    # 4. Fix hero stats — job count (matches: 221<span>+</span>)
+    html = re.sub(
+        r'<div class="stat-num">\d+<span>\+</span></div>\s*<div class="stat-label">Active Job Notifications</div>',
+        f'<div class="stat-num">{total_jobs}<span>+</span></div>\n          <div class="stat-label">Active Job Notifications</div>',
+        html
+    )
 
     # 5. Fix job cards — replace the jobs-grid div content
     html = re.sub(
