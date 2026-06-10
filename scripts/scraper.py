@@ -1898,6 +1898,173 @@ def rebuild_affairs_listing():
     print(f"[LISTING] ✅ /current-affairs/index.html rebuilt with {count} items")
 
 
+
+# ─── EXPIRED JOB PRUNER ───────────────────────────────────────────────────────
+
+def prune_expired_jobs(days_grace=7):
+    """
+    Remove job pages whose last date has passed by more than days_grace days.
+    Keeps the sitemap clean and avoids Google indexing stale pages.
+    Returns count of removed pages.
+    """
+    from datetime import datetime, date, timedelta
+    from bs4 import BeautifulSoup
+
+    jobs_dir  = SITE_ROOT / "jobs"
+    cutoff    = date.today() - timedelta(days=days_grace)
+    removed   = 0
+
+    SKIP = {
+        "ssc","railway","banking","upsc","defence","police","teaching","state",
+        "10th-pass","12th-pass","graduate","post-graduate","engineering","all-india",
+        "uttar-pradesh","bihar","madhya-pradesh","rajasthan","tamil-nadu","karnataka",
+        "maharashtra","gujarat","kerala","delhi","odisha","assam","punjab","haryana",
+        "andhra-pradesh","telangana","west-bengal","chhattisgarh","himachal-pradesh",
+        "jharkhand","all-india-government-jobs","government-jobs-2026","psu-jobs-2026",
+        "graduate-govt-jobs-2026","iti-govt-jobs-2026","mba-govt-jobs-2026",
+        "mca-govt-jobs-2026","law-govt-jobs-2026","govt-bank-jobs-2026",
+        "govt-jobs-closing-today","non-executive-posts","faculty-posts-recruitment",
+        "indian-railways-jobs","combined-defence-services","banking",
+        "national-defence-academy-naval-academy-exam","all-india-government-jobs",
+        "iaf-agniveer-vayu","nabard-specialist-jobs","sbi-job-openings",
+        "indian-railway-recruitment-2026","sbi-job-openings","government-jobs-2026",
+    }
+
+    for job_dir in list(jobs_dir.iterdir()):
+        if not job_dir.is_dir() or job_dir.name in SKIP:
+            continue
+        idx = job_dir / "index.html"
+        if not idx.exists():
+            continue
+        try:
+            soup = BeautifulSoup(idx.read_text(encoding="utf-8"), "html.parser")
+            rows = {}
+            for row in soup.find_all("tr"):
+                cells = row.find_all("td")
+                if len(cells) == 2:
+                    rows[cells[0].get_text(strip=True).lower()] = cells[1].get_text(strip=True)
+            ld = rows.get("last date", "").strip()
+            if not ld or ld.lower() in ("n/a", ""):
+                continue
+            for fmt in ["%d %B %Y", "%d %b %Y", "%d/%m/%Y", "%d-%m-%Y", "%Y-%m-%d"]:
+                try:
+                    last_date = __import__("datetime").datetime.strptime(ld, fmt).date()
+                    if last_date < cutoff:
+                        import shutil
+                        shutil.rmtree(job_dir)
+                        print(f"  [PRUNE] Removed expired: {job_dir.name} (last date: {ld})")
+                        removed += 1
+                    break
+                except ValueError:
+                    continue
+        except Exception as e:
+            print(f"  [PRUNE] Error checking {job_dir.name}: {e}")
+
+    print(f"[PRUNE] ✅ Removed {removed} expired job pages")
+    return removed
+
+
+# ─── INDEXNOW + GSC PING ──────────────────────────────────────────────────────
+
+def ping_search_engines(new_slugs: list):
+    """
+    Ping IndexNow (Bing/Yandex/others) and Google Search Console
+    with newly published URLs so they get indexed faster.
+    Only runs if INDEXNOW_KEY env var is set.
+    """
+    import os, requests
+
+    key = os.environ.get("INDEXNOW_KEY", "")
+    gsc_key = os.environ.get("GOOGLE_INDEXING_KEY", "")  # optional service account JSON
+
+    if not new_slugs:
+        print("[PING] No new URLs to ping")
+        return
+
+    urls = [f"{SITE_URL}/jobs/{slug}/" for slug in new_slugs]
+    # Also ping listing pages
+    urls += [f"{SITE_URL}/jobs/", f"{SITE_URL}/sitemap.xml"]
+
+    # ── IndexNow ──────────────────────────────────────────────────────────────
+    if key:
+        try:
+            payload = {
+                "host": "naukribulletin.in",
+                "key": key,
+                "keyLocation": f"{SITE_URL}/{key}.txt",
+                "urlList": urls[:100],  # IndexNow limit
+            }
+            r = requests.post(
+                "https://api.indexnow.org/IndexNow",
+                json=payload,
+                timeout=15,
+                headers={"Content-Type": "application/json; charset=utf-8"},
+            )
+            if r.status_code in (200, 202):
+                print(f"[PING] ✅ IndexNow accepted {len(urls)} URLs")
+            else:
+                print(f"[PING] IndexNow response: {r.status_code}")
+        except Exception as e:
+            print(f"[PING] IndexNow error: {e}")
+    else:
+        print("[PING] INDEXNOW_KEY not set — skipping IndexNow ping")
+
+    # ── Google Search Console (Indexing API) ──────────────────────────────────
+    # Requires GOOGLE_INDEXING_KEY = service account JSON as env var string
+    # Only worth setting up after AdSense approval; skip gracefully otherwise
+    if gsc_key:
+        try:
+            import json as _json
+            from google.oauth2 import service_account
+            import googleapiclient.discovery
+            creds_info = _json.loads(gsc_key)
+            creds = service_account.Credentials.from_service_account_info(
+                creds_info,
+                scopes=["https://www.googleapis.com/auth/indexing"],
+            )
+            service = googleapiclient.discovery.build("indexing", "v3", credentials=creds)
+            for url in urls[:200]:
+                service.urlNotifications().publish(
+                    body={"url": url, "type": "URL_UPDATED"}
+                ).execute()
+            print(f"[PING] ✅ GSC Indexing API notified {len(urls)} URLs")
+        except Exception as e:
+            print(f"[PING] GSC error (non-fatal): {e}")
+
+
+# ─── STATE PAGES REBUILDER ────────────────────────────────────────────────────
+
+def rebuild_state_and_category_pages():
+    """
+    Runs patch_state_pages.py and category_gen.py from within scraper.py
+    so state/category hub pages stay fresh after every scrape.
+    """
+    import importlib.util
+
+    for script_name, func_name in [
+        ("category_gen", "run"),
+        ("patch_state_pages", "run"),
+    ]:
+        script_path = SITE_ROOT / "scripts" / f"{script_name}.py"
+        # patch_state_pages.py lives at repo root, not scripts/
+        if not script_path.exists():
+            script_path = SITE_ROOT / f"{script_name}.py"
+        if not script_path.exists():
+            print(f"[REBUILD] {script_name}.py not found — skipping")
+            continue
+        try:
+            spec = importlib.util.spec_from_file_location(script_name, script_path)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            if hasattr(mod, func_name):
+                getattr(mod, func_name)()
+                print(f"[REBUILD] ✅ {script_name}.run() completed")
+            else:
+                print(f"[REBUILD] {script_name} has no run() — skipping")
+        except Exception as e:
+            print(f"[REBUILD] {script_name} error: {e}")
+
+
 if __name__ == "__main__":
     run()
 
