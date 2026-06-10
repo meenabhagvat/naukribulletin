@@ -118,6 +118,24 @@ CATEGORIES = [
         "match_type": "tab_cat",
     },
     {
+        "key": "engineering",
+        "slug": "engineering",
+        "title": "Engineering Jobs",
+        "heading": "Engineering Recruitment 2026",
+        "description": "Latest engineering government job notifications 2026. Junior Engineer, Senior Engineer, Assistant Engineer, Technical Officer posts in DRDO, ISRO, BEL, BHEL, RVNL, CPWD and more.",
+        "meta": "Latest engineering govt jobs 2026 — JE, AE, Technical Officer, B.Tech notifications. Apply online for engineering recruitment in PSUs and central govt. Updated 3× daily.",
+        "keywords": [
+            "engineer", "engineering", "junior engineer", "assistant engineer", "senior engineer",
+            "je ", " ae ", "technical officer", "b.tech", "b.e.", "btech", "iti", "diploma",
+            "drdo", "isro", "bel", "bhel", "rvnl", "cpwd", "rites", "railtel", "hsl", "hcl",
+            "project engineer", "project technical", "laboratory engineer", "technical assistant",
+        ],
+        "emoji": "⚙️",
+        "color": "#1565C0",
+        "bg": "#E3F2FD",
+        "match_type": "tab_cat",
+    },
+    {
         "key": "10th-pass",
         "slug": "10th-pass",
         "title": "10th Pass Jobs",
@@ -285,6 +303,13 @@ def read_all_jobs():
                 tab_cat = "police"
             elif any(x in td for x in ["teacher", "professor", "lecturer", "kvs", "nvs", "tgt", "pgt", "faculty"]):
                 tab_cat = "teaching"
+            elif any(x in td for x in [
+                "engineer", "engineering", "junior engineer", "assistant engineer",
+                "je ", " ae ", "technical officer", "b.tech", "btech", "iti ",
+                "project engineer", "project technical", "laboratory engineer",
+                "technical assistant", "drdo", "isro", "railtel", "rvnl", "hsl",
+            ]):
+                tab_cat = "engineering"
             else:
                 tab_cat = "state"
 
