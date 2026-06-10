@@ -1480,14 +1480,24 @@
           'police': ['police','crpf','bsf']
         };
         var matches = catMap[selected] || [selected];
+        var visible = 0;
         document.querySelectorAll('.job-card').forEach(function(card) {
           var cat = (card.dataset.category || '').toLowerCase();
           if (selected === 'all' || matches.some(function(m) { return cat.includes(m); })) {
             card.style.display = '';
+            visible++;
           } else {
             card.style.display = 'none';
           }
         });
+        var msg = document.getElementById('no-jobs-msg');
+        if (!msg) {
+          msg = document.createElement('div');
+          msg.id = 'no-jobs-msg';
+          msg.style = 'text-align:center;padding:2rem;color:#888;font-size:15px;';
+          document.querySelector('.jobs-grid') && document.querySelector('.jobs-grid').appendChild(msg);
+        }
+        msg.innerHTML = visible === 0 ? '📋 No ' + tab.textContent.trim() + ' jobs on homepage right now. <a href="/jobs/' + selected.replace(' psc','').replace(' ','') + '/" style="color:#e07b00">View all ' + tab.textContent.trim() + ' jobs →</a>' : '';
       });
     });
 
