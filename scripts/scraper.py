@@ -452,18 +452,18 @@ State hint: {state}
 Return this exact JSON structure (fill with "N/A" if not found):
 {{
   "is_job_notification": true,
-  "title": "Full job title including post name",
+  "title": "Full job title including post name and organisation. Spell out abbreviations (e.g. 'Assistant Engineer' not 'AE', 'Junior Research Fellow' not 'JRF'). Do NOT include vacancy count or dates here.",
   "department": "Full official department/organisation name",
-  "vacancies": "Total number of posts, or N/A",
+  "vacancies": "Total number of posts as a plain integer, or N/A",
   "qualification": "Minimum educational qualification",
   "age_limit": "Age range e.g. 18-25 years",
   "last_date": "DD Month YYYY or N/A",
-  "salary": "Pay scale or salary range in ₹",
+  "salary": "Pay scale or salary range in ₹, or N/A",
   "state": "{state_hint}",
   "category": "10th Pass / 12th Pass / Graduate / Post Graduate / Engineering",
   "apply_link": "Official apply URL or source URL",
   "summary": "2 plain-English sentences about this job opportunity",
-  "meta_description": "SEO description under 155 characters",
+  "meta_description": "SEO description 130-155 characters. Must include: organisation name, number of posts (if known), qualification required, and last date (if known). Example: 'DRDO SAG Paid Internship 2026: 40 posts for B.Tech/M.Tech graduates. Apply online before 15 June 2026 at the official DRDO website.'",
   "exam_relevance": "Which exams this relates to e.g. SSC CGL, Railway NTPC",
   "slug": "url-friendly-slug-max-60-chars"
 }}
@@ -581,15 +581,36 @@ def generate_job_html(job):
     _sal = job.get("salary", "") or ""
     _sal_desc = _sal.replace('"', "'") if _sal and _sal.strip().lower() not in ("n/a", "", "as per govt norms") else "As per Government Pay Scale"
 
+    # ── SEO title: base title + vacancy suffix + deadline suffix ────────────
+    _base_title = job.get("title", "Govt Job")
+    _vac   = str(job.get("vacancies", "") or "").strip()
+    _ldate = str(job.get("last_date",  "") or "").strip()
+    _suffix_parts = []
+    if _vac and _vac.lower() not in ("n/a", "0", ""):
+        try:
+            _n = int(_vac.replace(',', ''))
+            _label = "Post" if _n == 1 else "Posts"
+            _suffix_parts.append(f"{_n:,} {_label}")
+        except ValueError:
+            _suffix_parts.append(f"{_vac} Posts")
+    if _ldate and _ldate.lower() not in ("n/a", ""):
+        _suffix_parts.append(f"Apply by {_ldate}")
+    _suffix = " — " + " | ".join(_suffix_parts) if _suffix_parts else ""
+    _seo_title = f"{_base_title}{_suffix}"
+    if len(_seo_title) > 75:
+        _seo_title = f"{_base_title}" + (" — " + _suffix_parts[0] if _suffix_parts else "")
+    if len(_seo_title) > 75:
+        _seo_title = _base_title
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{job.get('title', 'Govt Job')} — NaukriBulletin</title>
+  <title>{_seo_title} — NaukriBulletin</title>
   <meta name="description" content="{job.get('meta_description', '')}">
   <link rel="canonical" href="https://naukribulletin.in/jobs/{slug}/">
-  <meta property="og:title" content="{job.get('title', 'Govt Job')}">
+  <meta property="og:title" content="{_seo_title}">
   <meta property="og:description" content="{job.get('meta_description', '')}">
   <meta property="og:url" content="https://naukribulletin.in/jobs/{slug}/">
   <meta property="og:type" content="website">
