@@ -598,7 +598,7 @@ SOURCES = [
     },
 ]
 
-GITHUB_MODELS = ["openai/gpt-4o-mini", "meta/llama-3.3-70b-instruct", "mistral-ai/mistral-large-2411"]
+GITHUB_MODELS = ["gpt-4o-mini", "Llama-3.3-70B-Instruct", "Mistral-Large-2411"]
 GROQ_MODELS  = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
 GEMINI_MODEL = "gemini-1.5-flash"
 
