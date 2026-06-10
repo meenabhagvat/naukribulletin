@@ -39,8 +39,8 @@ SOURCES = [
 
     # ── CENTRAL / NATIONAL ─────────────────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=SSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://ssc.gov.in/",
+        "type": "html",
         "dept": "SSC",
         "category": "ssc",
         "priority": 1,
@@ -56,8 +56,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=UPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://upsc.gov.in/whatsnew",
+        "type": "html",
         "dept": "UPSC",
         "category": "upsc",
         "priority": 1,
@@ -82,16 +82,16 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=RBI%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://opportunities.rbi.org.in/Scripts/bs_viewcontent.aspx?Id=4",
+        "type": "html",
         "dept": "RBI",
         "category": "banking",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=central%20government%20jobs%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.ncs.gov.in/jobseeker/pages/job/jobSearch.aspx",
+        "type": "html",
         "dept": "NCS (National Career Service)",
         "category": "state",
         "priority": 2,
@@ -118,8 +118,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=Indian%20Navy%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.joinindiannavy.gov.in/",
+        "type": "html",
         "dept": "Indian Navy",
         "category": "defence",
         "priority": 1,
@@ -135,8 +135,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=CRPF%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://crpf.gov.in/recruitment.htm",
+        "type": "html",
         "dept": "CRPF",
         "category": "police",
         "priority": 2,
@@ -155,8 +155,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=BPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.bpsc.bih.nic.in/Notices.htm",
+        "type": "html",
         "dept": "BPSC (Bihar)",
         "category": "state",
         "state": "Bihar",
@@ -164,8 +164,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=MPPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://mppsc.mp.gov.in/",
+        "type": "html",
         "dept": "MPPSC (Madhya Pradesh)",
         "category": "state",
         "state": "Madhya Pradesh",
@@ -173,8 +173,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=RPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://rpsc.rajasthan.gov.in/",
+        "type": "html",
         "dept": "RPSC (Rajasthan)",
         "category": "state",
         "state": "Rajasthan",
@@ -182,8 +182,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=TNPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.tnpsc.gov.in/notifications.html",
+        "type": "html",
         "dept": "TNPSC (Tamil Nadu)",
         "category": "state",
         "state": "Tamil Nadu",
@@ -191,8 +191,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=KPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://kpsc.kar.nic.in/",
+        "type": "html",
         "dept": "KPSC (Karnataka)",
         "category": "state",
         "state": "Karnataka",
@@ -200,8 +200,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=MPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://mpsc.gov.in/notifications",
+        "type": "html",
         "dept": "MPSC (Maharashtra)",
         "category": "state",
         "state": "Maharashtra",
@@ -219,8 +219,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=HPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://hpsc.gov.in/",
+        "type": "html",
         "dept": "HPSC (Haryana)",
         "category": "state",
         "state": "Haryana",
@@ -228,8 +228,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=APSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://apsc.nic.in/",
+        "type": "html",
         "dept": "APSC (Assam)",
         "category": "state",
         "state": "Assam",
@@ -278,8 +278,8 @@ SOURCES = [
 
     # ── MISSING STATE PSCs ─────────────────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=TSPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://tspsc.gov.in/",
+        "type": "html",
         "dept": "TGPSC (Telangana)",
         "category": "state",
         "state": "Telangana",
@@ -287,8 +287,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=APPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://psc.ap.gov.in/",
+        "type": "html",
         "dept": "APPSC (Andhra Pradesh)",
         "category": "state",
         "state": "Andhra Pradesh",
@@ -306,8 +306,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=WBPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://pscwb.org.in/",
+        "type": "html",
         "dept": "WBPSC (West Bengal)",
         "category": "state",
         "state": "West Bengal",
@@ -325,8 +325,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=HPPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://hppsc.hp.gov.in/",
+        "type": "html",
         "dept": "HPPSC (Himachal Pradesh)",
         "category": "state",
         "state": "Himachal Pradesh",
@@ -334,8 +334,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=JPSC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://jpsc.gov.in/",
+        "type": "html",
         "dept": "JPSC (Jharkhand)",
         "category": "state",
         "state": "Jharkhand",
@@ -353,8 +353,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=DSSSB%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://dsssb.delhi.gov.in/",
+        "type": "html",
         "dept": "DSSSB (Delhi)",
         "category": "state",
         "state": "Delhi",
@@ -364,8 +364,8 @@ SOURCES = [
 
     # ── PSUs / CENTRAL ORGS ────────────────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=NTPC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.ntpc.co.in/en/human-resources/career",
+        "type": "html",
         "dept": "NTPC",
         "category": "engineering",
         "priority": 1,
@@ -381,16 +381,16 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=ONGC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://ongcindia.com/web/eng/careers",
+        "type": "html",
         "dept": "ONGC",
         "category": "engineering",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=NALCO%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://nalcoindia.com/career/",
+        "type": "html",
         "dept": "NALCO",
         "category": "engineering",
         "priority": 2,
@@ -406,24 +406,24 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=REC%20Limited%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://recindia.nic.in/careers",
+        "type": "html",
         "dept": "REC",
         "category": "engineering",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=NABARD%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.nabard.org/content.aspx?id=572",
+        "type": "html",
         "dept": "NABARD",
         "category": "banking",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=PNB%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.pnbindia.in/recruitment.html",
+        "type": "html",
         "dept": "PNB",
         "category": "banking",
         "priority": 2,
@@ -441,8 +441,8 @@ SOURCES = [
 
     # ── HIGH COURTS ────────────────────────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=Allahabad%20High%20Court%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.allahabadhighcourt.in/recruitment/recruitment.html",
+        "type": "html",
         "dept": "Allahabad High Court",
         "category": "state",
         "state": "Uttar Pradesh",
@@ -450,8 +450,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=MP%20High%20Court%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://mphc.gov.in/recruitment",
+        "type": "html",
         "dept": "MP High Court",
         "category": "state",
         "state": "Madhya Pradesh",
@@ -459,8 +459,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=Rajasthan%20High%20Court%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://hcraj.nic.in/hcraj/recruitment.php",
+        "type": "html",
         "dept": "Rajasthan High Court",
         "category": "state",
         "state": "Rajasthan",
@@ -470,32 +470,32 @@ SOURCES = [
 
     # ── HEALTH / MEDICAL ───────────────────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=ESIC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://esic.gov.in/recruitment",
+        "type": "html",
         "dept": "ESIC",
         "category": "state",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=AIIMS%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.aiims.edu/en/notices/recruitment-notices.html",
+        "type": "html",
         "dept": "AIIMS Delhi",
         "category": "teaching",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=ICMR%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.icmr.gov.in/ctntrecruit.html",
+        "type": "html",
         "dept": "ICMR",
         "category": "teaching",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=NHM%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://nhm.gov.in/index1.php?lang=1&level=1&sublinkid=971&lid=154",
+        "type": "html",
         "dept": "NHM",
         "category": "state",
         "priority": 2,
@@ -504,8 +504,8 @@ SOURCES = [
 
     # ── TEACHING / UNIVERSITIES ────────────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=UGC%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://ugcnetonline.in/",
+        "type": "html",
         "dept": "UGC",
         "category": "teaching",
         "priority": 1,
@@ -521,16 +521,16 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=IIT%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://careers.iitd.ac.in/",
+        "type": "html",
         "dept": "IIT Delhi",
         "category": "teaching",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=Delhi%20University%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://recruitment.uod.ac.in/",
+        "type": "html",
         "dept": "Delhi University",
         "category": "teaching",
         "priority": 2,
@@ -539,32 +539,32 @@ SOURCES = [
 
     # ── POLICE / PARAMILITARY (additional) ────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=BSF%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://bsf.gov.in/recruitment.html",
+        "type": "html",
         "dept": "BSF",
         "category": "police",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=CISF%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://cisfrectt.cisf.gov.in/",
+        "type": "html",
         "dept": "CISF",
         "category": "police",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=ITBP%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://recruitment.itbpolice.nic.in/",
+        "type": "html",
         "dept": "ITBP",
         "category": "police",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=SSB%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://ssbrectt.gov.in/",
+        "type": "html",
         "dept": "SSB",
         "category": "police",
         "priority": 2,
@@ -573,24 +573,24 @@ SOURCES = [
 
     # ── RAILWAYS (additional boards) ───────────────────────────────────────
     {
-        "url": "https://news.google.com/rss/search?q=RRB%20Chennai%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.rrbchennai.gov.in/",
+        "type": "html",
         "dept": "RRB Chennai",
         "category": "railway",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=RRB%20Mumbai%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.rrbmumbai.gov.in/",
+        "type": "html",
         "dept": "RRB Mumbai",
         "category": "railway",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://news.google.com/rss/search?q=RRB%20Allahabad%20recruitment%202026&hl=en-IN&gl=IN&ceid=IN:en",
-        "type": "rss",
+        "url": "https://www.rrbald.gov.in/",
+        "type": "html",
         "dept": "RRB Allahabad",
         "category": "railway",
         "priority": 2,
@@ -1407,7 +1407,7 @@ def run():
 
             content_type = source.get("content_type", "job")
             print(f"  → Processing: {item.get('title', '')[:70]}")
-            time.sleep(0.6)  # be polite to AI APIs
+            time.sleep(2)  # be polite to AI APIs — avoid Groq rate limits
 
             formatted = format_with_ai(item, content_type)
             if not formatted:
