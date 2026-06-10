@@ -653,7 +653,9 @@ def generate_job_html(job):
   }}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
@@ -795,7 +797,9 @@ def generate_affairs_html(affair):
   <title>{affair.get('title', 'Current Affairs')} — NaukriBulletin</title>
   <meta name="description" content="{affair.get('summary', '')[:155]}">
   <link rel="canonical" href="https://naukribulletin.in/current-affairs/{slug}/">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body style="font-family:'DM Sans',sans-serif;background:#F7F8FA;margin:0;">
@@ -1210,7 +1214,9 @@ def rebuild_syllabus():
   <meta name="description" content="Complete exam syllabus {yr} for SSC CGL, CHSL, Railway NTPC, SBI PO, UPSC, IBPS and 200+ govt exams. Updated daily at NaukriBulletin.in">
   <link rel="canonical" href="https://naukribulletin.in/syllabus/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
@@ -1572,7 +1578,9 @@ def rebuild_jobs_listing():
   <meta name="description" content="All latest govt job notifications {yr}. SSC, Railway, Banking, UPSC, State PSC jobs. Direct from official sources. Free daily alerts.">
   <link rel="canonical" href="https://naukribulletin.in/jobs/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
@@ -1819,7 +1827,9 @@ def rebuild_affairs_listing():
   <meta name="description" content="Daily current affairs {yr} for UPSC, SSC, Railway, Banking exams. Economy, Science, International, Sports, Awards — AI-summarized exam-ready notes.">
   <link rel="canonical" href="https://naukribulletin.in/current-affairs/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
   <style>
     .affairs-card {{background:var(--white);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;display:flex;gap:16px;text-decoration:none;color:inherit;transition:all 0.25s;}}
