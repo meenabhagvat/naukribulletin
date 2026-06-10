@@ -1,0 +1,7 @@
+.git
+.github
+scripts
+*.py
+*.md
+node_modules
+.wrangler
