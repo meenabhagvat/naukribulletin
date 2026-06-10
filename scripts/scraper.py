@@ -23,6 +23,7 @@ ADSENSE_CLIENT  = os.environ.get("ADSENSE_CLIENT", "ca-pub-XXXXXXXXXX")
 ADSENSE_SLOT_TOP = os.environ.get("ADSENSE_SLOT_TOP", "XXXXXXXXXX")
 ADSENSE_SLOT_MID = os.environ.get("ADSENSE_SLOT_MID", "XXXXXXXXXX")
 SITE_ROOT = Path(__file__).parent.parent
+SITE_URL  = "https://naukribulletin.in"
 
 # ─── SOURCES ──────────────────────────────────────────────────────────────────
 # Strategy: primary = direct .gov.in feeds (original, first-party)
