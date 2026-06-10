@@ -970,6 +970,8 @@ def call_github_models(prompt):
             if resp.status_code == 429:
                 print(f"  [GITHUB_MODELS] Rate limited on {model}, trying next...")
                 time.sleep(3)
+            else:
+                print(f"  [GITHUB_MODELS] {model} returned {resp.status_code}: {resp.text[:200]}")
         except Exception as e:
             print(f"  [GITHUB_MODELS] Error with {model}: {e}")
     return None

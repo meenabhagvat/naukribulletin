@@ -1,6 +1,25 @@
 [
   {
     "is_job_notification": true,
+    "title": "N/A",
+    "department": "Haryana Public Service Commission",
+    "vacancies": "N/A",
+    "qualification": "N/A",
+    "age_limit": "N/A",
+    "last_date": "N/A",
+    "salary": "N/A",
+    "state": "Haryana",
+    "category": "N/A",
+    "apply_link": "http://hpsc.gov.in/en-us/Instructions",
+    "summary": "This job notification is from the Haryana Public Service Commission. The details of the job are not specified in the given text.",
+    "meta_description": "Haryana Public Service Commission recruitment: check official website for details.",
+    "exam_relevance": "N/A",
+    "slug": "hpsc-recruitment",
+    "id": "hpsc-recruitment",
+    "url": "https://naukribulletin.in/jobs/hpsc-recruitment/"
+  },
+  {
+    "is_job_notification": true,
     "title": "Officer in Charge Ex Servicemen Contributory Health Scheme",
     "department": "Ex Servicemen Contributory Health Scheme",
     "vacancies": 1,
