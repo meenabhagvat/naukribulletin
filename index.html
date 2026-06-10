@@ -1468,15 +1468,28 @@
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        const selected = tab.textContent.trim().toLowerCase().replace(' ', '');
+        const selected = tab.textContent.trim().toLowerCase();
+        const catMap = {
+          'ssc': ['ssc'],
+          'railway': ['railway'],
+          'banking': ['banking','bank'],
+          'upsc': ['upsc'],
+          'defence': ['defence','defense','army','navy'],
+          'state psc': ['state','psc'],
+          'teaching': ['teaching','teacher'],
+          'police': ['police','crpf','bsf']
+        };
+        const matches = catMap[selected] || [selected];
         document.querySelectorAll('.job-card').forEach(card => {
           const cat = (card.dataset.category || '').toLowerCase();
-          if (selected === 'all' || cat === selected || cat.includes(selected)) {
+          if (selected === 'all' || matches.some(m => cat.includes(m))) {
             card.style.display = '';
           } else {
             card.style.display = 'none';
           }
         });
+      });
+    });;
       });
     });
 
