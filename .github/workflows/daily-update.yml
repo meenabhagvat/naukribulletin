@@ -47,6 +47,7 @@ jobs:
         run: |
           git add -A
           git diff --cached --quiet || git commit -m "chore: scrape jobs [$(date -u '+%Y-%m-%d %H:%M')] [skip ci]"
+          git pull --rebase origin main
           git push
         continue-on-error: true
 
@@ -73,6 +74,7 @@ jobs:
         run: |
           git add scripts/tg_posted.json scripts/wa_notified_ids.json
           git diff --cached --quiet || git commit -m "chore: update notification state [skip ci]"
+          git pull --rebase origin main
           git push
         continue-on-error: true
 
