@@ -1,18 +1,23 @@
 {
   "ids": [
+    "kerala-psc-junior-teacher",
+    "rbi-job",
     "kerala-psc-teacher",
-    "kerala-psc-assistant-professor",
+    "tmc-conference-assistant",
+    "c-dac-recruitment-2026",
     "kerala-psc-junior-language-teacher",
     "kerala-psc-teacher-exam",
-    "kerala-psc-junior-teacher",
     "kerala-psc-sanskrit-teacher",
-    "kerala-psc-job",
-    "rbi-job",
     "osssc-nursing-officer",
-    "tmc-conference-assistant",
     "dcpu-chengalpattu-case-worker",
-    "c-dac-recruitment-2026"
+    "kerala-psc-assistant-professor",
+    "kerala-psc-job",
+    "mppsc-paediatric-specialist",
+    "mppsc-paediatric-specialist",
+    "psssb-veterinary-inspector",
+    "svnit-teaching-assistant",
+    "national-book-trust-executive"
   ],
-  "last_run": "2026-06-11T12:02:19.629853+00:00",
+  "last_run": "2026-06-11T17:27:46.656783+00:00",
   "last_batch_count": 5
 }
