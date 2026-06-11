@@ -1409,7 +1409,7 @@ def run():
 
             content_type = source.get("content_type", "job")
             print(f"  → Processing: {item.get('title', '')[:70]}")
-            time.sleep(2)  # be polite to AI APIs — avoid Groq rate limits
+            time.sleep(0.5)  # be polite to AI APIs — avoid Groq rate limits
 
             formatted = format_with_ai(item, content_type)
             if not formatted:

@@ -16,7 +16,7 @@ permissions:
 jobs:
   scrape-and-notify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 55
 
     steps:
       - name: Checkout Repository
