@@ -1,0 +1,178 @@
+{
+  "title": "SSC CGL Tier 1 — Mock Test 3",
+  "exam": "SSC CGL",
+  "totalTime": 1200,
+  "markingScheme": { "correct": 2, "wrong": -0.5 },
+  "sections": [
+    {
+      "name": "General Intelligence & Reasoning",
+      "questions": [
+        {
+          "q": "If CLOUD is coded as 59432 and LOUDS is coded as 94325, what is the code for COULD?",
+          "opts": ["53492","59432","59342","54392"],
+          "ans": 2,
+          "exp": "C=5, L=9, O=4, U=3, D=2, S=5. COULD = C-O-U-L-D = 5,4,3,9,2 = 54392."
+        },
+        {
+          "q": "Find the missing term: 2, 6, 12, 20, 30, ?",
+          "opts": ["40","42","44","46"],
+          "ans": 1,
+          "exp": "Differences: 4,6,8,10,12. Next term = 30+12 = 42. Also: n(n+1) pattern — 1×2, 2×3, 3×4, 4×5, 5×6, 6×7=42."
+        },
+        {
+          "q": "Arrange in meaningful order: 1.Larva 2.Butterfly 3.Egg 4.Pupa",
+          "opts": ["3,1,4,2","1,3,2,4","3,4,1,2","3,1,2,4"],
+          "ans": 0,
+          "exp": "Life cycle of butterfly: Egg → Larva → Pupa → Butterfly (3,1,4,2)."
+        },
+        {
+          "q": "In a row of students, Rohit is 15th from the left and Priya is 20th from the right. If they interchange positions, Rohit is 25th from the left. How many students are in the row?",
+          "opts": ["44","45","43","46"],
+          "ans": 0,
+          "exp": "After interchange, Rohit's new position (25th from left) was Priya's original (20th from right). Total = 25+20−1 = 44."
+        },
+        {
+          "q": "Which of the following Venn diagrams best represents: Doctors, Surgeons, Lawyers?",
+          "opts": ["Surgeons inside Doctors, Lawyers separate","Three separate circles","Lawyers inside Doctors, Surgeons separate","All three overlapping"],
+          "ans": 0,
+          "exp": "All surgeons are doctors (surgeons form a subset of doctors). Lawyers are a completely separate group."
+        },
+        {
+          "q": "If 4 men can do a piece of work in 10 days, how many men can do it in 8 days?",
+          "opts": ["3","5","6","8"],
+          "ans": 1,
+          "exp": "Total work = 4×10 = 40 man-days. Men needed for 8 days = 40÷8 = 5."
+        },
+        {
+          "q": "Mirror image of 'pqrs' would be:",
+          "opts": ["sqrp","srqp","rqps","pqrs"],
+          "ans": 1,
+          "exp": "In a mirror image (vertical), the letters are reversed: srqp."
+        }
+      ]
+    },
+    {
+      "name": "General Awareness",
+      "questions": [
+        {
+          "q": "Which Article of the Indian Constitution abolishes untouchability?",
+          "opts": ["Article 14","Article 15","Article 17","Article 21"],
+          "ans": 2,
+          "exp": "Article 17 of the Constitution abolishes untouchability and forbids its practice in any form."
+        },
+        {
+          "q": "The chemical formula of baking soda is:",
+          "opts": ["Na₂CO₃","NaHCO₃","NaOH","NaCl"],
+          "ans": 1,
+          "exp": "Baking soda is sodium bicarbonate with the chemical formula NaHCO₃."
+        },
+        {
+          "q": "Which bank is called the 'Banker's Bank' in India?",
+          "opts": ["SBI","PNB","RBI","NABARD"],
+          "ans": 2,
+          "exp": "The Reserve Bank of India (RBI) is called the Banker's Bank because it acts as banker to all scheduled banks."
+        },
+        {
+          "q": "The Chipko Movement is associated with:",
+          "opts": ["Water conservation","Forest conservation","Soil conservation","Air pollution"],
+          "ans": 1,
+          "exp": "The Chipko Movement started in 1973 in Uttarakhand was a non-violent movement to protect forests by hugging trees."
+        },
+        {
+          "q": "The term 'Double Fault' is associated with which sport?",
+          "opts": ["Cricket","Tennis","Badminton","Football"],
+          "ans": 1,
+          "exp": "In tennis, a double fault occurs when a player fails both the first and second service attempts."
+        },
+        {
+          "q": "Who is the author of 'Discovery of India'?",
+          "opts": ["Mahatma Gandhi","Jawaharlal Nehru","Rabindranath Tagore","B.R. Ambedkar"],
+          "ans": 1,
+          "exp": "'The Discovery of India' was written by Jawaharlal Nehru while imprisoned at Ahmadnagar Fort (1944)."
+        },
+        {
+          "q": "Which country is the largest producer of coffee in the world?",
+          "opts": ["India","Vietnam","Ethiopia","Brazil"],
+          "ans": 3,
+          "exp": "Brazil is the world's largest coffee producer, accounting for about 37-40% of global coffee output."
+        }
+      ]
+    },
+    {
+      "name": "Quantitative Aptitude",
+      "questions": [
+        {
+          "q": "The sum of all angles of a hexagon is:",
+          "opts": ["540°","720°","900°","360°"],
+          "ans": 1,
+          "exp": "Sum of interior angles = (n−2)×180° = (6−2)×180° = 4×180° = 720°."
+        },
+        {
+          "q": "A vessel contains 60 litres of milk. 6 litres are removed and replaced with water. The process is repeated once more. What is the ratio of milk to water now?",
+          "opts": ["81:19","9:1","19:81","18:2"],
+          "ans": 0,
+          "exp": "Milk after 2 operations = 60×(54/60)×(54/60) = 60×(9/10)² = 60×81/100 = 48.6L. Ratio ≈ 81:19."
+        },
+        {
+          "q": "If a number is 30% more than another, by what percent is the other less?",
+          "opts": ["23.07%","30%","26.9%","33.3%"],
+          "ans": 0,
+          "exp": "If A = 1.3B, then B = A/1.3. B is less than A by (0.3/1.3)×100 ≈ 23.07%."
+        },
+        {
+          "q": "The average of five consecutive even numbers is 16. The largest of these numbers is:",
+          "opts": ["18","20","22","24"],
+          "ans": 1,
+          "exp": "If the middle number is 16, the five numbers are 12,14,16,18,20. The largest is 20."
+        },
+        {
+          "q": "What is the compound interest on ₹10,000 for 2 years at 10% per annum compounded annually?",
+          "opts": ["₹2000","₹2100","₹1900","₹2200"],
+          "ans": 1,
+          "exp": "A = 10000×(1.1)² = 10000×1.21 = ₹12,100. CI = ₹12,100−₹10,000 = ₹2,100."
+        },
+        {
+          "q": "A boat goes 30 km upstream in 6 hours and 30 km downstream in 3 hours. The speed of the stream is:",
+          "opts": ["2.5 km/h","3.5 km/h","4 km/h","5 km/h"],
+          "ans": 0,
+          "exp": "Upstream speed = 5 km/h, Downstream speed = 10 km/h. Stream speed = (10−5)/2 = 2.5 km/h."
+        }
+      ]
+    },
+    {
+      "name": "English Comprehension",
+      "questions": [
+        {
+          "q": "Choose the word closest in meaning to 'Vociferous':",
+          "opts": ["Silent","Loud","Angry","Joyful"],
+          "ans": 1,
+          "exp": "Vociferous means expressing opinions loudly and forcefully. Loud/Clamorous is the closest in meaning."
+        },
+        {
+          "q": "Select the correctly punctuated sentence:",
+          "opts": ["Its a lovely day, isn't it.","It's a lovely day, isn't it?","Its a lovely day isn't it?","It's a lovely day isn't it."],
+          "ans": 1,
+          "exp": "It's (It is) needs an apostrophe; isn't it is a question tag ending with a question mark."
+        },
+        {
+          "q": "One who collects stamps is called a:",
+          "opts": ["Numismatist","Philatelist","Archivist","Bibliophile"],
+          "ans": 1,
+          "exp": "A Philatelist is a person who collects and studies postage stamps."
+        },
+        {
+          "q": "Replace the underlined word with a suitable alternative: 'The judge gave a very LENIENT sentence to the criminal.'",
+          "opts": ["Harsh","Mild","Strict","Firm"],
+          "ans": 1,
+          "exp": "Lenient means not strict or severe — Mild is the correct synonym here."
+        },
+        {
+          "q": "Identify the correct passive voice: 'She wrote a letter.'",
+          "opts": ["A letter was written by her.","A letter is written by her.","A letter has been written by her.","A letter were written by her."],
+          "ans": 0,
+          "exp": "Simple past active ('wrote') becomes simple past passive: 'A letter was written by her.'"
+        }
+      ]
+    }
+  ]
+}
