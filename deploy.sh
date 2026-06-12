@@ -20,6 +20,8 @@ rsync -a --delete \
   --exclude='*.toml' \
   . dist/
 
+cp _redirects dist/_redirects
+cp wrangler.toml dist/wrangler.toml 2>/dev/null || true
 echo "🚀 Deploying to Cloudflare..."
 npx wrangler deploy
 
