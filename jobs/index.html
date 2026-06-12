@@ -37,7 +37,7 @@
       <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px;">
         Latest <span style="color:var(--saffron);">Govt Jobs 2026</span>
       </h1>
-      <p style="color:var(--grey-400);font-size:0.95rem;">434+ active notifications — from official sources, updated 3× daily</p>
+      <p style="color:var(--grey-400);font-size:0.95rem;">473+ active notifications — from official sources, updated 3× daily</p>
     </div>
   </div>
 
@@ -60,7 +60,7 @@
           <div class="tab" onclick="filterJobs('state',this)">State PSC</div>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <span style="font-size:0.85rem;color:var(--grey-700);">Showing <strong id="job-count">434</strong> jobs</span>
+          <span style="font-size:0.85rem;color:var(--grey-700);">Showing <strong id="job-count">473</strong> jobs</span>
           <select id="sort-select" onchange="sortJobs(this.value)" style="font-family:var(--font-body);font-size:0.82rem;border:1.5px solid var(--grey-200);border-radius:6px;padding:5px 10px;background:var(--white);color:var(--text);">
             <option value="newest">Newest First</option>
             <option value="urgent">Last Date (Urgent)</option>
@@ -572,15 +572,15 @@
         </div>
       </a>
 
-      <a href="/jobs/upsc-recruitment-tests/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="upsc">
+      <a href="/jobs/upsc-recruitment-tests/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
             <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
-              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏛️</div>
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment Tests by UPSC</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment Tests</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -601,6 +601,34 @@
       </a>
 
       <a href="/jobs/upsc-recruitment-status/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Status of Recruitment Cases</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/upsc-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
@@ -637,6 +665,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Online Recruitment Application</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/upsc-online-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">N/A</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -749,6 +805,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission (Upsc)</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">UPSC Government Jobs Vacancy Recruitment 2026</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/upsc-forthcoming-examinations/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Forthcoming Examinations</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -1524,6 +1608,34 @@
         </div>
       </a>
 
+      <a href="/jobs/svnit-teaching-assistant-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Sardar Vallabhbhai National Institute Of Technology</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Teaching Assistant at Sardar Vallabhbhai National Institute of Technology</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 5</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 29 June 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/svnit-teaching-assistant/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -1571,6 +1683,34 @@
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
             <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">📍 Haryana</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/status-of-recruitment-cases/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Status of Recruitment Cases</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
@@ -1687,6 +1827,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 26 June 2025</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/ssc-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Staff Selection Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">N/A</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -1972,6 +2140,34 @@
         </div>
       </a>
 
+      <a href="/jobs/sbi-selected-candidates-list/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">SBI Selected Candidates List</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/sbi-sco-selection-list/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -1980,7 +2176,147 @@
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Specialist Cadre Officer at State Bank of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">SCO Selection List - State Bank of India</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/sbi-recruitment-results-archive/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment Results & Archive</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/sbi-recruitment-results/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment Results at State Bank of India</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/sbi-provisionally-selected-candidates-list/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">SBI Provisionally Selected Candidates List</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/sbi-provisionally-selected-candidates/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Provisionally Selected Candidates for SBI</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/sbi-provisional-selection-list/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Candidates Provisionally Selected for SBI</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -2093,6 +2429,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">N/A</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/sbi-interview-assessment-schedule/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Interview cum Written Assessment Schedule</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -2336,6 +2700,34 @@
         </div>
       </a>
 
+      <a href="/jobs/rssb-lab-assistant-answer-key-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Rajasthan Subordinate And Ministerial Services Selection Board (Rssb)</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Lab Assistant</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/rrb-technician-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="railway">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -2359,6 +2751,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 29 July 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/rrb-ntpc-ug-admit-card/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="railway">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🚂</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Railway Recruitment Board</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Non Technical Popular Categories Undergraduate at Railway Recruitment Board</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -2588,6 +3008,34 @@
         </div>
       </a>
 
+      <a href="/jobs/revised-syllabus-and-scheme/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Revised Syllabus and Scheme</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/recruitment-requisition/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -2597,6 +3045,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment Requisition</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/recruitment-cases-on-hold-upsc/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment cases kept on hold on account of Pending Litigations</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -3043,18 +3519,18 @@
             <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
               <div>
-                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Punjab Subordinate Services Selection Board (Psssb)</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">PSSSB Veterinary Inspector Recruitment 2026</div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Psssb</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Veterinary Inspector</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Graduate</span>
             </div>
           </div>
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
-            <span style="font-size:0.8rem;color:var(--grey-700);">👥 150</span>
-            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Punjab</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 310</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
@@ -3076,7 +3552,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Graduate</span>
             </div>
           </div>
@@ -3568,6 +4044,62 @@
         </div>
       </a>
 
+      <a href="/jobs/paediatric-specialist-mppsc-2024/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Madhya Pradesh Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Paediatric Specialist</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Madhya Pradesh</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/paediatric-specialist-mppsc/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Madhya Pradesh Public Service Commission (Mppsc)</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Paediatric Specialist</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Madhya Pradesh</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/osssc-nursing-officer/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -3671,6 +4203,34 @@
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
             <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">📍 Odisha</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/officer-agniveer-vayu-indian-air-force/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="defence">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🪖</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Air Force</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Officer AGNIVEER(VAYU) Indian Air Force</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
@@ -4823,6 +5383,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 23/06/2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/lateral-recruitment-cases/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Union Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Lateral Recruitment Cases</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -6088,6 +6676,34 @@
         </div>
       </a>
 
+      <a href="/jobs/itbp-recruitment-support/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="police">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">👮</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indo-Tibetan Border Police</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Recruitment Support</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/itbp-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="police">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -6153,6 +6769,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indo Tibetan Border Police</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Inspector General Headquarters Director General Indo Tibetan Border Police</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/itbp-deputy-inspector-general/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="police">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">👮</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indo-Tibetan Border Police</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Deputy Inspector General (Establishment & Recruitment) Directorate General ITB Police</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -6284,6 +6928,34 @@
         </div>
       </a>
 
+      <a href="/jobs/inspector-general-itb-police/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="police">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">👮</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Dte. Gen. Itb Police</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Inspector General at ITB Police</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/indicative-syllabus-dsssb-delhi/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -6321,6 +6993,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Railways</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">N/A</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/indian-railways-job-opportunities/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="railway">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🚂</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Railways</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Job Opportunities in Indian Railways</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -6452,6 +7152,34 @@
         </div>
       </a>
 
+      <a href="/jobs/indian-navy-inet/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="upsc">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏛️</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Navy</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Artificer Apprentice, Senior Secondary Recruit, Matric Recruit and Senior Secondary Recruit Medical for Indian Navy Entry Naval Entrance Test</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/indian-navy-avr-ssr-mr-med-inet-26/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="upsc">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -6461,6 +7189,34 @@
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Navy</div>
                 <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Assistant Vessel Recruit (SSR), Assistant Vessel Recruit (MR) and Senior Secondary Recruit (Med) for Indian Navy</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/indian-navy-avr-ssr-avr-mr-ssr-med-inet-26/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="upsc">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏛️</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Navy</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Assistant Vessel Repair (SSR), Assistant Vessel Repair (MR) and Senior Secondary Recruit (Med) for Indian Navy</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -6503,6 +7259,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 29 June 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/indian-navy-agniveer-apprentice/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="defence">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🪖</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Navy</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Agniveer Apprentice in Indian Navy</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 29 Jun 2026</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -6572,7 +7356,7 @@
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🪖</div>
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Army</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Agniveer General Duty and Various Posts in Indian Army</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Agniveer Recruitment in Indian Army</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -6648,6 +7432,34 @@
         </div>
       </a>
 
+      <a href="/jobs/indian-air-force-officer/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="defence">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🪖</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Air Force</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Officer in Indian Air Force</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/indian-air-force-afcat-02-2026-officer-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="defence">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -6671,6 +7483,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/iit-ropar-postdoctoral-research-fellow-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Institute Of Technology Ropar</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Postdoctoral Research Fellow at Indian Institute of Technology Ropar</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 1</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 30 June 2026</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -7152,6 +7992,62 @@
         </div>
       </a>
 
+      <a href="/jobs/icmr-international-scientists-visited/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Council Of Medical Research</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Consolidated List Of International Scientists Visited ICMR Hqrs/Divisions</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/icmr-consultant-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Council Of Medical Research</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Consultant (Engineering- BSL-3/BSL-4) at Indian Council of Medical Research</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Engineering</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 1</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 24 June 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/icar-iari-research-associate/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -7328,7 +8224,7 @@
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Haryana Public Service Commission</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Interview Schedule for Haryana Public Service Commission</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Interview Schedule for HPSC</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -7544,6 +8440,34 @@
         </div>
       </a>
 
+      <a href="/jobs/hll-recruitment-2026-walkin/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Hll Lifecare Limited</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Staff Nurse, Lab Technician and More Posts at HLL Lifecare Limited</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/hll-lifecare-limited-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -7684,6 +8608,34 @@
         </div>
       </a>
 
+      <a href="/jobs/hello-world/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Ibps</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">N/A</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/haryana/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -7808,7 +8760,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Engineering</span>
             </div>
           </div>
@@ -8032,7 +8984,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Engineering</span>
             </div>
           </div>
@@ -8720,6 +9672,34 @@
         </div>
       </a>
 
+      <a href="/jobs/dummy-expiry-check/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Ibps</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">N/A</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/dtu-guest-faculty-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -8956,7 +9936,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Graduate</span>
             </div>
           </div>
@@ -9079,6 +10059,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 25 June 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/deputy-manager-is-audit-sbi/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="banking">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">State Bank Of India</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Deputy Manager (IS Audit) at SBI</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -9432,7 +10440,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Graduate</span>
             </div>
           </div>
@@ -9544,7 +10552,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Graduate</span>
             </div>
           </div>
@@ -10855,8 +11863,8 @@
             <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏦</div>
               <div>
-                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Brihanmumbai Municipal Corporation</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Pharmacist, Blood Bank Technician and More Posts at Brihanmumbai Municipal Corporation</div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Brihanmumbai Municipal Corporation (Bmc)</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Pharmacist, Blood Bank Technician, Librarian, Staff Nurse at Brihanmumbai Municipal Corporation</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -10871,6 +11879,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 18 June 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/bits-pilani-junior-research-fellow-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Birla Institute Of Technology And Science, Pilani</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Junior Research Fellow at BITS Pilani</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 21 June 2026</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -11403,6 +12439,34 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/apsc-assistant-geologist-recruitment-2026/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Assam Public Service Commission (Apsc)</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Assistant Geologist</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 11</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 15 July 2026</span>
             <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
           </div>
         </div>
@@ -12080,6 +13144,34 @@
         </div>
       </a>
 
+      <a href="/jobs/agniveer-apprentice-01-27-02-27-batch/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="defence">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🪖</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Indian Navy</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Agniveer (Apprentice) - 01/27 and 02/27 batch</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 29 June 2026</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/actrec-recruitment-2026-faculty-scientific-posts/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -12092,7 +13184,7 @@
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-urgent">🔥 URGENT</span>
               <span class="badge badge-category">Graduate</span>
             </div>
           </div>

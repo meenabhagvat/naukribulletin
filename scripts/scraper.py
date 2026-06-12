@@ -1421,6 +1421,54 @@ def run():
                 for job in jobs:
                     if not job.get("is_job_notification", True):
                         continue
+                    # Skip garbage nav-menu items and non-job content
+                    title = job.get("title", "").strip().lower()
+                    _garbage_exact = {
+                        "active examinations", "forthcoming examinations", "status of lateral recruitment cases (advertisement-wise)", "online recruitment application (ora)", "status of recruitment cases (advertisement-wise)", "recruitment results", "recruitment results & archive", "current openings", "sbi recruitment results", "sbi recruitment results & archive",
+                        "online recruitment application (ora)", "recruitment tests",
+                        "recruitment requisition", "revised syllabus and scheme",
+                        "status of recruitment cases (advertisement-wise)",
+                        "status of lateral recruitment cases (advertisement-wise)",
+                        "recruitment cases kept on hold on account of pending litigations",
+                        "marks of recommended candidates (reserve list)",
+                        "current vacancies", "archived vacancies",
+                        "new examination and interview scheme", "list of chairpersons",
+                        "section a indicative syllabus", "section-b indicative syllabus",
+                        "notice of exam and circulars", "combined examination",
+                        "all oms related to combined exam", "transfer/postings",
+                        "online application submission", "recruitment portal",
+                        "vacancy dashboard", "selection procedure",
+                        "instructions for written exam", "download advertisement.",
+                        "recruitment methods", "examination schedule",
+                        "scheme of examination", "direct recruitment",
+                        "status of applications", "admit cards/call letters",
+                        "written/screening test results", "recruiters/careers",
+                        "applied mechanics", "scheme & pattern of exam",
+                    }
+                    _garbage_starts = (
+                        "40000-", "60000-", "70000-", "80000-", "90000-",
+                        "100000-", "120000-", "150000-", "180000-", "200000-",
+                        "home ugc", "contact us", "results previous",
+                        "previous question papers", "download e-certificate",
+                        "ugc-net for june", "09:30 am", "011-2436",
+                        "monday to friday", "the dy inspector", "the inspector general",
+                        "[read more", "http://www.", "https://www.",
+                        "©", "the data in this webpage", "this site is viewed",
+                    )
+                    if title in _garbage_exact or title.startswith(_garbage_starts):
+                        continue
+                    _job_keywords = [
+                        "recruit", "vacanc", "post", "apply", "appoint", "notif",
+                        "result", "admit", "exam", "select", "interview", "merit",
+                        "join", "hiring", "opening", "position", "officer", "engineer",
+                        "constable", "clerk", "teacher", "professor", "doctor",
+                        "technician", "assistant", "inspector", "manager", "fellow",
+                        "trainee", "apprentice", "walk", "advt", "advertisement",
+                        "specialist", "scientist", "research", "faculty", "lecturer",
+                        "pharmacist", "nurse", "driver", "guard", "peon", "attendant",
+                    ]
+                    if len(title) < 10 or not any(kw in title for kw in _job_keywords):
+                        continue
                     # Preserve state from source if AI returned N/A
                     if source.get("state") and job.get("state") in ("N/A", "All India", ""):
                         job["state"] = source["state"]
