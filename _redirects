@@ -1,21 +1,5 @@
 # Cloudflare Pages — _redirects file
-# Place this in your site root
-
-# Trailing slash redirects (SEO)
-/jobs          /jobs/          301
-/current-affairs  /current-affairs/  301
-/results       /results/       301
-/admit-card    /admit-card/    301
-/syllabus      /syllabus/      301
 
 # Old URL patterns → new structure
 /job/*         /jobs/:splat    301
 /news/*        /current-affairs/:splat  301
-
-/about          /about/          301
-/alerts         /alerts/         301
-/contact        /contact/        301
-/privacy        /privacy/        301
-/disclaimer     /disclaimer/     301
-/cut-off        /cut-off/        301
-/whatsapp       /whatsapp/       301
