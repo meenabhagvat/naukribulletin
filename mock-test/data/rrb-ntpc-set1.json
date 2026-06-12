@@ -9,49 +9,49 @@
       "questions": [
         {
           "q": "The HCF of 36 and 48 is:",
-          "opts": ["6","9","12","18"],
+          "options": ["6","9","12","18"],
           "ans": 2,
           "exp": "36 = 2²×3², 48 = 2⁴×3. HCF = 2²×3 = 12."
         },
         {
           "q": "A sum of money doubles itself at compound interest in 3 years. In how many years will it become 8 times?",
-          "opts": ["6","7","8","9"],
+          "options": ["6","7","8","9"],
           "ans": 3,
           "exp": "If principal doubles in 3 years: 2x in 3 years, 4x in 6 years, 8x in 9 years."
         },
         {
           "q": "The cost price of 20 articles is equal to the selling price of 16 articles. The profit percentage is:",
-          "opts": ["20%","25%","16%","30%"],
+          "options": ["20%","25%","16%","30%"],
           "ans": 1,
           "exp": "CP of 20 = SP of 16. Profit on 16 articles = CP of 4 articles. Profit% = (4/16)×100 = 25%."
         },
         {
           "q": "A pipe can fill a tank in 12 hours. Another pipe can empty it in 8 hours. If both are opened, in how many hours will the tank be empty (assuming it was full)?",
-          "opts": ["16","24","20","28"],
+          "options": ["16","24","20","28"],
           "ans": 1,
           "exp": "Net emptying rate = 1/8 − 1/12 = 3/24 − 2/24 = 1/24 per hour. Tank empties in 24 hours."
         },
         {
           "q": "The perimeter of a rectangle is 80 cm. If its length is twice its breadth, the area (in cm²) is:",
-          "opts": ["400","200","600","800"],
+          "options": ["400","200","600","800"],
           "ans": 0,
           "exp": "Let breadth = b, length = 2b. 2(2b+b) = 80 → 6b = 80 → b = 80/6 ≈ 13.3? Let me re-check: 2(3b)=80, 3b=40, b=40/3, l=80/3. Area = 80/3 × 40/3 = 3200/9 ≈ nope. With perimeter=80: 2(l+b)=80, l+b=40, l=2b: 3b=40, b≈13.3. Revisiting: with perimeter 60: 2(3b)=60, b=10, l=20, area=200. Answer is 200 with perimeter=60. Since this question says 80: Area = (80/3)×(40/3) — not clean. Using standard question: l=2b, 2(l+b)=80, b=80/6. Clean: let answer = 800/3 — none match. Closest standard NTPC variant: perimeter 60, area 200. Corrected: area = 400 sq cm when perimeter = 80 and l=2b? Nope. Standard answer = 400 when perimeter=80 & l:b = 3:1: 2(3b+b)=80, 8b=80, b=10, l=30, area=300. With l=2b: area = 20×10= not integers from 80. Best clean version: The area is 400 cm² (selected answer, standard NTPC question variant)."
         },
         {
           "q": "If sin θ = 3/5, then cos θ =",
-          "opts": ["4/5","3/4","5/3","5/4"],
+          "options": ["4/5","3/4","5/3","5/4"],
           "ans": 0,
           "exp": "Using Pythagoras: if sin θ = 3/5, then opposite=3, hypotenuse=5, adjacent=4. cos θ = 4/5."
         },
         {
           "q": "The price of an article is cut by 10%. To restore it to the original price, the new price must be increased by:",
-          "opts": ["10%","11.11%","9.09%","12%"],
+          "options": ["10%","11.11%","9.09%","12%"],
           "ans": 1,
           "exp": "If original price = 100, new price = 90. To get back to 100: increase = 10/90 × 100 = 11.11%."
         },
         {
           "q": "What is 15% of 80% of 200?",
-          "opts": ["20","24","28","32"],
+          "options": ["20","24","28","32"],
           "ans": 1,
           "exp": "80% of 200 = 160. 15% of 160 = 24."
         }
@@ -62,43 +62,43 @@
       "questions": [
         {
           "q": "Pointing towards a girl, Ramesh says 'She is the daughter of the only child of my grandfather.' How is the girl related to Ramesh?",
-          "opts": ["Sister","Daughter","Niece","Cousin"],
+          "options": ["Sister","Daughter","Niece","Cousin"],
           "ans": 0,
           "exp": "The only child of Ramesh's grandfather is Ramesh's parent. The girl is the daughter of Ramesh's parent — she is Ramesh's sister."
         },
         {
           "q": "Complete the series: QPO, NML, KJI, ?",
-          "opts": ["HGF","GHI","FGH","IHG"],
+          "options": ["HGF","GHI","FGH","IHG"],
           "ans": 0,
           "exp": "Each group of 3 letters goes in reverse order, with each group starting 3 letters earlier: QPO, NML, KJI, HGF."
         },
         {
           "q": "If CAT = 3120 and DOG = 4157, what is BAT?",
-          "opts": ["2120","2021","21210","21","2120"],
+          "options": ["2120","2021","21210","21","2120"],
           "ans": 0,
           "exp": "Each letter is replaced by its position number: C=3, A=1, T=20 → 3120. B=2, A=1, T=20 → 2120."
         },
         {
           "q": "The day before yesterday was Saturday. What day will be after tomorrow?",
-          "opts": ["Tuesday","Wednesday","Thursday","Friday"],
+          "options": ["Tuesday","Wednesday","Thursday","Friday"],
           "ans": 1,
           "exp": "Day before yesterday = Saturday → Yesterday = Sunday → Today = Monday → Tomorrow = Tuesday → Day after tomorrow = Wednesday."
         },
         {
           "q": "Which one is different? Apple, Guava, Mango, Rose",
-          "opts": ["Apple","Guava","Rose","Mango"],
+          "options": ["Apple","Guava","Rose","Mango"],
           "ans": 2,
           "exp": "Apple, Guava, and Mango are fruits. Rose is a flower — the odd one out."
         },
         {
           "q": "Book : Reading :: Pen : ?",
-          "opts": ["Writing","Drawing","Painting","Studying"],
+          "options": ["Writing","Drawing","Painting","Studying"],
           "ans": 0,
           "exp": "A book is used for reading; a pen is used for writing."
         },
         {
           "q": "Find the odd one: 144, 169, 196, 216, 225",
-          "opts": ["144","196","216","225"],
+          "options": ["144","196","216","225"],
           "ans": 2,
           "exp": "144=12², 169=13², 196=14², 225=15². 216 = 6³, not a perfect square. 216 is the odd one."
         }
@@ -109,49 +109,49 @@
       "questions": [
         {
           "q": "The first railway line in India was inaugurated in which year?",
-          "opts": ["1847","1853","1860","1875"],
+          "options": ["1847","1853","1860","1875"],
           "ans": 1,
           "exp": "India's first passenger railway line ran between Bori Bunder (Mumbai) and Thane, inaugurated on April 16, 1853."
         },
         {
           "q": "The term 'Oligopoly' refers to:",
-          "opts": ["Market with single seller","Market with two sellers","Market with few sellers","Market with many sellers"],
+          "options": ["Market with single seller","Market with two sellers","Market with few sellers","Market with many sellers"],
           "ans": 2,
           "exp": "Oligopoly is a market structure dominated by a small number of large sellers who have significant market power."
         },
         {
           "q": "Swarna Jayanti Gram Swarozgar Yojana was restructured as:",
-          "opts": ["MGNREGS","PMRY","NRLM","PMGSY"],
+          "options": ["MGNREGS","PMRY","NRLM","PMGSY"],
           "ans": 2,
           "exp": "SGSY (Swarna Jayanti Gram Swarozgar Yojana) was restructured in 2011 as NRLM (National Rural Livelihood Mission), also known as Aajeevika."
         },
         {
           "q": "The 'Great Barrier Reef' is located in:",
-          "opts": ["Atlantic Ocean","Indian Ocean","Pacific Ocean","Arctic Ocean"],
+          "options": ["Atlantic Ocean","Indian Ocean","Pacific Ocean","Arctic Ocean"],
           "ans": 2,
           "exp": "The Great Barrier Reef, the world's largest coral reef system, is located in the Coral Sea off the coast of Australia (Pacific Ocean)."
         },
         {
           "q": "Which element has the highest electronegativity?",
-          "opts": ["Oxygen","Nitrogen","Chlorine","Fluorine"],
+          "options": ["Oxygen","Nitrogen","Chlorine","Fluorine"],
           "ans": 3,
           "exp": "Fluorine has the highest electronegativity (3.98 on the Pauling scale) of all elements."
         },
         {
           "q": "The Rajya Sabha can have a maximum of how many members?",
-          "opts": ["238","245","250","260"],
+          "options": ["238","245","250","260"],
           "ans": 1,
           "exp": "The Rajya Sabha can have a maximum of 250 members — 238 elected from states/UTs + 12 nominated by the President. Currently it has 245 members."
         },
         {
           "q": "IRCTC stands for:",
-          "opts": ["Indian Railway Catering and Travel Corporation","Indian Railway Catering and Tourism Corporation","Indian Rail Commerce and Tourism Corporation","Indian Railway Commerce and Travel Corporation"],
+          "options": ["Indian Railway Catering and Travel Corporation","Indian Railway Catering and Tourism Corporation","Indian Rail Commerce and Tourism Corporation","Indian Railway Commerce and Travel Corporation"],
           "ans": 1,
           "exp": "IRCTC stands for Indian Railway Catering and Tourism Corporation, a subsidiary of Indian Railways."
         },
         {
           "q": "The pH value of pure water is:",
-          "opts": ["5","7","9","0"],
+          "options": ["5","7","9","0"],
           "ans": 1,
           "exp": "Pure water is neutral with a pH of exactly 7 at 25°C."
         }
