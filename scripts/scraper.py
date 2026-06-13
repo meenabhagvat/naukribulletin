@@ -1056,7 +1056,7 @@ def format_with_ai(item, content_type="job"):
 
 def generate_job_html(job):
     slug  = job.get("slug") or make_slug(job.get("title", "job"))
-    today = datetime.now().strftime("%d %B %Y")
+    today = datetime.now().strftime("%Y-%m-%d")
 
     # ── Schema helpers ──────────────────────────────────────────────────────
     _ld = job.get("last_date", "") or ""
@@ -1138,6 +1138,8 @@ def generate_job_html(job):
       "currency": "INR",
       "value": {{
         "@type": "QuantitativeValue",
+        "value": 1,
+        "unitText": "MONTH",
         "description": "{_sal_desc}"
       }}
     }},
