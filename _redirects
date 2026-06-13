@@ -3,3 +3,18 @@
 # Old URL patterns → new structure
 /job/*         /jobs/:splat    301
 /news/*        /current-affairs/:splat  301
+
+# Old job slug redirects (2025 → current category pages)
+/jobs/ssc-cgl-2025/             /jobs/ssc/       301
+/jobs/ssc-cgl-2026/             /jobs/ssc/       301
+/jobs/railway-ntpc-2025/        /jobs/railway/   301
+/jobs/railway-ntpc-2026/        /jobs/railway/   301
+/jobs/sbi-po-2025/              /jobs/banking/   301
+/jobs/sbi-po-2026/              /jobs/banking/   301
+/jobs/upsc-civil-services-2025/ /jobs/upsc/      301
+/jobs/upsc-civil-services-2026/ /jobs/upsc/      301
+/jobs/army-agniveer-2025/       /jobs/defence/   301
+/jobs/army-agniveer-2026/       /jobs/defence/   301
+/jobs/state-psc/                /jobs/state/     301
+/previous-year/                 /previous-year-papers/ 301
+/syllabus-pdf                   /syllabus-pdf/   301
