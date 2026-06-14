@@ -9,7 +9,6 @@ import json
 import time
 import hashlib
 import requests
-import feedparser
 from datetime import datetime, date
 from bs4 import BeautifulSoup
 from pathlib import Path
@@ -18,7 +17,6 @@ import subprocess
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 
-GH_MODELS_TOKEN = os.environ.get("GH_MODELS_TOKEN", "")
 GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "")
 GEMINI_API_KEY  = os.environ.get("GEMINI_API_KEY", "")
 ADSENSE_CLIENT  = os.environ.get("ADSENSE_CLIENT", "ca-pub-1001412206051588")
@@ -39,8 +37,10 @@ SOURCES = [
 
     # ── CENTRAL / NATIONAL ─────────────────────────────────────────────────
     {
-        "url": "https://ssc.gov.in/",
+        "url": "https://www.freejobalert.com/ssc/",
+        "fallback_url": "https://www.freejobalert.com/tag/ssc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a, .post-title a",
         "dept": "SSC",
         "category": "ssc",
         "priority": 1,
@@ -56,8 +56,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://upsc.gov.in/whatsnew",
+        "url": "https://www.freejobalert.com/upsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/upsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a, .post-title a",
         "dept": "UPSC",
         "category": "upsc",
         "priority": 1,
@@ -82,24 +84,30 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://opportunities.rbi.org.in/Scripts/bs_viewcontent.aspx?Id=4",
+        "url": "https://www.freejobalert.com/rbi/",
+        "fallback_url": "https://www.freejobalert.com/tag/reserve-bank-of-india/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a, .post-title a",
         "dept": "RBI",
         "category": "banking",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://www.ncs.gov.in/jobseeker/pages/job/jobSearch.aspx",
+        "url": "https://www.freejobalert.com/central-government-jobs/",
+        "fallback_url": "https://www.freejobalert.com/tag/central-government/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "NCS (National Career Service)",
         "category": "state",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://www.freejobalert.com/feed/",
-        "type": "rss",
+        "url": "https://www.freejobalert.com/",
+        "fallback_url": "https://www.freejobalert.com/latest-jobs/",
+        "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "Employment News",
         "category": "state",
         "priority": 2,
@@ -118,8 +126,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.joinindiannavy.gov.in/",
+        "url": "https://www.freejobalert.com/indian-navy/",
+        "fallback_url": "https://www.freejobalert.com/tag/indian-navy/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "Indian Navy",
         "category": "defence",
         "priority": 1,
@@ -135,8 +145,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://crpf.gov.in/recruitment.htm",
+        "url": "https://www.freejobalert.com/crpf/",
+        "fallback_url": "https://www.freejobalert.com/tag/crpf/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "CRPF",
         "category": "police",
         "priority": 2,
@@ -155,8 +167,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.bpsc.bih.nic.in/Notices.htm",
+        "url": "https://www.freejobalert.com/bpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/bpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "BPSC (Bihar)",
         "category": "state",
         "state": "Bihar",
@@ -164,8 +178,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://mppsc.mp.gov.in/",
+        "url": "https://www.freejobalert.com/mppsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/mppsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "MPPSC (Madhya Pradesh)",
         "category": "state",
         "state": "Madhya Pradesh",
@@ -173,8 +189,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://rpsc.rajasthan.gov.in/",
+        "url": "https://www.freejobalert.com/rpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/rpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "RPSC (Rajasthan)",
         "category": "state",
         "state": "Rajasthan",
@@ -182,8 +200,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.tnpsc.gov.in/notifications.html",
+        "url": "https://www.freejobalert.com/tnpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/tnpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "TNPSC (Tamil Nadu)",
         "category": "state",
         "state": "Tamil Nadu",
@@ -191,8 +211,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://kpsc.kar.nic.in/",
+        "url": "https://www.freejobalert.com/kpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/kpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "KPSC (Karnataka)",
         "category": "state",
         "state": "Karnataka",
@@ -200,8 +222,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://mpsc.gov.in/notifications",
+        "url": "https://www.freejobalert.com/mpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/mpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "MPSC (Maharashtra)",
         "category": "state",
         "state": "Maharashtra",
@@ -219,8 +243,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://hpsc.gov.in/",
+        "url": "https://www.freejobalert.com/hpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/hpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "HPSC (Haryana)",
         "category": "state",
         "state": "Haryana",
@@ -228,8 +254,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://apsc.nic.in/",
+        "url": "https://www.freejobalert.com/apsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/apsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "APSC (Assam)",
         "category": "state",
         "state": "Assam",
@@ -278,8 +306,10 @@ SOURCES = [
 
     # ── MISSING STATE PSCs ─────────────────────────────────────────────────
     {
-        "url": "https://tspsc.gov.in/",
+        "url": "https://www.freejobalert.com/tspsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/tspsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "TGPSC (Telangana)",
         "category": "state",
         "state": "Telangana",
@@ -287,8 +317,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://psc.ap.gov.in/",
+        "url": "https://www.freejobalert.com/appsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/appsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "APPSC (Andhra Pradesh)",
         "category": "state",
         "state": "Andhra Pradesh",
@@ -306,8 +338,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://pscwb.org.in/",
+        "url": "https://www.freejobalert.com/wbpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/wbpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "WBPSC (West Bengal)",
         "category": "state",
         "state": "West Bengal",
@@ -325,8 +359,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://hppsc.hp.gov.in/",
+        "url": "https://www.freejobalert.com/hppsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/hppsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "HPPSC (Himachal Pradesh)",
         "category": "state",
         "state": "Himachal Pradesh",
@@ -334,8 +370,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://jpsc.gov.in/",
+        "url": "https://www.freejobalert.com/jpsc/",
+        "fallback_url": "https://www.freejobalert.com/tag/jpsc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "JPSC (Jharkhand)",
         "category": "state",
         "state": "Jharkhand",
@@ -353,8 +391,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://dsssb.delhi.gov.in/",
+        "url": "https://www.freejobalert.com/dsssb/",
+        "fallback_url": "https://www.freejobalert.com/tag/dsssb/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "DSSSB (Delhi)",
         "category": "state",
         "state": "Delhi",
@@ -364,8 +404,10 @@ SOURCES = [
 
     # ── PSUs / CENTRAL ORGS ────────────────────────────────────────────────
     {
-        "url": "https://www.ntpc.co.in/en/human-resources/career",
+        "url": "https://www.freejobalert.com/ntpc/",
+        "fallback_url": "https://www.freejobalert.com/tag/ntpc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "NTPC",
         "category": "engineering",
         "priority": 1,
@@ -381,16 +423,20 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://ongcindia.com/web/eng/careers",
+        "url": "https://www.freejobalert.com/ongc/",
+        "fallback_url": "https://www.freejobalert.com/tag/ongc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "ONGC",
         "category": "engineering",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://nalcoindia.com/career/",
+        "url": "https://www.freejobalert.com/nalco/",
+        "fallback_url": "https://www.freejobalert.com/tag/nalco/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "NALCO",
         "category": "engineering",
         "priority": 2,
@@ -406,24 +452,30 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://recindia.nic.in/careers",
+        "url": "https://www.freejobalert.com/rec/",
+        "fallback_url": "https://www.freejobalert.com/tag/rec/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "REC",
         "category": "engineering",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://www.nabard.org/content.aspx?id=572",
+        "url": "https://www.freejobalert.com/nabard/",
+        "fallback_url": "https://www.freejobalert.com/tag/nabard/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "NABARD",
         "category": "banking",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://www.pnbindia.in/recruitment.html",
+        "url": "https://www.freejobalert.com/pnb/",
+        "fallback_url": "https://www.freejobalert.com/tag/punjab-national-bank/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "PNB",
         "category": "banking",
         "priority": 2,
@@ -441,8 +493,10 @@ SOURCES = [
 
     # ── HIGH COURTS ────────────────────────────────────────────────────────
     {
-        "url": "https://www.allahabadhighcourt.in/recruitment/recruitment.html",
+        "url": "https://www.freejobalert.com/allahabad-high-court/",
+        "fallback_url": "https://www.freejobalert.com/tag/allahabad-high-court/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "Allahabad High Court",
         "category": "state",
         "state": "Uttar Pradesh",
@@ -450,8 +504,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://mphc.gov.in/recruitment",
+        "url": "https://www.freejobalert.com/mp-high-court/",
+        "fallback_url": "https://www.freejobalert.com/tag/mp-high-court/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "MP High Court",
         "category": "state",
         "state": "Madhya Pradesh",
@@ -459,8 +515,10 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://hcraj.nic.in/hcraj/recruitment.php",
+        "url": "https://www.freejobalert.com/rajasthan-high-court/",
+        "fallback_url": "https://www.freejobalert.com/tag/rajasthan-high-court/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "Rajasthan High Court",
         "category": "state",
         "state": "Rajasthan",
@@ -470,32 +528,40 @@ SOURCES = [
 
     # ── HEALTH / MEDICAL ───────────────────────────────────────────────────
     {
-        "url": "https://esic.gov.in/recruitment",
+        "url": "https://www.freejobalert.com/esic/",
+        "fallback_url": "https://www.freejobalert.com/tag/esic/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "ESIC",
         "category": "state",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://www.aiims.edu/en/notices/recruitment-notices.html",
+        "url": "https://www.freejobalert.com/aiims/",
+        "fallback_url": "https://www.freejobalert.com/tag/aiims/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "AIIMS Delhi",
         "category": "teaching",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://www.icmr.gov.in/ctntrecruit.html",
+        "url": "https://www.freejobalert.com/icmr/",
+        "fallback_url": "https://www.freejobalert.com/tag/icmr/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "ICMR",
         "category": "teaching",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://nhm.gov.in/index1.php?lang=1&level=1&sublinkid=971&lid=154",
+        "url": "https://www.freejobalert.com/nhm/",
+        "fallback_url": "https://www.freejobalert.com/tag/nhm/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "NHM",
         "category": "state",
         "priority": 2,
@@ -504,8 +570,10 @@ SOURCES = [
 
     # ── TEACHING / UNIVERSITIES ────────────────────────────────────────────
     {
-        "url": "https://ugcnetonline.in/",
+        "url": "https://www.freejobalert.com/ugc/",
+        "fallback_url": "https://www.freejobalert.com/tag/ugc/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "UGC",
         "category": "teaching",
         "priority": 1,
@@ -521,16 +589,20 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://careers.iitd.ac.in/",
+        "url": "https://www.freejobalert.com/iit/",
+        "fallback_url": "https://www.freejobalert.com/tag/iit/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "IIT Delhi",
         "category": "teaching",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://recruitment.uod.ac.in/",
+        "url": "https://www.freejobalert.com/delhi-university/",
+        "fallback_url": "https://www.freejobalert.com/tag/delhi-university/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "Delhi University",
         "category": "teaching",
         "priority": 2,
@@ -539,32 +611,40 @@ SOURCES = [
 
     # ── POLICE / PARAMILITARY (additional) ────────────────────────────────
     {
-        "url": "https://bsf.gov.in/recruitment.html",
+        "url": "https://www.freejobalert.com/bsf/",
+        "fallback_url": "https://www.freejobalert.com/tag/bsf/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "BSF",
         "category": "police",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://cisfrectt.cisf.gov.in/",
+        "url": "https://www.freejobalert.com/cisf/",
+        "fallback_url": "https://www.freejobalert.com/tag/cisf/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "CISF",
         "category": "police",
         "priority": 1,
         "content_type": "job",
     },
     {
-        "url": "https://recruitment.itbpolice.nic.in/",
+        "url": "https://www.freejobalert.com/itbp/",
+        "fallback_url": "https://www.freejobalert.com/tag/itbp/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "ITBP",
         "category": "police",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://ssbrectt.gov.in/",
+        "url": "https://www.freejobalert.com/ssb/",
+        "fallback_url": "https://www.freejobalert.com/tag/ssb/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "SSB",
         "category": "police",
         "priority": 2,
@@ -573,24 +653,30 @@ SOURCES = [
 
     # ── RAILWAYS (additional boards) ───────────────────────────────────────
     {
-        "url": "https://www.rrbchennai.gov.in/",
+        "url": "https://www.freejobalert.com/rrb-chennai/",
+        "fallback_url": "https://www.freejobalert.com/tag/rrb-chennai/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "RRB Chennai",
         "category": "railway",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://www.rrbmumbai.gov.in/",
+        "url": "https://www.freejobalert.com/rrb-mumbai/",
+        "fallback_url": "https://www.freejobalert.com/tag/rrb-mumbai/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "RRB Mumbai",
         "category": "railway",
         "priority": 2,
         "content_type": "job",
     },
     {
-        "url": "https://www.rrbald.gov.in/",
+        "url": "https://www.freejobalert.com/rrb-allahabad/",
+        "fallback_url": "https://www.freejobalert.com/tag/rrb-allahabad/",
         "type": "html",
+        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a",
         "dept": "RRB Allahabad",
         "category": "railway",
         "priority": 2,
@@ -598,7 +684,6 @@ SOURCES = [
     },
 ]
 
-GITHUB_MODELS = ["gpt-4o-mini", "Llama-3.3-70B-Instruct", "Mistral-Large-2411"]
 GROQ_MODELS  = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
 GEMINI_MODEL = "gemini-1.5-flash"
 
@@ -706,28 +791,8 @@ def _get(url, timeout=20, is_html=False):
 
 
 def scrape_rss(url, dept, fallback_url=None):
-    """Fetch RSS. Uses feedparser for Google News URLs, requests+BS4 for others."""
+    """Fetch RSS. If RSS fails and a fallback HTML URL exists, fall back."""
     items = []
-
-    # Google News RSS requires feedparser (handles their redirect/encoding)
-    if "news.google.com" in url:
-        try:
-            feed = feedparser.parse(url)
-            for entry in feed.entries[:20]:
-                items.append({
-                    "title":       entry.get("title", ""),
-                    "description": entry.get("summary", entry.get("title", "")),
-                    "link":        entry.get("link", url),
-                    "pubDate":     str(entry.get("published", str(date.today()))),
-                    "dept":        dept,
-                    "source_url":  url,
-                })
-            if items:
-                return items
-        except Exception as e:
-            print(f"  [SCRAPER] feedparser error {url}: {e}")
-        return items
-
     resp = _get(url)
 
     if not resp or not resp.content.strip():
@@ -951,32 +1016,6 @@ Return a JSON array of up to 5 items, each:
 """
 
 
-def call_github_models(prompt):
-    for model in GITHUB_MODELS:
-        try:
-            resp = requests.post(
-                "https://models.inference.ai.azure.com/chat/completions",
-                headers={"Authorization": f"Bearer {GH_MODELS_TOKEN}", "Content-Type": "application/json"},
-                json={
-                    "model": model,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 1000,
-                    "temperature": 0.1,
-                },
-                timeout=30,
-            )
-            if resp.status_code == 200:
-                return resp.json()["choices"][0]["message"]["content"]
-            if resp.status_code == 429:
-                print(f"  [GITHUB_MODELS] Rate limited on {model}, trying next...")
-                time.sleep(3)
-            else:
-                print(f"  [GITHUB_MODELS] {model} returned {resp.status_code}: {resp.text[:200]}")
-        except Exception as e:
-            print(f"  [GITHUB_MODELS] Error with {model}: {e}")
-    return None
-
-
 def call_groq(prompt):
     for model in GROQ_MODELS:
         try:
@@ -1041,10 +1080,7 @@ def format_with_ai(item, content_type="job"):
     else:
         prompt = AFFAIRS_PROMPT.format(raw_text=raw_text)
 
-    result = call_github_models(prompt) if GH_MODELS_TOKEN else None
-    if not result:
-        print("  [AI] GitHub Models failed/unavailable, trying Groq...")
-        result = call_groq(prompt)
+    result = call_groq(prompt)
     if not result:
         print("  [AI] Groq failed, trying Gemini...")
         result = call_gemini(prompt)
@@ -1056,7 +1092,7 @@ def format_with_ai(item, content_type="job"):
 
 def generate_job_html(job):
     slug  = job.get("slug") or make_slug(job.get("title", "job"))
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = datetime.now().strftime("%d %B %Y")
 
     # ── Schema helpers ──────────────────────────────────────────────────────
     _ld = job.get("last_date", "") or ""
@@ -1138,8 +1174,6 @@ def generate_job_html(job):
       "currency": "INR",
       "value": {{
         "@type": "QuantitativeValue",
-        "value": 1,
-        "unitText": "MONTH",
         "description": "{_sal_desc}"
       }}
     }},
@@ -1403,6 +1437,43 @@ def run():
             item_hash = make_hash(item.get("title", "") + item.get("description", "")[:100])
             if item_hash in processed:
                 continue
+
+            # Skip thin/generic nav titles — these create low-quality pages
+            _raw_title = item.get("title", "").strip()
+            _SKIP_TITLES = {
+                "active examinations", "forthcoming examinations", "recruitment advertisements",
+                "recruitment tests", "recruitment requisition", "online recruitment application",
+                "online application submission", "revised syllabus and scheme", "syllabus and scheme",
+                "examination rules", "recruitment methods", "examination schedule",
+                "scheme of examination", "direct recruitment", "status of applications",
+                "admit cards", "admit cards/call letters", "written/screening test results",
+                "interview schedule", "tentative interview dates", "tentative exam calendar",
+                "proposed examination dates", "marks of recommended candidates",
+                "marks of all interviewed candidates", "status of recruitment cases",
+                "recruitment cases kept on hold", "status of lateral recruitment cases",
+                "contact us", "home", "apply online", "online application", "click here",
+                "download advertisement", "selection procedure", "instructions for written exam",
+                "vacancy dashboard", "bed occupancy/vacancy dashboard profile",
+                "apply under mimp scheme", "current vacancies", "archived vacancies",
+                "notice of exam and circulars", "combined examination",
+                "all oms related to combined exam", "section a indicative syllabus",
+                "section-b indicative syllabus", "new examination and interview scheme",
+                "list of chairpersons", "computer based recruitment test (cbrt)",
+                "otr/apply online (recruitment portal)", "instructions / interview letter",
+                "previous question papers", "results previous question papers syllabus archive",
+                "transfer/postings", "recruitment support :",
+            }
+            if _raw_title.lower().strip() in _SKIP_TITLES:
+                continue
+            # Skip very short titles (likely nav links)
+            if len(_raw_title) < 15:
+                continue
+            # Skip titles that are phone numbers, times, salary ranges
+            if re.match(r'^[\d\s\-\+\:\.]+$', _raw_title):
+                continue
+            if re.match(r'^\d{2}:\d{2}', _raw_title):
+                continue
+
             # Skip near-duplicate titles seen in this run (across different sources)
             title_key = re.sub(r"\s+", " ", item.get("title", "").lower().strip())[:80]
             if title_key in seen_titles_this_run:
@@ -1411,7 +1482,7 @@ def run():
 
             content_type = source.get("content_type", "job")
             print(f"  → Processing: {item.get('title', '')[:70]}")
-            time.sleep(0.5)  # be polite to AI APIs — avoid Groq rate limits
+            time.sleep(0.6)  # be polite to AI APIs
 
             formatted = format_with_ai(item, content_type)
             if not formatted:
@@ -1422,54 +1493,6 @@ def run():
                 jobs = [formatted] if isinstance(formatted, dict) else formatted
                 for job in jobs:
                     if not job.get("is_job_notification", True):
-                        continue
-                    # Skip garbage nav-menu items and non-job content
-                    title = job.get("title", "").strip().lower()
-                    _garbage_exact = {
-                        "active examinations", "forthcoming examinations", "status of lateral recruitment cases (advertisement-wise)", "online recruitment application (ora)", "status of recruitment cases (advertisement-wise)", "recruitment results", "recruitment results & archive", "current openings", "sbi recruitment results", "sbi recruitment results & archive",
-                        "online recruitment application (ora)", "recruitment tests",
-                        "recruitment requisition", "revised syllabus and scheme",
-                        "status of recruitment cases (advertisement-wise)",
-                        "status of lateral recruitment cases (advertisement-wise)",
-                        "recruitment cases kept on hold on account of pending litigations",
-                        "marks of recommended candidates (reserve list)",
-                        "current vacancies", "archived vacancies",
-                        "new examination and interview scheme", "list of chairpersons",
-                        "section a indicative syllabus", "section-b indicative syllabus",
-                        "notice of exam and circulars", "combined examination",
-                        "all oms related to combined exam", "transfer/postings",
-                        "online application submission", "recruitment portal",
-                        "vacancy dashboard", "selection procedure",
-                        "instructions for written exam", "download advertisement.",
-                        "recruitment methods", "examination schedule",
-                        "scheme of examination", "direct recruitment",
-                        "status of applications", "admit cards/call letters",
-                        "written/screening test results", "recruiters/careers",
-                        "applied mechanics", "scheme & pattern of exam",
-                    }
-                    _garbage_starts = (
-                        "40000-", "60000-", "70000-", "80000-", "90000-",
-                        "100000-", "120000-", "150000-", "180000-", "200000-",
-                        "home ugc", "contact us", "results previous",
-                        "previous question papers", "download e-certificate",
-                        "ugc-net for june", "09:30 am", "011-2436",
-                        "monday to friday", "the dy inspector", "the inspector general",
-                        "[read more", "http://www.", "https://www.",
-                        "©", "the data in this webpage", "this site is viewed",
-                    )
-                    if title in _garbage_exact or title.startswith(_garbage_starts):
-                        continue
-                    _job_keywords = [
-                        "recruit", "vacanc", "post", "apply", "appoint", "notif",
-                        "result", "admit", "exam", "select", "interview", "merit",
-                        "join", "hiring", "opening", "position", "officer", "engineer",
-                        "constable", "clerk", "teacher", "professor", "doctor",
-                        "technician", "assistant", "inspector", "manager", "fellow",
-                        "trainee", "apprentice", "walk", "advt", "advertisement",
-                        "specialist", "scientist", "research", "faculty", "lecturer",
-                        "pharmacist", "nurse", "driver", "guard", "peon", "attendant",
-                    ]
-                    if len(title) < 10 or not any(kw in title for kw in _job_keywords):
                         continue
                     # Preserve state from source if AI returned N/A
                     if source.get("state") and job.get("state") in ("N/A", "All India", ""):
