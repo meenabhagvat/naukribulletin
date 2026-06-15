@@ -22,8 +22,8 @@ http://naukribulletin.in/* https://naukribulletin.in/:splat 301
 /jobs/N/A/                      /jobs/                              301
 
 # Block JSON files from being served as pages
-/previous-year-papers/pyp-data.json  /404                          404
-/mock-test/data/*                    /404                          404
+/previous-year-papers/pyp-data.json  /  301
+/mock-test/data/*  /  301
 
 # Old 404 fixes from Session 13
 /mock-test/                          /syllabus/                    301
