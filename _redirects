@@ -1,29 +1,13 @@
-# 404 fixes — mapped to nearest relevant live pages
-/cut-off/                            /jobs/                              301
-/answer-key/                         /jobs/                              301
-/alerts/                             /jobs/                              301
+# Cloudflare Pages — _redirects file
+# Place this in your site root
 
-# Job category pages
-/jobs/banking/                       /jobs/                              301
-/jobs/defence/                       /jobs/                              301
-/jobs/railway/                       /jobs/                              301
-/jobs/upsc/                          /jobs/                              301
-/jobs/ssc/                           /jobs/                              301
-/jobs/police/                        /jobs/                              301
-/jobs/teaching/                      /jobs/                              301
-/jobs/state-psc/                     /jobs/                              301
-/jobs/army-agniveer-2025/            /jobs/                              301
-/jobs/ssc-cgl-2025/                  /jobs/                              301
-/jobs/sbi-po-2025/                   /jobs/                              301
-/jobs/upsc-civil-services-2025/      /jobs/                              301
-/jobs/railway-ntpc-2025/             /jobs/                              301
+# Trailing slash redirects (SEO)
+/jobs          /jobs/          301
+/current-affairs  /current-affairs/  301
+/results       /results/       301
+/admit-card    /admit-card/    301
+/syllabus      /syllabus/      301
 
-# Current affairs category pages
-/current-affairs/international/      /current-affairs/                   301
-/current-affairs/science/            /current-affairs/                   301
-/current-affairs/economy/            /current-affairs/                   301
-/current-affairs/daily/              /current-affairs/                   301
-/current-affairs/monthly/            /current-affairs/                   301
-/current-affairs/india-space-2025/   /current-affairs/                   301
-/current-affairs/india-gdp-q4-2025/  /current-affairs/                   301
-/current-affairs/g20-india-2025/     /current-affairs/                   301
+# Old URL patterns → new structure
+/job/*         /jobs/:splat    301
+/news/*        /current-affairs/:splat  301

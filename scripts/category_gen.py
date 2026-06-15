@@ -118,24 +118,6 @@ CATEGORIES = [
         "match_type": "tab_cat",
     },
     {
-        "key": "engineering",
-        "slug": "engineering",
-        "title": "Engineering Jobs",
-        "heading": "Engineering Recruitment 2026",
-        "description": "Latest engineering government job notifications 2026. Junior Engineer, Senior Engineer, Assistant Engineer, Technical Officer posts in DRDO, ISRO, BEL, BHEL, RVNL, CPWD and more.",
-        "meta": "Latest engineering govt jobs 2026 — JE, AE, Technical Officer, B.Tech notifications. Apply online for engineering recruitment in PSUs and central govt. Updated 3× daily.",
-        "keywords": [
-            "engineer", "engineering", "junior engineer", "assistant engineer", "senior engineer",
-            "je ", " ae ", "technical officer", "b.tech", "b.e.", "btech", "iti", "diploma",
-            "drdo", "isro", "bel", "bhel", "rvnl", "cpwd", "rites", "railtel", "hsl", "hcl",
-            "project engineer", "project technical", "laboratory engineer", "technical assistant",
-        ],
-        "emoji": "⚙️",
-        "color": "#1565C0",
-        "bg": "#E3F2FD",
-        "match_type": "tab_cat",
-    },
-    {
         "key": "10th-pass",
         "slug": "10th-pass",
         "title": "10th Pass Jobs",
@@ -210,42 +192,6 @@ STATE_PAGES = [
     {"key": "kerala", "slug": "kerala", "title": "Kerala Govt Jobs", "heading": "Kerala Govt Jobs 2026",
      "description": "Latest government job notifications from Kerala 2026. Kerala PSC, Kerala Police and more.",
      "meta": "Kerala govt jobs 2026 — Kerala PSC notifications. Apply online for Kerala government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Kerala"},
-    {"key": "odisha", "slug": "odisha", "title": "Odisha Govt Jobs", "heading": "Odisha Govt Jobs 2026",
-     "description": "Latest government job notifications from Odisha 2026. Odisha PSC, Odisha Police, OPSC and more state government jobs.",
-     "meta": "Odisha govt jobs 2026 — OPSC, Odisha Police notifications. Apply online for Odisha government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Odisha"},
-    {"key": "delhi", "slug": "delhi", "title": "Delhi Govt Jobs", "heading": "Delhi Govt Jobs 2026",
-     "description": "Latest government job notifications from Delhi 2026. DSSSB, Delhi Police, Delhi High Court and more.",
-     "meta": "Delhi govt jobs 2026 — DSSSB, Delhi Police notifications. Apply online for Delhi government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Delhi"},
-    {"key": "assam", "slug": "assam", "title": "Assam Govt Jobs", "heading": "Assam Govt Jobs 2026",
-     "description": "Latest government job notifications from Assam 2026. APSC, Assam Police, SSA Assam and more state government jobs.",
-     "meta": "Assam govt jobs 2026 — APSC, Assam Police notifications. Apply online for Assam government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Assam"},
-    {"key": "chhattisgarh", "slug": "chhattisgarh", "title": "CG Govt Jobs", "heading": "Chhattisgarh Govt Jobs 2026",
-     "description": "Latest government job notifications from Chhattisgarh 2026. CGPSC, CG Vyapam, CG Police and more state government jobs.",
-     "meta": "Chhattisgarh govt jobs 2026 — CGPSC, CG Vyapam notifications. Apply online for CG government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Chhattisgarh"},
-    {"key": "punjab", "slug": "punjab", "title": "Punjab Govt Jobs", "heading": "Punjab Govt Jobs 2026",
-     "description": "Latest government job notifications from Punjab 2026. PPSC, Punjab Police, PSSSB and more state government jobs.",
-     "meta": "Punjab govt jobs 2026 — PPSC, Punjab Police notifications. Apply online for Punjab government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Punjab"},
-    {"key": "haryana", "slug": "haryana", "title": "Haryana Govt Jobs", "heading": "Haryana Govt Jobs 2026",
-     "description": "Latest government job notifications from Haryana 2026. HPSC, Haryana Police, HSSC and more state government jobs.",
-     "meta": "Haryana govt jobs 2026 — HPSC, HSSC notifications. Apply online for Haryana government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Haryana"},
-    {"key": "andhra-pradesh", "slug": "andhra-pradesh", "title": "AP Govt Jobs", "heading": "Andhra Pradesh Govt Jobs 2026",
-     "description": "Latest government job notifications from Andhra Pradesh 2026. APPSC, AP Police, AP TET and more state government jobs.",
-     "meta": "Andhra Pradesh govt jobs 2026 — APPSC, AP Police notifications. Apply online for AP government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Andhra Pradesh"},
-    {"key": "telangana", "slug": "telangana", "title": "Telangana Govt Jobs", "heading": "Telangana Govt Jobs 2026",
-     "description": "Latest government job notifications from Telangana 2026. TGPSC, Telangana Police, TSPSC and more state government jobs.",
-     "meta": "Telangana govt jobs 2026 — TGPSC, Telangana Police notifications. Apply online for Telangana government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Telangana"},
-    {"key": "west-bengal", "slug": "west-bengal", "title": "WB Govt Jobs", "heading": "West Bengal Govt Jobs 2026",
-     "description": "Latest government job notifications from West Bengal 2026. WBPSC, WB Police, WBSSC and more state government jobs.",
-     "meta": "West Bengal govt jobs 2026 — WBPSC, WB Police notifications. Apply online for WB government recruitment. Updated daily.", "emoji": "🏢", "state_match": "West Bengal"},
-    {"key": "himachal-pradesh", "slug": "himachal-pradesh", "title": "HP Govt Jobs", "heading": "Himachal Pradesh Govt Jobs 2026",
-     "description": "Latest government job notifications from Himachal Pradesh 2026. HPPSC, HP Police, HP TET and more state government jobs.",
-     "meta": "Himachal Pradesh govt jobs 2026 — HPPSC notifications. Apply online for HP government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Himachal Pradesh"},
-    {"key": "jharkhand", "slug": "jharkhand", "title": "Jharkhand Govt Jobs", "heading": "Jharkhand Govt Jobs 2026",
-     "description": "Latest government job notifications from Jharkhand 2026. JPSC, Jharkhand Police, JSSC and more state government jobs.",
-     "meta": "Jharkhand govt jobs 2026 — JPSC, JSSC notifications. Apply online for Jharkhand government recruitment. Updated daily.", "emoji": "🏢", "state_match": "Jharkhand"},
-    {"key": "post-graduate", "slug": "post-graduate", "title": "Post Graduate Jobs", "heading": "Post Graduate Govt Jobs 2026",
-     "description": "Government jobs for post graduate candidates 2026. MBA, M.Tech, MSc, MA, MCA and PhD holders. Central and state govt recruitment.",
-     "meta": "Post graduate govt jobs 2026 — MBA, M.Tech, MSc, MA holders. Apply online for PG level government recruitment. Updated daily.", "emoji": "🎓", "state_match": ""},
 ]
 
 # ── READ JOB METADATA FROM EXISTING PAGES ─────────────────────────────────────
@@ -303,13 +249,6 @@ def read_all_jobs():
                 tab_cat = "police"
             elif any(x in td for x in ["teacher", "professor", "lecturer", "kvs", "nvs", "tgt", "pgt", "faculty"]):
                 tab_cat = "teaching"
-            elif any(x in td for x in [
-                "engineer", "engineering", "junior engineer", "assistant engineer",
-                "je ", " ae ", "technical officer", "b.tech", "btech", "iti ",
-                "project engineer", "project technical", "laboratory engineer",
-                "technical assistant", "drdo", "isro", "railtel", "rvnl", "hsl",
-            ]):
-                tab_cat = "engineering"
             else:
                 tab_cat = "state"
 
@@ -692,130 +631,6 @@ def build_state_page(state_cfg, jobs):
     return html
 
 
-# ── STATE HUB PAGE ────────────────────────────────────────────────────────────
-
-def build_state_hub():
-    """Generate /jobs/state/ — a grid listing all 20 state job pages."""
-    yr = datetime.now().year
-
-    state_cards = ""
-    for s in STATE_PAGES:
-        if s["slug"] == "all-india":
-            continue
-        emoji = s.get("emoji", "🏢")
-        state_cards += f"""
-    <a href="/jobs/{s['slug']}/" class="state-hub-card">
-      <span class="state-hub-emoji">{emoji}</span>
-      <span class="state-hub-name">{s['title'].replace(' Govt Jobs','')}</span>
-      <span class="state-hub-arrow">→</span>
-    </a>"""
-
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>State PSC Jobs {yr} — All State Government Jobs | NaukriBulletin</title>
-  <meta name="description" content="Browse government jobs by state. Find latest PSC, Police, TET and other state recruitment notifications for all Indian states. Updated daily.">
-  <link rel="canonical" href="https://naukribulletin.in/jobs/state/">
-  <meta property="og:title" content="State PSC Jobs {yr} — NaukriBulletin">
-  <meta property="og:url" content="https://naukribulletin.in/jobs/state/">
-  <meta property="og:type" content="website">
-  <meta name="robots" content="index, follow">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    .state-hub-grid {{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 14px;
-      margin: 28px 0;
-    }}
-    .state-hub-card {{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      padding: 18px 12px;
-      background: #fff;
-      border: 1px solid #E8EBF4;
-      border-radius: 10px;
-      text-decoration: none;
-      color: #2D3350;
-      font-size: 0.88rem;
-      font-weight: 500;
-      text-align: center;
-      transition: box-shadow .15s, border-color .15s;
-    }}
-    .state-hub-card:hover {{
-      border-color: #6C63FF;
-      box-shadow: 0 4px 16px rgba(108,99,255,.12);
-    }}
-    .state-hub-emoji {{ font-size: 1.6rem; }}
-    .state-hub-name {{ color: #2D3350; line-height: 1.3; }}
-    .state-hub-arrow {{ color: #9BA3B8; font-size: 0.8rem; }}
-    @media(max-width:480px){{
-      .state-hub-grid{{ grid-template-columns: repeat(2, 1fr); }}
-    }}
-  </style>
-</head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="logo"><img src="/assets/logo-256.png" alt="NaukriBulletin" height="32"> NaukriBulletin</a>
-      <nav class="main-nav">
-        <a href="/jobs/">All Jobs</a>
-        <a href="/jobs/state/" class="active">State PSC</a>
-        <a href="/current-affairs/">Current Affairs</a>
-        <a href="/results/">Results</a>
-        <a href="/admit-card/">Admit Card</a>
-      </nav>
-      <button class="hamburger" aria-label="Menu">&#9776;</button>
-    </div>
-  </header>
-
-  <main class="container" style="max-width:860px;padding-top:32px;">
-    <nav class="breadcrumb" style="font-size:0.8rem;color:#9BA3B8;margin-bottom:16px;">
-      <a href="/" style="color:#9BA3B8;text-decoration:none;">Home</a> › 
-      <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;">Jobs</a> › 
-      <span>State PSC</span>
-    </nav>
-
-    <h1 style="font-size:1.6rem;font-weight:700;color:#1A1D2E;margin-bottom:8px;">
-      State Government Jobs {yr}
-    </h1>
-    <p style="color:#6B7280;margin-bottom:4px;">
-      Browse the latest PSC, police, teaching, and other government recruitment notifications by state.
-    </p>
-
-    <a href="/jobs/all-india/" style="display:inline-flex;align-items:center;gap:8px;background:#EEF2FF;color:#4338CA;border-radius:8px;padding:10px 18px;font-weight:600;text-decoration:none;margin:16px 0;font-size:0.9rem;">
-      🇮🇳 All India Govt Jobs →
-    </a>
-
-    <div class="state-hub-grid">
-      {state_cards}
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© {yr} NaukriBulletin. All rights reserved.</p>
-      <nav class="footer-links">
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/disclaimer/">Disclaimer</a>
-      </nav>
-    </div>
-  </footer>
-  <script src="/js/main.js" defer></script>
-</body>
-</html>"""
-    return html
-
-
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 
 def run():
@@ -858,14 +673,6 @@ def run():
             fc = len([j for j in jobs if sm.lower() in j["location"].lower() or sm.lower() in j["title"].lower() or sm.lower() in j["dept"].lower()])
         print(f"  [STATE] /jobs/{state['slug']}/ — {fc} jobs")
         total += 1
-
-    # State hub page (/jobs/state/)
-    state_hub_dir = SITE_ROOT / "jobs" / "state"
-    state_hub_dir.mkdir(parents=True, exist_ok=True)
-    with open(state_hub_dir / "index.html", "w", encoding="utf-8") as f:
-        f.write(build_state_hub())
-    print(f"  [HUB]  /jobs/state/ — {len(STATE_PAGES)-1} states listed")
-    total += 1
 
     print(f"\n✅ {total} category/state pages generated")
     print(f"{'='*56}\n")

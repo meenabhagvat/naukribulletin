@@ -20,6 +20,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <!-- OneSignal Web Push -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "89e83d08-e30e-46f9-baec-f0167f8baa35",
+        notifyButton: { enable: true, size: 'medium', position: 'bottom-left',
+          text: { 'tip.state.unsubscribed': 'Get free job alerts!',
+                  'tip.state.subscribed': '✓ Job alerts active',
+                  'message.prenotify': 'Get instant govt job alerts' }
+        },
+        welcomeNotification: {
+          title: "NaukriBulletin Alerts ON 🎉",
+          message: "You'll get instant alerts for new govt jobs!"
+        }
+      });
+    });
+  </script>
 </head>
 <body>
   <nav class="nav-bar">
@@ -29,10 +48,8 @@
         <li><a href="/">Home</a></li>
         <li><a href="/jobs/" class="active">Latest Jobs</a></li>
         <li><a href="/current-affairs/">Current Affairs</a></li>
+        <li><a href="/results/">Results</a></li>
         <li><a href="/admit-card/">Admit Card</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/previous-year-papers/">PYQ Papers</a></li>
-        <li><a href="/mock-test/">Mock Test</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
       </ul>
     </div>
@@ -58,7 +75,7 @@
         <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">
           Showing <span style="color:#FF6B00;">2</span> jobs
         </h2>
-        <span style="font-size:0.78rem;color:#9BA3B8;">Updated: 10 Jun 2026</span>
+        <span style="font-size:0.78rem;color:#9BA3B8;">Updated: 07 Jun 2026</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
       <a href="/jobs/ksp-civil-police-constable-recruitment-2026/" style="display:block;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='#ECEEF2';this.style.boxShadow='none'">
@@ -117,7 +134,7 @@
       </div>
       <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:20px;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:12px;">🗺️ Other States</h3>
-        <ul style="list-style:none;padding:0;margin:0;"><li><a href="/jobs/all-india/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 All India Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/uttar-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 UP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/bihar/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Bihar Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/madhya-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 MP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/rajasthan/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Rajasthan Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/tamil-nadu/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 TN Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/maharashtra/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Maharashtra Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/gujarat/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Gujarat Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/kerala/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Kerala Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/odisha/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Odisha Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/delhi/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Delhi Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/assam/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Assam Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/chhattisgarh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 CG Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/punjab/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Punjab Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/haryana/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Haryana Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/andhra-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 AP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/telangana/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Telangana Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/west-bengal/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 WB Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/himachal-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 HP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/jharkhand/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Jharkhand Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/post-graduate/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Post Graduate Jobs <span style="color:#9BA3B8;">→</span></a></li></ul>
+        <ul style="list-style:none;padding:0;margin:0;"><li><a href="/jobs/all-india/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 All India Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/uttar-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 UP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/bihar/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Bihar Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/madhya-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 MP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/rajasthan/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Rajasthan Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/tamil-nadu/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 TN Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/maharashtra/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Maharashtra Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/gujarat/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Gujarat Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/kerala/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Kerala Govt Jobs <span style="color:#9BA3B8;">→</span></a></li></ul>
       </div>
     </aside>
   </div>
