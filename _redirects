@@ -51,3 +51,5 @@ http://naukribulletin.in/* https://naukribulletin.in/:splat 301
 /current-affairs/india-space-2025/   /current-affairs/             301
 /current-affairs/india-gdp-q4-2025/  /current-affairs/            301
 /current-affairs/g20-india-2025/     /current-affairs/             301
+/previous-year/*  /previous-year-papers/:splat  301
+/previous-year/   /previous-year-papers/         301
