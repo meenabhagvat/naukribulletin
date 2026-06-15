@@ -1,19 +1,10 @@
 .DS_Store
+**/.DS_Store
 dist/
-.DS_Store
-dist/.DS_Store
-
-
-# Auto-generated data files — change every scraper run, cause merge conflicts
+.wrangler/
 scripts/_data/jobs.json
 scripts/_data/notified_ids.json
 scripts/_data/wa_notified_ids.json
 scripts/tg_posted.json
-
-# Wrangler build output
-dist/
-.wrangler/
-
-# Patch scripts (keep local only)
 patch_*.py
 fix_*.py
