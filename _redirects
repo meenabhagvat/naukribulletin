@@ -1,13 +1,53 @@
-# Cloudflare Pages — _redirects file
-# Place this in your site root
+# Force HTTP to HTTPS
+http://naukribulletin.in/* https://naukribulletin.in/:splat 301
 
-# Trailing slash redirects (SEO)
-/jobs          /jobs/          301
-/current-affairs  /current-affairs/  301
-/results       /results/       301
-/admit-card    /admit-card/    301
-/syllabus      /syllabus/      301
+# Fix double-slug duplicates
+/jobs/gmrc-recruitment/         /jobs/gmrc-recruitment-2026/        301
+/jobs/gmrc-recruitment          /jobs/gmrc-recruitment-2026/        301
+/jobs/paediatric-specialist-mppsc/ /jobs/paediatric-specialist-mppsc-2024/ 301
+/jobs/paediatric-specialist-mppsc  /jobs/paediatric-specialist-mppsc-2024/ 301
+/jobs/sbi-current-openings/     /jobs/                              301
+/jobs/sbi-current-openings      /jobs/                              301
+/jobs/combined-exam/            /jobs/                              301
+/jobs/combined-exam             /jobs/                              301
+/jobs/combined-examination/     /jobs/                              301
+/jobs/combined-examination      /jobs/                              301
 
-# Old URL patterns → new structure
-/job/*         /jobs/:splat    301
-/news/*        /current-affairs/:splat  301
+# Fix junk pages that exist
+/jobs/hello-world/              /jobs/                              301
+/jobs/hello-world               /jobs/                              301
+/jobs/dummy-expiry-check/       /jobs/                              301
+/jobs/dummy-expiry-check        /jobs/                              301
+/jobs/n/a/                      /jobs/                              301
+/jobs/N/A/                      /jobs/                              301
+
+# Block JSON files from being served as pages
+/previous-year-papers/pyp-data.json  /404                          404
+/mock-test/data/*                    /404                          404
+
+# Old 404 fixes from Session 13
+/mock-test/                          /syllabus/                    301
+/cut-off/                            /cut-off/                     200
+/answer-key/                         /jobs/                        301
+/alerts/                             /jobs/                        301
+/jobs/banking/                       /jobs/                        301
+/jobs/defence/                       /jobs/                        301
+/jobs/railway/                       /jobs/                        301
+/jobs/upsc/                          /jobs/                        301
+/jobs/ssc/                           /jobs/                        301
+/jobs/police/                        /jobs/                        301
+/jobs/teaching/                      /jobs/                        301
+/jobs/state-psc/                     /jobs/                        301
+/jobs/army-agniveer-2025/            /jobs/                        301
+/jobs/ssc-cgl-2025/                  /jobs/                        301
+/jobs/sbi-po-2025/                   /jobs/                        301
+/jobs/upsc-civil-services-2025/      /jobs/                        301
+/jobs/railway-ntpc-2025/             /jobs/                        301
+/current-affairs/international/      /current-affairs/             301
+/current-affairs/science/            /current-affairs/             301
+/current-affairs/economy/            /current-affairs/             301
+/current-affairs/daily/              /current-affairs/             301
+/current-affairs/monthly/            /current-affairs/             301
+/current-affairs/india-space-2025/   /current-affairs/             301
+/current-affairs/india-gdp-q4-2025/  /current-affairs/            301
+/current-affairs/g20-india-2025/     /current-affairs/             301
