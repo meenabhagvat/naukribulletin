@@ -1,7 +1,5 @@
 #!/bin/bash
 # NaukriBulletin — local deploy script
-# Usage: ./deploy.sh
-# Syncs repo → dist/ then deploys to Cloudflare Workers
 
 set -e
 
@@ -22,6 +20,6 @@ rsync -a --delete \
 
 cp _redirects dist/_redirects 2>/dev/null || true
 echo "🚀 Deploying to Cloudflare..."
-npx wrangler pages deploy dist/
+npx wrangler deploy
 
 echo "✅ Done"
