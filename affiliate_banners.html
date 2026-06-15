@@ -1,0 +1,149 @@
+<!-- ============================================================
+     NaukriBulletin Phase 4 — Coaching Affiliate Banners
+     Place inside job detail pages via Jekyll _includes
+     Usage: {% include affiliate_banners.html exam=page.exam_type %}
+     ============================================================ -->
+
+<!-- Inline styles scoped to .nb-affiliate -->
+<style>
+.nb-affiliate { margin: 2rem 0; font-family: inherit; }
+.nb-affiliate__heading {
+  font-size: .8rem; font-weight: 700; color: #6b7280;
+  text-transform: uppercase; letter-spacing: .05em;
+  margin-bottom: .75rem;
+}
+.nb-affiliate__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: .75rem;
+}
+.nb-affiliate__card {
+  display: flex; align-items: center; gap: .75rem;
+  border: 1px solid #e5e7eb; border-radius: 10px;
+  padding: .75rem 1rem; background: #fff;
+  text-decoration: none; color: inherit;
+  transition: box-shadow .15s, border-color .15s;
+  position: relative; overflow: hidden;
+}
+.nb-affiliate__card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  border-color: #d1d5db;
+  text-decoration: none;
+}
+.nb-affiliate__card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; border-radius: 10px 0 0 10px;
+}
+.nb-affiliate__card--unacademy::before { background: #08bd80; }
+.nb-affiliate__card--testbook::before  { background: #1d4ed8; }
+.nb-affiliate__card--adda247::before   { background: #f97316; }
+
+.nb-affiliate__logo {
+  width: 44px; height: 44px; border-radius: 8px;
+  object-fit: contain; flex-shrink: 0; background: #f3f4f6; padding: 4px;
+}
+.nb-affiliate__logo-placeholder {
+  width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: .85rem; color: #fff;
+}
+.nb-affiliate__logo-placeholder--u { background: #08bd80; }
+.nb-affiliate__logo-placeholder--t { background: #1d4ed8; }
+.nb-affiliate__logo-placeholder--a { background: #f97316; }
+
+.nb-affiliate__body { flex: 1; min-width: 0; }
+.nb-affiliate__name {
+  font-size: .82rem; font-weight: 700; color: #111827;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nb-affiliate__desc {
+  font-size: .75rem; color: #6b7280; margin-top: 1px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nb-affiliate__cta {
+  font-size: .72rem; font-weight: 700; padding: .3rem .7rem;
+  border-radius: 6px; white-space: nowrap; color: #fff;
+  flex-shrink: 0;
+}
+.nb-affiliate__card--unacademy .nb-affiliate__cta { background: #08bd80; }
+.nb-affiliate__card--testbook  .nb-affiliate__cta { background: #1d4ed8; }
+.nb-affiliate__card--adda247   .nb-affiliate__cta { background: #f97316; }
+
+.nb-affiliate__badge {
+  position: absolute; top: 6px; right: 8px;
+  font-size: .6rem; color: #9ca3af;
+}
+@media(max-width:480px){
+  .nb-affiliate__grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<section class="nb-affiliate" aria-label="Coaching & Preparation Resources">
+  <p class="nb-affiliate__heading">📚 Prepare for this exam — Recommended Courses</p>
+  <div class="nb-affiliate__grid">
+
+    <!-- Unacademy -->
+    <a href="https://unacademy.com/?referral=NAUKRIBULLETIN"
+       class="nb-affiliate__card nb-affiliate__card--unacademy"
+       target="_blank" rel="noopener sponsored"
+       data-affiliate="unacademy"
+       onclick="nbTrackAffiliate('unacademy')">
+      <div class="nb-affiliate__logo-placeholder nb-affiliate__logo-placeholder--u">UN</div>
+      <div class="nb-affiliate__body">
+        <div class="nb-affiliate__name">Unacademy — Live Classes</div>
+        <div class="nb-affiliate__desc">SSC, Railway, Banking &amp; State Exams</div>
+      </div>
+      <span class="nb-affiliate__cta">Enroll Free</span>
+      <span class="nb-affiliate__badge">Ad</span>
+    </a>
+
+    <!-- Testbook -->
+    <a href="https://testbook.com/?utm_source=naukribulletin&utm_medium=affiliate&utm_campaign=jobpages"
+       class="nb-affiliate__card nb-affiliate__card--testbook"
+       target="_blank" rel="noopener sponsored"
+       data-affiliate="testbook"
+       onclick="nbTrackAffiliate('testbook')">
+      <div class="nb-affiliate__logo-placeholder nb-affiliate__logo-placeholder--t">TB</div>
+      <div class="nb-affiliate__body">
+        <div class="nb-affiliate__name">Testbook — Mock Tests</div>
+        <div class="nb-affiliate__desc">10,000+ tests · Current Affairs · Hindi</div>
+      </div>
+      <span class="nb-affiliate__cta">Try Free</span>
+      <span class="nb-affiliate__badge">Ad</span>
+    </a>
+
+    <!-- Adda247 -->
+    <a href="https://www.adda247.com/?utm_source=naukribulletin&utm_medium=affiliate&utm_campaign=jobpages"
+       class="nb-affiliate__card nb-affiliate__card--adda247"
+       target="_blank" rel="noopener sponsored"
+       data-affiliate="adda247"
+       onclick="nbTrackAffiliate('adda247')">
+      <div class="nb-affiliate__logo-placeholder nb-affiliate__logo-placeholder--a">A2</div>
+      <div class="nb-affiliate__body">
+        <div class="nb-affiliate__name">Adda247 — Study Material</div>
+        <div class="nb-affiliate__desc">eBooks, Video Courses, Quizzes</div>
+      </div>
+      <span class="nb-affiliate__cta">Explore</span>
+      <span class="nb-affiliate__badge">Ad</span>
+    </a>
+
+  </div>
+</section>
+
+<script>
+// Lightweight affiliate click tracker — fires to GA4 if available
+function nbTrackAffiliate(partner) {
+  try {
+    if (typeof gtag === 'function') {
+      gtag('event', 'affiliate_click', {
+        event_category: 'Affiliate',
+        event_label: partner,
+        value: 1
+      });
+    }
+    // Also fire to simple pixel endpoint if you add one later
+    var img = new Image();
+    img.src = '/affiliate-track?p=' + partner + '&t=' + Date.now();
+  } catch(e) {}
+}
+</script>
