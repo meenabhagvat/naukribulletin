@@ -291,7 +291,7 @@ footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); 
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 768px) {
-  .hamburger { display: flex; }
+  .hamburger { display: flex !important; }
   .nav-links {
     display: none;
     position: fixed;
