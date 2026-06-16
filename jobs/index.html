@@ -18,12 +18,17 @@
   <nav class="nav-bar">
     <div class="nav-inner">
       <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
+      <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/jobs/" class="active">Latest Jobs</a></li>
+        <li><a href="/jobs/">Latest Jobs</a></li>
         <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/cut-off/">Cut Off</a></li>
+        <li><a href="/results/">Results</a></li>
         <li><a href="/admit-card/">Admit Card</a></li>
+        <li><a href="/exam-calendar/">Exam Calendar</a></li>
+        <li><a href="/cut-off/">Cut-offs</a></li>
+        <li><a href="/eligibility-checker/">Eligibility</a></li>
+        <li><a href="/syllabus/">Syllabus</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
       </ul>
     </div>
@@ -37,7 +42,7 @@
       <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px;">
         Latest <span style="color:var(--saffron);">Govt Jobs 2026</span>
       </h1>
-      <p style="color:var(--grey-400);font-size:0.95rem;">556+ active notifications — from official sources, updated 3× daily</p>
+      <p style="color:var(--grey-400);font-size:0.95rem;">560+ active notifications — from official sources, updated 3× daily</p>
     </div>
   </div>
 
@@ -60,7 +65,7 @@
           <div class="tab" onclick="filterJobs('state',this)">State PSC</div>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <span style="font-size:0.85rem;color:var(--grey-700);">Showing <strong id="job-count">556</strong> jobs</span>
+          <span style="font-size:0.85rem;color:var(--grey-700);">Showing <strong id="job-count">560</strong> jobs</span>
           <select id="sort-select" onchange="sortJobs(this.value)" style="font-family:var(--font-body);font-size:0.82rem;border:1.5px solid var(--grey-200);border-radius:6px;padding:5px 10px;background:var(--white);color:var(--text);">
             <option value="newest">Newest First</option>
             <option value="urgent">Last Date (Urgent)</option>
@@ -6396,6 +6401,34 @@
         </div>
       </a>
 
+      <a href="/jobs/kerala-psc-theatre-assistant/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Ayurveda College Department</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Theatre Assistant in Ayurveda College Department</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 1</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Kerala</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/kerala-psc-teacher-recruitment/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="teaching">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -6760,6 +6793,34 @@
         </div>
       </a>
 
+      <a href="/jobs/kerala-psc-nurse-grade-ii/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Government Homoeopathic Medical Colleges</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Nurse Grade II in Government Homoeopathic Medical Colleges</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Kerala</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/kerala-psc-nurse-ayurveda/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -6852,7 +6913,7 @@
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏢</div>
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Animal Husbandry Department</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Livestock Inspector Grade II Poultry Assistant Milk Recorder Store Keeper Enumerator in Animal Husbandry Department</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Livestock Inspector Grade II Poultry Assistant Milk Recorder Enumerator</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -6861,9 +6922,9 @@
             </div>
           </div>
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
-            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 2</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">📍 Kerala</span>
-            <span style="font-size:0.8rem;color:var(--grey-700);">💰 ₹ 27,900-63,700</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
@@ -7040,6 +7101,34 @@
         </div>
       </a>
 
+      <a href="/jobs/kerala-psc-high-school-teacher/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="teaching">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">📚</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Education Department</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">High School Teacher Hindi in Education Department</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Kerala</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
       <a href="/jobs/kerala-psc-fisheries-officer/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="state">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
         <div style="padding-left:12px;">
@@ -7170,6 +7259,34 @@
           </div>
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
             <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">📍 Kerala</span>
+            <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
+            <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
+            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/jobs/kerala-psc-deputy-superintendent/" class="card fade-up" style="text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;" data-category="police">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--saffron);"></div>
+        <div style="padding-left:12px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;flex:1;">
+              <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">👮</div>
+              <div>
+                <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">Kerala Police Service Department</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">Deputy Superintendent of Police in Kerala Police Service Department</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
+              <span class="badge badge-new">🟢 NEW</span>
+              <span class="badge badge-category">Graduate</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.8rem;color:var(--grey-700);">👥 2</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">📍 Kerala</span>
             <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
           </div>
