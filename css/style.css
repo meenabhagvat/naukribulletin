@@ -217,7 +217,6 @@ footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); 
 @media (max-width: 768px) {
   .two-col { grid-template-columns: 1fr; }
   .sidebar { order: -1; }
-  .nav-links { display: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 480px) {
