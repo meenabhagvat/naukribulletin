@@ -268,6 +268,7 @@ footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); 
 }
 
 /* ── HAMBURGER ── */
+.nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .hamburger {
   display: none;
   flex-direction: column;
