@@ -1,11 +1,12 @@
 #!/bin/bash
+# NaukriBulletin — local deploy script
+
 set -e
 
 echo "🔄 Syncing dist/..."
 rsync -a --delete \
   --exclude='.git' \
   --exclude='.github' \
-  --exclude='.gitignore' \
   --exclude='scripts' \
   --exclude='*.py' \
   --exclude='*.md' \
@@ -15,9 +16,9 @@ rsync -a --delete \
   --exclude='.wrangler' \
   --exclude='.wranglerignore' \
   --exclude='*.toml' \
+  --exclude='.gitignore' \
   --exclude='.DS_Store' \
-  --exclude='patch_*.py' \
-  --exclude='fix_*.py' \
+  --exclude='index.html' \
   . dist/
 
 cp _redirects dist/_redirects 2>/dev/null || true

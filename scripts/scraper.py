@@ -1854,15 +1854,12 @@ def rebuild_syllabus():
       <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
+        <li><a href="/jobs/">Jobs</a></li>
         <li><a href="/current-affairs/">Current Affairs</a></li>
         <li><a href="/results/">Results</a></li>
-        <li><a href="/admit-card/">Admit Card</a></li>
         <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/cut-off/">Cut-offs</a></li>
-        <li><a href="/eligibility-checker/">Eligibility</a></li>
         <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
+        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
       </ul>
     </div>
   </nav>
@@ -2203,15 +2200,12 @@ def rebuild_jobs_listing():
       <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
+        <li><a href="/jobs/">Jobs</a></li>
         <li><a href="/current-affairs/">Current Affairs</a></li>
         <li><a href="/results/">Results</a></li>
-        <li><a href="/admit-card/">Admit Card</a></li>
         <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/cut-off/">Cut-offs</a></li>
-        <li><a href="/eligibility-checker/">Eligibility</a></li>
         <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
+        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
       </ul>
     </div>
   </nav>
@@ -2467,15 +2461,12 @@ def rebuild_affairs_listing():
       <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
+        <li><a href="/jobs/">Jobs</a></li>
         <li><a href="/current-affairs/">Current Affairs</a></li>
         <li><a href="/results/">Results</a></li>
-        <li><a href="/admit-card/">Admit Card</a></li>
         <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/cut-off/">Cut-offs</a></li>
-        <li><a href="/eligibility-checker/">Eligibility</a></li>
         <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
+        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
       </ul>
     </div>
   </nav>
