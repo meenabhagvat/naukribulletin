@@ -229,19 +229,3 @@ footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); 
   animation: fadeUp 0.5s ease forwards;
 }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-/* ── HAMBURGER & MOBILE NAV ── */
-.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; flex-shrink: 0; }
-.hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
-.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-@media (max-width: 768px) {
-  .hamburger { display: flex !important; }
-  .nav-links { display: none !important; position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background: #0A0F2C; flex-direction: column; align-items: center; justify-content: center; gap: 4px; z-index: 1000; list-style: none; padding: 0; margin: 0; }
-  .nav-links.open { display: flex !important; }
-  .nav-links li { width: 100%; text-align: center; }
-  .nav-links a { display: block; padding: 14px 20px; font-size: 1.1rem; color: #fff; text-decoration: none; font-weight: 600; }
-  .nav-links a:hover, .nav-links a.active { color: #FF6B00; background: none; }
-}
