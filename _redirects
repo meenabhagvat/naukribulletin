@@ -26,18 +26,6 @@ http://naukribulletin.in/* https://naukribulletin.in/:splat 301
 /mock-test/data/*  /  301
 
 # Old 404 fixes from Session 13
-/mock-test/                          /syllabus/                    301
-/cut-off/                            /cut-off/                     200
-/answer-key/                         /jobs/                        301
-/alerts/                             /jobs/                        301
-/jobs/banking/                       /jobs/                        301
-/jobs/defence/                       /jobs/                        301
-/jobs/railway/                       /jobs/                        301
-/jobs/upsc/                          /jobs/                        301
-/jobs/ssc/                           /jobs/                        301
-/jobs/police/                        /jobs/                        301
-/jobs/teaching/                      /jobs/                        301
-/jobs/state-psc/                     /jobs/                        301
 /jobs/army-agniveer-2025/            /jobs/                        301
 /jobs/ssc-cgl-2025/                  /jobs/                        301
 /jobs/sbi-po-2025/                   /jobs/                        301
