@@ -18,8 +18,8 @@
             "Scanner",
             "Speaker"
           ],
-          "ans": 2,
-          "exp": "A scanner reads physical documents and sends data to the computer — it is an input device."
+          "answer": 2,
+          "explanation": "A scanner reads physical documents and sends data to the computer — it is an input device."
         },
         {
           "q": "Complete the series: ACE, BDF, CEG, ?",
@@ -29,8 +29,8 @@
             "DGH",
             "CFH"
           ],
-          "ans": 0,
-          "exp": "Each letter in each triplet advances by 1: A+1=B+1=C+1=D, C+1=D+1=E+1=F, E+1=F+1=G+1=H → DFH."
+          "answer": 0,
+          "explanation": "Each letter in each triplet advances by 1: A+1=B+1=C+1=D, C+1=D+1=E+1=F, E+1=F+1=G+1=H → DFH."
         },
         {
           "q": "If TAP = 37 and MAP = 30, then what is CAP?",
@@ -40,8 +40,8 @@
             "26",
             "27"
           ],
-          "ans": 0,
-          "exp": "T=20, A=1, P=16 → 37. M=13, A=1, P=16 → 30. C=3, A=1, P=16 → 24 (sum of positions... wait: T(20)+A(1)+P(16)=37 ✓. C(3)+A(1)+P(16)=20... hmm. Actually T=20,A=1,P=16 sum=37 ✓. C=3+1+16=20 not 24. Revised: could be reverse positions (Z=1): T=7,A=26,P=11→44≠37. Or: TAP=T(20)+A(1)+P(16)=37. CAP=C(3)+A(1)+P(16)=20. Best answer: 24 if using a different scheme — given as 24."
+          "answer": 0,
+          "explanation": "T=20, A=1, P=16 → 37. M=13, A=1, P=16 → 30. C=3, A=1, P=16 → 24 (sum of positions... wait: T(20)+A(1)+P(16)=37 ✓. C(3)+A(1)+P(16)=20... hmm. Actually T=20,A=1,P=16 sum=37 ✓. C=3+1+16=20 not 24. Revised: could be reverse positions (Z=1): T=7,A=26,P=11→44≠37. Or: TAP=T(20)+A(1)+P(16)=37. CAP=C(3)+A(1)+P(16)=20. Best answer: 24 if using a different scheme — given as 24."
         },
         {
           "q": "Which shortcut key is used to save a document in MS Word?",
@@ -51,8 +51,8 @@
             "Ctrl+A",
             "Ctrl+Z"
           ],
-          "ans": 1,
-          "exp": "Ctrl+S saves the current document in MS Word."
+          "answer": 1,
+          "explanation": "Ctrl+S saves the current document in MS Word."
         },
         {
           "q": "In a queue, Seema is 8th from the front and 15th from the back. How long is the queue?",
@@ -62,8 +62,8 @@
             "23",
             "24"
           ],
-          "ans": 1,
-          "exp": "Total = 8 + 15 - 1 = 22."
+          "answer": 1,
+          "explanation": "Total = 8 + 15 - 1 = 22."
         },
         {
           "q": "What does 'RAM' stand for?",
@@ -73,8 +73,8 @@
             "Rapid Access Memory",
             "Read Any Memory"
           ],
-          "ans": 1,
-          "exp": "RAM stands for Random Access Memory — temporary storage used by the CPU."
+          "answer": 1,
+          "explanation": "RAM stands for Random Access Memory — temporary storage used by the CPU."
         },
         {
           "q": "If PENCIL is coded as QFODKM, how is ERASER coded?",
@@ -84,8 +84,8 @@
             "FSBUFS",
             "FSBSFR"
           ],
-          "ans": 0,
-          "exp": "Each letter is shifted by +1: E→F, R→S, A→B, S→T, E→F, R→S = FSBTFS."
+          "answer": 0,
+          "explanation": "Each letter is shifted by +1: E→F, R→S, A→B, S→T, E→F, R→S = FSBTFS."
         },
         {
           "q": "Among P, Q, R, S, T — P is taller than Q; R is shorter than S; T is taller than S but shorter than P. Who is the tallest?",
@@ -95,8 +95,8 @@
             "S",
             "R"
           ],
-          "ans": 0,
-          "exp": "P > T > S > R and P > Q. So P is the tallest."
+          "answer": 0,
+          "explanation": "P > T > S > R and P > Q. So P is the tallest."
         }
       ]
     },
@@ -111,8 +111,8 @@
             "72",
             "96"
           ],
-          "ans": 2,
-          "exp": "LCM(12,18,24) = 72."
+          "answer": 2,
+          "explanation": "LCM(12,18,24) = 72."
         },
         {
           "q": "A number when divided by 56 gives 29 as remainder. What remainder will the same number give when divided by 8?",
@@ -122,8 +122,8 @@
             "7",
             "4"
           ],
-          "ans": 0,
-          "exp": "Number = 56k + 29. 29 = 8×3 + 5. So remainder when divided by 8 is 5."
+          "answer": 0,
+          "explanation": "Number = 56k + 29. 29 = 8×3 + 5. So remainder when divided by 8 is 5."
         },
         {
           "q": "Cost price of 20 articles = selling price of 16 articles. Profit %?",
@@ -133,8 +133,8 @@
             "16%",
             "22%"
           ],
-          "ans": 1,
-          "exp": "Let CP per article = 1. CP of 20 = 20. SP of 16 = 20, so SP per article = 20/16 = 1.25. Profit% = 25%."
+          "answer": 1,
+          "explanation": "Let CP per article = 1. CP of 20 = 20. SP of 16 = 20, so SP per article = 20/16 = 1.25. Profit% = 25%."
         },
         {
           "q": "What is 20% of 25% of 400?",
@@ -144,8 +144,8 @@
             "25",
             "30"
           ],
-          "ans": 1,
-          "exp": "25% of 400 = 100. 20% of 100 = 20."
+          "answer": 1,
+          "explanation": "25% of 400 = 100. 20% of 100 = 20."
         },
         {
           "q": "The perimeter of a rectangle is 48 cm. If its length is 14 cm, what is its area?",
@@ -155,8 +155,8 @@
             "145 cm²",
             "150 cm²"
           ],
-          "ans": 1,
-          "exp": "Width = (48/2) - 14 = 24 - 14 = 10. Area = 14 × 10 = 140 cm²."
+          "answer": 1,
+          "explanation": "Width = (48/2) - 14 = 24 - 14 = 10. Area = 14 × 10 = 140 cm²."
         },
         {
           "q": "₹6,000 amounts to ₹7,986 in 3 years at compound interest. What is the rate?",
@@ -166,8 +166,8 @@
             "12%",
             "9%"
           ],
-          "ans": 1,
-          "exp": "6000(1+r)³ = 7986. (1+r)³ = 1.331 = 1.1³. r = 10%."
+          "answer": 1,
+          "explanation": "6000(1+r)³ = 7986. (1+r)³ = 1.331 = 1.1³. r = 10%."
         },
         {
           "q": "A can finish a work in 18 days and B can do the same work in 15 days. B worked for 10 days and left. In how many days will A alone finish the remaining work?",
@@ -177,8 +177,8 @@
             "8 days",
             "7 days"
           ],
-          "ans": 0,
-          "exp": "B does 10/15 = 2/3 work. Remaining = 1/3. A takes 18 × 1/3 = 6 days."
+          "answer": 0,
+          "explanation": "B does 10/15 = 2/3 work. Remaining = 1/3. A takes 18 × 1/3 = 6 days."
         },
         {
           "q": "The speed of a train is 54 km/h. It crosses a platform 150 m long in 20 seconds. Length of train is:",
@@ -188,8 +188,8 @@
             "120 m",
             "200 m"
           ],
-          "ans": 1,
-          "exp": "Speed = 54 km/h = 15 m/s. Distance in 20s = 300m. Train length = 300 - 150 = 150 m."
+          "answer": 1,
+          "explanation": "Speed = 54 km/h = 15 m/s. Distance in 20s = 300m. Train length = 300 - 150 = 150 m."
         }
       ]
     },
@@ -204,8 +204,8 @@
             "After careful thought",
             "With great difficulty"
           ],
-          "ans": 1,
-          "exp": "'At the drop of a hat' means immediately, without any delay or hesitation."
+          "answer": 1,
+          "explanation": "'At the drop of a hat' means immediately, without any delay or hesitation."
         },
         {
           "q": "Select the antonym of AFFLUENT:",
@@ -215,8 +215,8 @@
             "Destitute",
             "Prosperous"
           ],
-          "ans": 2,
-          "exp": "Affluent means having a great deal of money; antonym is destitute (extremely poor)."
+          "answer": 2,
+          "explanation": "Affluent means having a great deal of money; antonym is destitute (extremely poor)."
         },
         {
           "q": "Fill in the blank: Neither the manager nor the employees _____ present yesterday.",
@@ -226,8 +226,8 @@
             "is",
             "are"
           ],
-          "ans": 1,
-          "exp": "When 'neither...nor' is used, the verb agrees with the nearer subject (employees — plural), so 'were'."
+          "answer": 1,
+          "explanation": "When 'neither...nor' is used, the verb agrees with the nearer subject (employees — plural), so 'were'."
         },
         {
           "q": "Identify the sentence with no grammatical error:",
@@ -237,8 +237,8 @@
             "The news are very disturbing.",
             "He has been working here for five years."
           ],
-          "ans": 3,
-          "exp": "'He has been working here for five years' is grammatically correct (present perfect continuous with 'for')."
+          "answer": 3,
+          "explanation": "'He has been working here for five years' is grammatically correct (present perfect continuous with 'for')."
         },
         {
           "q": "Choose the correctly spelt word:",
@@ -248,8 +248,8 @@
             "Embarras",
             "Embaras"
           ],
-          "ans": 1,
-          "exp": "Correct spelling is Embarrass (double r, double s)."
+          "answer": 1,
+          "explanation": "Correct spelling is Embarrass (double r, double s)."
         }
       ]
     }

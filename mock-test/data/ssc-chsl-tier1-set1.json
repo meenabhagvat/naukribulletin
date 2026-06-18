@@ -18,8 +18,8 @@
             "11",
             "5"
           ],
-          "ans": 1,
-          "exp": "9 is not a prime number; all others (3,5,7,11) are prime."
+          "answer": 1,
+          "explanation": "9 is not a prime number; all others (3,5,7,11) are prime."
         },
         {
           "q": "If ROAD is coded as URDG, how is SWAN coded?",
@@ -29,8 +29,8 @@
             "VZCQ",
             "VXCQ"
           ],
-          "ans": 0,
-          "exp": "Each letter is shifted +3: S→V, W→X, A→D, N→Q = VXDQ."
+          "answer": 0,
+          "explanation": "Each letter is shifted +3: S→V, W→X, A→D, N→Q = VXDQ."
         },
         {
           "q": "In a row of 40 students, Riya is 15th from the left. What is her position from the right?",
@@ -40,8 +40,8 @@
             "27th",
             "24th"
           ],
-          "ans": 1,
-          "exp": "40 - 15 + 1 = 26th from the right."
+          "answer": 1,
+          "explanation": "40 - 15 + 1 = 26th from the right."
         },
         {
           "q": "Pointing to a man, a woman says 'His mother is the only daughter of my mother.' How is the woman related to the man?",
@@ -51,8 +51,8 @@
             "Aunt",
             "Sister"
           ],
-          "ans": 1,
-          "exp": "Only daughter of my mother = the woman herself. So the man's mother is the woman."
+          "answer": 1,
+          "explanation": "Only daughter of my mother = the woman herself. So the man's mother is the woman."
         },
         {
           "q": "Complete the series: 2, 6, 12, 20, 30, ?",
@@ -62,8 +62,8 @@
             "44",
             "46"
           ],
-          "ans": 1,
-          "exp": "Differences: 4,6,8,10,12. Next = 30+12 = 42."
+          "answer": 1,
+          "explanation": "Differences: 4,6,8,10,12. Next = 30+12 = 42."
         },
         {
           "q": "Which Venn diagram best represents: Doctors, Surgeons, Humans?",
@@ -73,8 +73,8 @@
             "Doctors inside Humans, Surgeons separate",
             "All three overlapping equally"
           ],
-          "ans": 1,
-          "exp": "All surgeons are doctors, all doctors are humans — concentric circles."
+          "answer": 1,
+          "explanation": "All surgeons are doctors, all doctors are humans — concentric circles."
         },
         {
           "q": "A is the brother of B. C is the mother of A. D is the father of C. How is D related to B?",
@@ -84,8 +84,8 @@
             "Father",
             "Grandmother"
           ],
-          "ans": 0,
-          "exp": "D is C's father; C is B's mother; so D is B's maternal grandfather."
+          "answer": 0,
+          "explanation": "D is C's father; C is B's mother; so D is B's maternal grandfather."
         }
       ]
     },
@@ -100,8 +100,8 @@
             "Acommodation",
             "Acomodation"
           ],
-          "ans": 1,
-          "exp": "Correct spelling is Accommodation (double c, double m)."
+          "answer": 1,
+          "explanation": "Correct spelling is Accommodation (double c, double m)."
         },
         {
           "q": "Select the synonym of BENEVOLENT:",
@@ -111,8 +111,8 @@
             "Hostile",
             "Indifferent"
           ],
-          "ans": 1,
-          "exp": "Benevolent means well-meaning and kindly; synonym is charitable."
+          "answer": 1,
+          "explanation": "Benevolent means well-meaning and kindly; synonym is charitable."
         },
         {
           "q": "The antonym of VERBOSE is:",
@@ -122,8 +122,8 @@
             "Concise",
             "Eloquent"
           ],
-          "ans": 2,
-          "exp": "Verbose means using more words than needed; antonym is concise."
+          "answer": 2,
+          "explanation": "Verbose means using more words than needed; antonym is concise."
         },
         {
           "q": "Fill in the blank: She _____ to the market every Sunday.",
@@ -133,8 +133,8 @@
             "going",
             "gone"
           ],
-          "ans": 1,
-          "exp": "Third person singular present tense takes 'goes'."
+          "answer": 1,
+          "explanation": "Third person singular present tense takes 'goes'."
         },
         {
           "q": "Identify the correctly punctuated sentence:",
@@ -144,8 +144,8 @@
             "Its' a beautiful day.",
             "It,s a beautiful day."
           ],
-          "ans": 1,
-          "exp": "It's = it is; requires apostrophe. Full stop at end."
+          "answer": 1,
+          "explanation": "It's = it is; requires apostrophe. Full stop at end."
         },
         {
           "q": "Choose the one-word substitution for: 'One who walks in sleep'",
@@ -155,8 +155,8 @@
             "Narcissist",
             "Hypocrite"
           ],
-          "ans": 1,
-          "exp": "Somnambulist means a sleepwalker."
+          "answer": 1,
+          "explanation": "Somnambulist means a sleepwalker."
         },
         {
           "q": "The passive voice of 'She writes a letter' is:",
@@ -166,8 +166,8 @@
             "A letter was written by her",
             "A letter has been written by her"
           ],
-          "ans": 1,
-          "exp": "Simple present active → 'is/are + past participle' in passive."
+          "answer": 1,
+          "explanation": "Simple present active → 'is/are + past participle' in passive."
         }
       ]
     },
@@ -182,8 +182,8 @@
             "20 m/s",
             "36 km/h"
           ],
-          "ans": 0,
-          "exp": "Speed = 150/15 = 10 m/s."
+          "answer": 0,
+          "explanation": "Speed = 150/15 = 10 m/s."
         },
         {
           "q": "If 8 men can complete a work in 20 days, in how many days can 16 men complete it?",
@@ -193,8 +193,8 @@
             "40 days",
             "8 days"
           ],
-          "ans": 1,
-          "exp": "Work = 8×20 = 160 man-days. 16 men → 160/16 = 10 days."
+          "answer": 1,
+          "explanation": "Work = 8×20 = 160 man-days. 16 men → 160/16 = 10 days."
         },
         {
           "q": "What is 15% of 480?",
@@ -204,8 +204,8 @@
             "72",
             "75"
           ],
-          "ans": 2,
-          "exp": "15% of 480 = 0.15 × 480 = 72."
+          "answer": 2,
+          "explanation": "15% of 480 = 0.15 × 480 = 72."
         },
         {
           "q": "The simple interest on ₹2000 at 5% per annum for 3 years is:",
@@ -215,8 +215,8 @@
             "₹250",
             "₹350"
           ],
-          "ans": 1,
-          "exp": "SI = P×R×T/100 = 2000×5×3/100 = ₹300."
+          "answer": 1,
+          "explanation": "SI = P×R×T/100 = 2000×5×3/100 = ₹300."
         },
         {
           "q": "The average of 5 numbers is 27. If one number is excluded, the average becomes 25. The excluded number is:",
@@ -226,8 +226,8 @@
             "32",
             "28"
           ],
-          "ans": 1,
-          "exp": "Sum = 5×27 = 135. New sum = 4×25 = 100. Excluded = 135-100 = 35."
+          "answer": 1,
+          "explanation": "Sum = 5×27 = 135. New sum = 4×25 = 100. Excluded = 135-100 = 35."
         },
         {
           "q": "Simplify: (√169 + √144) × 2",
@@ -237,8 +237,8 @@
             "52",
             "56"
           ],
-          "ans": 0,
-          "exp": "√169 = 13, √144 = 12. (13+12)×2 = 50."
+          "answer": 0,
+          "explanation": "√169 = 13, √144 = 12. (13+12)×2 = 50."
         }
       ]
     },
@@ -253,8 +253,8 @@
             "Subramania Bharati",
             "Maithili Sharan Gupt"
           ],
-          "ans": 1,
-          "exp": "Vande Mataram was written by Bankim Chandra Chatterjee and is from his novel Anandamath (1882)."
+          "answer": 1,
+          "explanation": "Vande Mataram was written by Bankim Chandra Chatterjee and is from his novel Anandamath (1882)."
         },
         {
           "q": "The Headquarters of ISRO is located in:",
@@ -264,8 +264,8 @@
             "Bengaluru",
             "Hyderabad"
           ],
-          "ans": 2,
-          "exp": "ISRO's headquarters is in Bengaluru (Bangalore), Karnataka."
+          "answer": 2,
+          "explanation": "ISRO's headquarters is in Bengaluru (Bangalore), Karnataka."
         },
         {
           "q": "Which is the largest planet in our Solar System?",
@@ -275,8 +275,8 @@
             "Uranus",
             "Jupiter"
           ],
-          "ans": 3,
-          "exp": "Jupiter is the largest planet in the Solar System."
+          "answer": 3,
+          "explanation": "Jupiter is the largest planet in the Solar System."
         },
         {
           "q": "The 'Battle of Plassey' was fought in:",
@@ -286,8 +286,8 @@
             "1776",
             "1799"
           ],
-          "ans": 0,
-          "exp": "The Battle of Plassey was fought on June 23, 1757 between the British East India Company and the Nawab of Bengal."
+          "answer": 0,
+          "explanation": "The Battle of Plassey was fought on June 23, 1757 between the British East India Company and the Nawab of Bengal."
         },
         {
           "q": "Which gas is known as 'laughing gas'?",
@@ -297,8 +297,8 @@
             "Nitrogen",
             "Oxygen"
           ],
-          "ans": 1,
-          "exp": "Nitrous oxide (N₂O) is commonly known as laughing gas."
+          "answer": 1,
+          "explanation": "Nitrous oxide (N₂O) is commonly known as laughing gas."
         }
       ]
     }

@@ -2,52 +2,90 @@
   "title": "SSC CGL Tier 1 — Mock Test 2",
   "exam": "SSC CGL",
   "totalTime": 1200,
-  "markingScheme": { "correct": 2, "wrong": -0.5 },
+  "markingScheme": {
+    "correct": 2,
+    "wrong": -0.5
+  },
   "sections": [
     {
       "name": "General Intelligence & Reasoning",
       "questions": [
         {
           "q": "In a certain code, GARDEN is written as HBSEFM. How is REPORT written in that code?",
-          "options": ["SFQPSU","RFQOSV","SFQPRT","REQOSU"],
-          "ans": 0,
-          "exp": "Each letter is shifted +1: R→S, E→F, P→Q, O→P, R→S, T→U. So REPORT → SFQPSU."
+          "options": [
+            "SFQPSU",
+            "RFQOSV",
+            "SFQPRT",
+            "REQOSU"
+          ],
+          "answer": 0,
+          "explanation": "Each letter is shifted +1: R→S, E→F, P→Q, O→P, R→S, T→U. So REPORT → SFQPSU."
         },
         {
           "q": "Which number replaces the question mark? 5, 10, 20, 40, ?",
-          "options": ["60","70","80","100"],
-          "ans": 2,
-          "exp": "The series doubles each time: 5×2=10, 10×2=20, 20×2=40, 40×2=80."
+          "options": [
+            "60",
+            "70",
+            "80",
+            "100"
+          ],
+          "answer": 2,
+          "explanation": "The series doubles each time: 5×2=10, 10×2=20, 20×2=40, 40×2=80."
         },
         {
           "q": "Pointing to a man, a woman says, 'His mother is the only daughter of my mother.' How is the woman related to the man?",
-          "options": ["Grandmother","Mother","Aunt","Sister"],
-          "ans": 1,
-          "exp": "The only daughter of the woman's mother is the woman herself. So the man's mother is the woman — she is his mother."
+          "options": [
+            "Grandmother",
+            "Mother",
+            "Aunt",
+            "Sister"
+          ],
+          "answer": 1,
+          "explanation": "The only daughter of the woman's mother is the woman herself. So the man's mother is the woman — she is his mother."
         },
         {
           "q": "Find the odd one out: 15, 21, 27, 32, 35",
-          "options": ["15","21","32","35"],
-          "ans": 2,
-          "exp": "All others are multiples of 7 (15,21,28,35) — wait: 15 is 3×5, 21=3×7, 27=3×9, 35=5×7. The odd series is multiples of 3 except 32 and 35. Actually: 15,21,27,35 are all odd; 32 is even. 32 is the odd one out."
+          "options": [
+            "15",
+            "21",
+            "32",
+            "35"
+          ],
+          "answer": 2,
+          "explanation": "All others are multiples of 7 (15,21,28,35) — wait: 15 is 3×5, 21=3×7, 27=3×9, 35=5×7. The odd series is multiples of 3 except 32 and 35. Actually: 15,21,27,35 are all odd; 32 is even. 32 is the odd one out."
         },
         {
           "q": "If '+' means '×', '×' means '÷', '÷' means '−', '−' means '+', then: 15 + 3 × 5 ÷ 2 − 1 = ?",
-          "options": ["6","8","7","10"],
-          "ans": 1,
-          "exp": "Replace: 15×3÷5−2+1 = 45÷5−2+1 = 9−2+1 = 8."
+          "options": [
+            "6",
+            "8",
+            "7",
+            "10"
+          ],
+          "answer": 1,
+          "explanation": "Replace: 15×3÷5−2+1 = 45÷5−2+1 = 9−2+1 = 8."
         },
         {
           "q": "A man walks 5 km north, turns right and walks 3 km, then turns right and walks 5 km. How far is he from the starting point?",
-          "options": ["2 km","3 km","5 km","8 km"],
-          "ans": 1,
-          "exp": "He is now facing south at the same north-south level (5 km north, 5 km south = 0 net NS). Net east = 3 km. So distance = 3 km."
+          "options": [
+            "2 km",
+            "3 km",
+            "5 km",
+            "8 km"
+          ],
+          "answer": 1,
+          "explanation": "He is now facing south at the same north-south level (5 km north, 5 km south = 0 net NS). Net east = 3 km. So distance = 3 km."
         },
         {
           "q": "Choose the figure that completes the series: △, ○, □, △, ○, ?",
-          "options": ["△","○","□","◇"],
-          "ans": 2,
-          "exp": "The pattern repeats as triangle, circle, square. After triangle and circle comes square (□)."
+          "options": [
+            "△",
+            "○",
+            "□",
+            "◇"
+          ],
+          "answer": 2,
+          "explanation": "The pattern repeats as triangle, circle, square. After triangle and circle comes square (□)."
         }
       ]
     },
@@ -56,45 +94,80 @@
       "questions": [
         {
           "q": "Who was the first woman to win the Nobel Prize in Physics?",
-          "options": ["Marie Curie","Lise Meitner","Dorothy Hodgkin","Barbara McClintock"],
-          "ans": 0,
-          "exp": "Marie Curie won the Nobel Prize in Physics in 1903 and later in Chemistry in 1911, making her the first woman Nobel Physics laureate."
+          "options": [
+            "Marie Curie",
+            "Lise Meitner",
+            "Dorothy Hodgkin",
+            "Barbara McClintock"
+          ],
+          "answer": 0,
+          "explanation": "Marie Curie won the Nobel Prize in Physics in 1903 and later in Chemistry in 1911, making her the first woman Nobel Physics laureate."
         },
         {
           "q": "The Preamble of the Indian Constitution was amended by which constitutional amendment?",
-          "options": ["42nd","44th","46th","52nd"],
-          "ans": 0,
-          "exp": "The 42nd Constitutional Amendment (1976) added the words 'Socialist', 'Secular', and 'Integrity' to the Preamble."
+          "options": [
+            "42nd",
+            "44th",
+            "46th",
+            "52nd"
+          ],
+          "answer": 0,
+          "explanation": "The 42nd Constitutional Amendment (1976) added the words 'Socialist', 'Secular', and 'Integrity' to the Preamble."
         },
         {
           "q": "Which gas is released during photosynthesis?",
-          "options": ["Carbon dioxide","Nitrogen","Oxygen","Hydrogen"],
-          "ans": 2,
-          "exp": "During photosynthesis, plants absorb CO₂ and release oxygen (O₂) as a by-product."
+          "options": [
+            "Carbon dioxide",
+            "Nitrogen",
+            "Oxygen",
+            "Hydrogen"
+          ],
+          "answer": 2,
+          "explanation": "During photosynthesis, plants absorb CO₂ and release oxygen (O₂) as a by-product."
         },
         {
           "q": "The Battle of Panipat (1526) was fought between Babur and whom?",
-          "options": ["Hemu","Ibrahim Lodi","Sher Shah Suri","Rana Sanga"],
-          "ans": 1,
-          "exp": "The First Battle of Panipat in 1526 was fought between Babur and Ibrahim Lodi, the last ruler of the Lodi dynasty."
+          "options": [
+            "Hemu",
+            "Ibrahim Lodi",
+            "Sher Shah Suri",
+            "Rana Sanga"
+          ],
+          "answer": 1,
+          "explanation": "The First Battle of Panipat in 1526 was fought between Babur and Ibrahim Lodi, the last ruler of the Lodi dynasty."
         },
         {
           "q": "Which planet is known as the 'Red Planet'?",
-          "options": ["Jupiter","Venus","Mars","Saturn"],
-          "ans": 2,
-          "exp": "Mars is called the Red Planet due to iron oxide (rust) on its surface, giving it a reddish appearance."
+          "options": [
+            "Jupiter",
+            "Venus",
+            "Mars",
+            "Saturn"
+          ],
+          "answer": 2,
+          "explanation": "Mars is called the Red Planet due to iron oxide (rust) on its surface, giving it a reddish appearance."
         },
         {
           "q": "'Vande Mataram' was composed by:",
-          "options": ["Rabindranath Tagore","Bankim Chandra Chattopadhyay","Subramania Bharati","Sarojini Naidu"],
-          "ans": 1,
-          "exp": "Vande Mataram was written by Bankim Chandra Chattopadhyay and first appeared in his novel Anandamath (1882)."
+          "options": [
+            "Rabindranath Tagore",
+            "Bankim Chandra Chattopadhyay",
+            "Subramania Bharati",
+            "Sarojini Naidu"
+          ],
+          "answer": 1,
+          "explanation": "Vande Mataram was written by Bankim Chandra Chattopadhyay and first appeared in his novel Anandamath (1882)."
         },
         {
           "q": "The Headquarter of the International Monetary Fund (IMF) is located in:",
-          "options": ["New York","Geneva","Washington D.C.","London"],
-          "ans": 2,
-          "exp": "The IMF is headquartered in Washington D.C., USA."
+          "options": [
+            "New York",
+            "Geneva",
+            "Washington D.C.",
+            "London"
+          ],
+          "answer": 2,
+          "explanation": "The IMF is headquartered in Washington D.C., USA."
         }
       ]
     },
@@ -103,39 +176,69 @@
       "questions": [
         {
           "q": "A shopkeeper marks his goods 25% above cost price and allows a discount of 10%. His profit percent is:",
-          "options": ["12%","12.5%","15%","10%"],
-          "ans": 1,
-          "exp": "If CP = 100, MP = 125. After 10% discount: SP = 125×0.9 = 112.5. Profit = 12.5%."
+          "options": [
+            "12%",
+            "12.5%",
+            "15%",
+            "10%"
+          ],
+          "answer": 1,
+          "explanation": "If CP = 100, MP = 125. After 10% discount: SP = 125×0.9 = 112.5. Profit = 12.5%."
         },
         {
           "q": "The LCM of 12, 15, and 20 is:",
-          "options": ["60","120","240","180"],
-          "ans": 0,
-          "exp": "12=2²×3, 15=3×5, 20=2²×5. LCM = 2²×3×5 = 60."
+          "options": [
+            "60",
+            "120",
+            "240",
+            "180"
+          ],
+          "answer": 0,
+          "explanation": "12=2²×3, 15=3×5, 20=2²×5. LCM = 2²×3×5 = 60."
         },
         {
           "q": "A train 150 m long passes a pole in 15 seconds. The speed of the train (in km/h) is:",
-          "options": ["36","54","72","45"],
-          "ans": 0,
-          "exp": "Speed = 150÷15 = 10 m/s = 10×18/5 = 36 km/h."
+          "options": [
+            "36",
+            "54",
+            "72",
+            "45"
+          ],
+          "answer": 0,
+          "explanation": "Speed = 150÷15 = 10 m/s = 10×18/5 = 36 km/h."
         },
         {
           "q": "The simple interest on ₹5000 at 8% per annum for 3 years is:",
-          "options": ["₹1000","₹1200","₹1500","₹1800"],
-          "ans": 1,
-          "exp": "SI = (5000×8×3)/100 = ₹1200."
+          "options": [
+            "₹1000",
+            "₹1200",
+            "₹1500",
+            "₹1800"
+          ],
+          "answer": 1,
+          "explanation": "SI = (5000×8×3)/100 = ₹1200."
         },
         {
           "q": "If the radius of a circle is increased by 20%, its area increases by:",
-          "options": ["20%","36%","40%","44%"],
-          "ans": 3,
-          "exp": "New radius = 1.2r. New area = π(1.2r)² = 1.44πr². Increase = 44%."
+          "options": [
+            "20%",
+            "36%",
+            "40%",
+            "44%"
+          ],
+          "answer": 3,
+          "explanation": "New radius = 1.2r. New area = π(1.2r)² = 1.44πr². Increase = 44%."
         },
         {
           "q": "A and B can do a work in 10 and 15 days respectively. In how many days can they finish it together?",
-          "options": ["5","6","7","8"],
-          "ans": 1,
-          "exp": "Combined rate = 1/10 + 1/15 = 3/30 + 2/30 = 5/30 = 1/6. They finish in 6 days."
+          "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "answer": 1,
+          "explanation": "Combined rate = 1/10 + 1/15 = 3/30 + 2/30 = 5/30 = 1/6. They finish in 6 days."
         }
       ]
     },
@@ -144,33 +247,58 @@
       "questions": [
         {
           "q": "Choose the correctly spelt word:",
-          "options": ["Accomodate","Accommodate","Acommodate","Accommoddate"],
-          "ans": 1,
-          "exp": "The correct spelling is 'Accommodate' — double 'c' and double 'm'."
+          "options": [
+            "Accomodate",
+            "Accommodate",
+            "Acommodate",
+            "Accommoddate"
+          ],
+          "answer": 1,
+          "explanation": "The correct spelling is 'Accommodate' — double 'c' and double 'm'."
         },
         {
           "q": "Select the most appropriate synonym of 'Eloquent':",
-          "options": ["Silent","Articulate","Confused","Awkward"],
-          "ans": 1,
-          "exp": "Eloquent means fluent and persuasive in speaking or writing. Articulate is the closest synonym."
+          "options": [
+            "Silent",
+            "Articulate",
+            "Confused",
+            "Awkward"
+          ],
+          "answer": 1,
+          "explanation": "Eloquent means fluent and persuasive in speaking or writing. Articulate is the closest synonym."
         },
         {
           "q": "Fill in the blank: 'She was ___ to learn that she had won.'",
-          "options": ["delight","delighted","delighting","delightful"],
-          "ans": 1,
-          "exp": "After 'was', we need an adjective. 'Delighted' is the past participle used as an adjective here."
+          "options": [
+            "delight",
+            "delighted",
+            "delighting",
+            "delightful"
+          ],
+          "answer": 1,
+          "explanation": "After 'was', we need an adjective. 'Delighted' is the past participle used as an adjective here."
         },
         {
           "q": "Identify the error: 'Neither of the students (a) have (b) submitted (c) their assignment. (d) No error'",
-          "options": ["(a)","(b)","(c)","(d)"],
-          "ans": 1,
-          "exp": "With 'neither', the verb should be singular: 'has submitted', not 'have submitted'."
+          "options": [
+            "(a)",
+            "(b)",
+            "(c)",
+            "(d)"
+          ],
+          "answer": 1,
+          "explanation": "With 'neither', the verb should be singular: 'has submitted', not 'have submitted'."
         },
         {
           "q": "The antonym of 'Frugal' is:",
-          "options": ["Economical","Thrifty","Extravagant","Careful"],
-          "ans": 2,
-          "exp": "Frugal means careful about spending. Its antonym is 'Extravagant', meaning wasteful or excessive."
+          "options": [
+            "Economical",
+            "Thrifty",
+            "Extravagant",
+            "Careful"
+          ],
+          "answer": 2,
+          "explanation": "Frugal means careful about spending. Its antonym is 'Extravagant', meaning wasteful or excessive."
         }
       ]
     }
