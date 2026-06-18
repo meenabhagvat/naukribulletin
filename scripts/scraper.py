@@ -1331,7 +1331,7 @@ def generate_job_html(job):
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
 <script>
-(function() {
+(function() {{
   var btn = document.getElementById('navHamburger');
   var links = document.querySelector('.nav-links');
   if (!btn || !links) return;
@@ -1340,26 +1340,26 @@ def generate_job_html(job):
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
-  function closeMenu() {
+  function closeMenu() {{
     btn.classList.remove('active');
     links.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-  }
-  function openMenu() {
+  }}
+  function openMenu() {{
     btn.classList.add('active');
     links.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-  }
-  btn.addEventListener('click', function() {
+  }}
+  btn.addEventListener('click', function() {{
     links.classList.contains('active') ? closeMenu() : openMenu();
-  });
+  }});
   overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
+  links.querySelectorAll('a').forEach(function(a) {{
     a.addEventListener('click', closeMenu);
-  });
-})();
+  }});
+}})();
 </script>
 </body>
 </html>"""
@@ -1418,7 +1418,7 @@ def generate_affairs_html(affair):
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
 <script>
-(function() {
+(function() {{
   var btn = document.getElementById('navHamburger');
   var links = document.querySelector('.nav-links');
   if (!btn || !links) return;
@@ -1427,26 +1427,26 @@ def generate_affairs_html(affair):
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
-  function closeMenu() {
+  function closeMenu() {{
     btn.classList.remove('active');
     links.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-  }
-  function openMenu() {
+  }}
+  function openMenu() {{
     btn.classList.add('active');
     links.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-  }
-  btn.addEventListener('click', function() {
+  }}
+  btn.addEventListener('click', function() {{
     links.classList.contains('active') ? closeMenu() : openMenu();
-  });
+  }});
   overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
+  links.querySelectorAll('a').forEach(function(a) {{
     a.addEventListener('click', closeMenu);
-  });
-})();
+  }});
+}})();
 </script>
 </body>
 </html>"""
@@ -1913,7 +1913,6 @@ def rebuild_syllabus():
   <nav class="nav-bar">
     <div class="nav-inner">
       <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/jobs/">Jobs</a></li>
@@ -1983,7 +1982,7 @@ def rebuild_syllabus():
     }}
   </script>
 <script>
-(function() {
+(function() {{
   var btn = document.getElementById('navHamburger');
   var links = document.querySelector('.nav-links');
   if (!btn || !links) return;
@@ -1992,26 +1991,26 @@ def rebuild_syllabus():
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
-  function closeMenu() {
+  function closeMenu() {{
     btn.classList.remove('active');
     links.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-  }
-  function openMenu() {
+  }}
+  function openMenu() {{
     btn.classList.add('active');
     links.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-  }
-  btn.addEventListener('click', function() {
+  }}
+  btn.addEventListener('click', function() {{
     links.classList.contains('active') ? closeMenu() : openMenu();
-  });
+  }});
   overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
+  links.querySelectorAll('a').forEach(function(a) {{
     a.addEventListener('click', closeMenu);
-  });
-})();
+  }});
+}})();
 </script>
 </body>
 </html>"""
@@ -2291,7 +2290,6 @@ def rebuild_jobs_listing():
   <nav class="nav-bar">
     <div class="nav-inner">
       <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/jobs/">Jobs</a></li>
@@ -2448,7 +2446,7 @@ def rebuild_jobs_listing():
     }}
   </script>
 <script>
-(function() {
+(function() {{
   var btn = document.getElementById('navHamburger');
   var links = document.querySelector('.nav-links');
   if (!btn || !links) return;
@@ -2457,26 +2455,26 @@ def rebuild_jobs_listing():
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
-  function closeMenu() {
+  function closeMenu() {{
     btn.classList.remove('active');
     links.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-  }
-  function openMenu() {
+  }}
+  function openMenu() {{
     btn.classList.add('active');
     links.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-  }
-  btn.addEventListener('click', function() {
+  }}
+  btn.addEventListener('click', function() {{
     links.classList.contains('active') ? closeMenu() : openMenu();
-  });
+  }});
   overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
+  links.querySelectorAll('a').forEach(function(a) {{
     a.addEventListener('click', closeMenu);
-  });
-})();
+  }});
+}})();
 </script>
 </body>
 </html>"""
@@ -2584,7 +2582,6 @@ def rebuild_affairs_listing():
   <nav class="nav-bar">
     <div class="nav-inner">
       <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/jobs/">Jobs</a></li>
@@ -2630,7 +2627,7 @@ def rebuild_affairs_listing():
     </div>
   </footer>
 <script>
-(function() {
+(function() {{
   var btn = document.getElementById('navHamburger');
   var links = document.querySelector('.nav-links');
   if (!btn || !links) return;
@@ -2639,26 +2636,26 @@ def rebuild_affairs_listing():
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
-  function closeMenu() {
+  function closeMenu() {{
     btn.classList.remove('active');
     links.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-  }
-  function openMenu() {
+  }}
+  function openMenu() {{
     btn.classList.add('active');
     links.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-  }
-  btn.addEventListener('click', function() {
+  }}
+  btn.addEventListener('click', function() {{
     links.classList.contains('active') ? closeMenu() : openMenu();
-  });
+  }});
   overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
+  links.querySelectorAll('a').forEach(function(a) {{
     a.addEventListener('click', closeMenu);
-  });
-})();
+  }});
+}})();
 </script>
 </body>
 </html>"""

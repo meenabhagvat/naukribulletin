@@ -18,7 +18,6 @@ rsync -a --delete \
   --exclude='*.toml' \
   --exclude='.gitignore' \
   --exclude='.DS_Store' \
-  --exclude='index.html' \
   . dist/
 
 cp _redirects dist/_redirects 2>/dev/null || true
