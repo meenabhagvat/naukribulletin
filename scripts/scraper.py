@@ -1330,6 +1330,37 @@ def generate_job_html(job):
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
+<script>
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  function closeMenu() {
+    btn.classList.remove('active');
+    links.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    btn.classList.add('active');
+    links.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  btn.addEventListener('click', function() {
+    links.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>"""
     return slug, html
@@ -1386,6 +1417,37 @@ def generate_affairs_html(affair):
   </main>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
+<script>
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  function closeMenu() {
+    btn.classList.remove('active');
+    links.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    btn.classList.add('active');
+    links.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  btn.addEventListener('click', function() {
+    links.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>"""
     return slug, html
@@ -1861,6 +1923,7 @@ def rebuild_syllabus():
         <li><a href="/syllabus/">Syllabus</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
       </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -1919,6 +1982,37 @@ def rebuild_syllabus():
       }});
     }}
   </script>
+<script>
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  function closeMenu() {
+    btn.classList.remove('active');
+    links.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    btn.classList.add('active');
+    links.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  btn.addEventListener('click', function() {
+    links.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>"""
 
@@ -2207,6 +2301,7 @@ def rebuild_jobs_listing():
         <li><a href="/syllabus/">Syllabus</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
       </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -2352,6 +2447,37 @@ def rebuild_jobs_listing():
       }}
     }}
   </script>
+<script>
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  function closeMenu() {
+    btn.classList.remove('active');
+    links.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    btn.classList.add('active');
+    links.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  btn.addEventListener('click', function() {
+    links.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>"""
 
@@ -2468,6 +2594,7 @@ def rebuild_affairs_listing():
         <li><a href="/syllabus/">Syllabus</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
       </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
   <div style="background:var(--navy);padding:40px 20px;">
@@ -2502,6 +2629,37 @@ def rebuild_affairs_listing():
       </div>
     </div>
   </footer>
+<script>
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  function closeMenu() {
+    btn.classList.remove('active');
+    links.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    btn.classList.add('active');
+    links.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  btn.addEventListener('click', function() {
+    links.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>"""
 

@@ -42,6 +42,7 @@
         <li><a href="/admit-card/" class="active">Admit Card</a></li>
         <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
       </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -221,5 +222,36 @@
     </div>
   </footer>
 
+<script>
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  function closeMenu() {
+    btn.classList.remove('active');
+    links.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    btn.classList.add('active');
+    links.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  btn.addEventListener('click', function() {
+    links.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>
