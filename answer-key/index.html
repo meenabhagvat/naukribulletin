@@ -33,22 +33,26 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/answer-key/">Answer Key</a></li>
-        <li><a href="/age-calculator/">Age Calculator</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
-  <div style="background:#0A0F2C;padding:40px 20px;">
+  <div style="background:#13131e;padding:40px 20px;">
     <div style="max-width:1200px;margin:0 auto;">
       <div style="font-size:0.78rem;color:#9BA3B8;margin-bottom:8px;">
         <a href="/" style="color:#9BA3B8;text-decoration:none;">Home</a> › Answer Key
@@ -60,7 +64,7 @@
     </div>
   </div>
 
-  <div style="background:#FFF3E8;border-bottom:1px solid #FFE0B2;padding:10px 20px;">
+  <div style="background:var(--saffron-pale);border-bottom:1px solid #FFE0B2;padding:10px 20px;">
     <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
       <span style="font-size:0.82rem;color:#E65100;font-weight:600;">🔔 Get answer key alerts on exam day</span>
       <a href="https://t.me/naukribulletin24" style="background:#FF6B00;color:#fff;padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:700;text-decoration:none;">Join Telegram →</a>
@@ -71,118 +75,118 @@
 
     <section>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-        <button onclick="filter('all',this)" style="background:#0A0F2C;color:#fff;border:none;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;" class="filt-btn active">All</button>
-        <button onclick="filter('ssc',this)" style="background:#F7F8FA;color:#4A5270;border:1px solid #ECEEF2;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">SSC</button>
-        <button onclick="filter('railway',this)" style="background:#F7F8FA;color:#4A5270;border:1px solid #ECEEF2;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">Railway</button>
-        <button onclick="filter('banking',this)" style="background:#F7F8FA;color:#4A5270;border:1px solid #ECEEF2;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">Banking</button>
-        <button onclick="filter('upsc',this)" style="background:#F7F8FA;color:#4A5270;border:1px solid #ECEEF2;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">UPSC</button>
-        <button onclick="filter('defence',this)" style="background:#F7F8FA;color:#4A5270;border:1px solid #ECEEF2;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">Defence</button>
+        <button onclick="filter('all',this)" style="background:#13131e;color:#fff;border:none;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;" class="filt-btn active">All</button>
+        <button onclick="filter('ssc',this)" style="background:var(--navy-soft);color:var(--grey-700);border:1px solid var(--grey-200);padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">SSC</button>
+        <button onclick="filter('railway',this)" style="background:var(--navy-soft);color:var(--grey-700);border:1px solid var(--grey-200);padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">Railway</button>
+        <button onclick="filter('banking',this)" style="background:var(--navy-soft);color:var(--grey-700);border:1px solid var(--grey-200);padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">Banking</button>
+        <button onclick="filter('upsc',this)" style="background:var(--navy-soft);color:var(--grey-700);border:1px solid var(--grey-200);padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">UPSC</button>
+        <button onclick="filter('defence',this)" style="background:var(--navy-soft);color:var(--grey-700);border:1px solid var(--grey-200);padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;" class="filt-btn">Defence</button>
       </div>
 
       <div id="ak-list" style="display:flex;flex-direction:column;gap:10px;">
         <!-- Answer key cards injected here by scraper -->
-        <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:20px;" data-cat="ssc">
+        <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;" data-cat="ssc">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
             <div>
               <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:4px;">SSC · ANSWER KEY</div>
-              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">SSC CGL 2026 Answer Key — Tier 1</div>
-              <div style="font-size:0.82rem;color:#4A5270;margin-top:6px;">Staff Selection Commission · Released: June 2026</div>
+              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);">SSC CGL 2026 Answer Key — Tier 1</div>
+              <div style="font-size:0.82rem;color:var(--grey-700);margin-top:6px;">Staff Selection Commission · Released: June 2026</div>
             </div>
             <span style="background:#E8F5E9;color:#2E7D32;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;white-space:nowrap;">✓ Available</span>
           </div>
           <div style="display:flex;gap:10px;margin-top:14px;">
             <a href="https://ssc.gov.in/" target="_blank" rel="nofollow noopener" style="background:#FF6B00;color:#fff;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:700;text-decoration:none;">Download PDF →</a>
-            <a href="/jobs/ssc/" style="background:#F7F8FA;color:#4A5270;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid #ECEEF2;">SSC Jobs →</a>
+            <a href="/jobs/ssc/" style="background:var(--navy-soft);color:var(--grey-700);padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid var(--grey-200);">SSC Jobs →</a>
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:20px;" data-cat="railway">
+        <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;" data-cat="railway">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
             <div>
               <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:4px;">RAILWAY · ANSWER KEY</div>
-              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">RRB NTPC 2026 Answer Key</div>
-              <div style="font-size:0.82rem;color:#4A5270;margin-top:6px;">Railway Recruitment Board · Updated regularly</div>
+              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);">RRB NTPC 2026 Answer Key</div>
+              <div style="font-size:0.82rem;color:var(--grey-700);margin-top:6px;">Railway Recruitment Board · Updated regularly</div>
             </div>
             <span style="background:#FFF3E0;color:#E65100;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;white-space:nowrap;">⏳ Awaited</span>
           </div>
           <div style="display:flex;gap:10px;margin-top:14px;">
             <a href="https://www.rrbapply.gov.in/" target="_blank" rel="nofollow noopener" style="background:#FF6B00;color:#fff;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:700;text-decoration:none;">Official Site →</a>
-            <a href="/jobs/railway/" style="background:#F7F8FA;color:#4A5270;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid #ECEEF2;">Railway Jobs →</a>
+            <a href="/jobs/railway/" style="background:var(--navy-soft);color:var(--grey-700);padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid var(--grey-200);">Railway Jobs →</a>
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:20px;" data-cat="banking">
+        <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;" data-cat="banking">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
             <div>
               <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:4px;">BANKING · ANSWER KEY</div>
-              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">IBPS PO 2026 Answer Key — Prelims</div>
-              <div style="font-size:0.82rem;color:#4A5270;margin-top:6px;">Institute of Banking Personnel Selection</div>
+              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);">IBPS PO 2026 Answer Key — Prelims</div>
+              <div style="font-size:0.82rem;color:var(--grey-700);margin-top:6px;">Institute of Banking Personnel Selection</div>
             </div>
             <span style="background:#FFF3E0;color:#E65100;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;white-space:nowrap;">⏳ Awaited</span>
           </div>
           <div style="display:flex;gap:10px;margin-top:14px;">
             <a href="https://www.ibps.in/" target="_blank" rel="nofollow noopener" style="background:#FF6B00;color:#fff;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:700;text-decoration:none;">Official Site →</a>
-            <a href="/jobs/banking/" style="background:#F7F8FA;color:#4A5270;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid #ECEEF2;">Bank Jobs →</a>
+            <a href="/jobs/banking/" style="background:var(--navy-soft);color:var(--grey-700);padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid var(--grey-200);">Bank Jobs →</a>
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:20px;" data-cat="upsc">
+        <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;" data-cat="upsc">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
             <div>
               <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:4px;">UPSC · ANSWER KEY</div>
-              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">UPSC Civil Services 2026 Prelims Answer Key</div>
-              <div style="font-size:0.82rem;color:#4A5270;margin-top:6px;">Union Public Service Commission</div>
+              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);">UPSC Civil Services 2026 Prelims Answer Key</div>
+              <div style="font-size:0.82rem;color:var(--grey-700);margin-top:6px;">Union Public Service Commission</div>
             </div>
             <span style="background:#FFF3E0;color:#E65100;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;white-space:nowrap;">⏳ Awaited</span>
           </div>
           <div style="display:flex;gap:10px;margin-top:14px;">
             <a href="https://upsc.gov.in/" target="_blank" rel="nofollow noopener" style="background:#FF6B00;color:#fff;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:700;text-decoration:none;">Official Site →</a>
-            <a href="/jobs/upsc/" style="background:#F7F8FA;color:#4A5270;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid #ECEEF2;">UPSC Jobs →</a>
+            <a href="/jobs/upsc/" style="background:var(--navy-soft);color:var(--grey-700);padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid var(--grey-200);">UPSC Jobs →</a>
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:20px;" data-cat="defence">
+        <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;" data-cat="defence">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
             <div>
               <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:4px;">DEFENCE · ANSWER KEY</div>
-              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">NDA 2026 Answer Key — Written Exam</div>
-              <div style="font-size:0.82rem;color:#4A5270;margin-top:6px;">UPSC · National Defence Academy</div>
+              <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);">NDA 2026 Answer Key — Written Exam</div>
+              <div style="font-size:0.82rem;color:var(--grey-700);margin-top:6px;">UPSC · National Defence Academy</div>
             </div>
             <span style="background:#FFF3E0;color:#E65100;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;white-space:nowrap;">⏳ Awaited</span>
           </div>
           <div style="display:flex;gap:10px;margin-top:14px;">
             <a href="https://upsc.gov.in/" target="_blank" rel="nofollow noopener" style="background:#FF6B00;color:#fff;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:700;text-decoration:none;">Official Site →</a>
-            <a href="/jobs/defence/" style="background:#F7F8FA;color:#4A5270;padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid #ECEEF2;">Defence Jobs →</a>
+            <a href="/jobs/defence/" style="background:var(--navy-soft);color:var(--grey-700);padding:7px 18px;border-radius:7px;font-size:0.8rem;font-weight:600;text-decoration:none;border:1px solid var(--grey-200);">Defence Jobs →</a>
           </div>
         </div>
       </div>
     </section>
 
     <aside style="position:sticky;top:20px;display:flex;flex-direction:column;gap:16px;">
-      <div style="background:#0A0F2C;border-radius:14px;padding:20px;text-align:center;">
+      <div style="background:#13131e;border-radius:14px;padding:20px;text-align:center;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:6px;">📢 Exam Day Alerts</h3>
         <p style="color:#9BA3B8;font-size:0.8rem;margin-bottom:14px;">We post answer keys same day as exam on Telegram</p>
         <a href="https://t.me/naukribulletin24" style="display:block;background:#FF6B00;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">Join Free →</a>
       </div>
 
-      <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:20px;">
+      <div style="background:var(--card-bg);border-radius:14px;border:1.5px solid var(--grey-200);padding:20px;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:12px;">🛠️ Useful Tools</h3>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <a href="/age-calculator/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1A1F35;font-size:0.85rem;padding:8px;background:#F7F8FA;border-radius:8px;">
+          <a href="/age-calculator/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--white);font-size:0.85rem;padding:8px;background:var(--navy-soft);border-radius:8px;">
             🎂 Age & Eligibility Calculator
           </a>
-          <a href="/results/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1A1F35;font-size:0.85rem;padding:8px;background:#F7F8FA;border-radius:8px;">
+          <a href="/results/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--white);font-size:0.85rem;padding:8px;background:var(--navy-soft);border-radius:8px;">
             📊 Check Results
           </a>
-          <a href="/admit-card/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1A1F35;font-size:0.85rem;padding:8px;background:#F7F8FA;border-radius:8px;">
+          <a href="/admit-card/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--white);font-size:0.85rem;padding:8px;background:var(--navy-soft);border-radius:8px;">
             🪪 Download Admit Card
           </a>
         </div>
       </div>
 
-      <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:16px;text-align:center;">
+      <div style="background:var(--card-bg);border-radius:14px;border:1.5px solid var(--grey-200);padding:16px;text-align:center;">
         <p style="font-size:0.75rem;color:#9BA3B8;margin-bottom:6px;">Advertisement</p>
-        <div style="height:250px;background:#F7F8FA;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9BA3B8;font-size:0.8rem;">Ad</div>
+        <div style="height:250px;background:var(--navy-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9BA3B8;font-size:0.8rem;">Ad</div>
       </div>
     </aside>
   </div>
@@ -198,7 +202,7 @@
   <script>
   function filter(cat, btn) {
     document.querySelectorAll('.filt-btn').forEach(b => {
-      b.style.background = '#F7F8FA'; b.style.color = '#4A5270'; b.style.border = '1px solid #ECEEF2';
+      b.style.background = '#1A1A26'; b.style.color = '#B8BACD'; b.style.border = '1px solid var(--grey-200)';
     });
     btn.style.background = '#0A0F2C'; btn.style.color = '#fff'; btn.style.border = 'none';
     document.querySelectorAll('#ak-list > div').forEach(card => {
@@ -206,34 +210,67 @@
     });
   }
   </script>
+
 <script>
+// Mobile nav toggle
 (function() {
-  var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
-  if (!btn || !links) return;
-
-  var overlay = document.createElement('div');
-  overlay.className = 'nav-overlay';
-  document.body.appendChild(overlay);
-
-  function closeMenu() {
-    btn.classList.remove('active');
-    links.classList.remove('active');
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-  function openMenu() {
-    btn.classList.add('active');
-    links.classList.add('active');
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  btn.addEventListener('click', function() {
-    links.classList.contains('active') ? closeMenu() : openMenu();
-  });
-  overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', closeMenu);
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
   });
 })();
 </script>

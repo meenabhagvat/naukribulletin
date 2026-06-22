@@ -30,12 +30,24 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;font-size:0.85rem;">← All Jobs</a>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/" class="active">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <!-- Ad Banner -->
   <div style="max-width:900px;margin:20px auto;padding:0 20px;">
@@ -51,7 +63,7 @@
     </div>
 
     <article class="job-detail">
-      <div class="job-header" style="background:#0A0F2C;border-radius:16px;padding:32px;margin-bottom:24px;">
+      <div class="job-header" style="background:#13131e;border-radius:16px;padding:32px;margin-bottom:24px;">
         <div style="color:#FF6B00;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;margin-bottom:8px;">PUBLIC SECTOR UNDERTAKINGS (PSUS)</div>
         <h1 style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:16px;">PSU Jobs 2026</h1>
         <p style="color:#9BA3B8;font-size:0.95rem;">Public Sector Undertakings are offering various job vacancies for graduates, engineers, and diploma holders. There are nearly 300 Central Public Sector Enterprises across India with multiple job openings.</p>
@@ -62,35 +74,35 @@
       </div>
 
       <!-- Job Details Table -->
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;overflow:hidden;margin-bottom:24px;">
+      <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);overflow:hidden;margin-bottom:24px;">
         <table style="width:100%;border-collapse:collapse;">
           <tbody>
-            <tr style="border-bottom:1px solid #ECEEF2;">
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;width:40%;background:#F7F8FA;">Department</td>
+            <tr style="border-bottom:1px solid var(--grey-200);">
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;width:40%;background:var(--navy-soft);">Department</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:500;">Public Sector Undertakings (PSUs)</td>
             </tr>
-            <tr style="border-bottom:1px solid #ECEEF2;">
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;background:#F7F8FA;">Total Vacancies</td>
+            <tr style="border-bottom:1px solid var(--grey-200);">
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;background:var(--navy-soft);">Total Vacancies</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:500;">5000+</td>
             </tr>
-            <tr style="border-bottom:1px solid #ECEEF2;">
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;background:#F7F8FA;">Qualification</td>
+            <tr style="border-bottom:1px solid var(--grey-200);">
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;background:var(--navy-soft);">Qualification</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:500;">Graduate, Diploma, ITI, 10+2</td>
             </tr>
-            <tr style="border-bottom:1px solid #ECEEF2;">
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;background:#F7F8FA;">Age Limit</td>
+            <tr style="border-bottom:1px solid var(--grey-200);">
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;background:var(--navy-soft);">Age Limit</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:500;">N/A</td>
             </tr>
-            <tr style="border-bottom:1px solid #ECEEF2;">
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;background:#F7F8FA;">Salary / Pay Scale</td>
+            <tr style="border-bottom:1px solid var(--grey-200);">
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;background:var(--navy-soft);">Salary / Pay Scale</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:500;">N/A</td>
             </tr>
-            <tr style="border-bottom:1px solid #ECEEF2;">
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;background:#F7F8FA;">Location</td>
+            <tr style="border-bottom:1px solid var(--grey-200);">
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;background:var(--navy-soft);">Location</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:500;">All India</td>
             </tr>
             <tr>
-              <td style="padding:14px 20px;color:#4A5270;font-size:0.85rem;font-weight:600;background:#F7F8FA;">Last Date</td>
+              <td style="padding:14px 20px;color:var(--grey-700);font-size:0.85rem;font-weight:600;background:var(--navy-soft);">Last Date</td>
               <td style="padding:14px 20px;font-size:0.9rem;font-weight:600;color:#E65100;">N/A</td>
             </tr>
           </tbody>
@@ -110,8 +122,8 @@
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
 
       <!-- Disclaimer -->
-      <div style="background:#FFF3E8;border-left:4px solid #FF6B00;border-radius:0 8px 8px 0;padding:14px 18px;margin-top:24px;">
-        <p style="font-size:0.8rem;color:#4A5270;">⚠️ <strong>Disclaimer:</strong> Always verify details from the official website before applying. NaukriBulletin is not responsible for any errors in the notification details.</p>
+      <div style="background:var(--saffron-pale);border-left:4px solid #FF6B00;border-radius:0 8px 8px 0;padding:14px 18px;margin-top:24px;">
+        <p style="font-size:0.8rem;color:var(--grey-700);">⚠️ <strong>Disclaimer:</strong> Always verify details from the official website before applying. NaukriBulletin is not responsible for any errors in the notification details.</p>
       </div>
 
       <p style="font-size:0.75rem;color:#9BA3B8;margin-top:12px;">Last updated: 02 June 2026</p>
@@ -120,5 +132,37 @@
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

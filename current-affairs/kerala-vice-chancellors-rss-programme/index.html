@@ -11,12 +11,25 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body style="font-family:'DM Sans',sans-serif;background:#F7F8FA;margin:0;">
-  <nav style="background:#0A0F2C;border-bottom:3px solid #FF6B00;padding:0 20px;">
-    <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;height:60px;">
-      <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;text-decoration:none;">NaukriBulletin</a>
-    </div>
-  </nav>
+<body style="font-family:'DM Sans',sans-serif;background:var(--navy-soft);margin:0;">
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/" class="active">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <main style="max-width:900px;margin:0 auto;padding:32px 20px;">
     <div style="font-size:0.8rem;color:#9BA3B8;margin-bottom:16px;">
@@ -25,16 +38,16 @@
       <span>Government Schemes</span>
     </div>
     <article>
-      <div style="background:#0A0F2C;border-radius:16px;padding:32px;margin-bottom:24px;">
+      <div style="background:#13131e;border-radius:16px;padding:32px;margin-bottom:24px;">
         <div style="color:#FF6B00;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;margin-bottom:8px;">GOVERNMENT SCHEMES • 15 June 2026</div>
         <h1 style="font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px;">Kerala Vice-Chancellors Face Criticism for Attending RSS Chief's Programme</h1>
         <div style="color:#9BA3B8;font-size:0.75rem;">Exam Relevance: <strong style="color:#FF8C33;">UPSC</strong></div>
       </div>
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:24px;margin-bottom:20px;">
+      <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:24px;margin-bottom:20px;">
         <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:12px;">Summary</h2>
-        <p style="color:#1A1F35;font-size:0.95rem;line-height:1.7;">The attendance of Kerala Vice-Chancellors at an RSS chief's programme has sparked criticism, with concerns raised about upholding constitutional values such as secularism and pluralism. This incident is relevant for competitive exams as it highlights the importance of understanding the role of educational institutions in promoting democratic principles. It also underscores the need for awareness about majoritarian ideologies and their potential impact on society.</p>
+        <p style="color:var(--white);font-size:0.95rem;line-height:1.7;">The attendance of Kerala Vice-Chancellors at an RSS chief's programme has sparked criticism, with concerns raised about upholding constitutional values such as secularism and pluralism. This incident is relevant for competitive exams as it highlights the importance of understanding the role of educational institutions in promoting democratic principles. It also underscores the need for awareness about majoritarian ideologies and their potential impact on society.</p>
       </div>
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:24px;margin-bottom:20px;">
+      <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:24px;margin-bottom:20px;">
         <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:16px;">📌 Key Facts for Exam</h2>
         <ul style="list-style:none;padding:0;"><li style='margin-bottom:8px;font-size:0.9rem;'>Kerala Vice-Chancellors attended RSS chief's programme</li><li style='margin-bottom:8px;font-size:0.9rem;'>Criticism raised about upholding constitutional values</li><li style='margin-bottom:8px;font-size:0.9rem;'>Concerns about majoritarian ideologies</li></ul>
       </div>
@@ -43,5 +56,37 @@
   </main>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

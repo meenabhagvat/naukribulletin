@@ -20,21 +20,24 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/admit-card/">Admit Card</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/previous-year-papers/">PYQ Papers</a></li>
-        <li><a href="/mock-test/" class="active">Mock Test</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/" class="active">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy);padding:32px 20px 24px;">
     <div style="max-width:900px;margin:0 auto;">
@@ -51,8 +54,8 @@
 
   <div style="max-width:900px;margin:0 auto;padding:24px 20px;">
 
-    <div id="qe-instructions" style="background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:20px;">
-      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--navy);margin-bottom:10px;">📌 Instructions</div>
+    <div id="qe-instructions" style="background:var(--card-bg);border:1.5px solid var(--grey-200);border-radius:12px;padding:20px;margin-bottom:20px;">
+      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--white);margin-bottom:10px;">📌 Instructions</div>
       <ul style="font-size:0.88rem;color:var(--grey-700);padding-left:20px;line-height:1.8;">
         <li>This test has 21 questions to be completed in 60 minutes.</li>
         <li>Each correct answer gets +1 mark; each wrong answer gets −0.25 (negative marking).</li>
@@ -63,16 +66,16 @@
       <button id="qe-start-btn" class="qe-btn qe-btn-submit" style="margin-top:16px;max-width:200px;">▶ Start Test</button>
     </div>
 
-    <div id="quiz-root" style="background:#fff;border-radius:12px;overflow:hidden;border:1.5px solid #e5e7eb;display:none;"></div>
+    <div id="quiz-root" style="background:var(--card-bg);border-radius:12px;overflow:hidden;border:1.5px solid var(--grey-200);display:none;"></div>
 
-    <div style="margin-top:28px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;">
-      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--navy);margin-bottom:12px;">More SBI Clerk Prelims Mock Tests</div>
+    <div style="margin-top:28px;background:var(--card-bg);border:1.5px solid var(--grey-200);border-radius:12px;padding:20px;">
+      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--white);margin-bottom:12px;">More SBI Clerk Prelims Mock Tests</div>
       <div style="display:flex;flex-direction:column;gap:8px;">
-        <a href="/mock-test/" style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--grey-100);border-radius:8px;text-decoration:none;color:inherit;font-size:0.88rem;"><span>← Back to all Mock Tests</span></a>
+        <a href="/mock-test/" style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--navy-soft);border-radius:8px;text-decoration:none;color:inherit;font-size:0.88rem;"><span>← Back to all Mock Tests</span></a>
       </div>
     </div>
 
-    <div style="background:linear-gradient(135deg,#0A0F2C,#1d4ed8);border-radius:16px;padding:28px;text-align:center;margin-top:24px;">
+    <div style="background:transparent;border-radius:16px;padding:28px;text-align:center;margin-top:24px;">
       <div style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:8px;">📲 Get Daily Practice Questions</div>
       <p style="color:#9BA3B8;margin-bottom:14px;font-size:0.9rem;">Join 50,000+ aspirants getting daily MCQs on Telegram</p>
       <a href="https://t.me/naukribulletin24" target="_blank" rel="noopener"
@@ -110,5 +113,37 @@
         });
     });
   </script>
+
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

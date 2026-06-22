@@ -26,14 +26,14 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
   <style>
-    .calc-card { background:#fff;border-radius:16px;border:1.5px solid #ECEEF2;padding:28px;margin-bottom:20px; }
+    .calc-card { background:var(--card-bg);border-radius:16px;border:1.5px solid var(--grey-200);padding:28px;margin-bottom:20px; }
     .input-group { margin-bottom:18px; }
-    .input-group label { display:block;font-size:0.85rem;font-weight:600;color:#4A5270;margin-bottom:6px; }
-    .input-group input, .input-group select { width:100%;padding:10px 14px;border:1.5px solid #ECEEF2;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#1A1F35;background:#fff;outline:none;transition:border-color 0.2s; }
+    .input-group label { display:block;font-size:0.85rem;font-weight:600;color:var(--grey-700);margin-bottom:6px; }
+    .input-group input, .input-group select { width:100%;padding:10px 14px;border:1.5px solid var(--grey-200);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--white);background:var(--navy-soft);outline:none;transition:border-color 0.2s;color:var(--text); }
     .input-group input:focus, .input-group select:focus { border-color:#FF6B00; }
     .calc-btn { background:#FF6B00;color:#fff;border:none;padding:13px 32px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;width:100%;transition:background 0.2s; }
     .calc-btn:hover { background:#e05a00; }
-    .result-box { display:none;background:#0A0F2C;border-radius:16px;padding:28px;margin-top:20px;color:#fff; }
+    .result-box { display:none;background:#13131e;border-radius:16px;padding:28px;margin-top:20px;color:#fff; }
     .age-big { font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:#FF6B00;line-height:1; }
     .exam-row { display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:0.88rem; }
     .exam-row:last-child { border-bottom:none; }
@@ -41,8 +41,8 @@
     .not-eligible { color:#F44336;font-weight:700; }
     .borderline { color:#FF9800;font-weight:700; }
     .relaxation-table { width:100%;border-collapse:collapse;font-size:0.85rem; }
-    .relaxation-table th { background:#F7F8FA;padding:10px;text-align:left;font-weight:600;color:#4A5270;border:1px solid #ECEEF2; }
-    .relaxation-table td { padding:10px;border:1px solid #ECEEF2;color:#1A1F35; }
+    .relaxation-table th { background:var(--navy-soft);padding:10px;text-align:left;font-weight:600;color:var(--grey-700);border:1px solid var(--grey-200); }
+    .relaxation-table td { padding:10px;border:1px solid var(--grey-200);color:var(--white); }
   </style>
   <!-- OneSignal Web Push -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -65,22 +65,26 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/answer-key/">Answer Key</a></li>
-        <li><a href="/age-calculator/">Age Calculator</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
-  <div style="background:#0A0F2C;padding:40px 20px;">
+  <div style="background:#13131e;padding:40px 20px;">
     <div style="max-width:900px;margin:0 auto;">
       <div style="font-size:0.78rem;color:#9BA3B8;margin-bottom:8px;">
         <a href="/" style="color:#9BA3B8;text-decoration:none;">Home</a> › Age Calculator
@@ -152,7 +156,7 @@
     </div>
 
     <aside style="position:sticky;top:20px;display:flex;flex-direction:column;gap:16px;">
-      <div style="background:#0A0F2C;border-radius:14px;padding:20px;text-align:center;">
+      <div style="background:#13131e;border-radius:14px;padding:20px;text-align:center;">
         <div style="font-size:1.3rem;margin-bottom:8px;">📢</div>
         <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:6px;">Free Job Alerts</h3>
         <p style="color:#9BA3B8;font-size:0.8rem;margin-bottom:14px;">Get notified when new jobs match your eligibility</p>
@@ -298,34 +302,67 @@
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   </script>
+
 <script>
+// Mobile nav toggle
 (function() {
-  var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
-  if (!btn || !links) return;
-
-  var overlay = document.createElement('div');
-  overlay.className = 'nav-overlay';
-  document.body.appendChild(overlay);
-
-  function closeMenu() {
-    btn.classList.remove('active');
-    links.classList.remove('active');
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-  function openMenu() {
-    btn.classList.add('active');
-    links.classList.add('active');
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  btn.addEventListener('click', function() {
-    links.classList.contains('active') ? closeMenu() : openMenu();
-  });
-  overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', closeMenu);
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
   });
 })();
 </script>

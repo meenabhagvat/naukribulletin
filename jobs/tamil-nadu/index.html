@@ -41,19 +41,24 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/" class="active">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
-        <li><a href="/admit-card/">Admit Card</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/" class="active">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy,#0A0F2C);padding:40px 20px 36px;">
     <div style="max-width:1200px;margin:0 auto;">
@@ -72,123 +77,123 @@
 
     <section>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#1A1F35;">
+        <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);">
           Showing <span style="color:#FF6B00;">5</span> jobs
         </h2>
         <span style="font-size:0.78rem;color:#9BA3B8;">Updated: 07 Jun 2026</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-      <a href="/jobs/tnpsc-group-1-recruitment-2026/" style="display:block;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='#ECEEF2';this.style.boxShadow='none'">
+      <a href="/jobs/tnpsc-group-1-recruitment-2026/" style="display:block;background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='var(--grey-200)';this.style.boxShadow='none'">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;">
           <div>
             <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:3px;">Tamil Nadu Public Service Commission</div>
-            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:#1A1F35;line-height:1.3;">TNPSC Group 1 Recruitment 2026</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:var(--white);line-height:1.3;">TNPSC Group 1 Recruitment 2026</div>
           </div>
           <span style="background:#FFEBEE;color:#C62828;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">🔥 URGENT</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;">
-          <span style="font-size:0.8rem;color:#4A5270;">👥 N/A</span>
-          <span style="font-size:0.8rem;color:#4A5270;">📍 Tamil Nadu</span>
-          <span style="font-size:0.8rem;color:#4A5270;">💰 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">📍 Tamil Nadu</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #F0F1F5;">
           <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
-          <span style="background:#0A0F2C;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
+          <span style="background:#13131e;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
         </div>
       </a>
-      <a href="/jobs/tnpsc-cts-non-interview-posts/" style="display:block;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='#ECEEF2';this.style.boxShadow='none'">
+      <a href="/jobs/tnpsc-cts-non-interview-posts/" style="display:block;background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='var(--grey-200)';this.style.boxShadow='none'">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;">
           <div>
             <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:3px;">Tamil Nadu Public Service Commission (Tnpsc)</div>
-            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:#1A1F35;line-height:1.3;">CTS Non Interview Posts</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:var(--white);line-height:1.3;">CTS Non Interview Posts</div>
           </div>
           <span style="background:#E8F5E9;color:#2E7D32;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">🟢 OPEN</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;">
-          <span style="font-size:0.8rem;color:#4A5270;">👥 461</span>
-          <span style="font-size:0.8rem;color:#4A5270;">📍 Tamil Nadu</span>
-          <span style="font-size:0.8rem;color:#4A5270;">💰 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">👥 461</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">📍 Tamil Nadu</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #F0F1F5;">
           <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 25 June 2026</span>
-          <span style="background:#0A0F2C;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
+          <span style="background:#13131e;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
         </div>
       </a>
-      <a href="/jobs/tamil-nadu/" style="display:block;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='#ECEEF2';this.style.boxShadow='none'">
+      <a href="/jobs/tamil-nadu/" style="display:block;background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='var(--grey-200)';this.style.boxShadow='none'">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;">
           <div>
             <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:3px;"></div>
-            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:#1A1F35;line-height:1.3;">Tamil Nadu Govt Jobs 2026</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:var(--white);line-height:1.3;">Tamil Nadu Govt Jobs 2026</div>
           </div>
           <span style="background:#FFEBEE;color:#C62828;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">🔥 URGENT</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;">
-          <span style="font-size:0.8rem;color:#4A5270;">👥 N/A</span>
-          <span style="font-size:0.8rem;color:#4A5270;">📍 All India</span>
-          <span style="font-size:0.8rem;color:#4A5270;">💰 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">👥 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">📍 All India</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #F0F1F5;">
           <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: N/A</span>
-          <span style="background:#0A0F2C;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
+          <span style="background:#13131e;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
         </div>
       </a>
-      <a href="/jobs/nit-trichy-junior-research-fellow-project-associate-recruitment-2026/" style="display:block;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='#ECEEF2';this.style.boxShadow='none'">
+      <a href="/jobs/nit-trichy-junior-research-fellow-project-associate-recruitment-2026/" style="display:block;background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='var(--grey-200)';this.style.boxShadow='none'">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;">
           <div>
             <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:3px;">National Institute Of Technology, Tiruchirappalli (Nit Trichy)</div>
-            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:#1A1F35;line-height:1.3;">Junior Research Fellow / Project Associate I / Project Associate II</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:var(--white);line-height:1.3;">Junior Research Fellow / Project Associate I / Project Associate II</div>
           </div>
           <span style="background:#FFEBEE;color:#C62828;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">🔥 URGENT</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;">
-          <span style="font-size:0.8rem;color:#4A5270;">👥 1</span>
-          <span style="font-size:0.8rem;color:#4A5270;">📍 Tamil Nadu</span>
-          <span style="font-size:0.8rem;color:#4A5270;">💰 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">👥 1</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">📍 Tamil Nadu</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #F0F1F5;">
           <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 16-06-2026</span>
-          <span style="background:#0A0F2C;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
+          <span style="background:#13131e;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
         </div>
       </a>
-      <a href="/jobs/echs-chennai-recruitment-2026/" style="display:block;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='#ECEEF2';this.style.boxShadow='none'">
+      <a href="/jobs/echs-chennai-recruitment-2026/" style="display:block;background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:18px 20px;text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='#FF6B00';this.style.boxShadow='0 4px 20px rgba(255,107,0,0.1)'" onmouseout="this.style.borderColor='var(--grey-200)';this.style.boxShadow='none'">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;">
           <div>
             <div style="font-size:0.72rem;color:#9BA3B8;margin-bottom:3px;">Ex-Servicemen Contributory Health Scheme (Echs) Chennai</div>
-            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:#1A1F35;line-height:1.3;">ECHS Chennai Recruitment 2026</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:700;color:var(--white);line-height:1.3;">ECHS Chennai Recruitment 2026</div>
           </div>
           <span style="background:#FFEBEE;color:#C62828;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:700;">🔥 URGENT</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;">
-          <span style="font-size:0.8rem;color:#4A5270;">👥 80</span>
-          <span style="font-size:0.8rem;color:#4A5270;">📍 Tamil Nadu</span>
-          <span style="font-size:0.8rem;color:#4A5270;">💰 N/A</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">👥 80</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">📍 Tamil Nadu</span>
+          <span style="font-size:0.8rem;color:var(--grey-700);">💰 N/A</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #F0F1F5;">
           <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: 11-07-2026</span>
-          <span style="background:#0A0F2C;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
+          <span style="background:#13131e;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;">Apply →</span>
         </div>
       </a>
       </div>
-      <div style="margin-top:24px;background:#FFF3E8;border-radius:12px;padding:20px;">
+      <div style="margin-top:24px;background:var(--saffron-pale);border-radius:12px;padding:20px;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:8px;">Also check All India Jobs</h3>
-        <p style="font-size:0.85rem;color:#4A5270;margin-bottom:12px;">Central government jobs are open to candidates from all states including Tamil Nadu.</p>
+        <p style="font-size:0.85rem;color:var(--grey-700);margin-bottom:12px;">Central government jobs are open to candidates from all states including Tamil Nadu.</p>
         <a href="/jobs/all-india/" style="background:#FF6B00;color:#fff;padding:8px 20px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;display:inline-block;">View All India Jobs →</a>
       </div>
     </section>
 
     <aside style="position:sticky;top:20px;display:flex;flex-direction:column;gap:16px;">
-      <div style="background:#0A0F2C;border-radius:14px;padding:20px;text-align:center;">
+      <div style="background:#13131e;border-radius:14px;padding:20px;text-align:center;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:6px;">📢 Free Alerts</h3>
         <p style="color:#9BA3B8;font-size:0.8rem;margin-bottom:14px;">Get notified for TN Govt Jobs on Telegram</p>
         <a href="https://t.me/naukribulletin24" style="display:block;background:#FF6B00;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">Join Free →</a>
       </div>
-      <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:20px;">
+      <div style="background:var(--card-bg);border-radius:14px;border:1.5px solid var(--grey-200);padding:20px;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:12px;">📂 By Category</h3>
-        <ul style="list-style:none;padding:0;margin:0;"><li><a href="/jobs/ssc/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">📋 SSC Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/railway/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🚂 Railway Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/banking/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏦 Bank Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/upsc/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏛️ UPSC Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/defence/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🪖 Defence Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/police/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">👮 Police Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/teaching/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">📚 Teaching Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/10th-pass/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🎓 10th Pass Jobs <span style="color:#9BA3B8;">→</span></a></li></ul>
+        <ul style="list-style:none;padding:0;margin:0;"><li><a href="/jobs/ssc/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">📋 SSC Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/railway/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🚂 Railway Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/banking/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏦 Bank Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/upsc/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏛️ UPSC Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/defence/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🪖 Defence Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/police/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">👮 Police Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/teaching/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">📚 Teaching Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/10th-pass/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🎓 10th Pass Jobs <span style="color:#9BA3B8;">→</span></a></li></ul>
       </div>
-      <div style="background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:20px;">
+      <div style="background:var(--card-bg);border-radius:14px;border:1.5px solid var(--grey-200);padding:20px;">
         <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:12px;">🗺️ Other States</h3>
-        <ul style="list-style:none;padding:0;margin:0;"><li><a href="/jobs/all-india/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 All India Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/uttar-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 UP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/bihar/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Bihar Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/madhya-pradesh/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 MP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/rajasthan/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Rajasthan Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/karnataka/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Karnataka Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/maharashtra/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Maharashtra Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/gujarat/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Gujarat Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/kerala/" style="color:#4A5270;text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Kerala Govt Jobs <span style="color:#9BA3B8;">→</span></a></li></ul>
+        <ul style="list-style:none;padding:0;margin:0;"><li><a href="/jobs/all-india/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 All India Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/uttar-pradesh/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 UP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/bihar/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Bihar Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/madhya-pradesh/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 MP Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/rajasthan/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Rajasthan Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/karnataka/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Karnataka Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/maharashtra/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Maharashtra Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/gujarat/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Gujarat Govt Jobs <span style="color:#9BA3B8;">→</span></a></li><li><a href="/jobs/kerala/" style="color:var(--grey-700);text-decoration:none;font-size:0.85rem;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0F1F5;">🏢 Kerala Govt Jobs <span style="color:#9BA3B8;">→</span></a></li></ul>
       </div>
     </aside>
   </div>
@@ -239,5 +244,37 @@
       </div>
     </div>
   </footer>
+
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

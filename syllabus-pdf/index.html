@@ -18,9 +18,9 @@
     });
   </script>
   <style>
-    .pdf-hero { background: linear-gradient(135deg,#0A0F2C 0%,#1d4ed8 100%); color:#fff; padding:40px 20px 32px; }
+    .pdf-hero { background:transparent; color:#fff; padding:40px 20px 32px; }
     .pdf-grid { max-width:900px; margin:0 auto; padding:24px 20px; }
-    .pdf-card { display:flex; align-items:center; gap:14px; background:#fff; border:1.5px solid #e5e7eb;
+    .pdf-card { display:flex; align-items:center; gap:14px; background:var(--card-bg); border:1.5px solid var(--grey-200);
                  border-radius:12px; padding:14px 18px; margin-bottom:10px; text-decoration:none; color:inherit;
                  transition:border-color .15s,box-shadow .15s; }
     .pdf-card:hover { border-color:#1d4ed8; box-shadow:0 4px 16px rgba(0,0,0,.08); text-decoration:none; }
@@ -33,30 +33,32 @@
                text-decoration:none; flex-shrink:0; }
     .dl-btn:hover { background:#1e40af; }
     .section-head { font-size:.9rem; font-weight:700; color:#111827; margin:24px 0 10px;
-                     padding-bottom:6px; border-bottom:2px solid #e5e7eb; }
+                     padding-bottom:6px; border-bottom:2px solid var(--grey-200); }
     .tab-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
-    .tab { border:none; background:#f3f4f6; color:#374151; padding:7px 16px; border-radius:20px;
+    .tab { border:none; background:var(--grey-200); color:#374151; padding:7px 16px; border-radius:20px;
              font-size:.82rem; font-weight:600; cursor:pointer; transition:all .15s; }
     .tab:hover,.tab.active { background:#1d4ed8; color:#fff; }
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/admit-card/">Admit Card</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/previous-year-papers/">PYQ Papers</a></li>
-        <li><a href="/mock-test/">Mock Test</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div class="pdf-hero">
     <div style="max-width:900px;margin:0 auto;">
@@ -159,7 +161,7 @@
     </div><!-- end pdf-list -->
 
     <!-- CTA -->
-    <div style="background:linear-gradient(135deg,#0A0F2C,#1d4ed8);border-radius:16px;padding:28px;text-align:center;margin-top:28px;">
+    <div style="background:transparent;border-radius:16px;padding:28px;text-align:center;margin-top:28px;">
       <div style="font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:6px;">🔔 Get Syllabus Update Alerts</div>
       <p style="color:rgba(255,255,255,.75);font-size:.88rem;margin-bottom:14px;">Instant notification when new syllabus is released</p>
       <a href="https://t.me/naukribulletin24" target="_blank" rel="noopener"
@@ -173,7 +175,7 @@
 
   </div>
 
-  <footer style="background:#0A0F2C;color:#9BA3B8;padding:28px 20px;margin-top:40px;text-align:center;font-size:.82rem;">
+  <footer style="background:#13131e;color:#9BA3B8;padding:28px 20px;margin-top:40px;text-align:center;font-size:.82rem;">
     <p>© 2026 NaukriBulletin.in</p>
     <div style="margin-top:10px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
       <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;">Latest Jobs</a>
@@ -193,34 +195,35 @@
     });
   }
   </script>
-<script>
-(function() {
-  var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
-  if (!btn || !links) return;
 
-  var overlay = document.createElement('div');
-  overlay.className = 'nav-overlay';
-  document.body.appendChild(overlay);
-
-  function closeMenu() {
-    btn.classList.remove('active');
-    links.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
   }
-  function openMenu() {
-    btn.classList.add('active');
-    links.classList.add('active');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  btn.addEventListener('click', function() {
-    links.classList.contains('active') ? closeMenu() : openMenu();
-  });
-  overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', closeMenu);
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
   });
 })();
 </script>

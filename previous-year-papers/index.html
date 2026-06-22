@@ -19,32 +19,32 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
   <style>
-    .hero { background: linear-gradient(135deg, #0A0F2C 0%, #12184A 100%); padding: 48px 20px 36px; text-align: center; }
+    .hero { background:transparent; padding: 48px 20px 36px; text-align: center; }
     .hero h1 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: #fff; margin: 0 0 10px; }
     .hero p { color: #9BA3B8; font-size: 1rem; margin: 0; }
     .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
     .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 24px 20px 8px; max-width: 960px; margin: 0 auto; }
-    .filter-btn { padding: 7px 18px; border-radius: 20px; border: 1.5px solid #ECEEF2; background: #fff; color: #4A5270; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .filter-btn { padding: 7px 18px; border-radius: 20px; border: 1.5px solid var(--grey-200); background:var(--card-bg); color:var(--grey-700); font-size:0.82rem; font-weight:600; cursor:pointer; transition: all 0.2s; }
     .filter-btn:hover, .filter-btn.active { background: #FF6B00; color: #fff; border-color: #FF6B00; }
     .search-wrap { max-width: 420px; margin: 16px auto 8px; }
-    .search-wrap input { width: 100%; padding: 10px 16px; border-radius: 10px; border: 1.5px solid #ECEEF2; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; outline: none; box-sizing: border-box; }
+    .search-wrap input { width: 100%; padding: 10px 16px; border-radius: 10px; border: 1.5px solid var(--grey-200); font-size: 0.9rem; font-family: 'DM Sans', sans-serif; outline: none; box-sizing: border-box; }
     .search-wrap input:focus { border-color: #FF6B00; }
     .papers-section { margin-bottom: 32px; }
-    .section-head { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: #0A0F2C; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #ECEEF2; padding-bottom: 10px; }
+    .section-head { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color:var(--white); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--grey-200); padding-bottom: 10px; }
     .section-tag { font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; }
-    .papers-card { background: #fff; border-radius: 14px; border: 1.5px solid #ECEEF2; overflow: hidden; margin-bottom: 14px; }
-    .papers-card-head { padding: 14px 20px; background: #F7F8FA; border-bottom: 1px solid #ECEEF2; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .papers-card-head .pname { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: #0A0F2C; }
-    .paper-row { display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid #ECEEF2; }
+    .papers-card { background:var(--card-bg); border-radius:14px; border:1.5px solid var(--grey-200); overflow:hidden; margin-bottom: 14px; }
+    .papers-card-head { padding: 14px 20px; background: var(--navy-soft); border-bottom: 1px solid var(--grey-200); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .papers-card-head .pname { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color:var(--white); }
+    .paper-row { display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--grey-200); }
     .paper-row:last-child { border-bottom: none; }
-    .paper-row:hover { background: #F7F8FA; }
-    .paper-title { font-size: 0.88rem; color: #0A0F2C; font-weight: 500; }
+    .paper-row:hover { background: var(--navy-soft); }
+    .paper-title { font-size: 0.88rem; color:var(--white); font-weight: 500; }
     .paper-year { font-size: 0.78rem; font-weight: 700; color: #9BA3B8; }
     .paper-badge { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
     .badge-pdf { background: rgba(229,57,53,0.1); color: #E53935; }
     .badge-key { background: rgba(26,166,10,0.1); color: #1AA60A; }
     .badge-sol { background: rgba(21,101,192,0.1); color: #1565C0; }
-    .dl-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; background: #0A0F2C; color: #fff; border-radius: 7px; font-size: 0.78rem; font-weight: 700; text-decoration: none; white-space: nowrap; transition: background 0.2s; font-family: 'Syne', sans-serif; }
+    .dl-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; background: #13131e; color: #fff; border-radius: 7px; font-size: 0.78rem; font-weight: 700; text-decoration: none; white-space: nowrap; transition: background 0.2s; font-family: 'Syne', sans-serif; }
     .dl-btn:hover { background: #FF6B00; }
     .no-results { text-align: center; padding: 48px; color: #9BA3B8; }
     .stats-bar { display: flex; gap: 24px; justify-content: center; padding: 20px 20px 8px; flex-wrap: wrap; }
@@ -59,18 +59,24 @@
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <div class="nav-links">
-        <a href="/jobs/">Jobs</a>
-        <a href="/current-affairs/">Current Affairs</a>
-        <a href="/exam-calendar/">Exam Calendar</a>
-        <a href="/previous-year-papers/" style="color:#FF6B00;">PYQ Papers</a>
-        <a href="/syllabus/">Syllabus</a>
-      </div>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div class="hero">
     <h1>📄 Previous Year Papers</h1>
@@ -102,9 +108,9 @@
   </div>
 
   <div class="wrap" style="padding-bottom:48px;">
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#0A0F2C;margin-bottom:12px;">Why Solve Previous Year Papers?</h2>
-    <p style="color:#4A5270;font-size:0.92rem;line-height:1.7;margin-bottom:10px;">Previous year question papers (PYQs) are the most effective study resource for government exam preparation. Solving PYQs helps you understand the exam pattern, difficulty level, frequently asked topics, and time management strategy. UPSC, SSC, and IBPS exams tend to repeat concepts and question styles from previous years.</p>
-    <p style="color:#4A5270;font-size:0.92rem;line-height:1.7;">All papers listed here are sourced from official websites. Answer keys are official keys released by the respective exam conducting bodies. Solutions and explanations are provided where available to help you understand the correct approach.</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:12px;">Why Solve Previous Year Papers?</h2>
+    <p style="color:var(--grey-700);font-size:0.92rem;line-height:1.7;margin-bottom:10px;">Previous year question papers (PYQs) are the most effective study resource for government exam preparation. Solving PYQs helps you understand the exam pattern, difficulty level, frequently asked topics, and time management strategy. UPSC, SSC, and IBPS exams tend to repeat concepts and question styles from previous years.</p>
+    <p style="color:var(--grey-700);font-size:0.92rem;line-height:1.7;">All papers listed here are sourced from official websites. Answer keys are official keys released by the respective exam conducting bodies. Solutions and explanations are provided where available to help you understand the correct approach.</p>
   </div>
 
   <script>
@@ -270,7 +276,7 @@
 
     let totalCount = 0;
     const html = data.map(item => {
-      const color = TAG_COLORS[item.category] || '#4A5270';
+      const color = TAG_COLORS[item.category] || '#8888AA';
       totalCount += item.papers.length;
       const rowsHtml = item.papers.map(p => {
         const badgeType = p.type.includes('Key') ? 'badge-key' : 'badge-pdf';
@@ -298,5 +304,69 @@
 
   renderPapers();
   </script>
+
+<script>
+// Mobile nav toggle
+(function() {
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

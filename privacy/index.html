@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/css/style.css">
   <style>
     .prose { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-    .prose h2 { font-family: var(--font-display); color: var(--navy); margin: 32px 0 12px; font-size: 1.25rem; }
+    .prose h2 { font-family: var(--font-display); color: var(--white); margin: 32px 0 12px; font-size: 1.25rem; }
     .prose p, .prose li { color: var(--grey-700); line-height: 1.8; margin-bottom: 12px; font-size: 0.95rem; }
     .prose ul { padding-left: 20px; }
   </style>
@@ -37,16 +37,24 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-      </ul>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy); padding:40px 20px;">
     <div style="max-width:800px; margin:0 auto;">
@@ -111,5 +119,69 @@
       </div>
     </div>
   </footer>
+
+<script>
+// Mobile nav toggle
+(function() {
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -17,18 +17,18 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
   <style>
-    .hero{background:linear-gradient(135deg,#0A0F2C 0%,#12184A 100%);padding:48px 20px 36px;text-align:center}
+    .hero{background:transparent;padding:48px 20px 36px;text-align:center}
     .hero h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#fff;margin:0 0 10px}
     .hero p{color:#9BA3B8;font-size:1rem;margin:0}
     .wrap{max-width:960px;margin:0 auto;padding:0 20px}
     .filter-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:24px 20px 8px;max-width:960px;margin:0 auto}
-    .filter-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ECEEF2;background:#fff;color:#4A5270;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .filter-btn{padding:7px 18px;border-radius:20px;border:1.5px solid var(--grey-200);background:var(--card-bg); color:var(--grey-700); font-size:0.82rem; font-weight:600; cursor:pointer; transition:all .2s}
     .filter-btn:hover,.filter-btn.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
     .search-wrap{max-width:420px;margin:16px auto 8px}
-    .search-wrap input{width:100%;padding:10px 16px;border-radius:10px;border:1.5px solid #ECEEF2;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box}
+    .search-wrap input{width:100%;padding:10px 16px;border-radius:10px;border:1.5px solid var(--grey-200);font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box}
     .search-wrap input:focus{border-color:#FF6B00}
     .results-grid{display:grid;gap:14px;padding:16px 0 48px}
-    .result-card{background:#fff;border-radius:14px;border:1.5px solid #ECEEF2;padding:18px 20px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;transition:box-shadow .2s}
+    .result-card{background:var(--card-bg);border-radius:14px;border:1.5px solid var(--grey-200);padding:18px 20px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;transition:box-shadow .2s}
     .result-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
     .result-card.fresh{border-left:4px solid #1AA60A}
     .result-card.recent{border-left:4px solid #FF6B00}
@@ -40,14 +40,14 @@
     .tag-railway{background:rgba(123,31,162,.1);color:#7B1FA2}
     .tag-defence{background:rgba(183,28,28,.1);color:#B71C1C}
     .tag-state{background:rgba(0,105,92,.1);color:#00695C}
-    .result-name{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;color:#0A0F2C;margin-bottom:4px}
+    .result-name{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;color:var(--white);margin-bottom:4px}
     .result-meta{font-size:.8rem;color:#9BA3B8}
     .result-meta span{margin-right:12px}
     .date-pill{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:6px}
     .pill-fresh{background:rgba(26,166,10,.1);color:#1AA60A}
     .pill-recent{background:rgba(255,107,0,.1);color:#E65100}
-    .pill-old{background:#F7F8FA;color:#9BA3B8}
-    .view-btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;background:#0A0F2C;color:#fff;border-radius:8px;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:background .2s}
+    .pill-old{background:var(--navy-soft);color:#9BA3B8}
+    .view-btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;background:#13131e;color:#fff;border-radius:8px;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:background .2s}
     .view-btn:hover{background:#FF6B00}
     .no-results{text-align:center;padding:48px;color:#9BA3B8}
     .ticker-note{background:rgba(26,166,10,.08);border:1.5px solid rgba(26,166,10,.2);border-radius:10px;padding:12px 16px;font-size:.82rem;color:#1AA60A;font-weight:600;margin:16px auto;max-width:960px;text-align:center}
@@ -55,18 +55,24 @@
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <div class="nav-links">
-        <a href="/jobs/">Jobs</a>
-        <a href="/exam-calendar/">Exam Calendar</a>
-        <a href="/results/" style="color:#FF6B00;">Results</a>
-        <a href="/eligibility-checker/">Eligibility</a>
-        <a href="/syllabus/">Syllabus</a>
-      </div>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/" class="active">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div class="hero">
     <h1>📋 Exam Results 2026</h1>
@@ -94,9 +100,9 @@
   </div>
 
   <div class="wrap" style="padding-bottom:48px;">
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#0A0F2C;margin-bottom:12px;">How to Check Your Result</h2>
-    <p style="color:#4A5270;font-size:.92rem;line-height:1.7;margin-bottom:10px;">Click the <strong>View Result</strong> button to go directly to the official website. You will need your Registration Number and Date of Birth or Roll Number to check your result. Always check results from official websites only.</p>
-    <p style="color:#4A5270;font-size:.92rem;line-height:1.7;">Results are declared in stages — Prelims result is declared first, followed by Mains result, and then the Final/Interview result. Shortlisted candidates are called for the next stage. Merit lists and cut-off marks are usually released along with the result.</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:12px;">How to Check Your Result</h2>
+    <p style="color:var(--grey-700);font-size:.92rem;line-height:1.7;margin-bottom:10px;">Click the <strong>View Result</strong> button to go directly to the official website. You will need your Registration Number and Date of Birth or Roll Number to check your result. Always check results from official websites only.</p>
+    <p style="color:var(--grey-700);font-size:.92rem;line-height:1.7;">Results are declared in stages — Prelims result is declared first, followed by Mains result, and then the Final/Interview result. Shortlisted candidates are called for the next stage. Merit lists and cut-off marks are usually released along with the result.</p>
   </div>
 
   <script>
@@ -202,5 +208,69 @@
 
   renderResults();
   </script>
+
+<script>
+// Mobile nav toggle
+(function() {
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

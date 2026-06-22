@@ -206,8 +206,8 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
   <div style="max-width:900px;margin:0 auto;padding:24px 20px;">
 
-    <div id="qe-instructions" style="background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:20px;">
-      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--navy);margin-bottom:10px;">📌 Instructions</div>
+    <div id="qe-instructions" style="background:var(--card-bg);border:1.5px solid var(--grey-200);border-radius:12px;padding:20px;margin-bottom:20px;">
+      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--white);margin-bottom:10px;">📌 Instructions</div>
       <ul style="font-size:0.88rem;color:var(--grey-700);padding-left:20px;line-height:1.8;">
         <li>This test has {total_q} questions to be completed in {duration} minutes.</li>
         <li>Each correct answer gets +2 marks; each wrong answer gets −0.5 (negative marking).</li>
@@ -218,12 +218,12 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
       <button id="qe-start-btn" class="qe-btn qe-btn-submit" style="margin-top:16px;max-width:200px;">▶ Start Test</button>
     </div>
 
-    <div id="quiz-root" style="background:#fff;border-radius:12px;overflow:hidden;border:1.5px solid #e5e7eb;display:none;"></div>
+    <div id="quiz-root" style="background:var(--card-bg);border-radius:12px;overflow:hidden;border:1.5px solid var(--grey-200);display:none;"></div>
 
-    <div style="margin-top:28px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;">
-      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--navy);margin-bottom:12px;">More {exam_name} Mock Tests</div>
+    <div style="margin-top:28px;background:var(--card-bg);border:1.5px solid var(--grey-200);border-radius:12px;padding:20px;">
+      <div style="font-weight:800;font-family:'Syne',sans-serif;color:var(--white);margin-bottom:12px;">More {exam_name} Mock Tests</div>
       <div style="display:flex;flex-direction:column;gap:8px;">
-        <a href="/mock-test/" style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--grey-100);border-radius:8px;text-decoration:none;color:inherit;font-size:0.88rem;"><span>← Back to all Mock Tests</span></a>
+        <a href="/mock-test/" style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--navy-soft);border-radius:8px;text-decoration:none;color:inherit;font-size:0.88rem;"><span>← Back to all Mock Tests</span></a>
       </div>
     </div>
 

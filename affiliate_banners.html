@@ -8,7 +8,7 @@
 <style>
 .nb-affiliate { margin: 2rem 0; font-family: inherit; }
 .nb-affiliate__heading {
-  font-size: .8rem; font-weight: 700; color: #6b7280;
+  font-size: .8rem; font-weight: 700; color: var(--grey-400);
   text-transform: uppercase; letter-spacing: .05em;
   margin-bottom: .75rem;
 }
@@ -19,15 +19,15 @@
 }
 .nb-affiliate__card {
   display: flex; align-items: center; gap: .75rem;
-  border: 1px solid #e5e7eb; border-radius: 10px;
-  padding: .75rem 1rem; background: #fff;
+  border: 1px solid var(--grey-200); border-radius: 10px;
+  padding: .75rem 1rem; background: var(--card-bg);
   text-decoration: none; color: inherit;
   transition: box-shadow .15s, border-color .15s;
   position: relative; overflow: hidden;
 }
 .nb-affiliate__card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,.1);
-  border-color: #d1d5db;
+  border-color: var(--border2);
   text-decoration: none;
 }
 .nb-affiliate__card::before {
@@ -40,7 +40,7 @@
 
 .nb-affiliate__logo {
   width: 44px; height: 44px; border-radius: 8px;
-  object-fit: contain; flex-shrink: 0; background: #f3f4f6; padding: 4px;
+  object-fit: contain; flex-shrink: 0; background: var(--grey-200); padding: 4px;
 }
 .nb-affiliate__logo-placeholder {
   width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0;
@@ -57,7 +57,7 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .nb-affiliate__desc {
-  font-size: .75rem; color: #6b7280; margin-top: 1px;
+  font-size: .75rem; color: var(--grey-400); margin-top: 1px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .nb-affiliate__cta {

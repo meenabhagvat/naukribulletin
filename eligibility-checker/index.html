@@ -18,16 +18,16 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
   <style>
-    .hero{background:linear-gradient(135deg,#0A0F2C 0%,#12184A 100%);padding:48px 20px 36px;text-align:center}
+    .hero{background:transparent;padding:48px 20px 36px;text-align:center}
     .hero h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#fff;margin:0 0 10px}
     .hero p{color:#9BA3B8;font-size:1rem;margin:0}
     .wrap{max-width:960px;margin:0 auto;padding:0 20px}
     .checker-grid{display:grid;grid-template-columns:380px 1fr;gap:24px;padding:32px 0 48px}
-    .panel{background:#fff;border-radius:16px;border:1.5px solid #ECEEF2;padding:28px}
-    .panel h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#0A0F2C;margin:0 0 20px}
+    .panel{background:var(--card-bg);border-radius:16px;border:1.5px solid var(--grey-200);padding:28px}
+    .panel h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);margin:0 0 20px}
     .form-group{margin-bottom:18px}
-    .form-group label{display:block;font-size:.82rem;font-weight:600;color:#4A5270;margin-bottom:6px}
-    .form-group input,.form-group select{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid #ECEEF2;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;background:#fff;color:#0A0F2C}
+    .form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--grey-700);margin-bottom:6px}
+    .form-group input,.form-group select{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--grey-200);font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;background:var(--card-bg);color:var(--white)}
     .form-group input:focus,.form-group select:focus{border-color:#FF6B00}
     .check-btn{width:100%;padding:13px;background:#FF6B00;color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;transition:background .2s}
     .check-btn:hover{background:#E65100}
@@ -35,40 +35,46 @@
     .placeholder{text-align:center;padding:60px 20px;color:#9BA3B8;font-size:.95rem}
     .placeholder-icon{font-size:3rem;margin-bottom:12px}
     .stats-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-    .stat-chip{flex:1;min-width:100px;background:#F7F8FA;border-radius:10px;padding:12px;text-align:center}
+    .stat-chip{flex:1;min-width:100px;background:var(--navy-soft);border-radius:10px;padding:12px;text-align:center}
     .stat-chip .n{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:#FF6B00}
     .stat-chip .l{font-size:.72rem;color:#9BA3B8;font-weight:600;margin-top:2px}
     .result-section{margin-bottom:24px}
-    .result-section-head{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;color:#0A0F2C;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-    .exam-result{background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:14px 16px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px}
+    .result-section-head{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;color:var(--white);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .exam-result{background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:14px 16px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px}
     .exam-result.eligible{border-left:4px solid #1AA60A}
     .exam-result.ineligible{border-left:4px solid #EF5350;opacity:.7}
     .exam-result.borderline{border-left:4px solid #FF6B00}
-    .exam-name{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:#0A0F2C;margin-bottom:3px}
+    .exam-name{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:3px}
     .exam-detail{font-size:.75rem;color:#9BA3B8}
     .exam-detail span{margin-right:10px}
     .elig-badge{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap}
     .badge-yes{background:rgba(26,166,10,.1);color:#1AA60A}
     .badge-no{background:rgba(239,83,80,.1);color:#EF5350}
     .badge-check{background:rgba(255,107,0,.1);color:#E65100}
-    .age-info{background:#F7F8FA;border-radius:10px;padding:12px 16px;font-size:.82rem;color:#4A5270;margin-bottom:20px;line-height:1.6}
-    .age-info strong{color:#0A0F2C}
+    .age-info{background:var(--navy-soft);border-radius:10px;padding:12px 16px;font-size:.82rem;color:var(--grey-700);margin-bottom:20px;line-height:1.6}
+    .age-info strong{color:var(--white)}
     @media(max-width:700px){.checker-grid{grid-template-columns:1fr}.hero h1{font-size:1.5rem}}
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <div class="nav-links">
-        <a href="/jobs/">Jobs</a>
-        <a href="/exam-calendar/">Exam Calendar</a>
-        <a href="/cut-off/">Cut-offs</a>
-        <a href="/eligibility-checker/" style="color:#FF6B00;">Eligibility</a>
-        <a href="/syllabus/">Syllabus</a>
-      </div>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div class="hero">
     <h1>✅ Eligibility Checker</h1>
@@ -155,9 +161,9 @@
     </div>
 
     <div style="padding-bottom:48px;">
-      <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#0A0F2C;margin-bottom:12px;">How Age Relaxation Works</h2>
-      <p style="color:#4A5270;font-size:.92rem;line-height:1.7;margin-bottom:10px;">Government exam age limits have built-in relaxations for reserved categories. OBC candidates typically get 3 years of relaxation, SC/ST get 5 years, PwD candidates get 10 years (15 for SC/ST PwD), and Ex-Servicemen get relaxation equal to their service period plus 3 years. EWS candidates generally follow the General category age limit with no additional relaxation.</p>
-      <p style="color:#4A5270;font-size:.92rem;line-height:1.7;">Age is calculated as of 1st January or 1st August of the exam year depending on the exam. Always verify the exact cutoff date from the official notification before applying.</p>
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:12px;">How Age Relaxation Works</h2>
+      <p style="color:var(--grey-700);font-size:.92rem;line-height:1.7;margin-bottom:10px;">Government exam age limits have built-in relaxations for reserved categories. OBC candidates typically get 3 years of relaxation, SC/ST get 5 years, PwD candidates get 10 years (15 for SC/ST PwD), and Ex-Servicemen get relaxation equal to their service period plus 3 years. EWS candidates generally follow the General category age limit with no additional relaxation.</p>
+      <p style="color:var(--grey-700);font-size:.92rem;line-height:1.7;">Age is calculated as of 1st January or 1st August of the exam year depending on the exam. Always verify the exact cutoff date from the official notification before applying.</p>
     </div>
   </div>
 
@@ -309,5 +315,37 @@
       ${ineligible.map(e => renderCard(e,'ineligible')).join('')}` : '';
   }
   </script>
+
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

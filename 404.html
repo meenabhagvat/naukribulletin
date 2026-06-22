@@ -29,16 +29,29 @@
 </head>
 <body style="min-height:100vh; display:flex; flex-direction:column;">
 
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <main style="flex:1; display:flex; align-items:center; justify-content:center; padding:40px 20px;">
     <div style="text-align:center; max-width:500px;">
       <div style="font-size:5rem; margin-bottom:16px;">🔍</div>
-      <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:12px;">Page Not Found</h1>
+      <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:800; color:var(--white); margin-bottom:12px;">Page Not Found</h1>
       <p style="color:var(--grey-700); margin-bottom:32px; font-size:0.95rem;">This job notification may have expired or the page has moved. Check our latest listings below.</p>
       <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
         <a href="/jobs/" class="btn-primary">View Latest Jobs</a>
@@ -51,5 +64,36 @@
     <p style="color:var(--grey-400); font-size:0.8rem;">© 2025 NaukriBulletin.in</p>
   </footer>
 
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -30,20 +30,24 @@
   </script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/" class="active">Results</a></li>
-        <li><a href="/admit-card/" >Admit Card</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy); padding:40px 20px;">
     <div style="max-width:1200px; margin:0 auto;">
@@ -60,7 +64,7 @@
   <div class="container" style="padding-top:40px; padding-bottom:60px;">
     <div style="text-align:center; padding:60px 20px;">
       <div style="font-size:4rem; margin-bottom:20px;">📊</div>
-      <h2 style="font-family:var(--font-display); font-size:1.5rem; font-weight:800; color:var(--navy); margin-bottom:12px;">Govt Exam Results Coming Soon</h2>
+      <h2 style="font-family:var(--font-display); font-size:1.5rem; font-weight:800; color:var(--white); margin-bottom:12px;">Govt Exam Results Coming Soon</h2>
       <p style="color:var(--grey-700); font-size:0.95rem; max-width:480px; margin:0 auto 28px;">
         We're working on adding Govt Exam Results to NaukriBulletin. Meanwhile, get daily job alerts and current affairs updates.
       </p>
@@ -78,34 +82,67 @@
       </div>
     </div>
   </footer>
+
 <script>
+// Mobile nav toggle
 (function() {
-  var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
-  if (!btn || !links) return;
-
-  var overlay = document.createElement('div');
-  overlay.className = 'nav-overlay';
-  document.body.appendChild(overlay);
-
-  function closeMenu() {
-    btn.classList.remove('active');
-    links.classList.remove('active');
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-  function openMenu() {
-    btn.classList.add('active');
-    links.classList.add('active');
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  btn.addEventListener('click', function() {
-    links.classList.contains('active') ? closeMenu() : openMenu();
-  });
-  overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', closeMenu);
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
   });
 })();
 </script>

@@ -31,20 +31,24 @@
 </head>
 <body>
 
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Latest Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
-        <li><a href="/admit-card/" class="active">Admit Card</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+    <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/" class="active">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy); padding:40px 20px;">
     <div style="max-width:1200px; margin:0 auto;">
@@ -77,11 +81,11 @@
 
         <div style="display:flex; flex-direction:column; gap:12px;">
 
-          <a href="https://ssc.nic.in" target="_blank" rel="nofollow" style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
+          <a href="https://ssc.nic.in" target="_blank" rel="nofollow" style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
             <div style="width:44px; height:44px; background:var(--saffron-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">📋</div>
             <div style="flex:1;">
               <div style="font-size:0.7rem; color:var(--green); font-weight:700; margin-bottom:3px;">SSC • AVAILABLE</div>
-              <div style="font-family:var(--font-display); font-weight:700; color:var(--navy); font-size:0.95rem;">SSC CGL Tier 1 Admit Card 2026</div>
+              <div style="font-family:var(--font-display); font-weight:700; color:var(--white); font-size:0.95rem;">SSC CGL Tier 1 Admit Card 2026</div>
               <div style="font-size:0.8rem; color:var(--grey-700); margin-top:3px;">Combined Graduate Level — Exam Date: July 2026</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -90,11 +94,11 @@
             </div>
           </a>
 
-          <a href="https://www.rrbcdg.gov.in" target="_blank" rel="nofollow" style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
+          <a href="https://www.rrbcdg.gov.in" target="_blank" rel="nofollow" style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
             <div style="width:44px; height:44px; background:var(--saffron-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🚂</div>
             <div style="flex:1;">
               <div style="font-size:0.7rem; color:var(--green); font-weight:700; margin-bottom:3px;">RAILWAY • AVAILABLE</div>
-              <div style="font-family:var(--font-display); font-weight:700; color:var(--navy); font-size:0.95rem;">RRB NTPC CBT 2 Admit Card 2026</div>
+              <div style="font-family:var(--font-display); font-weight:700; color:var(--white); font-size:0.95rem;">RRB NTPC CBT 2 Admit Card 2026</div>
               <div style="font-size:0.8rem; color:var(--grey-700); margin-top:3px;">Non-Technical Popular Categories — Exam: Aug 2026</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -103,11 +107,11 @@
             </div>
           </a>
 
-          <a href="https://sbi.co.in" target="_blank" rel="nofollow" style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
+          <a href="https://sbi.co.in" target="_blank" rel="nofollow" style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
             <div style="width:44px; height:44px; background:var(--saffron-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🏦</div>
             <div style="flex:1;">
               <div style="font-size:0.7rem; color:var(--green); font-weight:700; margin-bottom:3px;">BANKING • AVAILABLE</div>
-              <div style="font-family:var(--font-display); font-weight:700; color:var(--navy); font-size:0.95rem;">SBI PO Prelims Admit Card 2026</div>
+              <div style="font-family:var(--font-display); font-weight:700; color:var(--white); font-size:0.95rem;">SBI PO Prelims Admit Card 2026</div>
               <div style="font-size:0.8rem; color:var(--grey-700); margin-top:3px;">Probationary Officer — Exam: July 2026</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -116,11 +120,11 @@
             </div>
           </a>
 
-          <a href="https://upsc.gov.in" target="_blank" rel="nofollow" style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
+          <a href="https://upsc.gov.in" target="_blank" rel="nofollow" style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
             <div style="width:44px; height:44px; background:var(--saffron-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🏛️</div>
             <div style="flex:1;">
               <div style="font-size:0.7rem; color:#E65100; font-weight:700; margin-bottom:3px;">UPSC • COMING SOON</div>
-              <div style="font-family:var(--font-display); font-weight:700; color:var(--navy); font-size:0.95rem;">UPSC CSE Mains Admit Card 2026</div>
+              <div style="font-family:var(--font-display); font-weight:700; color:var(--white); font-size:0.95rem;">UPSC CSE Mains Admit Card 2026</div>
               <div style="font-size:0.8rem; color:var(--grey-700); margin-top:3px;">Civil Services Mains — Expected September 2026</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -129,11 +133,11 @@
             </div>
           </a>
 
-          <a href="https://ibps.in" target="_blank" rel="nofollow" style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
+          <a href="https://ibps.in" target="_blank" rel="nofollow" style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
             <div style="width:44px; height:44px; background:var(--saffron-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🏦</div>
             <div style="flex:1;">
               <div style="font-size:0.7rem; color:var(--green); font-weight:700; margin-bottom:3px;">BANKING • AVAILABLE</div>
-              <div style="font-family:var(--font-display); font-weight:700; color:var(--navy); font-size:0.95rem;">IBPS RRB Officer Admit Card 2026</div>
+              <div style="font-family:var(--font-display); font-weight:700; color:var(--white); font-size:0.95rem;">IBPS RRB Officer Admit Card 2026</div>
               <div style="font-size:0.8rem; color:var(--grey-700); margin-top:3px;">Regional Rural Banks — Prelims Exam: Aug 2026</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -142,11 +146,11 @@
             </div>
           </a>
 
-          <a href="https://joinindianarmy.nic.in" target="_blank" rel="nofollow" style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
+          <a href="https://joinindianarmy.nic.in" target="_blank" rel="nofollow" style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:18px 20px; text-decoration:none; color:inherit; display:flex; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--saffron)'" onmouseout="this.style.borderColor='var(--grey-200)'">
             <div style="width:44px; height:44px; background:var(--saffron-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🪖</div>
             <div style="flex:1;">
               <div style="font-size:0.7rem; color:var(--green); font-weight:700; margin-bottom:3px;">DEFENCE • AVAILABLE</div>
-              <div style="font-family:var(--font-display); font-weight:700; color:var(--navy); font-size:0.95rem;">Army Agniveer Admit Card 2026</div>
+              <div style="font-family:var(--font-display); font-weight:700; color:var(--white); font-size:0.95rem;">Army Agniveer Admit Card 2026</div>
               <div style="font-size:0.8rem; color:var(--grey-700); margin-top:3px;">Online Written Exam — Admit Card Released</div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -159,8 +163,8 @@
 
         <div class="ad-slot ad-inline">Advertisement</div>
 
-        <div style="background:var(--white); border-radius:12px; border:1.5px solid var(--grey-200); padding:24px; margin-top:8px;">
-          <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:var(--navy); margin-bottom:16px;">📌 How to Download Admit Card</h2>
+        <div style="background:var(--card-bg); border-radius:12px; border:1.5px solid var(--grey-200); padding:24px; margin-top:8px;">
+          <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:var(--white); margin-bottom:16px;">📌 How to Download Admit Card</h2>
           <ol style="padding-left:20px; display:flex; flex-direction:column; gap:10px;">
             <li style="font-size:0.88rem; color:var(--text);">Click "Download" link — you'll go to the official exam website</li>
             <li style="font-size:0.88rem; color:var(--text);">Click "Download Admit Card / Hall Ticket" on the official site</li>
@@ -180,19 +184,19 @@
         </div>
 
         <div class="card">
-          <div style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:14px;">⚡ Quick Links</div>
+          <div style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--white); margin-bottom:14px;">⚡ Quick Links</div>
           <div style="display:flex; flex-direction:column; gap:8px;">
-            <a href="/jobs/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background:var(--grey-100); border-radius:6px; font-weight:500;">📋 Latest Jobs</a>
-            <a href="/results/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background:var(--grey-100); border-radius:6px; font-weight:500;">📊 Results</a>
-            <a href="/syllabus/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background:var(--grey-100); border-radius:6px; font-weight:500;">📚 Syllabus</a>
-            <a href="/current-affairs/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background:var(--grey-100); border-radius:6px; font-weight:500;">📰 Current Affairs</a>
+            <a href="/jobs/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background: var(--navy-soft); border-radius:6px; font-weight:500;">📋 Latest Jobs</a>
+            <a href="/results/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background: var(--navy-soft); border-radius:6px; font-weight:500;">📊 Results</a>
+            <a href="/syllabus/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background: var(--navy-soft); border-radius:6px; font-weight:500;">📚 Syllabus</a>
+            <a href="/current-affairs/" style="font-size:0.85rem; color:var(--text); text-decoration:none; padding:8px 12px; background: var(--navy-soft); border-radius:6px; font-weight:500;">📰 Current Affairs</a>
           </div>
         </div>
 
         <div class="ad-slot ad-sidebar">Advertisement</div>
 
         <div class="card">
-          <div style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:14px;">📅 Upcoming Exams</div>
+          <div style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--white); margin-bottom:14px;">📅 Upcoming Exams</div>
           <div style="display:flex; flex-direction:column; gap:10px;">
             <div style="display:flex; justify-content:space-between; font-size:0.82rem;"><span>SSC CGL Tier 1</span><span style="color:var(--saffron); font-weight:600;">Jul 2026</span></div>
             <div style="display:flex; justify-content:space-between; font-size:0.82rem;"><span>RRB NTPC CBT 2</span><span style="color:var(--saffron); font-weight:600;">Aug 2026</span></div>
@@ -222,34 +226,67 @@
     </div>
   </footer>
 
+
 <script>
+// Mobile nav toggle
 (function() {
-  var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
-  if (!btn || !links) return;
-
-  var overlay = document.createElement('div');
-  overlay.className = 'nav-overlay';
-  document.body.appendChild(overlay);
-
-  function closeMenu() {
-    btn.classList.remove('active');
-    links.classList.remove('active');
+  var hamburger = document.getElementById('navHamburger');
+  var links = document.querySelector('.nav-links') || document.querySelector('nav ul');
+  var overlay = document.getElementById('navOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'navOverlay';
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+  function closeNav() {
+    if (links) links.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-  function openMenu() {
-    btn.classList.add('active');
-    links.classList.add('active');
+  function openNav() {
+    if (links) links.classList.add('active');
+    if (hamburger) hamburger.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  btn.addEventListener('click', function() {
-    links.classList.contains('active') ? closeMenu() : openMenu();
-  });
-  overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', closeMenu);
+  window.toggleMobileNav = function() {
+    links && links.classList.contains('active') ? closeNav() : openNav();
+  };
+  if (hamburger) hamburger.addEventListener('click', window.toggleMobileNav);
+  overlay.addEventListener('click', closeNav);
+  if (links) links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+})();
+</script>
+<script id="nav-js">
+(function(){
+  function toggleMobileNav(){
+    var ul=document.querySelector('nav ul');
+    var btn=document.getElementById('navHamburger');
+    if(!ul||!btn) return;
+    var open=ul.classList.toggle('mobile-open');
+    btn.classList.toggle('active',open);
+  }
+  window.toggleMobileNav=toggleMobileNav;
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav ul a').forEach(function(a){
+      a.addEventListener('click',function(){
+        var ul=document.querySelector('nav ul');
+        var btn=document.getElementById('navHamburger');
+        if(ul) ul.classList.remove('mobile-open');
+        if(btn) btn.classList.remove('active');
+      });
+    });
+    document.addEventListener('click',function(e){
+      var nav=document.querySelector('nav');
+      var ul=document.querySelector('nav ul');
+      if(nav&&ul&&!nav.contains(e.target)&&ul.classList.contains('mobile-open')){
+        ul.classList.remove('mobile-open');
+        var btn=document.getElementById('navHamburger');
+        if(btn) btn.classList.remove('active');
+      }
+    });
   });
 })();
 </script>
