@@ -2563,7 +2563,7 @@ def rebuild_affairs_listing():
             <span class="cat-pill {item['cat_class']}">{item['category'].upper()}</span>
             <span style="font-size:0.72rem;color:var(--grey-400);">📚 {item['exam_rel']}</span>
           </div>
-          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">{item['title']}</div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:6px;line-height:1.3;">{item['title']}</div>
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">{item['summary']}</p>
         </div>
       </a>"""
@@ -2584,16 +2584,16 @@ def rebuild_affairs_listing():
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"></noscript></noscript>
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    .affairs-card {{background:var(--white);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;display:flex;gap:16px;text-decoration:none;color:inherit;transition:all 0.25s;}}
+    .affairs-card {{background:var(--card-bg);border-radius:12px;border:1.5px solid var(--grey-200);padding:20px;display:flex;gap:16px;text-decoration:none;color:inherit;transition:all 0.25s;}}
     .affairs-card:hover {{border-color:var(--saffron);box-shadow:0 4px 20px rgba(255,107,0,0.1);transform:translateY(-1px);}}
     .cat-pill {{font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;white-space:nowrap;}}
-    .cat-economy {{background:#E8F5E9;color:#2E7D32;}}
-    .cat-science {{background:#E3F2FD;color:#1565C0;}}
-    .cat-international {{background:#F3E5F5;color:#6A1B9A;}}
-    .cat-sports {{background:#FFF3E0;color:#E65100;}}
-    .cat-awards {{background:#FCE4EC;color:#AD1457;}}
-    .cat-government {{background:#E0F2F1;color:#00695C;}}
-    .cat-environment {{background:#F1F8E9;color:#33691E;}}
+    .cat-economy {{background:rgba(46,125,50,0.2);color:#81C784;}}
+    .cat-science {{background:rgba(21,101,192,0.2);color:#64B5F6;}}
+    .cat-international {{background:rgba(106,27,154,0.2);color:#CE93D8;}}
+    .cat-sports {{background:rgba(230,81,0,0.2);color:#FFB74D;}}
+    .cat-awards {{background:rgba(173,20,87,0.2);color:#F48FB1;}}
+    .cat-government {{background:rgba(0,105,92,0.2);color:#80CBC4;}}
+    .cat-environment {{background:rgba(51,105,30,0.2);color:#AED581;}}
   </style>
 </head>
 <body>
