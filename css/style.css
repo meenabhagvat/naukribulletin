@@ -91,6 +91,7 @@ nav ul a:hover, nav ul a.active { color:#f0f0f8; }
   nav ul li a { display:block; padding:14px 0; font-size:1rem; border-bottom:1px solid rgba(255,255,255,0.06); color:#f0f0f8 !important; }
   nav ul li:last-child a { border-bottom:none; }
   nav ul.mobile-open { display:flex; }
+  nav ul.active { display:flex; }
 }
 
 /* ── TICKER ── */

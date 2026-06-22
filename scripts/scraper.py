@@ -1354,18 +1354,18 @@ def generate_job_html(job):
 
   function closeMenu() {{
     btn.classList.remove('active');
-    links.classList.remove('active');
+    links.classList.remove('mobile-open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }}
   function openMenu() {{
     btn.classList.add('active');
-    links.classList.add('active');
+    links.classList.add('mobile-open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }}
   btn.addEventListener('click', function() {{
-    links.classList.contains('active') ? closeMenu() : openMenu();
+    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
   }});
   overlay.addEventListener('click', closeMenu);
   links.querySelectorAll('a').forEach(function(a) {{
@@ -1441,18 +1441,18 @@ def generate_affairs_html(affair):
 
   function closeMenu() {{
     btn.classList.remove('active');
-    links.classList.remove('active');
+    links.classList.remove('mobile-open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }}
   function openMenu() {{
     btn.classList.add('active');
-    links.classList.add('active');
+    links.classList.add('mobile-open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }}
   btn.addEventListener('click', function() {{
-    links.classList.contains('active') ? closeMenu() : openMenu();
+    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
   }});
   overlay.addEventListener('click', closeMenu);
   links.querySelectorAll('a').forEach(function(a) {{
@@ -2008,18 +2008,18 @@ def rebuild_syllabus():
 
   function closeMenu() {{
     btn.classList.remove('active');
-    links.classList.remove('active');
+    links.classList.remove('mobile-open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }}
   function openMenu() {{
     btn.classList.add('active');
-    links.classList.add('active');
+    links.classList.add('mobile-open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }}
   btn.addEventListener('click', function() {{
-    links.classList.contains('active') ? closeMenu() : openMenu();
+    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
   }});
   overlay.addEventListener('click', closeMenu);
   links.querySelectorAll('a').forEach(function(a) {{
@@ -2475,18 +2475,18 @@ def rebuild_jobs_listing():
 
   function closeMenu() {{
     btn.classList.remove('active');
-    links.classList.remove('active');
+    links.classList.remove('mobile-open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }}
   function openMenu() {{
     btn.classList.add('active');
-    links.classList.add('active');
+    links.classList.add('mobile-open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }}
   btn.addEventListener('click', function() {{
-    links.classList.contains('active') ? closeMenu() : openMenu();
+    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
   }});
   overlay.addEventListener('click', closeMenu);
   links.querySelectorAll('a').forEach(function(a) {{
@@ -2659,18 +2659,18 @@ def rebuild_affairs_listing():
 
   function closeMenu() {{
     btn.classList.remove('active');
-    links.classList.remove('active');
+    links.classList.remove('mobile-open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }}
   function openMenu() {{
     btn.classList.add('active');
-    links.classList.add('active');
+    links.classList.add('mobile-open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }}
   btn.addEventListener('click', function() {{
-    links.classList.contains('active') ? closeMenu() : openMenu();
+    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
   }});
   overlay.addEventListener('click', closeMenu);
   links.querySelectorAll('a').forEach(function(a) {{
