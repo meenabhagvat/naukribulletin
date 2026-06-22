@@ -2392,7 +2392,7 @@ def rebuild_jobs_listing():
     <div class="footer-inner">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
+          <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
           <p>India's smartest govt job portal. Direct from official sources — not aggregators. AI-powered daily alerts, always free.</p>
         </div>
         <div class="footer-col">
