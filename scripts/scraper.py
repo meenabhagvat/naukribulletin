@@ -1213,12 +1213,24 @@ def generate_job_html(job):
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;font-size:0.85rem;">← All Jobs</a>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="max-width:900px;margin:20px auto;padding:0 20px;">
     <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_CLIENT}" data-ad-slot="{ADSENSE_SLOT_TOP}" data-ad-format="auto"></ins>
@@ -1333,7 +1345,7 @@ def generate_job_html(job):
 <script>
 (function() {{
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');
@@ -1420,7 +1432,7 @@ def generate_affairs_html(affair):
 <script>
 (function() {{
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');
@@ -1910,21 +1922,24 @@ def rebuild_syllabus():
 </head>
 <body>
 
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
-        <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy);padding:40px 20px;">
     <div style="max-width:1200px;margin:0 auto;">
@@ -1984,7 +1999,7 @@ def rebuild_syllabus():
 <script>
 (function() {{
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');
@@ -2287,21 +2302,24 @@ def rebuild_jobs_listing():
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
-        <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="background:var(--navy);padding:40px 20px;">
     <div style="max-width:1200px;margin:0 auto;">
@@ -2448,7 +2466,7 @@ def rebuild_jobs_listing():
 <script>
 (function() {{
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');
@@ -2579,21 +2597,24 @@ def rebuild_affairs_listing():
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
-        <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
   <div style="background:var(--navy);padding:40px 20px;">
     <div style="max-width:1200px;margin:0 auto;">
       <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px;">
@@ -2629,7 +2650,7 @@ def rebuild_affairs_listing():
 <script>
 (function() {{
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');

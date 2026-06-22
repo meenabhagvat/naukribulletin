@@ -25,27 +25,30 @@
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/jobs/">Jobs</a></li>
-        <li><a href="/current-affairs/">Current Affairs</a></li>
-        <li><a href="/results/">Results</a></li>
-        <li><a href="/exam-calendar/">Exam Calendar</a></li>
-        <li><a href="/syllabus/">Syllabus</a></li>
-        <li><a href="/alerts/" class="nav-cta">🔔 Alerts</a></li>
-      </ul>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
   <div style="background:var(--navy);padding:40px 20px;">
     <div style="max-width:1200px;margin:0 auto;">
       <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px;">
         Daily <span style="color:var(--saffron);">Current Affairs 2026</span>
       </h1>
-      <p style="color:var(--grey-400);font-size:0.95rem;">925+ articles — exam-ready summaries, updated daily</p>
+      <p style="color:var(--grey-400);font-size:0.95rem;">932+ articles — exam-ready summaries, updated daily</p>
     </div>
   </div>
   <div class="container">
@@ -513,6 +516,20 @@
           </div>
           <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">West Bengal Cabinet Portfolio Allocation</div>
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The West Bengal Chief Minister has allocated portfolios to the newly sworn-in ministers, with key assignments including ...</p>
+        </div>
+      </a>
+      <a href="/current-affairs/west-bengal-budget-2026-highlights/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-government">GOVERNMENT SCHEMES</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">West Bengal Budget 2026 Highlights</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The West Bengal Budget 2026 has been announced, with a focus on filling government vacancies and providing financial ass...</p>
         </div>
       </a>
       <a href="/current-affairs/west-asia-conflict/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
@@ -3243,6 +3260,20 @@
           </div>
           <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">Rise in Tomato, Onion, Potato Prices</div>
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The prices of essential vegetables like tomatoes, onions, and potatoes have increased significantly within a week. Howev...</p>
+        </div>
+      </a>
+      <a href="/current-affairs/revival-of-calcutta-stock-exchange/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-economy">ECONOMY</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">Revival of Calcutta Stock Exchange</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The West Bengal government has announced plans to revive the Calcutta Stock Exchange. This move is expected to boost the...</p>
         </div>
       </a>
       <a href="/current-affairs/renewable-energy-policy-changes-tn/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
@@ -6759,6 +6790,20 @@
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The Kerala High Court has directed the Industries Secretary to reconsider sanction for a CBI probe into a ₹600-crore cas...</p>
         </div>
       </a>
+      <a href="/current-affairs/kerala-govt-to-end-millers-monopoly-in-paddy-procurement/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-government">GOVERNMENT SCHEMES</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">Kerala Govt to End Millers' Monopoly in Paddy Procurement</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The Kerala government is considering setting up processing centres under Supplyco to end the monopoly of private millers...</p>
+        </div>
+      </a>
       <a href="/current-affairs/kerala-free-travel-concession-for-women/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
         <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
           <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
@@ -10077,6 +10122,20 @@
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">West Bengal is experiencing escalating political turmoil, which may have significant implications for the state's govern...</p>
         </div>
       </a>
+      <a href="/current-affairs/erode-corporation-privatisation-protest/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-government">GOVERNMENT SCHEMES</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">Erode Corporation Conservancy Workers Protest Privatisation</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">Conservancy workers in Erode Corporation have boycotted work in opposition to the proposed privatisation move. This prot...</p>
+        </div>
+      </a>
       <a href="/current-affairs/ernakulam-alert-shigellosis/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
         <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
           <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
@@ -12317,6 +12376,20 @@
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">Anthropic India is involved in a trademark violation case filed by Anthropic Softwares Private Limited. The case highlig...</p>
         </div>
       </a>
+      <a href="/current-affairs/annapurna-yojana-scheme/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-government">GOVERNMENT SCHEMES</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">Annapurna Yojana Scheme</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The Annapurna Yojana scheme has been allocated ₹36,000 crore in the West Bengal Budget 2026. This scheme aims to provide...</p>
+        </div>
+      </a>
       <a href="/current-affairs/annamalai-criticizes-neet-retest-security/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
         <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
           <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
@@ -12961,6 +13034,34 @@
           <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The 52nd G7 Summit has begun in France, with a focus on addressing global challenges and promoting economic cooperation....</p>
         </div>
       </a>
+      <a href="/current-affairs/33-reservation-for-women-in-government-jobs/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-government">GOVERNMENT SCHEMES</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">33% Reservation for Women in Government Jobs</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The West Bengal government has announced 33% reservation for women in government jobs. This move aims to promote gender ...</p>
+        </div>
+      </a>
+      <a href="/current-affairs/20-hike-in-da-for-government-employees/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
+        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
+          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">Jun</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="cat-pill cat-economy">ECONOMY</span>
+            <span style="font-size:0.72rem;color:var(--grey-400);">📚 All</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3;">20% Hike in DA for Government Employees</div>
+          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">The West Bengal government has announced a 20% hike in DA for government employees. This move is expected to benefit tho...</p>
+        </div>
+      </a>
       <a href="/current-affairs/2-bromo-4-methylpropiophenone-notified-as-controlled-substance/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
         <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
           <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">22</div>
@@ -13025,7 +13126,7 @@
 <script>
 (function() {
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');
