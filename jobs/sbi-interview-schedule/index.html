@@ -34,8 +34,8 @@
         "addressCountry": "IN"
       }
     },
-    "datePosted": "22 June 2026",
-    "validThrough": "2026-09-20T23:59:59",
+    "datePosted": "24 June 2026",
+    "validThrough": "2026-09-22T23:59:59",
     "baseSalary": {
       "@type": "MonetaryAmount",
       "currency": "INR",
@@ -57,15 +57,27 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>NaukriBulletin</a>
-      <a href="/jobs/" style="color:#9BA3B8;text-decoration:none;font-size:0.85rem;">← All Jobs</a>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <div style="max-width:900px;margin:20px auto;padding:0 20px;">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1001412206051588" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1001412206051588" data-ad-slot="0000000000" data-ad-format="auto"></ins>
   </div>
 
   <main style="max-width:900px;margin:0 auto;padding:20px;">
@@ -129,7 +141,7 @@
         <p style="margin-top:10px;font-size:0.78rem;color:#9BA3B8;">You will be redirected to the official website</p>
       </div>
 
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1001412206051588" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1001412206051588" data-ad-slot="0000000000" data-ad-format="auto"></ins>
 
       <!-- Coaching Affiliate Banners -->
       <div style="margin:28px 0;">
@@ -168,7 +180,7 @@
       <div style="background:#FFF3E8;border-left:4px solid #FF6B00;border-radius:0 8px 8px 0;padding:14px 18px;margin-top:24px;">
         <p style="font-size:0.8rem;color:#4A5270;">⚠️ <strong>Disclaimer:</strong> Always verify details from the official website before applying. NaukriBulletin is not responsible for any errors in the notification details.</p>
       </div>
-      <p style="font-size:0.75rem;color:#9BA3B8;margin-top:12px;">Last updated: 22 June 2026</p>
+      <p style="font-size:0.75rem;color:#9BA3B8;margin-top:12px;">Last updated: 24 June 2026</p>
     </article>
   </main>
 
@@ -177,7 +189,7 @@
 <script>
 (function() {
   var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('.nav-links');
+  var links = document.querySelector('nav ul');
   if (!btn || !links) return;
 
   var overlay = document.createElement('div');
@@ -186,18 +198,18 @@
 
   function closeMenu() {
     btn.classList.remove('active');
-    links.classList.remove('active');
+    links.classList.remove('mobile-open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
   function openMenu() {
     btn.classList.add('active');
-    links.classList.add('active');
+    links.classList.add('mobile-open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
   btn.addEventListener('click', function() {
-    links.classList.contains('active') ? closeMenu() : openMenu();
+    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
   });
   overlay.addEventListener('click', closeMenu);
   links.querySelectorAll('a').forEach(function(a) {
