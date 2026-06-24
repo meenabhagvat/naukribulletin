@@ -8,3 +8,8 @@ scripts/_data/wa_notified_ids.json
 scripts/tg_posted.json
 patch_*.py
 fix_*.py
+
+# Conflict-prone auto-generated files
+scripts/processed.json
+sitemap.xml
+robots.txt
