@@ -12,7 +12,9 @@ REMOTE=$(git rev-parse origin/main)
 
 if [ "$LOCAL" != "$REMOTE" ]; then
   echo "   Remote has new commits — rebasing..."
+  git stash
   git rebase origin/main
+  git stash pop 2>/dev/null || true
 fi
 
 # ── 2. Sync dist/ ─────────────────────────────────────────────────────────────
