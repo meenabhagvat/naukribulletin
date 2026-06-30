@@ -17,6 +17,10 @@ if [ "$LOCAL" != "$REMOTE" ]; then
   git stash pop 2>/dev/null || true
 fi
 
+# ── 1b. SEO hardening pass (idempotent) ───────────────────────────────────────
+echo "🛡️  Running SEO hardening pass..."
+python3 scripts/seo_perfect.py --apply || echo "   (seo_perfect skipped)"
+
 # ── 2. Sync dist/ ─────────────────────────────────────────────────────────────
 echo "🔄 Syncing dist/..."
 rsync -a --delete \

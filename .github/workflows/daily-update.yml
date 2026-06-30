@@ -48,6 +48,9 @@ jobs:
           ADSENSE_SLOT_MID:  ${{ secrets.ADSENSE_SLOT_MID }}
           INDEXNOW_KEY:      ${{ secrets.INDEXNOW_KEY }}
 
+      - name: SEO hardening pass (schema, ads.txt, enrich, N/A fixes)
+        run: python scripts/seo_perfect.py --apply
+
       - name: Commit Scraped Jobs
         run: |
           git add -A
