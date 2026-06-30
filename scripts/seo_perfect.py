@@ -27,6 +27,28 @@ AD_SLOT_MID = os.environ.get("ADSENSE_SLOT_MID", "").strip()
 EXPIRE_GRACE_DAYS = 45   # noindex job postings whose deadline passed more than this long ago
 CA_MIN_WORDS      = 30   # noindex current-affairs articles with less core content than this
 
+# Canonical site navigation — must match the rest of the site (logo + links + Get Alerts + hamburger).
+# Used to repair current-affairs article pages that were generated with a logo-only nav.
+CANONICAL_NAV = (
+'<nav>\n'
+'  <a href="/" class="logo" style="text-decoration:none;">\n'
+'    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>\n'
+'  </a>\n'
+'  <ul id="navLinks">\n'
+'    <li><a href="/jobs/">Jobs</a></li>\n'
+'    <li><a href="/current-affairs/" class="active">Current Affairs</a></li>\n'
+'    <li><a href="/results/">Results</a></li>\n'
+'    <li><a href="/exam-calendar/">Exam Calendar</a></li>\n'
+'    <li><a href="/syllabus/">Syllabus</a></li>\n'
+'    <li><a href="/mock-test/">Mock Tests</a></li>\n'
+'    <li><a href="/admit-card/">Admit Cards</a></li>\n'
+'  </ul>\n'
+'  <div class="nav-right"><a href="/alerts/" class="nav-cta">\U0001F514 Get Alerts</a></div>\n'
+'  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>\n'
+'</nav>'
+)
+_NAV = {"fixed": 0}   # counts CA pages whose logo-only nav was repaired
+
 MONTHS = {m.lower(): i for i, m in enumerate(
     ["January","February","March","April","May","June","July","August",
      "September","October","November","December"], 1)}
@@ -521,6 +543,10 @@ def enrich_ca_html(s, slug):
     url=f"{SITE}/current-affairs/{slug}/"
     title=re.sub(r"<[^>]+>","",(re.search(r"<h1[^>]*>(.*?)</h1>",s,re.S) or [None,""])[1]).strip()
     if not title: return s, "skip"
+    # ── fix logo-only nav: give CA articles the full site navigation (UX + internal links + mobile menu) ──
+    if 'id="navLinks"' not in s:
+        s = re.sub(r"<nav[^>]*>.*?</nav>", CANONICAL_NAV, s, count=1, flags=re.S)
+        _NAV["fixed"] += 1
     summ=re.sub(r"<[^>]+>","",(re.search(r"<h2[^>]*>Summary</h2>\s*<p[^>]*>(.*?)</p>",s,re.S) or [None,""])[1]).strip()
     kf=re.findall(r"<li[^>]*>([^<]+)</li>",(re.search(r'Key Facts for Exam.*?</ul>',s,re.S) or [None,""])[0] or "")
     core_words=len(summ.split())+sum(len(x.split()) for x in kf)
@@ -631,6 +657,7 @@ def main():
 
     # ── prune noindexed pages from sitemap ──
     report["sitemap_pruned"]=prune_sitemap(noidx)
+    report["ca_nav_fixed"]=_NAV["fixed"]
 
     print("\n=== seo_perfect v3 report ({}): ===".format("APPLIED" if APPLY else "DRY-RUN"))
     for k,v in report.items(): print(f"  {k:16}: {v}")

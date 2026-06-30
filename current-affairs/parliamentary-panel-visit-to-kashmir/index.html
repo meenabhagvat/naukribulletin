@@ -70,11 +70,22 @@
   </script>
 </head>
 <body style="font-family:'DM Sans',sans-serif;background:#F7F8FA;margin:0;">
-  <nav style="background:#0A0F2C;border-bottom:3px solid #FF6B00;padding:0 20px;">
-    <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;height:60px;">
-      <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;text-decoration:none;">NaukriBulletin</a>
-    </div>
-  </nav>
+  <nav>
+  <a href="/" class="logo" style="text-decoration:none;">
+    <span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/" class="active">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
   <main style="max-width:900px;margin:0 auto;padding:32px 20px;">
     <div style="font-size:0.8rem;color:#9BA3B8;margin-bottom:16px;">
