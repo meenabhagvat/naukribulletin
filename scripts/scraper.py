@@ -1468,6 +1468,17 @@ def generate_affairs_html(affair):
 # ─── SITE BUILDER ─────────────────────────────────────────────────────────────
 
 def save_page(slug, html, folder):
+    # ── born-perfect: enrich at generation time using the same logic as the
+    #    seo_perfect backfill, so newly scraped pages are already complete
+    #    (schema, exam-KB sections, ISO dates, N/A handling). Idempotent.
+    try:
+        import seo_perfect as _sp
+        if folder == "jobs":
+            html, _ = _sp.enrich_job_html(html, slug)
+        elif folder == "current-affairs":
+            html, _ = _sp.enrich_ca_html(html, slug)
+    except Exception as _e:
+        print(f"  [ENRICH] skipped for /{folder}/{slug}/ ({_e})")
     page_dir = SITE_ROOT / folder / slug
     page_dir.mkdir(parents=True, exist_ok=True)
     with open(page_dir / "index.html", "w", encoding="utf-8") as f:
