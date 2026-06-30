@@ -364,12 +364,43 @@ def prune_sitemap(noindex_slugs):
     return len(matched)
 
 # ───────────────────────────── homepage ──────────────────────────────────────
+def repair_html_comments(s):
+    """Flatten malformed HTML comments whose body contains a nested marker
+    (<!-- , -->, or --): the browser closes such a comment early and renders the
+    tail as visible text. Standalone valid comments (e.g. <!-- AD -->, <!-- HERO -->)
+    are left untouched. Idempotent."""
+    out=[]; i=0; n=len(s)
+    while i < n:
+        a=s.find("<!--", i)
+        if a < 0:
+            out.append(s[i:]); break
+        out.append(s[i:a])
+        b=s.find("-->", a+4)
+        if b < 0:                              # unterminated: leave the rest as-is
+            out.append(s[a:]); break
+        body=s[a+4:b]
+        if "<!--" in body or "--" in body:     # malformed: nested marker inside the body
+            c=s.find("-->", b+3)               # the intended (final) close
+            end = c if c >= 0 else b
+            inner = s[a+4:end].replace("<!--"," ").replace("-->"," ").replace("--"," ")
+            inner = re.sub(r"\s{2,}", " ", inner).strip()
+            out.append("<!-- "+inner+" -->")
+            i = end+3
+        else:
+            out.append(s[a:b+3]); i = b+3
+    return "".join(out)
+
 def fix_homepage(report):
     p = ROOT / "index.html"
     if not p.exists(): return
     s = p.read_text(encoding="utf-8", errors="ignore")
+    fixed = repair_html_comments(s)            # always run: strip leaked comment text
+    if fixed != s:
+        s = fixed
+        if APPLY: write(p, s)
+        report["homepage_comments"]="repaired"
     if "<!-- NB-ORG-SCHEMA -->" in s:
-        report["homepage"]="already done"; return
+        report.setdefault("homepage","already done"); return
     schema={"@context":"https://schema.org","@graph":[
         {"@type":"Organization","@id":f"{SITE}/#org","name":"NaukriBulletin","url":SITE+"/",
          "logo":f"{SITE}/assets/logo-256.png",
