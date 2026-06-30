@@ -196,6 +196,47 @@ def first(*vals):
         if v and v.strip() and v.strip().upper() != "N/A": return v.strip()
     return ""
 
+def _is_non_recruitment(role, slug):
+    low = (role + " " + slug).lower()
+    return any(k in low for k in ("admit","result","answer key","answer-key","syllabus",
+                                  "cut off","cut-off","exam date","exam-date","datesheet"))
+
+def opt_title(role, org, slug=""):
+    """High-CTR <title>: ensure 'Recruitment 2026' for job postings; leave admit-card/result pages alone."""
+    r = role.strip()
+    if _is_non_recruitment(r, slug):
+        core = r
+    else:
+        low = r.lower()
+        if "recruit" in low or "vacanc" in low or "notification" in low:
+            core = r if any(y in r for y in ("2025","2026")) else f"{r} 2026"
+        else:
+            core = f"{r} Recruitment 2026"
+    if len(core) > 60:                      # keep keyword core within SERP display
+        core = core[:57].rsplit(" ", 1)[0].rstrip(",-—") + "…"
+    return f"{core} — NaukriBulletin"
+
+def opt_desc(org, role, vac, qual, last, slug=""):
+    """Rich meta description with aspirant-search hooks (CTR only, no ranking risk)."""
+    r = role.strip()
+    if _is_non_recruitment(r, slug):
+        lead = r
+    elif "recruit" in r.lower() or "vacanc" in r.lower():
+        lead = r if any(y in r for y in ("2025","2026")) else f"{r} 2026"
+    else:
+        lead = f"{r} Recruitment 2026"
+    if org and org.lower() not in lead.lower() and lead.lower() not in org.lower():
+        lead = f"{org.split('(')[0].strip()} — {lead}"
+    parts = [lead.rstrip('.') + "."]
+    if vac:  parts.append(f"{vac} vacancies.")
+    if qual: parts.append(f"Eligibility: {qual}.")
+    if last: parts.append(f"Last date: {last}.")
+    parts.append("Check age limit, salary, selection process & apply online.")
+    d = re.sub(r"\s+", " ", " ".join(parts)).strip()
+    if len(d) > 160:
+        d = d[:158].rsplit(" ", 1)[0] + "…"
+    return d
+
 def schema_block(marker, obj):
     return (f"\n  <!-- {marker} -->\n  <script type=\"application/ld+json\">\n  " +
             json.dumps(obj, ensure_ascii=False, indent=2).replace("\n","\n  ") + "\n  </script>\n")
@@ -219,7 +260,7 @@ def section(title, inner):
     return f'      <section style="{CARD}">\n        <h2 style="{H2}">{title}</h2>\n{inner}\n      </section>\n'
 
 def strip_old_enrich(s):
-    s = re.sub(r"\s*<!-- NB-ENRICH-START -->.*?<!-- NB-ENRICH-END -->", "", s, flags=re.S)
+    s = re.sub(r"      <!-- NB-ENRICH-START -->.*?<!-- NB-ENRICH-END -->\n      ", "", s, flags=re.S)
     s = re.sub(r"\s*<!-- NB-SEO-ENRICH -->.*?Frequently Asked Questions.*?</section>", "", s, flags=re.S)
     return s
 
@@ -228,11 +269,11 @@ def strip_schema(s, marker):
 
 def insert_before_tail(s, block):
     m=re.search(r'<div style="background:#FFF3E8;border-left:4px solid #FF6B00;', s)
-    if m: return s[:m.start()]+block+"      "+s[m.start():]
+    if m: return s[:m.start()]+block+s[m.start():]
     m=re.search(r'<p style="font-size:0\.75rem;[^"]*">\s*Last updated', s)
-    if m: return s[:m.start()]+block+"      "+s[m.start():]
-    if "</article>" in s: return s.replace("</article>", block+"    </article>", 1)
-    if "</main>" in s:     return s.replace("</main>", block+"  </main>", 1)
+    if m: return s[:m.start()]+block+s[m.start():]
+    if "</article>" in s: return s.replace("</article>", block+"</article>", 1)
+    if "</main>" in s:     return s.replace("</main>", block+"</main>", 1)
     return s
 
 # ───────────────────────────── homepage ──────────────────────────────────────
@@ -255,11 +296,13 @@ def fix_homepage(report):
     write(p, s); report["homepage"]="Organization + WebSite schema added"
 
 # ───────────────────────────── job pages ─────────────────────────────────────
-def fix_job(p, report):
-    s = p.read_text(encoding="utf-8", errors="ignore"); orig=s
-    slug=p.parent.name; url=f"{SITE}/jobs/{slug}/"
+def enrich_job_html(s, slug):
+    """Pure string->string enrichment for one job page.
+    Returns (html, status) where status in {'hub','noindex','enriched'}.
+    Safe to call at generation time AND as a backfill; idempotent."""
+    url=f"{SITE}/jobs/{slug}/"
     if '"JobPosting"' not in s:
-        report["job_hub_skipped"]+=1; return
+        return s, "hub"
 
     title=(re.search(r"<title>(.*?)</title>", s) or [None,""])[1].replace(" — NaukriBulletin","").strip()
     org=first(td_value(s,"Department"),
@@ -289,9 +332,20 @@ def fix_job(p, report):
             s=s.replace("</title>","</title>\n  <meta name=\"robots\" content=\"noindex, follow\">",1)
         if "<!-- NB-EMPTY-SHELL -->" not in s:
             s=s.replace("</head>","  <!-- NB-EMPTY-SHELL -->\n</head>",1)
-        report["job_noindex"]+=1
-        if s!=orig: write(p,s)
-        return
+        return s, "noindex"
+
+    # ---- title + meta-description CTR optimisation (idempotent) ----
+    if "<!-- NB-TITLE-OPT -->" not in s:
+        new_title = opt_title(role, org, slug)
+        new_desc  = opt_desc(org, role, vac, qual, last_raw, slug)
+        s = re.sub(r"<title>.*?</title>", f"<title>{esc(new_title)}</title>", s, 1)
+        s = re.sub(r'<meta name="description" content="[^"]*">',
+                   f'<meta name="description" content="{esc(new_desc)}">', s, 1)
+        s = re.sub(r'<meta property="og:title" content="[^"]*">',
+                   f'<meta property="og:title" content="{esc(new_title.replace(" — NaukriBulletin",""))}">', s, 1)
+        s = re.sub(r'<meta property="og:description" content="[^"]*">',
+                   f'<meta property="og:description" content="{esc(new_desc)}">', s, 1)
+        s = s.replace("</head>", "  <!-- NB-TITLE-OPT -->\n</head>", 1)
 
     qa=[(f"What is the {esc(org or role)} recruitment 2026?",
          f"{esc(org)} has released a notification for the post of {esc(role)}"
@@ -310,7 +364,6 @@ def fix_job(p, report):
     crumb=build_breadcrumb([("Home",SITE+"/"),("Jobs",SITE+"/jobs/"),(org or role,"")])
     s=strip_schema(s,"NB-JOB-SCHEMA"); s=strip_schema(s,"NB-FAQ-SCHEMA")
     s=s.replace("</head>",schema_block("NB-JOB-SCHEMA",crumb)+schema_block("NB-FAQ-SCHEMA",build_faq(qa))+"</head>",1)
-    report["job_schema"]+=1
 
     s=strip_old_enrich(s)
     blocks=[]
@@ -372,17 +425,27 @@ def fix_job(p, report):
         f"<p style='{P};margin-top:8px;'>{a}</p></details>" for q,a in qa)
     blocks.append(section("Frequently Asked Questions", "        "+qv))
 
-    block="\n      <!-- NB-ENRICH-START -->\n"+"".join(blocks)+"      <!-- NB-ENRICH-END -->\n"
+    block="      <!-- NB-ENRICH-START -->\n"+"".join(blocks)+"      <!-- NB-ENRICH-END -->\n      "
     s=insert_before_tail(s, block)
-    report["job_enrich"]+=1
-    if s!=orig: write(p,s)
+    return s, "enriched"
+
+def fix_job(p, report):
+    """Backfill wrapper: read file -> enrich -> write."""
+    s = p.read_text(encoding="utf-8", errors="ignore")
+    new, status = enrich_job_html(s, p.parent.name)
+    report[{"hub":"job_hub_skipped","noindex":"job_noindex","enriched":"job_enrich"}[status]] += 1
+    if status == "enriched":
+        report["job_schema"] += 1
+    if new != s:
+        write(p, new)
 
 # ───────────────────────── current-affairs pages ─────────────────────────────
-def fix_ca(p, report):
-    s=p.read_text(encoding="utf-8",errors="ignore"); orig=s
-    slug=p.parent.name; url=f"{SITE}/current-affairs/{slug}/"
+def enrich_ca_html(s, slug):
+    """Pure string->string enrichment for one current-affairs page.
+    Returns (html, status) where status in {'skip','schema','enriched'}."""
+    url=f"{SITE}/current-affairs/{slug}/"
     title=re.sub(r"<[^>]+>","",(re.search(r"<h1[^>]*>(.*?)</h1>",s,re.S) or [None,""])[1]).strip()
-    if not title: return
+    if not title: return s, "skip"
     summ=re.sub(r"<[^>]+>","",(re.search(r"<h2[^>]*>Summary</h2>\s*<p[^>]*>(.*?)</p>",s,re.S) or [None,""])[1]).strip()
     datem=re.search(r"\u2022\s*(\d{1,2}\s+[A-Za-z]+\s+\d{4})",s)
     pub=iso_date(datem.group(1)) if datem else TODAY
@@ -400,7 +463,9 @@ def fix_ca(p, report):
         if summ: art["description"]=summ[:300]
         crumb=build_breadcrumb([("Home",SITE+"/"),("Current Affairs",SITE+"/current-affairs/"),(title,"")])
         s=s.replace("</head>",schema_block("NB-CA-SCHEMA",art)+schema_block("NB-CA-CRUMB",crumb)+"</head>",1)
-        report["ca_schema"]+=1
+        _added_schema=True
+    else:
+        _added_schema=False
 
     if "<!-- NB-CA-ENRICH -->" not in s:
         why=("This development is useful for the General Awareness / Current Affairs section of exams like "
@@ -423,9 +488,22 @@ def fix_ca(p, report):
             s=s[:anchor.end()]+block+s[anchor.end():]
         elif "</article>" in s:
             s=s.replace("</article>", block+"    </article>", 1)
-        report["ca_enrich"]+=1
+        _added_block=True
+    else:
+        _added_block=False
 
-    if s!=orig: write(p,s)
+    if _added_block:   return s, "enriched"
+    if _added_schema:  return s, "schema"
+    return s, "noop"
+
+def fix_ca(p, report):
+    """Backfill wrapper: read file -> enrich -> write."""
+    s = p.read_text(encoding="utf-8", errors="ignore")
+    new, status = enrich_ca_html(s, p.parent.name)
+    if status in ("schema", "enriched"): report["ca_schema"] += 1
+    if status == "enriched": report["ca_enrich"] += 1
+    if new != s:
+        write(p, new)
 
 # ───────────────────────────── ads.txt + io ──────────────────────────────────
 def write_ads_txt(report):
