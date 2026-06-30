@@ -13,13 +13,19 @@ Run from repo root:
     python3 scripts/seo_perfect.py --apply    # write
 Safe to re-run; v1 enrichment blocks are upgraded to v2 automatically.
 """
-import re, sys, json, pathlib, datetime
+import re, sys, json, pathlib, datetime, os
 
 ROOT  = pathlib.Path(__file__).resolve().parent.parent
 APPLY = "--apply" in sys.argv
 PUB   = "pub-1001412206051588"
 SITE  = "https://naukribulletin.in"
 TODAY = datetime.date.today().isoformat()
+
+# ── gap-fix config ────────────────────────────────────────────────────────────
+AD_SLOT_TOP = os.environ.get("ADSENSE_SLOT_TOP", "").strip()   # set as GitHub secret / env
+AD_SLOT_MID = os.environ.get("ADSENSE_SLOT_MID", "").strip()
+EXPIRE_GRACE_DAYS = 45   # noindex job postings whose deadline passed more than this long ago
+CA_MIN_WORDS      = 30   # noindex current-affairs articles with less core content than this
 
 MONTHS = {m.lower(): i for i, m in enumerate(
     ["January","February","March","April","May","June","July","August",
@@ -276,6 +282,65 @@ def insert_before_tail(s, block):
     if "</main>" in s:     return s.replace("</main>", block+"</main>", 1)
     return s
 
+# ───────────────────────── gap-fix helpers ───────────────────────────────────
+def set_noindex(s):
+    if re.search(r'<meta name="robots"', s):
+        return re.sub(r'<meta name="robots" content="[^"]*">',
+                      '<meta name="robots" content="noindex, follow">', s, 1)
+    return s.replace("</title>", '</title>\n  <meta name="robots" content="noindex, follow">', 1)
+
+def apply_ad_slots(s):
+    """Replace placeholder ad slots with real ones from env. No-op if env unset."""
+    if not AD_SLOT_TOP or 'data-ad-slot="0000000000"' not in s:
+        return s, 0
+    n = s.count('data-ad-slot="0000000000"')
+    mid = AD_SLOT_MID or AD_SLOT_TOP
+    s = s.replace('data-ad-slot="0000000000"', f'data-ad-slot="{AD_SLOT_TOP}"', 1)  # first = top
+    s = s.replace('data-ad-slot="0000000000"', f'data-ad-slot="{mid}"')             # rest = mid
+    return s, n
+
+def expired_days(last_raw, posted_iso, validthrough):
+    """Days past the latest known deadline (validThrough / last date); None if unknown."""
+    cands = []
+    for v in (validthrough, iso_date(last_raw)):
+        if v:
+            try: cands.append(datetime.date.fromisoformat(v[:10]))
+            except Exception: pass
+    if not cands: return None
+    return (datetime.date.today() - max(cands)).days
+
+CONSENT_SNIPPET = (
+'<!-- NB-CONSENT -->\n'
+'<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+"gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});"
+"try{if(localStorage.getItem('nb_consent')==='granted')gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}catch(e){}</script>\n"
+'<style>#nb-consent{position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#0A0F2C;color:#fff;padding:14px 18px;font:14px/1.5 system-ui,-apple-system,sans-serif;display:none}#nb-consent.show{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;text-align:center}#nb-consent a{color:#FF8C33}#nb-consent button{border:0;border-radius:8px;padding:8px 18px;font-weight:700;cursor:pointer}#nb-c-acc{background:#FF6B00;color:#fff}#nb-c-rej{background:#2A2F45;color:#fff}</style>\n'
+'<script>document.addEventListener(\'DOMContentLoaded\',function(){try{if(localStorage.getItem(\'nb_consent\'))return;var b=document.createElement(\'div\');b.id=\'nb-consent\';b.innerHTML=\'<span>We use cookies for analytics &amp; ads. See our <a href="/privacy/">Privacy Policy</a>.</span><button id="nb-c-acc">Accept</button><button id="nb-c-rej">Reject</button>\';document.body.appendChild(b);b.classList.add(\'show\');function setc(v){try{localStorage.setItem(\'nb_consent\',v);}catch(e){}if(v===\'granted\')gtag(\'consent\',\'update\',{ad_storage:\'granted\',ad_user_data:\'granted\',ad_personalization:\'granted\',analytics_storage:\'granted\'});b.remove();}document.getElementById(\'nb-c-acc\').onclick=function(){setc(\'granted\');};document.getElementById(\'nb-c-rej\').onclick=function(){setc(\'denied\');};}catch(e){}});</script>\n'
+)
+
+def ensure_consent(s):
+    """Inject Consent Mode v2 default + cookie banner at the top of <head>. Idempotent."""
+    if "<!-- NB-CONSENT -->" in s or "<head>" not in s:
+        return s, False
+    return s.replace("<head>", "<head>\n  " + CONSENT_SNIPPET, 1), True
+
+def prune_sitemap(noindex_slugs):
+    """Remove <url> blocks for noindexed pages from sitemap.xml. Returns # pages pruned."""
+    sm = ROOT / "sitemap.xml"
+    if not sm.exists() or not noindex_slugs: return 0
+    s = sm.read_text(encoding="utf-8")
+    slugset = {f"/{x}/" for x in noindex_slugs}
+    matched = set(); kept = []
+    for b in re.split(r'(?=<url>)', s):
+        loc = re.search(r'<loc>([^<]+)</loc>', b)
+        hit = loc and next((sl for sl in slugset if sl in loc.group(1)), None)
+        if hit:
+            matched.add(hit); continue
+        kept.append(b)
+    if APPLY and matched:
+        sm.write_text("".join(kept), encoding="utf-8")
+    return len(matched)
+
 # ───────────────────────────── homepage ──────────────────────────────────────
 def fix_homepage(report):
     p = ROOT / "index.html"
@@ -312,6 +377,7 @@ def enrich_job_html(s, slug):
     qual=td_value(s,"Qualification"); age=td_value(s,"Age Limit")
     salary=td_value(s,"Salary / Pay Scale"); last_raw=td_value(s,"Last Date")
     posted=(re.search(r'"datePosted":\s*"([^"]+)"',s) or [None,""])[1]
+    vthrough=(re.search(r'"validThrough":\s*"([^"]+)"',s) or [None,""])[1]
     kb=detect_exam(" ".join([title,org,role,slug]))
 
     iso=iso_date(posted) or TODAY
@@ -376,8 +442,10 @@ def enrich_job_html(s, slug):
     for lab,val in [("Vacancies",vac),("Qualification",qual),("Age limit",age),("Pay scale",salary),("Last date",last_raw)]:
         if val: facts.append(f"<li style='{LI}'><strong>{lab}:</strong> {esc(val)}</li>")
     facts_html=f"<ul style='margin:8px 0 0;padding-left:20px;'>{''.join(facts)}</ul>" if facts else ""
+    byline=(f"<p style='{P};font-size:0.8rem;color:#9BA3B8;margin-top:12px;'>"
+            "Reviewed by the NaukriBulletin Editorial Team. Always verify the final details on the official website before applying.</p>")
     blocks.append(section(f"About {esc(org)} {esc(role)} Recruitment 2026",
-                          f"        <p style='{P}'>{intro}</p>\n{facts_html}"))
+                          f"        <p style='{P}'>{intro}</p>\n{facts_html}\n        {byline}"))
     if qual or age:
         e=f"        <p style='{P}'>"
         if qual: e+=f"<strong>Educational qualification:</strong> {esc(qual)}.<br>"
@@ -427,15 +495,22 @@ def enrich_job_html(s, slug):
 
     block="      <!-- NB-ENRICH-START -->\n"+"".join(blocks)+"      <!-- NB-ENRICH-END -->\n      "
     s=insert_before_tail(s, block)
+    ed = expired_days(last_raw, iso, vthrough)
+    if ed is not None and ed > EXPIRE_GRACE_DAYS:
+        s = set_noindex(s)
+        return s, "expired"
     return s, "enriched"
 
-def fix_job(p, report):
+def fix_job(p, report, noidx):
     """Backfill wrapper: read file -> enrich -> write."""
     s = p.read_text(encoding="utf-8", errors="ignore")
     new, status = enrich_job_html(s, p.parent.name)
-    report[{"hub":"job_hub_skipped","noindex":"job_noindex","enriched":"job_enrich"}[status]] += 1
-    if status == "enriched":
+    key={"hub":"job_hub_skipped","noindex":"job_noindex","enriched":"job_enrich","expired":"job_expired"}[status]
+    report[key] += 1
+    if status in ("enriched","expired"):
         report["job_schema"] += 1
+    if status in ("noindex","expired"):
+        noidx.add(p.parent.name)
     if new != s:
         write(p, new)
 
@@ -447,6 +522,11 @@ def enrich_ca_html(s, slug):
     title=re.sub(r"<[^>]+>","",(re.search(r"<h1[^>]*>(.*?)</h1>",s,re.S) or [None,""])[1]).strip()
     if not title: return s, "skip"
     summ=re.sub(r"<[^>]+>","",(re.search(r"<h2[^>]*>Summary</h2>\s*<p[^>]*>(.*?)</p>",s,re.S) or [None,""])[1]).strip()
+    kf=re.findall(r"<li[^>]*>([^<]+)</li>",(re.search(r'Key Facts for Exam.*?</ul>',s,re.S) or [None,""])[0] or "")
+    core_words=len(summ.split())+sum(len(x.split()) for x in kf)
+    if core_words < CA_MIN_WORDS:                      # near-empty article -> noindex
+        s2=set_noindex(s)
+        return s2, "noindex"
     datem=re.search(r"\u2022\s*(\d{1,2}\s+[A-Za-z]+\s+\d{4})",s)
     pub=iso_date(datem.group(1)) if datem else TODAY
     cat=(re.search(r'breadcrumb.*?<span>(.*?)</span>',s,re.S) or
@@ -496,12 +576,14 @@ def enrich_ca_html(s, slug):
     if _added_schema:  return s, "schema"
     return s, "noop"
 
-def fix_ca(p, report):
+def fix_ca(p, report, noidx):
     """Backfill wrapper: read file -> enrich -> write."""
     s = p.read_text(encoding="utf-8", errors="ignore")
     new, status = enrich_ca_html(s, p.parent.name)
     if status in ("schema", "enriched"): report["ca_schema"] += 1
     if status == "enriched": report["ca_enrich"] += 1
+    if status == "noindex":
+        report["ca_noindex"] += 1; noidx.add(p.parent.name)
     if new != s:
         write(p, new)
 
@@ -519,20 +601,40 @@ def write(p,s):
 
 def main():
     report={"homepage":"-","ads_txt":"-","job_schema":0,"job_enrich":0,"job_noindex":0,
-            "job_hub_skipped":0,"ca_schema":0,"ca_enrich":0}
+            "job_expired":0,"job_hub_skipped":0,"ca_schema":0,"ca_enrich":0,"ca_noindex":0}
+    noidx=set()
     write_ads_txt(report); fix_homepage(report)
     jobs=list((ROOT/"jobs").glob("*/index.html"))
     for p in jobs:
-        try: fix_job(p,report)
+        try: fix_job(p,report,noidx)
         except Exception as e: print("JOB ERR",p,e)
     cas=[p for p in (ROOT/"current-affairs").glob("*/index.html")
          if not re.match(r"^\d{4}-\d{2}",p.parent.name)]
     for p in cas:
-        try: fix_ca(p,report)
+        try: fix_ca(p,report,noidx)
         except Exception as e: print("CA ERR",p,e)
-    print("\n=== seo_perfect v2 report ({}): ===".format("APPLIED" if APPLY else "DRY-RUN"))
+
+    # ── sitewide sweep: cookie-consent (Consent Mode v2) + real ad slots on EVERY page ──
+    consent_added=0; slots_fixed=0; swept=0
+    for p in ROOT.rglob("*.html"):
+        sp=str(p)
+        if "/dist/" in sp or "__MACOSX" in sp or "/node_modules/" in sp: continue
+        try:
+            s=p.read_text(encoding="utf-8",errors="ignore"); orig=s
+            s,added=ensure_consent(s); consent_added+=1 if added else 0
+            s,n=apply_ad_slots(s); slots_fixed+=n
+            swept+=1
+            if APPLY and s!=orig: p.write_text(s,encoding="utf-8")
+        except Exception as e: print("SWEEP ERR",p,e)
+    report["consent_added"]=consent_added
+    report["ad_slots_fixed"]=slots_fixed if AD_SLOT_TOP else "ENV UNSET — set ADSENSE_SLOT_TOP/MID"
+
+    # ── prune noindexed pages from sitemap ──
+    report["sitemap_pruned"]=prune_sitemap(noidx)
+
+    print("\n=== seo_perfect v3 report ({}): ===".format("APPLIED" if APPLY else "DRY-RUN"))
     for k,v in report.items(): print(f"  {k:16}: {v}")
-    print(f"  jobs scanned    : {len(jobs)}\n  ca scanned      : {len(cas)}")
+    print(f"  jobs scanned    : {len(jobs)}\n  ca scanned      : {len(cas)}\n  pages swept     : {swept}")
     if not APPLY: print("\nRe-run with --apply to write changes.")
 
 if __name__=="__main__":
