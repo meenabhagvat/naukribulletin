@@ -61,7 +61,8 @@ EXAM_KB = {
    "age":"Generally 18–32 years depending on the post; age relaxation applies for SC/ST/OBC/PwD/Ex-servicemen.",
    "stages":["Tier 1 — Computer Based Test (objective)","Tier 2 — Computer Based Test (objective + module/skill test where applicable)","Document Verification & final merit"],
    "pattern":"Tier 1 has 100 questions / 200 marks across General Intelligence, General Awareness, Quantitative Aptitude and English in 60 minutes, with 0.50 negative marking.",
-   "mock":"/mock-test/ssc-cgl/"},
+   "mock":"/mock-test/ssc-cgl/",
+   "guide":"/guides/ssc-cgl-2026/", "guide_label":"SSC CGL 2026 Complete Guide"},
  "ssc-chsl": {"kw":["chsl","10+2","higher secondary"],
    "name":"SSC CHSL (10+2 Level)",
    "elig":"Passed Class 12 (10+2) from a recognised board.",
@@ -363,6 +364,24 @@ def prune_sitemap(noindex_slugs):
         sm.write_text("".join(kept), encoding="utf-8")
     return len(matched)
 
+def ensure_guides_in_sitemap():
+    """Add any /guides/<slug>/ page to sitemap.xml if it's missing. Returns # added."""
+    sm = ROOT / "sitemap.xml"; gdir = ROOT / "guides"
+    if not sm.exists() or not gdir.is_dir(): return 0
+    s = sm.read_text(encoding="utf-8")
+    added = 0; entries = ""
+    for d in sorted(gdir.iterdir()):
+        if not (d / "index.html").exists(): continue
+        url = f"{SITE}/guides/{d.name}/"
+        if url in s: continue
+        entries += (f"  <url>\n    <loc>{url}</loc>\n    <lastmod>{TODAY}</lastmod>\n"
+                    f"    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n")
+        added += 1
+    if added and "</urlset>" in s:
+        s = s.replace("</urlset>", entries + "</urlset>", 1)
+        if APPLY: sm.write_text(s, encoding="utf-8")
+    return added
+
 # ───────────────────────────── homepage ──────────────────────────────────────
 def repair_html_comments(s):
     """Flatten malformed HTML comments whose body contains a nested marker
@@ -532,8 +551,13 @@ def enrich_job_html(s, slug):
     blocks.append(section("Documents Required",
         "        <ul style='margin:0;padding-left:20px;'>"+"".join(f"<li style='{LI}'>{x}</li>" for x in docs)+"</ul>"))
     mock=kb["mock"] if kb else "/mock-test/"
+    guide_line=""
+    if kb and kb.get("guide"):
+        guide_line=(f"<li style='{LI}'>\U0001F4D8 <a href='{kb['guide']}' style='color:#FF6B00;font-weight:700;'>"
+                    f"{esc(kb.get('guide_label','Complete Exam Guide'))}</a> — notification, full exam pattern, syllabus &amp; salary in one place.</li>")
     prep=(f"        <p style='{P}'>Prepare smartly with our free resources:</p>\n"
           f"        <ul style='margin:0;padding-left:20px;'>"
+          f"{guide_line}"
           f"<li style='{LI}'>\U0001F4DD <a href='{mock}' style='color:#FF6B00;font-weight:600;'>Free mock tests</a> — practise with real exam-pattern questions.</li>"
           f"<li style='{LI}'>\U0001F4DA <a href='/syllabus/' style='color:#FF6B00;font-weight:600;'>Syllabus &amp; exam pattern</a> — know exactly what to study.</li>"
           f"<li style='{LI}'>\U0001F5DE\uFE0F <a href='/current-affairs/' style='color:#FF6B00;font-weight:600;'>Daily current affairs</a> — stay updated for the GA/GK section.</li>"
@@ -658,7 +682,8 @@ def write(p,s):
 
 def main():
     report={"homepage":"-","ads_txt":"-","job_schema":0,"job_enrich":0,"job_noindex":0,
-            "job_expired":0,"job_hub_skipped":0,"ca_schema":0,"ca_enrich":0,"ca_noindex":0}
+            "job_expired":0,"job_hub_skipped":0,"ca_schema":0,"ca_enrich":0,"ca_noindex":0,
+            "guides_in_sitemap":0}
     noidx=set()
     write_ads_txt(report); fix_homepage(report)
     jobs=list((ROOT/"jobs").glob("*/index.html"))
@@ -688,6 +713,7 @@ def main():
 
     # ── prune noindexed pages from sitemap ──
     report["sitemap_pruned"]=prune_sitemap(noidx)
+    report["guides_in_sitemap"]=ensure_guides_in_sitemap()
     report["ca_nav_fixed"]=_NAV["fixed"]
 
     print("\n=== seo_perfect v3 report ({}): ===".format("APPLIED" if APPLY else "DRY-RUN"))
