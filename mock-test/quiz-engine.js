@@ -58,7 +58,7 @@
     const total = questions.length;
     let current = 0;
     const userAnswers = new Array(total).fill(null);
-    let timeLeft = (data.durationMinutes || 20) * 60;
+    let timeLeft = data.durationMinutes ? data.durationMinutes * 60 : (data.totalTime || 1200); // accept durationMinutes (min) or totalTime (sec)
     let timerInterval = null;
     let submitted = false;
 
