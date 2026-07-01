@@ -1842,7 +1842,7 @@ def rebuild_syllabus():
             rows += f"""
               <a href="/jobs/{slug}/" class="syl-row" style="display:flex;align-items:center;gap:12px;
                  padding:12px 16px;border-bottom:1px solid var(--grey-200);text-decoration:none;
-                 color:inherit;transition:background .1s;" onmouseover="this.style.background=\'#fffbf5\'"
+                 color:var(--white);transition:background .1s;" onmouseover="this.style.background=\'#fffbf5\'"
                  onmouseout="this.style.background=\'\'" >
                 <div style="flex:1;min-width:0;">
                   <div style="font-size:0.88rem;font-weight:600;color:var(--navy);
