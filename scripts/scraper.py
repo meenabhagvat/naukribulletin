@@ -1753,7 +1753,7 @@ def build_job_card(job):
               <div style="width:42px;height:42px;border-radius:10px;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">{job['emoji']}</div>
               <div>
                 <div style="font-size:0.72rem;color:var(--grey-400);font-weight:500;margin-bottom:2px;">{job['dept']}</div>
-                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);">{job['title']}</div>
+                <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--white);">{job['title']}</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
@@ -2243,7 +2243,8 @@ def rebuild_states():
   </div>
 </header>
 <main style="max-width:1100px;margin:0 auto;padding:28px 20px;">
-  <div style="display:grid;grid-template-columns:1fr 340px;gap:24px;">
+  <div id="state-grid" style="display:grid;grid-template-columns:1fr 340px;gap:24px;">
+    <style>@media(max-width:768px){{#state-grid{{grid-template-columns:1fr!important}}}}</style>
     <div>
       <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:24px;">
         <div style="padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
@@ -2519,7 +2520,7 @@ def rebuild_homepage():
           <span style="font-size:1.5rem;flex-shrink:0;">{a['emoji']}</span>
           <div>
             <div style="font-size:0.7rem;color:var(--saffron);font-weight:700;margin-bottom:4px;">{a['cat']}</div>
-            <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:4px;">{a['title'][:80]}</div>
+            <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:4px;">{a['title'][:80]}</div>
             <div style="font-size:0.8rem;color:var(--grey-700);">{a['summary']}</div>
           </div>
         </a>"""
@@ -2527,7 +2528,7 @@ def rebuild_homepage():
     affairs_html = "\n".join(affair_card(a) for a in affairs) if affairs else """
         <a href="/current-affairs/" style="background:var(--white);border-radius:10px;padding:16px;border:1.5px solid var(--grey-200);text-decoration:none;color:inherit;display:flex;gap:12px;align-items:flex-start;">
           <span style="font-size:1.5rem;">📰</span>
-          <div><div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--navy);">Latest Current Affairs</div>
+          <div><div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--white);">Latest Current Affairs</div>
           <div style="font-size:0.8rem;color:var(--grey-700);">Updated daily for SSC, Banking, UPSC exams.</div></div>
         </a>"""
 
@@ -2678,7 +2679,7 @@ def rebuild_jobs_listing():
           <a href="https://t.me/naukribulletin24" class="telegram-btn">Join Channel →</a>
         </div>
         <div class="card">
-          <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:14px;">🔍 Filter by Category</div>
+          <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:14px;">🔍 Filter by Category</div>
           <select onchange="filterJobs(this.value,null)" style="width:100%;font-family:var(--font-body);font-size:0.85rem;border:1.5px solid var(--grey-200);border-radius:8px;padding:8px 12px;color:var(--text);background:var(--white);">
             <option value="all">All Categories</option>
             <option value="ssc">SSC</option>
