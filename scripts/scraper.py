@@ -2456,7 +2456,7 @@ def build_daily_quiz(affairs_list):
         dqScore++;document.getElementById('dq-score').textContent=dqScore+' / '+dqTotal;
       }}else{{
         btn.classList.remove('disabled');btn.classList.add('wrong');
-        opts[correct].classList.remove('disabled');opts[correct].classList.add('correct');
+        var optArr=Array.from(opts);if(optArr[correct]){{optArr[correct].classList.remove('disabled');optArr[correct].classList.add('correct');}}
       }}
       document.getElementById('dq-hint-'+qIdx).style.display='block';
       setTimeout(function(){{
