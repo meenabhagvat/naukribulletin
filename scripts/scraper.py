@@ -126,8 +126,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://www.joinindiannavy.gov.in/en/page/recruitment-notifications.html",
-        "fallback_url": "https://joinindiannavy.gov.in/",
+        "url": "https://joinindiannavy.gov.in/",
+        "fallback_url": "https://www.nausena-bharti.nic.in/",
         "type": "html",
         "selector": ".views-row a, td a, li a",
         "dept": "Indian Navy",
@@ -800,7 +800,7 @@ def _get(url, timeout=20, is_html=False):
         return r
     except requests.exceptions.HTTPError as e:
         code = e.response.status_code if e.response is not None else 0
-        if code in (403, 404, 410):
+        if code in (401, 403, 404, 410):
             return None          # permanent failure — skip silently
         raise
     except Exception:
