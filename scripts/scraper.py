@@ -1845,7 +1845,7 @@ def rebuild_syllabus():
                  color:inherit;transition:background .1s;" onmouseover="this.style.background=\'#fffbf5\'"
                  onmouseout="this.style.background=\'\'" >
                 <div style="flex:1;min-width:0;">
-                  <div style="font-size:0.88rem;font-weight:600;color:var(--navy);
+                  <div style="font-size:0.88rem;font-weight:600;color:var(--white);
                        white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{title}</div>
                   <div style="font-size:0.75rem;color:var(--grey-400);margin-top:2px;">
                     {"📌 " + er if er else ""}
