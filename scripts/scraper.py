@@ -35,38 +35,6 @@ SITE_URL  = "https://naukribulletin.in"
 
 SOURCES = [
 
-    # ── EXAM UPDATES: results / admit cards / answer keys (deterministic, no AI) ──
-    {
-        "url": "https://www.freejobalert.com/results/",
-        "fallback_url": "https://www.freejobalert.com/result/",
-        "type": "html",
-        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a, .post-title a",
-        "dept": "Results",
-        "category": "results",
-        "priority": 1,
-        "content_type": "results",
-    },
-    {
-        "url": "https://www.freejobalert.com/admit-card/",
-        "fallback_url": "https://www.freejobalert.com/admit-cards/",
-        "type": "html",
-        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a, .post-title a",
-        "dept": "Admit Card",
-        "category": "admit-card",
-        "priority": 1,
-        "content_type": "admit-card",
-    },
-    {
-        "url": "https://www.freejobalert.com/answer-key/",
-        "fallback_url": "https://www.freejobalert.com/answer-keys/",
-        "type": "html",
-        "selector": "h2.entry-title a, .jeg_post_title a, article h2 a, .post-title a",
-        "dept": "Answer Key",
-        "category": "answer-key",
-        "priority": 1,
-        "content_type": "answer-key",
-    },
-
     # ── CENTRAL / NATIONAL ─────────────────────────────────────────────────
     {
         "url": "https://www.freejobalert.com/ssc/",
@@ -1497,176 +1465,6 @@ def generate_affairs_html(affair):
     return slug, html
 
 
-# ─── EXAM-UPDATE PAGES (results / admit cards / answer keys) ──────────────────
-UPDATE_KINDS = {
-    "results":    {"folder": "results",    "label": "Results",     "word": "Result"},
-    "admit-card": {"folder": "admit-card", "label": "Admit Cards", "word": "Admit Card"},
-    "answer-key": {"folder": "answer-key", "label": "Answer Keys", "word": "Answer Key"},
-}
-
-def _update_portal(title):
-    t = (title or "").lower()
-    table = [
-        (("ssc", "cgl", "chsl", "mts", "gd constable", "stenographer"), "Staff Selection Commission (SSC)", "https://ssc.gov.in"),
-        (("rrb", "railway", "ntpc", "group d", "group-d", "alp", "rpf", "technician"), "Railway Recruitment Boards (RRB)", "https://www.rrbapply.gov.in"),
-        (("ibps",), "IBPS", "https://www.ibps.in"),
-        (("sbi", "state bank"), "State Bank of India (SBI)", "https://bank.sbi/web/careers"),
-        (("rbi", "reserve bank"), "Reserve Bank of India (RBI)", "https://www.rbi.org.in"),
-        (("upsc", "ias", "civil services", "nda", "cds", "capf"), "UPSC", "https://upsc.gov.in"),
-    ]
-    for kws, name, url in table:
-        if any(k in t for k in kws):
-            return name, url
-    return None, None
-
-def _update_steps(kind):
-    if kind == "results":
-        return ["Open the official website of the recruiting body (link above).",
-                "Go to the 'Result' or 'What's New' section.",
-                "Find the notice for your exam and click the result PDF or login link.",
-                "Enter your roll number / registration details if asked, then download and save your result."]
-    if kind == "admit-card":
-        return ["Open the official website of the recruiting body (link above).",
-                "Go to the 'Admit Card' / 'Download Call Letter' section.",
-                "Log in with your registration number and password (or roll number and date of birth).",
-                "Check all details, download the admit card and take two colour printouts for exam day."]
-    return ["Open the official website of the recruiting body (link above).",
-            "Go to the 'Answer Key' section and log in if required.",
-            "Download your response sheet and the provisional answer key for your shift.",
-            "Match your answers, estimate your score, and raise objections within the official window if needed."]
-
-def generate_update_html(item, kind):
-    meta  = UPDATE_KINDS[kind]
-    title = (item.get("title") or "").strip()
-    slug  = item.get("slug") or make_slug(title)
-    today_disp = datetime.now().strftime("%d %B %Y")
-    today_iso  = datetime.now().strftime("%Y-%m-%d")
-    folder, word, label = meta["folder"], meta["word"], meta["label"]
-    url   = f"https://naukribulletin.in/{folder}/{slug}/"
-    pname, purl = _update_portal(title)
-    portal_html = (f'<a href="{purl}" rel="nofollow noopener" target="_blank" style="color:#FF6B00;font-weight:700;">{pname} &rarr;</a>'
-                   if purl else "the official website of the recruiting body")
-    steps = "".join(f"<li style='margin-bottom:8px;'>{s}</li>" for s in _update_steps(kind))
-    desc  = f"{title} — how to check, official link and what you need. Updated {today_disp} on NaukriBulletin."
-    def act(href): return ' class="active"' if href == f"/{folder}/" else ""
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} — NaukriBulletin</title>
-  <meta name="description" content="{desc[:155]}">
-  <meta name="nb-kind" content="{kind}">
-  <meta name="nb-date" content="{today_iso}">
-  <link rel="canonical" href="{url}">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap"></noscript>
-  <link rel="stylesheet" href="/css/style.css">
-  <script type="application/ld+json">
-  {{"@context":"https://schema.org","@graph":[
-  {{"@type":"BreadcrumbList","itemListElement":[
-  {{"@type":"ListItem","position":1,"name":"Home","item":"https://naukribulletin.in/"}},
-  {{"@type":"ListItem","position":2,"name":"{label}","item":"https://naukribulletin.in/{folder}/"}},
-  {{"@type":"ListItem","position":3,"name":{json.dumps(title)},"item":"{url}"}}]}},
-  {{"@type":"NewsArticle","headline":{json.dumps(title)},"datePublished":"{today_iso}","dateModified":"{today_iso}","author":{{"@type":"Organization","name":"NaukriBulletin Editorial Team"}},"publisher":{{"@type":"Organization","name":"NaukriBulletin","logo":{{"@type":"ImageObject","url":"https://naukribulletin.in/assets/logo-256.png"}}}},"mainEntityOfPage":"{url}","description":{json.dumps(desc[:155])}}}]}}
-  </script>
-</head>
-<body style="font-family:'DM Sans',sans-serif;background:#F7F8FA;margin:0;">
-  <nav>
-    <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
-    <ul id="navLinks">
-      <li><a href="/jobs/">Jobs</a></li>
-      <li><a href="/current-affairs/">Current Affairs</a></li>
-      <li><a href="/results/"{act('/results/')}>Results</a></li>
-      <li><a href="/exam-calendar/">Exam Calendar</a></li>
-      <li><a href="/syllabus/">Syllabus</a></li>
-      <li><a href="/mock-test/">Mock Tests</a></li>
-      <li><a href="/admit-card/"{act('/admit-card/')}>Admit Cards</a></li>
-    </ul>
-    <div class="nav-right"><a href="/alerts/" class="nav-cta">&#128276; Get Alerts</a></div>
-    <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
-  </nav>
-  <main style="max-width:900px;margin:0 auto;padding:32px 20px;">
-    <div style="font-size:0.8rem;color:#9BA3B8;margin-bottom:16px;">
-      <a href="/" style="color:#9BA3B8;">Home</a> &rsaquo; <a href="/{folder}/" style="color:#9BA3B8;">{label}</a> &rsaquo; <span>{word}</span>
-    </div>
-    <article>
-      <div style="background:#0A0F2C;border-radius:16px;padding:32px;margin-bottom:24px;">
-        <div style="color:#FF6B00;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;margin-bottom:8px;">{word.upper()} &bull; {today_disp}</div>
-        <h1 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;line-height:1.25;margin:0;">{title}</h1>
-      </div>
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:24px;margin-bottom:20px;">
-        <p style="color:#1A1F35;font-size:0.95rem;line-height:1.7;margin-top:0;">This page tracks the <strong>{title}</strong>. Check and download it only from {portal_html} &mdash; never trust links shared only on social media. Here is exactly how to check it.</p>
-        <h2 style="font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin:18px 0 10px;">How to check your {word.lower()}</h2>
-        <ol style="color:#1A1F35;font-size:0.93rem;line-height:1.7;padding-left:20px;">{steps}</ol>
-        <p style="font-size:0.82rem;color:#6b7280;margin-bottom:0;">Official source: {portal_html}. NaukriBulletin aggregates announcements for convenience; the official website is always the final authority.</p>
-      </div>
-      <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_CLIENT}" data-ad-slot="{ADSENSE_SLOT_TOP}" data-ad-format="auto"></ins>
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:24px;margin:20px 0;">
-        <h2 style="font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin:0 0 12px;">Free preparation &amp; alerts</h2>
-        <ul style="margin:0;padding-left:20px;color:#1A1F35;font-size:0.93rem;line-height:1.8;">
-          <li>&#128218; <a href="/guides/ssc-cgl-2026/" style="color:#FF6B00;font-weight:600;">SSC CGL 2026 Complete Guide</a></li>
-          <li>&#128221; <a href="/mock-test/" style="color:#FF6B00;font-weight:600;">Free mock tests</a></li>
-          <li>&#128197; <a href="/exam-calendar/" style="color:#FF6B00;font-weight:600;">Exam calendar</a></li>
-          <li>&#128276; <a href="/alerts/" style="color:#FF6B00;font-weight:600;">Get free alerts</a> on Telegram, WhatsApp &amp; push</li>
-          <li>&#128188; <a href="/{folder}/" style="color:#FF6B00;font-weight:600;">More {label.lower()}</a></li>
-        </ul>
-      </div>
-    </article>
-  </main>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-  <script>
-  (function(){{var btn=document.getElementById('navHamburger');var links=document.querySelector('nav ul');if(!btn||!links)return;btn.addEventListener('click',function(){{links.classList.toggle('mobile-open');btn.classList.toggle('active');}});links.querySelectorAll('a').forEach(function(a){{a.addEventListener('click',function(){{links.classList.remove('mobile-open');btn.classList.remove('active');}});}});}})();
-  </script>
-</body>
-</html>"""
-    return slug, html
-
-def rebuild_updates_hubs():
-    """Inject/refresh a 'Latest' list of detail pages into each hub landing page. Idempotent."""
-    for kind, meta in UPDATE_KINDS.items():
-        folder = meta["folder"]
-        hub = SITE_ROOT / folder / "index.html"
-        if not hub.exists():
-            continue
-        items = []
-        for d in sorted((SITE_ROOT / folder).iterdir()):
-            if not d.is_dir():
-                continue
-            idx = d / "index.html"
-            if not idx.exists():
-                continue
-            doc = idx.read_text(encoding="utf-8", errors="ignore")
-            mt = re.search(r"<h1[^>]*>(.*?)</h1>", doc, re.S)
-            ttl = re.sub(r"<[^>]+>", "", mt.group(1)).strip() if mt else d.name
-            dm = re.search(r'<meta name="nb-date" content="([^"]+)"', doc)
-            items.append((dm.group(1) if dm else "0000-00-00", d.name, ttl))
-        items.sort(reverse=True)
-        if items:
-            cards = "".join(
-                f'<a class="linkcard" href="/{folder}/{slug}/" style="margin-bottom:10px;">'
-                f'<span class="t">{ttl}</span><span class="d">{date}</span></a>'
-                for date, slug, ttl in items[:40])
-            inner = (f'<section class="wrap" id="latest"><h2>Latest {meta["label"]}</h2>'
-                     f'<div class="linkgrid">{cards}</div></section>')
-        else:
-            inner = (f'<section class="wrap" id="latest"><h2>Latest {meta["label"]}</h2>'
-                     f'<p style="color:var(--muted);">New {meta["label"].lower()} appear here automatically as they are announced. '
-                     f'Use the official links below or <a href="/alerts/">get free alerts</a>.</p></section>')
-        block = f"<!-- NB-LATEST-START -->\n{inner}\n<!-- NB-LATEST-END -->"
-        cur = hub.read_text(encoding="utf-8", errors="ignore")
-        if "<!-- NB-LATEST-START -->" in cur:
-            new = re.sub(r"<!-- NB-LATEST-START -->.*?<!-- NB-LATEST-END -->", block, cur, flags=re.S)
-        elif "</header>" in cur:
-            new = cur.replace("</header>", "</header>\n" + block, 1)
-        else:
-            new = cur.replace("<main", block + "\n<main", 1)
-        if new != cur:
-            hub.write_text(new, encoding="utf-8")
-            print(f"  [HUB] refreshed /{folder}/ — {len(items)} items")
-
-
 # ─── SITE BUILDER ─────────────────────────────────────────────────────────────
 
 def save_page(slug, html, folder):
@@ -1781,18 +1579,8 @@ def run():
 
             content_type = source.get("content_type", "job")
             print(f"  → Processing: {item.get('title', '')[:70]}")
-
-            if content_type in UPDATE_KINDS:
-                slug, html = generate_update_html(item, content_type)
-                if is_valid_slug(slug, item.get("title", "")):
-                    save_page(slug, html, UPDATE_KINDS[content_type]["folder"])
-                    new_pages += 1
-                else:
-                    print(f"  [SKIP] Invalid slug: {slug}")
-                processed.add(item_hash)
-                continue
-
             time.sleep(0.6)  # be polite to AI APIs
+
             formatted = format_with_ai(item, content_type)
             if not formatted:
                 print("  ✗ AI formatting failed, skipping")
@@ -1841,7 +1629,6 @@ def run():
     rebuild_jobs_listing()
     rebuild_affairs_listing()
     rebuild_syllabus()
-    rebuild_updates_hubs()
 
     try:
         import importlib.util
@@ -2080,14 +1867,14 @@ def rebuild_syllabus():
                  display:flex;align-items:center;justify-content:center;font-size:1.1rem;">{cfg[2]}</div>
             <div>
               <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;
-                   color:var(--navy);">{cfg[1]} Syllabus {yr}</div>
+                   color:var(--white);">{cfg[1]} Syllabus {yr}</div>
               <div style="font-size:0.75rem;color:var(--grey-400);">{len(jobs)} active notifications</div>
             </div>
           </div>
-          <div style="background:var(--white);border-radius:12px;border:1.5px solid var(--grey-200);
+          <div style="background:var(--card-bg);border-radius:12px;border:1.5px solid var(--border);
                overflow:hidden;">
             {rows}
-            <div style="padding:10px 16px;background:#fafafa;text-align:center;">
+            <div style="padding:10px 16px;background:var(--navy-soft);text-align:center;">
               <a href="/jobs/{cat_key}/" style="font-size:0.8rem;color:var(--saffron);
                  font-weight:600;text-decoration:none;">View all {cfg[1]} jobs →</a>
             </div>
@@ -2105,9 +1892,7 @@ def rebuild_syllabus():
   <meta name="description" content="Complete exam syllabus {yr} for SSC CGL, CHSL, Railway NTPC, SBI PO, UPSC, IBPS and 200+ govt exams. Updated daily at NaukriBulletin.in">
   <link rel="canonical" href="https://naukribulletin.in/syllabus/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"></noscript></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap">
   <link rel="stylesheet" href="/css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
