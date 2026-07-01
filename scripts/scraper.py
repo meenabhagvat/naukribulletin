@@ -2345,6 +2345,311 @@ def rebuild_states():
 # ─── END STATE HUB BUILDER ────────────────────────────────────────────────────
 
 
+
+# ─── DAILY QUIZ + FLASHCARDS + JOB NEWS ───────────────────────────────────────
+
+def build_daily_quiz(affairs_list):
+    """
+    Build 10 MCQ questions from today's current affairs.
+    Returns HTML for the quiz section.
+    """
+    import random
+    questions = []
+    for a in affairs_list[:20]:
+        title   = a.get("title","")
+        summary = a.get("summary","")
+        slug    = a.get("slug","")
+        if not title or len(title) < 15: continue
+
+        # Extract the key fact from the title to form a question
+        # Pattern: "X does Y" → "Which body/person did Y?"
+        # Use the title as the question stem with one correct + 3 decoy options
+        # We generate deterministic decoys from other article titles
+        questions.append({"title": title, "summary": summary, "slug": slug})
+
+    if len(questions) < 4: return ""
+
+    # Pick up to 10
+    q_set = questions[:10]
+    all_titles = [q["title"] for q in questions]
+
+    quiz_items = ""
+    for i, q in enumerate(q_set):
+        correct = q["title"]
+        # 3 decoys: other titles from the same set
+        decoys = [t for t in all_titles if t != correct][:3]
+        while len(decoys) < 3:
+            decoys.append("None of the above")
+        opts = [correct] + decoys
+        # Shuffle deterministically by index
+        seed_order = [(hash(correct + str(j)) % 4) for j in range(4)]
+        order = sorted(range(4), key=lambda x: seed_order[x])
+        shuffled = [opts[o % len(opts)] for o in order]
+        correct_idx = shuffled.index(correct)
+
+        opts_html = "".join(
+            f'''<button class="dq-opt" data-idx="{i}" data-val="{j}" onclick="dqAnswer({i},{j},{correct_idx},this)">
+              <span class="dq-letter">{chr(65+j)}</span>
+              <span class="dq-text">{shuffled[j][:90]}</span>
+            </button>''' for j in range(len(shuffled))
+        )
+        hint_url = f'/current-affairs/{q["slug"]}/'
+        quiz_items += f'''
+        <div class="dq-item" id="dq-{i}" style="display:{'block' if i==0 else 'none'}">
+          <div class="dq-num">Question {i+1} of {len(q_set)}</div>
+          <div class="dq-q">{q["summary"][:160] if q["summary"] else q["title"]}</div>
+          <div class="dq-opts">{opts_html}</div>
+          <div class="dq-hint" id="dq-hint-{i}" style="display:none">
+            📖 <a href="{hint_url}" style="color:var(--saffron);">Read full article →</a>
+          </div>
+        </div>'''
+
+    return f'''
+<!-- NB-QUIZ-START -->
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
+      📝 Daily <span style="color:var(--accent);">Quiz</span>
+    </h2>
+    <a href="/current-affairs/" style="color:var(--accent);font-size:.87rem;font-weight:600;text-decoration:none;">More CA →</a>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;">
+    <div id="dq-score-bar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+      <span style="font-size:.85rem;color:var(--muted);">Test your knowledge of today's news</span>
+      <span style="font-size:.85rem;font-weight:700;color:var(--accent);" id="dq-score">0 / {len(q_set)}</span>
+    </div>
+    <div id="dq-container">
+      {quiz_items}
+    </div>
+    <div id="dq-result" style="display:none;text-align:center;padding:20px 0;">
+      <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:8px;" id="dq-final-score"></div>
+      <div style="color:var(--muted);font-size:.9rem;margin-bottom:16px;" id="dq-final-msg"></div>
+      <button onclick="dqRestart()" style="background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;">🔄 Retry</button>
+      <a href="/current-affairs/" style="display:inline-block;margin-left:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 24px;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;">Read all CA →</a>
+    </div>
+  </div>
+  <style>
+    .dq-num{{font-size:.75rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}}
+    .dq-q{{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:18px;}}
+    .dq-opts{{display:flex;flex-direction:column;gap:10px;}}
+    .dq-opt{{display:flex;align-items:center;gap:12px;background:var(--card-bg);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;text-align:left;transition:.15s;width:100%;}}
+    .dq-opt:hover{{border-color:var(--accent);background:rgba(255,107,0,.06);}}
+    .dq-opt.correct{{border-color:#63FFDA;background:rgba(99,255,218,.08);pointer-events:none;}}
+    .dq-opt.wrong{{border-color:#FF6C8A;background:rgba(255,108,138,.08);pointer-events:none;}}
+    .dq-opt.disabled{{pointer-events:none;opacity:.6;}}
+    .dq-letter{{width:28px;height:28px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;}}
+    .dq-text{{font-size:.88rem;color:var(--text);line-height:1.4;}}
+    .dq-hint{{margin-top:12px;font-size:.82rem;color:var(--muted);}}
+  </style>
+  <script>
+    var dqAnswered=new Array({len(q_set)}).fill(false);
+    var dqScore=0;
+    var dqTotal={len(q_set)};
+    var dqCurrent=0;
+    function dqAnswer(qIdx,val,correct,btn){{
+      if(dqAnswered[qIdx])return;
+      dqAnswered[qIdx]=true;
+      var opts=document.querySelectorAll('.dq-opt[data-idx="'+qIdx+'"]');
+      opts.forEach(function(o){{o.classList.add('disabled');}});
+      if(val===correct){{
+        btn.classList.remove('disabled');btn.classList.add('correct');
+        dqScore++;document.getElementById('dq-score').textContent=dqScore+' / '+dqTotal;
+      }}else{{
+        btn.classList.remove('disabled');btn.classList.add('wrong');
+        opts[correct].classList.remove('disabled');opts[correct].classList.add('correct');
+      }}
+      document.getElementById('dq-hint-'+qIdx).style.display='block';
+      setTimeout(function(){{
+        dqCurrent++;
+        if(dqCurrent<dqTotal){{
+          document.getElementById('dq-'+qIdx).style.display='none';
+          document.getElementById('dq-'+dqCurrent).style.display='block';
+        }}else{{
+          document.getElementById('dq-container').style.display='none';
+          document.getElementById('dq-result').style.display='block';
+          var pct=Math.round(dqScore/dqTotal*100);
+          document.getElementById('dq-final-score').textContent='You scored '+dqScore+' out of '+dqTotal;
+          document.getElementById('dq-final-msg').textContent=pct>=80?'🎉 Excellent! You're exam-ready.':pct>=50?'👍 Good effort — keep reading current affairs.':'📚 Keep practicing — read today's articles.';
+        }}
+      }},1200);
+    }}
+    function dqRestart(){{
+      dqAnswered=new Array(dqTotal).fill(false);dqScore=0;dqCurrent=0;
+      document.getElementById('dq-score').textContent='0 / '+dqTotal;
+      document.getElementById('dq-result').style.display='none';
+      document.getElementById('dq-container').style.display='block';
+      for(var i=0;i<dqTotal;i++){{
+        var el=document.getElementById('dq-'+i);
+        if(el)el.style.display=i===0?'block':'none';
+        var opts=document.querySelectorAll('.dq-opt[data-idx="'+i+'"]');
+        opts.forEach(function(o){{o.classList.remove('correct','wrong','disabled');}});
+        var hint=document.getElementById('dq-hint-'+i);
+        if(hint)hint.style.display='none';
+      }}
+    }}
+  </script>
+</section>
+<!-- NB-QUIZ-END -->
+'''
+
+
+def build_flashcards(jobs_list):
+    """Build swipeable flash cards for today's top job notifications."""
+    if not jobs_list: return ""
+    cards = jobs_list[:12]
+
+    card_html = ""
+    for j in cards:
+        title    = j.get("title","")[:70]
+        dept     = j.get("dept","")
+        vac      = j.get("vacancies","N/A")
+        ld       = j.get("last_date","N/A") or "N/A"
+        slug_    = j.get("slug","")
+        emoji    = j.get("emoji","📋")
+        cat      = j.get("category","Graduate")
+        card_html += f'''
+      <div class="fc-card">
+        <div class="fc-emoji">{emoji}</div>
+        <div class="fc-dept">{dept}</div>
+        <div class="fc-title">{title}</div>
+        <div class="fc-meta">
+          <span>👥 {vac}</span>
+          <span>⏰ {ld}</span>
+          <span style="background:rgba(255,107,0,.15);color:var(--accent);padding:2px 8px;border-radius:20px;font-size:.7rem;">{cat}</span>
+        </div>
+        <a href="/jobs/{slug_}/" class="fc-apply">Apply Now →</a>
+      </div>'''
+
+    return f'''
+<!-- NB-FLASHCARDS-START -->
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
+      ⚡ Job <span style="color:var(--accent);">Flash Cards</span>
+    </h2>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button onclick="fcPrev()" style="background:var(--surface);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;">‹</button>
+      <span id="fc-pos" style="font-size:.82rem;color:var(--muted);min-width:40px;text-align:center;">1/{len(cards)}</span>
+      <button onclick="fcNext()" style="background:var(--surface);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;">›</button>
+    </div>
+  </div>
+  <div id="fc-track-wrap" style="overflow:hidden;border-radius:16px;">
+    <div id="fc-track" style="display:flex;gap:16px;transition:transform .3s ease;">
+      {card_html}
+    </div>
+  </div>
+  <style>
+    .fc-card{{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;min-width:260px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;}}
+    .fc-emoji{{font-size:1.8rem;}}
+    .fc-dept{{font-size:.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;}}
+    .fc-title{{font-family:var(--font-display);font-size:.97rem;font-weight:700;color:var(--text);line-height:1.4;flex:1;}}
+    .fc-meta{{display:flex;gap:10px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);align-items:center;}}
+    .fc-apply{{background:var(--accent);color:#fff;padding:9px 18px;border-radius:9px;text-decoration:none;font-weight:700;font-size:.85rem;text-align:center;margin-top:4px;}}
+    @media(max-width:600px){{.fc-card{{min-width:calc(100vw - 48px)}}}}
+  </style>
+  <script>
+    var fcIdx=0;var fcTotal={len(cards)};
+    var fcCardW=276;
+    function fcUpdatePos(){{
+      var w=document.querySelector('.fc-card');
+      if(w)fcCardW=w.offsetWidth+16;
+      document.getElementById('fc-track').style.transform='translateX(-'+(fcIdx*fcCardW)+'px)';
+      document.getElementById('fc-pos').textContent=(fcIdx+1)+'/'+fcTotal;
+    }}
+    function fcNext(){{if(fcIdx<fcTotal-1){{fcIdx++;fcUpdatePos();}}}}
+    function fcPrev(){{if(fcIdx>0){{fcIdx--;fcUpdatePos();}}}}
+    // Touch/swipe support
+    (function(){{
+      var t=document.getElementById('fc-track-wrap');
+      var sx=0;
+      t.addEventListener('touchstart',function(e){{sx=e.touches[0].clientX;}},{{passive:true}});
+      t.addEventListener('touchend',function(e){{
+        var dx=sx-e.changedTouches[0].clientX;
+        if(dx>40)fcNext();else if(dx<-40)fcPrev();
+      }},{{passive:true}});
+    }})();
+  </script>
+</section>
+<!-- NB-FLASHCARDS-END -->
+'''
+
+
+def build_job_news(affairs_list, jobs_list):
+    """Build a job news / recruitment news section."""
+    # Filter CA for job/recruitment news
+    JOB_KW = ["recruitment","vacancy","vacancies","appointment","notification","exam","admit","result",
+               "apply","application","selection","post","officer","constable","teacher","grade",
+               "naukri","sarkari","hiring","appointed","joins","takes over","takes charge"]
+
+    job_news = []
+    for a in affairs_list:
+        t = a.get("title","").lower()
+        if any(k in t for k in JOB_KW):
+            job_news.append(a)
+        if len(job_news) >= 8: break
+
+    # Also add recent job notifications as news items
+    recent_jobs = jobs_list[:6]
+
+    news_items = ""
+    for i, a in enumerate(job_news[:6]):
+        news_items += f'''
+      <a href="/current-affairs/{a["slug"]}/" style="display:flex;gap:14px;align-items:flex-start;
+         padding:14px 0;border-bottom:1px solid var(--border);text-decoration:none;
+         color:var(--text);transition:.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text)'">
+        <span style="background:rgba(255,107,0,.12);color:var(--accent);border-radius:8px;
+              padding:6px 10px;font-size:1.1rem;flex-shrink:0;">📢</span>
+        <div>
+          <div style="font-weight:600;font-size:.9rem;line-height:1.4;margin-bottom:4px;">{a["title"][:80]}</div>
+          <div style="font-size:.78rem;color:var(--muted);">{a["summary"][:100]}</div>
+        </div>
+      </a>'''
+
+    jobs_col = ""
+    for j in recent_jobs:
+        urgency_colour = "#FF6C8A" if j.get("last_date","N/A") != "N/A" else "var(--muted)"
+        jobs_col += f'''
+      <a href="/jobs/{j["slug"]}/" style="display:flex;gap:12px;align-items:center;
+         padding:12px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);">
+        <span style="font-size:1.2rem;flex-shrink:0;">{j.get("emoji","📋")}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{j.get("title","")[:55]}</div>
+          <div style="font-size:.75rem;color:var(--muted);">{j.get("dept","")} · ⏰ {j.get("last_date","N/A")}</div>
+        </div>
+        <span style="background:rgba(255,107,0,.12);color:var(--accent);padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:700;flex-shrink:0;">New</span>
+      </a>'''
+
+    if not news_items and not jobs_col: return ""
+
+    return f'''
+<!-- NB-JOBNEWS-START -->
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 56px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
+      🗞️ Job <span style="color:var(--accent);">News</span>
+    </h2>
+    <a href="/current-affairs/" style="color:var(--accent);font-size:.87rem;font-weight:600;text-decoration:none;">All news →</a>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;">
+      <div style="font-size:.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;">Recruitment news</div>
+      {news_items or '<div style="color:var(--muted);font-size:.88rem;padding:12px 0;">No recruitment news today — check back tomorrow.</div>'}
+      <a href="/current-affairs/" style="display:block;text-align:center;color:var(--accent);font-size:.82rem;font-weight:600;margin-top:14px;text-decoration:none;">Read all current affairs →</a>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;">
+      <div style="font-size:.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;">Latest notifications</div>
+      {jobs_col or '<div style="color:var(--muted);font-size:.88rem;padding:12px 0;">No new jobs today.</div>'}
+      <a href="/jobs/" style="display:block;text-align:center;color:var(--accent);font-size:.82rem;font-weight:600;margin-top:14px;text-decoration:none;">Browse all jobs →</a>
+    </div>
+  </div>
+  <style>@media(max-width:600px){{section:last-of-type>div:last-of-type{{grid-template-columns:1fr!important}}}}</style>
+</section>
+<!-- NB-JOBNEWS-END -->
+'''
+
+# ─── END DAILY SECTIONS ───────────────────────────────────────────────────────
+
+
 def rebuild_homepage():
     """
     Regenerates index.html with real scraped jobs and current affairs.
@@ -2572,6 +2877,50 @@ def rebuild_homepage():
         lambda m: m.group(1) + affairs_html + "\n\n      " + m.group(2),
         html, flags=re.DOTALL
     )
+
+    # Build and inject the three new daily sections
+    affairs_full = []
+    for adir in sorted(affairs_dir.iterdir(), reverse=True):
+        if not adir.is_dir(): continue
+        idx2 = adir / "index.html"
+        if not idx2.exists(): continue
+        try:
+            from bs4 import BeautifulSoup as _BS
+            _s = _BS(idx2.read_text(encoding="utf-8"), "html.parser")
+            _h = _s.find("h1")
+            _p = _s.find("p")
+            _title = _h.get_text(strip=True) if _h else ""
+            _sum   = _p.get_text(strip=True)[:120] if _p else ""
+            if _title and len(_title) > 10:
+                affairs_full.append({"slug": adir.name, "title": _title, "summary": _sum})
+        except Exception:
+            pass
+        if len(affairs_full) >= 25: break
+
+    quiz_html       = build_daily_quiz(affairs_full)
+    flashcard_html  = build_flashcards(all_jobs[:12])
+    jobnews_html    = build_job_news(affairs_full, all_jobs[:10])
+
+    daily_block = quiz_html + flashcard_html + jobnews_html
+
+    # Inject before </footer> (idempotent: replace existing or insert fresh)
+    import re as _re
+    for marker_pair in [
+        ("<!-- NB-QUIZ-START -->", "<!-- NB-QUIZ-END -->"),
+        ("<!-- NB-FLASHCARDS-START -->", "<!-- NB-FLASHCARDS-END -->"),
+        ("<!-- NB-JOBNEWS-START -->", "<!-- NB-JOBNEWS-END -->"),
+    ]:
+        if marker_pair[0] in html:
+            html = _re.sub(
+                _re.escape(marker_pair[0]) + ".*?" + _re.escape(marker_pair[1]),
+                "", html, flags=_re.DOTALL
+            )
+
+    footer_idx = html.rfind("<!-- FOOTER -->")
+    if footer_idx == -1:
+        footer_idx = html.rfind("<footer")
+    if footer_idx != -1 and daily_block.strip():
+        html = html[:footer_idx] + "\n" + daily_block + "\n" + html[footer_idx:]
 
     out_path.write_text(html, encoding="utf-8")
     print(f"[HOMEPAGE] ✅ index.html rebuilt — {total_jobs} jobs, {len(affairs)} current affairs, ticker updated")
