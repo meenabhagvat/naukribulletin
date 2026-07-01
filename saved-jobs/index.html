@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head>
+  <!-- NB-CONSENT -->
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});try{if(localStorage.getItem('nb_consent')==='granted')gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}catch(e){}</script>
+<style>#nb-consent{position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#0A0F2C;color:#fff;padding:14px 18px;font:14px/1.5 system-ui,-apple-system,sans-serif;display:none}#nb-consent.show{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;text-align:center}#nb-consent a{color:#FF8C33}#nb-consent button{border:0;border-radius:8px;padding:8px 18px;font-weight:700;cursor:pointer}#nb-c-acc{background:#FF6B00;color:#fff}#nb-c-rej{background:#2A2F45;color:#fff}</style>
+<script>document.addEventListener('DOMContentLoaded',function(){try{if(localStorage.getItem('nb_consent'))return;var b=document.createElement('div');b.id='nb-consent';b.innerHTML='<span>We use cookies for analytics &amp; ads. See our <a href="/privacy/">Privacy Policy</a>.</span><button id="nb-c-acc">Accept</button><button id="nb-c-rej">Reject</button>';document.body.appendChild(b);b.classList.add('show');function setc(v){try{localStorage.setItem('nb_consent',v);}catch(e){}if(v==='granted')gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});b.remove();}document.getElementById('nb-c-acc').onclick=function(){setc('granted');};document.getElementById('nb-c-rej').onclick=function(){setc('denied');};}catch(e){}});</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Saved Jobs — Your Govt Job Shortlist | NaukriBulletin</title><meta name="description" content="Your saved government job notifications. Track deadlines and apply before last date."><link rel="canonical" href="https://naukribulletin.in/saved-jobs/"><meta name="robots" content="index,follow"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap"><link rel="stylesheet" href="/css/style.css"></head><body><nav><a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a><ul id="navLinks"><li><a href="/jobs/">Jobs</a></li><li><a href="/current-affairs/">Current Affairs</a></li><li><a href="/results/">Results</a></li><li><a href="/exam-calendar/">Exam Calendar</a></li><li><a href="/syllabus/">Syllabus</a></li><li><a href="/mock-test/">Mock Tests</a></li><li><a href="/admit-card/">Admit Cards</a></li></ul><div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div><button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button></nav><header style="background:var(--navy);border-bottom:1px solid var(--border);padding:36px 20px 28px;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+    <div><h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--white);margin:0 0 6px;">🔖 Saved Jobs</h1>
+    <p style="color:var(--grey-700);font-size:.9rem;margin:0;" id="saved-count">Loading...</p></div>
+    <button onclick="clearAll()" style="background:transparent;border:1px solid var(--border);color:var(--grey-700);padding:8px 16px;border-radius:9px;cursor:pointer;font-size:.85rem;">Clear All</button>
+  </div>
+</header>
+<main style="max-width:1100px;margin:0 auto;padding:28px 20px;">
+  <div id="saved-empty" style="display:none;text-align:center;padding:60px 20px;">
+    <div style="font-size:3rem;margin-bottom:16px;">🔖</div>
+    <h2 style="font-family:'Syne',sans-serif;color:var(--white);margin:0 0 10px;">No saved jobs yet</h2>
+    <p style="color:var(--grey-700);margin:0 0 20px;">Browse jobs and click the bookmark icon to save them here.</p>
+    <a href="/jobs/" style="background:var(--saffron);color:#fff;padding:10px 22px;border-radius:10px;font-weight:700;text-decoration:none;">Browse All Jobs →</a>
+  </div>
+  <div id="saved-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+</main>
+<script>
+function getSaved(){try{return JSON.parse(localStorage.getItem('nb_saved')||'[]');}catch(e){return[];}}
+function setSaved(j){try{localStorage.setItem('nb_saved',JSON.stringify(j));}catch(e){}}
+function removeJob(slug){setSaved(getSaved().filter(function(j){return j.slug!==slug;}));renderSaved();}
+function clearAll(){if(confirm('Remove all saved jobs?')){setSaved([]);renderSaved();}}
+function daysLabel(ld){
+  if(!ld||ld==='N/A')return '';
+  try{
+    var m={'January':0,'February':1,'March':2,'April':3,'May':4,'June':5,'July':6,'August':7,'September':8,'October':9,'November':10,'December':11};
+    var p=ld.split(' ');var d=new Date(+p[2],m[p[1]],+p[0]);var diff=Math.round((d-new Date())/(864e5));
+    if(isNaN(diff))return '';
+    if(diff<0)return '<span style="color:#FF6C8A;font-weight:700;font-size:.78rem;">EXPIRED</span>';
+    if(diff<=3)return '<span style="color:#FF6C8A;font-weight:700;font-size:.78rem;">'+diff+'d left 🔴</span>';
+    if(diff<=7)return '<span style="color:#FFD56C;font-weight:700;font-size:.78rem;">'+diff+'d left ⚠️</span>';
+    return '<span style="color:#63FFDA;font-size:.78rem;">'+diff+' days left</span>';
+  }catch(e){return '';}
+}
+function renderSaved(){
+  var jobs=getSaved();
+  document.getElementById('saved-count').textContent=jobs.length+' saved job'+(jobs.length!==1?'s':'');
+  var empty=document.getElementById('saved-empty');
+  var list=document.getElementById('saved-list');
+  if(jobs.length===0){empty.style.display='block';list.innerHTML='';return;}
+  empty.style.display='none';
+  list.innerHTML=jobs.map(function(j){
+    return '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start;">'+
+      '<span style="font-size:1.5rem;flex-shrink:0;">'+(j.emoji||'📋')+'</span>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--white);font-size:.95rem;margin-bottom:4px;">'+j.title+'</div>'+
+        '<div style="font-size:.82rem;color:var(--grey-700);margin-bottom:8px;">'+(j.dept||'')+' · ⏰ '+(j.last_date||'N/A')+' '+daysLabel(j.last_date)+'</div>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
+          '<a href="/jobs/'+j.slug+'/" style="background:var(--saffron);color:#fff;padding:6px 14px;border-radius:8px;font-weight:700;font-size:.82rem;text-decoration:none;">Apply Now →</a>'+
+          '<button onclick="removeJob(''+j.slug+'')" style="background:transparent;border:1px solid var(--border);color:var(--grey-700);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82rem;">Remove</button>'+
+        '</div>'+
+      '</div></div>';
+  }).join('');
+}
+window.NBSave={
+  toggle:function(job){var jobs=getSaved();var i=jobs.findIndex(function(j){return j.slug===job.slug;});if(i>=0)jobs.splice(i,1);else jobs.unshift(job);setSaved(jobs);return i<0;},
+  isSaved:function(slug){return getSaved().some(function(j){return j.slug===slug;});}
+};
+renderSaved();
+</script><footer style="border-top:1px solid var(--border);background:var(--navy);padding:24px 0;margin-top:40px;"><div style="max-width:1100px;margin:0 auto;padding:0 20px;color:var(--grey-400);font-size:.85rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;"><span>© 2026 NaukriBulletin</span><span><a href="/" style="color:var(--grey-700);">Home</a> · <a href="/jobs/" style="color:var(--grey-700);">Jobs</a> · <a href="/alerts/" style="color:var(--grey-700);">Alerts</a></span></div></footer><script>(function(){var b=document.getElementById("navHamburger");var u=document.querySelector("nav ul");if(!b||!u)return;b.addEventListener("click",function(){u.classList.toggle("mobile-open");b.classList.toggle("active");});u.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){u.classList.remove("mobile-open");b.classList.remove("active");});});})();</script></body></html>
