@@ -2229,7 +2229,7 @@ def rebuild_states():
 </head>
 <body>
 {NAV}
-<header style="background:linear-gradient(160deg,#0d1330,#0a0f2c);border-bottom:1px solid var(--border);padding:36px 20px 28px;">
+<header style="background:var(--navy);border-bottom:1px solid var(--border);padding:36px 20px 28px;">
   <div style="max-width:1100px;margin:0 auto;">
     <div style="font-size:.78rem;color:var(--grey-400);margin-bottom:10px;">
       <a href="/" style="color:var(--grey-400);">Home</a> › <a href="/jobs/" style="color:var(--grey-400);">Jobs</a> › {name}
