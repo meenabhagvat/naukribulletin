@@ -22,6 +22,9 @@ PRIORITY_MAP = {
     "syllabus": "0.7",
     "answer-key": "0.7",
     "mock-test": "0.6",
+    "guides": "0.8",
+    "cut-off": "0.7",
+    "exam-calendar": "0.8",
     "about": "0.5",
     "contact": "0.5",
     "privacy": "0.3",
@@ -35,6 +38,9 @@ CHANGEFREQ_MAP = {
     "results": "weekly",
     "admit-card": "weekly",
     "syllabus": "monthly",
+    "guides": "weekly",
+    "cut-off": "weekly",
+    "exam-calendar": "weekly",
     "about": "monthly",
     "contact": "monthly",
     "privacy": "yearly",
@@ -47,7 +53,7 @@ def get_all_pages():
     pages = []
     for path in SITE_ROOT.rglob("index.html"):
         # Skip scripts folder
-        if "scripts" in str(path) or ".github" in str(path):
+        if "scripts" in str(path) or ".github" in str(path) or "/dist/" in str(path):
             continue
         # Get relative URL
         rel = path.parent.relative_to(SITE_ROOT)
