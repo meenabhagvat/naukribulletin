@@ -1629,6 +1629,7 @@ def run():
     rebuild_jobs_listing()
     rebuild_affairs_listing()
     rebuild_syllabus()
+    rebuild_states()
 
     try:
         import importlib.util
@@ -2032,6 +2033,315 @@ def rebuild_syllabus():
     out_path.write_text(html, encoding="utf-8")
     print(f"[SYLLABUS] ✅ Written syllabus/index.html ({total} jobs, {len(CATS)} categories)")
 
+
+
+
+# ─── STATE HUB BUILDER ────────────────────────────────────────────────────────
+STATES = [
+    # ── 28 STATES ──────────────────────────────────────────────────────────
+    ("andhra-pradesh",    "Andhra Pradesh",       "🌶️",  ["appsc","andhra pradesh","ap psc","ap police","vijayawada","amaravati"]),
+    ("arunachal-pradesh", "Arunachal Pradesh",    "🏔️",  ["appsc arunachal","arunachal pradesh","itanagar"]),
+    ("assam",             "Assam",                "🦏",  ["apsc","slprb","assam police","assam","guwahati","dispur"]),
+    ("bihar",             "Bihar",                "🎋",  ["bpsc","bssc","bihar police","bihar","patna"]),
+    ("chhattisgarh",      "Chhattisgarh",         "🌿",  ["cgpsc","cgvyapam","chhattisgarh","raipur","bilaspur"]),
+    ("goa",               "Goa",                  "🏖️",  ["gpsc goa","goa psc","goa","panaji","margao"]),
+    ("gujarat",           "Gujarat",              "🦋",  ["gpsc","gssb","gsrtc","gujarat","ahmedabad","gandhinagar"]),
+    ("haryana",           "Haryana",              "🚜",  ["hpsc","hssc","haryana police","haryana","chandigarh","gurugram"]),
+    ("himachal-pradesh",  "Himachal Pradesh",     "🏔️",  ["hppsc","himachal pradesh","shimla","dharamsala"]),
+    ("jharkhand",         "Jharkhand",            "⛏️",  ["jpsc","jssc","jharkhand","ranchi","jamshedpur"]),
+    ("karnataka",         "Karnataka",            "🦁",  ["kpsc","kea","karnataka","bengaluru","bangalore","mysuru"]),
+    ("kerala",            "Kerala",               "🌴",  ["kerala psc","kerala psc","kerala","thiruvananthapuram","kochi","kozhikode"]),
+    ("madhya-pradesh",    "Madhya Pradesh",       "🐆",  ["mppsc","mp police","mp vyapam","mpesb","madhya pradesh","bhopal","indore"]),
+    ("maharashtra",       "Maharashtra",          "🏙️",  ["mpsc","mahapariksha","maharashtra","mumbai","pune","nagpur"]),
+    ("manipur",           "Manipur",              "🎭",  ["manipur psc","mpsc manipur","manipur","imphal"]),
+    ("meghalaya",         "Meghalaya",            "☁️",  ["mpsc meghalaya","meghalaya","shillong"]),
+    ("mizoram",           "Mizoram",              "🌄",  ["mpsc mizoram","mizoram","aizawl"]),
+    ("nagaland",          "Nagaland",             "🦅",  ["npsc","nagaland","kohima","dimapur"]),
+    ("odisha",            "Odisha",               "🏛️",  ["opsc","ossc","osssc","odisha","bhubaneswar","cuttack"]),
+    ("punjab",            "Punjab",               "🌾",  ["ppsc","psssb","punjab police","punjab","chandigarh","ludhiana","amritsar"]),
+    ("rajasthan",         "Rajasthan",            "🏜️",  ["rpsc","rsmssb","rajasthan police","rajasthan","jaipur","jodhpur"]),
+    ("sikkim",            "Sikkim",               "🏔️",  ["spsc","sikkim psc","sikkim","gangtok"]),
+    ("tamil-nadu",        "Tamil Nadu",           "🌊",  ["tnpsc","tnusrb","tntrb","tamil nadu","chennai","coimbatore","madurai"]),
+    ("telangana",         "Telangana",            "🌆",  ["tspsc","tgpsc","ts police","telangana","hyderabad","warangal"]),
+    ("tripura",           "Tripura",              "🌿",  ["tpsc","tripura psc","tripura","agartala"]),
+    ("uttar-pradesh",     "Uttar Pradesh",        "🏛️",  ["uppsc","upsssc","up police","up board","uttar pradesh","lucknow","kanpur","agra","varanasi"]),
+    ("uttarakhand",       "Uttarakhand",          "🏔️",  ["ukpsc","uksssc","uttarakhand","dehradun","haridwar","roorkee"]),
+    ("west-bengal",       "West Bengal",          "🐯",  ["wbpsc","wbssc","wb police","west bengal","kolkata","howrah","darjeeling"]),
+    # ── 8 UNION TERRITORIES ────────────────────────────────────────────────
+    ("andaman-nicobar",   "Andaman & Nicobar",    "🏝️",  ["andaman nicobar","andaman","port blair"]),
+    ("chandigarh",        "Chandigarh",           "🌹",  ["chandigarh administration","chandigarh ut","chandigarh police"]),
+    ("dadra-nagar-haveli","Dadra & Nagar Haveli", "🌿",  ["dadra nagar haveli","dnh","silvassa"]),
+    ("daman-diu",         "Daman & Diu",          "⛵",  ["daman diu","daman","diu"]),
+    ("delhi",             "Delhi",                "🏛️",  ["dsssb","delhi police","delhi government","new delhi","delhi"]),
+    ("jammu-kashmir",     "Jammu & Kashmir",      "❄️",  ["jkpsc","jkssb","jkpsc","jammu kashmir","srinagar","jammu"]),
+    ("ladakh",            "Ladakh",               "🏔️",  ["lahdc","ladakh","leh","kargil"]),
+    ("lakshadweep",       "Lakshadweep",          "🐠",  ["lakshadweep","kavaratti"]),
+    ("puducherry",        "Puducherry",           "🌺",  ["puducherry psc","pondicherry","puducherry"]),
+]
+
+def _state_matches(text, keywords):
+    t = text.lower()
+    return any(k in t for k in keywords)
+
+def rebuild_states():
+    """Build one hub page per state + inject state grid into homepage."""
+    from datetime import datetime
+    import re
+
+    yr = datetime.now().year
+    jobs_dir    = SITE_ROOT / "jobs"
+    results_dir = SITE_ROOT / "results"
+    admit_dir   = SITE_ROOT / "admit-card"
+    answer_dir  = SITE_ROOT / "answer-key"
+
+    NAV = """<nav>
+  <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+  </ul>
+  <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>"""
+
+    state_cards_for_homepage = []
+    state_counts = {}
+
+    for slug, name, emoji, keywords in STATES:
+        state_dir = SITE_ROOT / "jobs" / slug
+        state_dir.mkdir(parents=True, exist_ok=True)
+
+        # ── Collect matching jobs ──────────────────────────────────────────
+        matching_jobs = []
+        for d in sorted(jobs_dir.iterdir(), reverse=True):
+            if not d.is_dir(): continue
+            idx = d / "index.html"
+            if not idx.exists(): continue
+            try:
+                content = idx.read_text(errors="ignore")
+                title_m = re.search(r"<h1[^>]*>(.*?)</h1>", content, re.S)
+                title = re.sub(r"<[^>]+>","",title_m.group(1)).strip() if title_m else d.name
+                if _state_matches(d.name + " " + title + content[:1000], keywords):
+                    meta = get_job_meta_from_html(idx) or {}
+                    meta["title"] = meta.get("title") or title
+                    meta["slug"]  = meta.get("slug")  or d.name
+                    matching_jobs.append(meta)
+            except Exception: pass
+
+        # ── Collect matching results / admit cards / answer keys ───────────
+        def collect_updates(folder, kind_label):
+            items = []
+            if not folder.exists(): return items
+            for d in sorted(folder.iterdir(), reverse=True):
+                if not d.is_dir(): continue
+                idx = d / "index.html"
+                if not idx.exists(): continue
+                try:
+                    content = idx.read_text(errors="ignore")
+                    title_m = re.search(r"<h1[^>]*>(.*?)</h1>",content,re.S)
+                    title = re.sub(r"<[^>]+>","",title_m.group(1)).strip() if title_m else d.name
+                    if _state_matches(d.name+" "+title, keywords):
+                        items.append({"title":title,"slug":d.name,"kind":kind_label})
+                except Exception: pass
+            return items[:10]
+
+        results_items  = collect_updates(results_dir,  "Result")
+        admit_items    = collect_updates(admit_dir,    "Admit Card")
+        answer_items   = collect_updates(answer_dir,   "Answer Key")
+        updates = results_items + admit_items + answer_items
+
+        state_counts[slug] = len(matching_jobs)
+        state_cards_for_homepage.append((slug, name, emoji, len(matching_jobs)))
+
+        # ── Build job rows ─────────────────────────────────────────────────
+        def job_row(j):
+            title = j.get("title","")[:70]
+            vac   = j.get("vacancies","N/A")
+            ld    = j.get("last_date","N/A") or "N/A"
+            slug_ = j.get("slug","")
+            hover_on  = "this.style.background='var(--navy-soft)'"
+            hover_off = "this.style.background=''"
+            return (f'<a href="/jobs/{slug_}/" style="display:flex;align-items:center;justify-content:space-between;'
+                    f'gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);text-decoration:none;'
+                    f'color:var(--white);font-size:.9rem;transition:background .15s;" '
+                    f'onmouseover="{hover_on}" onmouseout="{hover_off}">'
+                    f'<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">{title}</span>'
+                    f'<span style="color:var(--grey-400);font-size:.78rem;white-space:nowrap;flex-shrink:0;">👥 {vac}</span>'
+                    f'<span style="color:var(--saffron);font-size:.78rem;white-space:nowrap;flex-shrink:0;margin-left:10px;">⏰ {ld}</span>'
+                    f'<span style="background:var(--saffron);color:#fff;padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:10px;flex-shrink:0;">Apply →</span>'
+                    f'</a>')
+
+        def update_row(u):
+            kind_colour = {"Result":"#63FFDA","Admit Card":"#FFD56C","Answer Key":"#FF8C33"}.get(u["kind"],"#B8BACD")
+            folder_map  = {"Result":"results","Admit Card":"admit-card","Answer Key":"answer-key"}
+            href = f'/{folder_map[u["kind"]]}/{u["slug"]}/'
+            hover_on  = "this.style.background='var(--navy-soft)'"
+            hover_off = "this.style.background=''"
+            return (f'<a href="{href}" style="display:flex;align-items:center;gap:12px;padding:12px 16px;'
+                    f'border-bottom:1px solid var(--border);text-decoration:none;color:var(--white);'
+                    f'font-size:.88rem;transition:background .15s;" '
+                    f'onmouseover="{hover_on}" onmouseout="{hover_off}">'
+                    f'<span style="background:{kind_colour}22;color:{kind_colour};padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:700;flex-shrink:0;">{u["kind"]}</span>'
+                    f'<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{u["title"][:65]}</span>'
+                    f'</a>')
+
+        jobs_html    = "".join(job_row(j) for j in matching_jobs[:40]) or                        f'<div style="padding:20px;color:var(--grey-400);text-align:center;">No {name} jobs found yet — check back daily.</div>'
+        updates_html = "".join(update_row(u) for u in updates) or                        f'<div style="padding:16px;color:var(--grey-400);font-size:.88rem;">Results/admit cards appear here as they are released.</div>'
+
+        job_count_text = f"{len(matching_jobs)} active notifications" if matching_jobs else "Updated daily"
+        faq_ld = [
+            {"@type":"Question","name":f"Latest {name} government jobs 2026?",
+             "acceptedAnswer":{"@type":"Answer","text":f"NaukriBulletin tracks all {name} government jobs from {name} PSC and state departments, updated daily. Check this page for the latest notifications."}},
+            {"@type":"Question","name":f"How to get {name} job alerts?",
+             "acceptedAnswer":{"@type":"Answer","text":"Subscribe to NaukriBulletin's free alert service to get instant Telegram, WhatsApp and push notifications for new job postings."}},
+        ]
+        import json as _json
+        faq_str = _json.dumps(faq_ld)
+
+        page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{name} Government Jobs {yr} — Results, Admit Cards & Notifications | NaukriBulletin</title>
+  <meta name="description" content="All {name} government jobs {yr} — PSC notifications, recruitment results, admit cards and answer keys. Updated daily. {job_count_text}.">
+  <link rel="canonical" href="https://naukribulletin.in/jobs/{slug}/">
+  <meta property="og:title" content="{name} Govt Jobs {yr} | NaukriBulletin">
+  <meta property="og:url" content="https://naukribulletin.in/jobs/{slug}/">
+  <meta name="robots" content="index,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@graph":[
+  {{"@type":"BreadcrumbList","itemListElement":[
+    {{"@type":"ListItem","position":1,"name":"Home","item":"https://naukribulletin.in/"}},
+    {{"@type":"ListItem","position":2,"name":"Jobs","item":"https://naukribulletin.in/jobs/"}},
+    {{"@type":"ListItem","position":3,"name":"{name} Jobs","item":"https://naukribulletin.in/jobs/{slug}/"}}]}},
+  {{"@type":"FAQPage","mainEntity":{faq_str}}}
+  ]}}
+  </script>
+</head>
+<body>
+{NAV}
+<header style="background:linear-gradient(160deg,#0d1330,#0a0f2c);border-bottom:1px solid var(--border);padding:36px 20px 28px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="font-size:.78rem;color:var(--grey-400);margin-bottom:10px;">
+      <a href="/" style="color:var(--grey-400);">Home</a> › <a href="/jobs/" style="color:var(--grey-400);">Jobs</a> › {name}
+    </div>
+    <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;color:var(--white);margin:0 0 8px;line-height:1.2;">
+      {emoji} {name} Government Jobs {yr}
+    </h1>
+    <p style="color:var(--grey-700);font-size:.97rem;margin:0;">
+      {job_count_text} — PSC notifications, state recruitment, results, admit cards &amp; answer keys. Updated daily.
+    </p>
+  </div>
+</header>
+<main style="max-width:1100px;margin:0 auto;padding:28px 20px;">
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:24px;">
+    <div>
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:24px;">
+        <div style="padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <h2 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin:0;">Latest {name} Jobs</h2>
+          <span style="color:var(--grey-400);font-size:.82rem;">{job_count_text}</span>
+        </div>
+        {jobs_html}
+        <div style="padding:12px 16px;background:var(--navy-soft);text-align:center;">
+          <a href="/jobs/" style="color:var(--saffron);font-size:.82rem;font-weight:600;text-decoration:none;">View all government jobs →</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:18px;">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
+          <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0;">Results, Admit Cards &amp; Answer Keys</h2>
+        </div>
+        {updates_html}
+      </div>
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:18px;">
+        <h3 style="font-family:'Syne',sans-serif;font-size:.97rem;font-weight:700;color:var(--white);margin:0 0 12px;">Quick links</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="/alerts/" style="background:var(--saffron);color:#fff;padding:10px 14px;border-radius:9px;text-decoration:none;font-weight:700;font-size:.88rem;text-align:center;">🔔 Get free {name} job alerts</a>
+          <a href="/mock-test/" style="background:var(--card-bg);border:1px solid var(--border);color:var(--white);padding:10px 14px;border-radius:9px;text-decoration:none;font-size:.88rem;text-align:center;">📝 Free mock tests</a>
+          <a href="/exam-calendar/" style="background:var(--card-bg);border:1px solid var(--border);color:var(--white);padding:10px 14px;border-radius:9px;text-decoration:none;font-size:.88rem;text-align:center;">📅 Exam calendar</a>
+          <a href="/syllabus/" style="background:var(--card-bg);border:1px solid var(--border);color:var(--white);padding:10px 14px;border-radius:9px;text-decoration:none;font-size:.88rem;text-align:center;">📚 Exam syllabus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer style="border-top:1px solid var(--border);background:var(--navy);padding:24px 0;margin-top:20px;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 20px;color:var(--grey-400);font-size:.85rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;">
+    <span>© {yr} NaukriBulletin</span>
+    <span><a href="/" style="color:var(--grey-700);">Home</a> · <a href="/jobs/" style="color:var(--grey-700);">Jobs</a> · <a href="/alerts/" style="color:var(--grey-700);">Alerts</a></span>
+  </div>
+</footer>
+<script>
+(function(){{var btn=document.getElementById('navHamburger');var links=document.querySelector('nav ul');if(!btn||!links)return;btn.addEventListener('click',function(){{links.classList.toggle('mobile-open');btn.classList.toggle('active');}});links.querySelectorAll('a').forEach(function(a){{a.addEventListener('click',function(){{links.classList.remove('mobile-open');btn.classList.remove('active');}});}});}})();
+</script>
+</body>
+</html>"""
+        (state_dir / "index.html").write_text(page, encoding="utf-8")
+
+    print(f"[STATES] ✅ Built {len(STATES)} state hub pages")
+
+    # ── Inject state grid into homepage ───────────────────────────────────────
+    homepage = SITE_ROOT / "index.html"
+    if not homepage.exists(): return
+    html = homepage.read_text(encoding="utf-8")
+
+    grid_cards = ""
+    for slug, name, emoji, count in state_cards_for_homepage:
+        label = f"{count} jobs" if count > 0 else "updated daily"
+        h_on  = "this.style.borderColor='var(--accent)';this.style.background='rgba(255,107,0,0.06)'"
+        h_off = "this.style.borderColor='var(--border)';this.style.background='var(--surface)'"
+        grid_cards += (
+            f'<a href="/jobs/{slug}/" style="background:var(--surface);border:1px solid var(--border);'
+            f'border-radius:12px;padding:14px 12px;text-align:center;text-decoration:none;'
+            f'color:var(--text);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px;" '
+            f'onmouseover="{h_on}" '
+            f'onmouseout="{h_off}">'
+            f'<span style="font-size:1.5rem;">{emoji}</span>'
+            f'<span style="font-family:var(--font-display);font-size:.82rem;font-weight:700;">{name}</span>'
+            f'<span style="font-size:.72rem;color:var(--muted);">{label}</span>'
+            f'</a>'
+        )
+
+    state_section = f"""
+<!-- NB-STATES-START -->
+<section style="padding:40px 20px;max-width:1200px;margin:0 auto;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
+      Jobs by <span style="color:var(--accent);">State</span>
+    </h2>
+    <a href="/jobs/" style="color:var(--accent);font-size:.87rem;font-weight:600;text-decoration:none;">View all →</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;">
+    {grid_cards}
+  </div>
+</section>
+<!-- NB-STATES-END -->"""
+
+    if "NB-STATES-START" in html:
+        html = re.sub(r"<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->", state_section.strip(), html, flags=re.S)
+    else:
+        # Inject after the current-affairs section (before the footer)
+        if "</section>" in html:
+            # Find last </section> before footer and inject after it
+            footer_idx = html.rfind('<footer')
+            if footer_idx == -1: footer_idx = len(html) - 200
+            last_section = html.rfind('</section>', 0, footer_idx)
+            if last_section != -1:
+                html = html[:last_section+10] + "\n" + state_section + html[last_section+10:]
+    homepage.write_text(html, encoding="utf-8")
+    print(f"[STATES] ✅ State grid injected into homepage ({len(STATES)} states)")
+
+# ─── END STATE HUB BUILDER ────────────────────────────────────────────────────
 
 
 def rebuild_homepage():
