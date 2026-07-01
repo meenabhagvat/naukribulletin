@@ -1219,6 +1219,7 @@ def generate_job_html(job):
   </a>
   <ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
     <li><a href="/exam-calendar/">Exam Calendar</a></li>
@@ -1768,7 +1769,10 @@ def build_job_card(job):
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey-200);">
             <span style="font-size:0.8rem;color:#E65100;font-weight:600;">⏰ Last Date: {job['last_date']}</span>
-            <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span style="background:var(--navy);color:var(--white);padding:5px 14px;border-radius:6px;font-size:0.78rem;font-weight:600;">Apply Now →</span>
+              <button class="nb-save-btn" data-save-slug="{job['slug']}" data-save-title="{job['title'][:50]}" data-save-dept="{job['dept']}" data-save-ld="{job['last_date']}" data-save-emoji="{job['emoji']}" onclick="nbToggleSave(this)" style="background:transparent;border:1px solid var(--border);color:var(--grey-400);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:.85rem;flex-shrink:0;padding:0;" title="Save job">＋</button>
+            </div>
           </div>
         </div>
       </a>"""
@@ -1927,6 +1931,7 @@ def rebuild_syllabus():
   </a>
   <ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
     <li><a href="/exam-calendar/">Exam Calendar</a></li>
@@ -2098,6 +2103,7 @@ def rebuild_states():
   <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
   <ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
     <li><a href="/exam-calendar/">Exam Calendar</a></li>
@@ -2812,7 +2818,10 @@ def rebuild_homepage():
               <div class="deadline-text">{deadline_label}</div>
               <div class="deadline-date">{deadline_val}</div>
             </div>
-            <button class="apply-btn">Apply Now →</button>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button class="apply-btn" style="flex:1;">Apply Now →</button>
+              <button class="save-btn" onclick="event.preventDefault();event.stopPropagation();var job={{slug:'{slug}',title:'{title}',dept:'{dept}',last_date:'{ld}',emoji:'{emoji}'}};if(window.NBSave){{var saved=NBSave.toggle(job);this.textContent=saved?'🔖':'＋';this.title=saved?'Saved':'Save job';this.style.background=saved?'var(--saffron)':'transparent';}}" style="background:transparent;border:1px solid var(--border);color:var(--grey-400);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;flex-shrink:0;" title="Save job">＋</button>
+            </div>
           </div>
         </a>"""
 
@@ -2966,6 +2975,7 @@ def rebuild_jobs_listing():
   </a>
   <ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
     <li><a href="/exam-calendar/">Exam Calendar</a></li>
@@ -3152,6 +3162,12 @@ def rebuild_jobs_listing():
   }});
 }})();
 </script>
+
+<script>
+window.NBSave={{toggle:function(j){{var l=JSON.parse(localStorage.getItem('nb_saved')||'[]');var i=l.findIndex(function(x){{return x.slug===j.slug;}});if(i>=0)l.splice(i,1);else l.unshift(j);localStorage.setItem('nb_saved',JSON.stringify(l));return i<0;}},isSaved:function(slug){{return JSON.parse(localStorage.getItem('nb_saved')||'[]').some(function(j){{return j.slug===slug;}})}}}};
+function nbToggleSave(btn){{event.preventDefault();event.stopPropagation();var job={{slug:btn.dataset.saveSlug,title:btn.dataset.saveTitle,dept:btn.dataset.saveDept,last_date:btn.dataset.saveLd,emoji:btn.dataset.saveEmoji||'📋'}};var saved=NBSave.toggle(job);btn.textContent=saved?'🔖':'＋';btn.style.background=saved?'var(--saffron)':'transparent';btn.style.color=saved?'#fff':'var(--grey-400)';btn.title=saved?'Saved':'Save job';}}
+document.addEventListener('DOMContentLoaded',function(){{var saved=JSON.parse(localStorage.getItem('nb_saved')||'[]');saved.forEach(function(j){{var b=document.querySelector('[data-save-slug="'+j.slug+'"]');if(b){{b.textContent='🔖';b.style.background='var(--saffron)';b.style.color='#fff';}}}})}});
+</script>
 </body>
 </html>"""
 
@@ -3261,6 +3277,7 @@ def rebuild_affairs_listing():
   </a>
   <ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
     <li><a href="/exam-calendar/">Exam Calendar</a></li>
