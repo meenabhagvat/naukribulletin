@@ -1226,6 +1226,8 @@ def generate_job_html(job):
     <li><a href="/syllabus/">Syllabus</a></li>
     <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -1938,6 +1940,8 @@ def rebuild_syllabus():
     <li><a href="/syllabus/">Syllabus</a></li>
     <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -2076,7 +2080,7 @@ STATES = [
     ("andaman-nicobar",   "Andaman & Nicobar",    "🏝️",  ["andaman nicobar","andaman","port blair"]),
     ("chandigarh",        "Chandigarh",           "🌹",  ["chandigarh administration","chandigarh ut","chandigarh police"]),
     ("dadra-nagar-haveli","Dadra & Nagar Haveli", "🌿",  ["dadra nagar haveli","dnh","silvassa"]),
-    ("daman-diu",         "Daman & Diu",          "⛵",  ["daman and diu","daman & diu","daman diu"]),
+    ("daman-diu",         "Daman & Diu",          "⛵",  ["daman diu","daman","diu"]),
     ("delhi",             "Delhi",                "🏛️",  ["dsssb","delhi police","delhi government","new delhi","delhi"]),
     ("jammu-kashmir",     "Jammu & Kashmir",      "❄️",  ["jkpsc","jkssb","jkpsc","jammu kashmir","srinagar","jammu"]),
     ("ladakh",            "Ladakh",               "🏔️",  ["lahdc","ladakh","leh","kargil"]),
@@ -2110,6 +2114,8 @@ def rebuild_states():
     <li><a href="/syllabus/">Syllabus</a></li>
     <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -2394,7 +2400,7 @@ def build_daily_quiz(affairs_list):
         correct_idx = shuffled.index(correct)
 
         opts_html = "".join(
-            f'''<button class="dq-opt" data-idx="{i}" data-val="{j}" onclick="dqAnswer({i},{j},{correct_idx},this)">
+            f'''<button class="dq-opt" data-idx="{i}" data-val="{j}" data-correct="{correct_idx}" onclick="dqA(this)">
               <span class="dq-letter">{chr(65+j)}</span>
               <span class="dq-text">{shuffled[j][:90]}</span>
             </button>''' for j in range(len(shuffled))
@@ -2452,6 +2458,10 @@ def build_daily_quiz(affairs_list):
     var dqScore=0;
     var dqTotal={len(q_set)};
     var dqCurrent=0;
+    function dqA(btn){{
+      var qIdx=+btn.dataset.idx;var val=+btn.dataset.val;var correct=+btn.dataset.correct;
+      dqAnswer(qIdx,val,correct,btn);
+    }}
     function dqAnswer(qIdx,val,correct,btn){{
       if(dqAnswered[qIdx])return;
       dqAnswered[qIdx]=true;
@@ -2654,6 +2664,417 @@ def build_job_news(affairs_list, jobs_list):
 '''
 
 # ─── END DAILY SECTIONS ───────────────────────────────────────────────────────
+
+
+
+# ─── DAILY QUIZ PAGE BUILDER ──────────────────────────────────────────────────
+
+def rebuild_daily_quiz_page(affairs_list):
+    """Regenerate /daily-quiz/index.html with fresh questions from today's CA."""
+    import json as _json
+    from datetime import date as _date
+
+    TODAY = _date.today().strftime("%d %B %Y")
+    YR = _date.today().year
+    SITE = "https://naukribulletin.in"
+
+    # Build questions from CA
+    questions = []
+    for a in affairs_list[:30]:
+        title   = a.get("title","")
+        summary = a.get("summary","")
+        slug    = a.get("slug","")
+        if not title or len(title) < 15: continue
+        questions.append({"title":title, "summary":summary, "slug":slug})
+
+    if len(questions) < 4:
+        print("[QUIZ-PAGE] Not enough CA articles for quiz — skipping")
+        return
+
+    q_set = questions[:10]
+    all_titles = [q["title"] for q in questions]
+
+    quiz_items = ""
+    for i, q in enumerate(q_set):
+        correct_title = q["title"]
+        decoys = [t for t in all_titles if t != correct_title][:3]
+        while len(decoys) < 3:
+            decoys.append("None of the above")
+        opts = [correct_title] + decoys
+        seed_order = [(hash(correct_title + str(j)) % 4) for j in range(4)]
+        order = sorted(range(4), key=lambda x: seed_order[x])
+        shuffled = [opts[o % len(opts)] for o in order]
+        correct_idx = shuffled.index(correct_title)
+
+        opts_html = "".join(
+            f'''<button class="dq-opt" data-idx="{i}" data-val="{j}" data-correct="{correct_idx}" onclick="dqA(this)">
+              <span class="dq-letter">{chr(65+j)}</span>
+              <span class="dq-text">{shuffled[j][:90]}</span>
+            </button>''' for j in range(len(shuffled))
+        )
+        hint_url = f'/current-affairs/{q["slug"]}/'
+        hint_text = q["summary"][:120] if q["summary"] else q["title"]
+        quiz_items += f'''
+<div class="dq-item" id="dq-{i}" style="display:{'block' if i==0 else 'none'}">
+  <div class="dq-num">Question {i+1} of {len(q_set)}</div>
+  <div class="dq-q">{hint_text}</div>
+  <div class="dq-opts">{opts_html}</div>
+  <div class="dq-hint" id="dq-hint-{i}" style="display:none">
+    💡 <a href="{hint_url}" style="color:var(--saffron);">Read full article →</a>
+  </div>
+</div>'''
+
+    nav_html = '''<nav>
+  <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/current-affairs/">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/daily-quiz/" class="active">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
+  </ul>
+  <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>'''
+
+    page = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Quiz {TODAY} — Current Affairs MCQ for Govt Exams | NaukriBulletin</title>
+  <meta name="description" content="Free daily quiz {TODAY} — 10 MCQ questions from today's current affairs for SSC, Banking, Railway and UPSC exam prep.">
+  <link rel="canonical" href="{SITE}/daily-quiz/">
+  <meta name="robots" content="index,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+{nav_html}
+<header style="background:var(--navy);border-bottom:1px solid var(--border);padding:36px 20px 28px;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="font-size:.8rem;color:var(--grey-400);margin-bottom:10px;"><a href="/" style="color:var(--grey-400);">Home</a> › Daily Quiz</div>
+    <span style="background:rgba(255,107,0,.14);color:var(--saffron-light);border:1px solid rgba(255,107,0,.3);font-size:.72rem;font-weight:700;padding:5px 11px;border-radius:30px;display:inline-block;margin-bottom:12px;">Updated • {TODAY}</span>
+    <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;color:var(--white);margin:0 0 8px;">📝 Daily Current Affairs Quiz</h1>
+    <p style="color:var(--grey-700);font-size:.97rem;margin:0;">{len(q_set)} questions from today's news — for SSC, Banking, Railway &amp; UPSC. New quiz every day.</p>
+  </div>
+</header>
+<main style="max-width:900px;margin:0 auto;padding:28px 20px;">
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+    <span style="font-size:.88rem;color:var(--grey-700);">Answer all {len(q_set)} questions to see your score</span>
+    <span style="font-size:1rem;font-weight:700;color:var(--saffron);" id="dq-score">0 / {len(q_set)}</span>
+  </div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:24px;" id="dq-container">
+    {quiz_items}
+  </div>
+  <div id="dq-result" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:32px;text-align:center;">
+    <div style="font-size:3rem;margin-bottom:12px;" id="dq-result-emoji">🎉</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:8px;" id="dq-final-score"></div>
+    <div style="color:var(--grey-700);font-size:.95rem;margin-bottom:20px;" id="dq-final-msg"></div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button onclick="dqRestart()" style="background:var(--saffron);color:#fff;border:none;padding:10px 24px;border-radius:10px;font-weight:700;cursor:pointer;">🔄 Try Again</button>
+      <a href="/current-affairs/" style="display:inline-block;background:var(--card-bg);border:1px solid var(--border);color:var(--white);padding:10px 24px;border-radius:10px;font-weight:600;text-decoration:none;">Read Today's CA →</a>
+    </div>
+  </div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:18px;">
+    <h2 style="font-family:'Syne',sans-serif;font-size:.97rem;color:var(--white);margin:0 0 10px;">More practice</h2>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="/mock-test/" style="background:var(--navy-soft);border:1px solid var(--border);color:var(--white);padding:8px 16px;border-radius:8px;text-decoration:none;font-size:.88rem;">📝 Mock Tests</a>
+      <a href="/study-material/" style="background:var(--navy-soft);border:1px solid var(--border);color:var(--white);padding:8px 16px;border-radius:8px;text-decoration:none;font-size:.88rem;">📚 Study Material</a>
+      <a href="/previous-year-papers/" style="background:var(--navy-soft);border:1px solid var(--border);color:var(--white);padding:8px 16px;border-radius:8px;text-decoration:none;font-size:.88rem;">📄 Previous Year Papers</a>
+      <a href="/current-affairs/" style="background:var(--navy-soft);border:1px solid var(--border);color:var(--white);padding:8px 16px;border-radius:8px;text-decoration:none;font-size:.88rem;">📰 Current Affairs</a>
+    </div>
+  </div>
+</main>
+<style>
+  .dq-num{{font-size:.75rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}}
+  .dq-q{{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);line-height:1.5;margin-bottom:18px;}}
+  .dq-opts{{display:flex;flex-direction:column;gap:10px;}}
+  .dq-opt{{display:flex;align-items:center;gap:12px;background:var(--card-bg);border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;cursor:pointer;text-align:left;transition:.15s;width:100%;font-family:'DM Sans',sans-serif;}}
+  .dq-opt:hover{{border-color:var(--saffron);background:rgba(255,107,0,.06);}}
+  .dq-opt.correct{{border-color:#63FFDA!important;background:rgba(99,255,218,.1)!important;pointer-events:none;}}
+  .dq-opt.wrong{{border-color:#FF6C8A!important;background:rgba(255,108,138,.08)!important;pointer-events:none;}}
+  .dq-opt.disabled{{pointer-events:none;opacity:.55;}}
+  .dq-letter{{width:30px;height:30px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;color:var(--white);flex-shrink:0;}}
+  .dq-opt.correct .dq-letter{{background:#63FFDA;color:#0A0A0F;}}
+  .dq-opt.wrong .dq-letter{{background:#FF6C8A;color:#fff;}}
+  .dq-text{{font-size:.92rem;color:var(--white);line-height:1.4;}}
+  .dq-hint{{margin-top:14px;padding:12px 14px;background:rgba(255,107,0,.06);border:1px solid rgba(255,107,0,.2);border-radius:8px;font-size:.85rem;color:var(--grey-700);}}
+</style>
+<script>
+var dqAnswered=new Array({len(q_set)}).fill(false);
+var dqScore=0;var dqTotal={len(q_set)};var dqCurrent=0;
+function dqA(btn){{
+  var qIdx=+btn.dataset.idx,val=+btn.dataset.val,correct=+btn.dataset.correct;
+  if(dqAnswered[qIdx])return;
+  dqAnswered[qIdx]=true;
+  var opts=document.querySelectorAll('.dq-opt[data-idx="'+qIdx+'"]');
+  opts.forEach(function(o){{o.classList.add('disabled');}});
+  if(val===correct){{btn.classList.remove('disabled');btn.classList.add('correct');dqScore++;document.getElementById('dq-score').textContent=dqScore+' / '+dqTotal;}}
+  else{{btn.classList.remove('disabled');btn.classList.add('wrong');var cb=document.querySelector('.dq-opt[data-idx="'+qIdx+'"][data-val="'+correct+'"]');if(cb){{cb.classList.remove('disabled');cb.classList.add('correct');}}}}
+  var hint=document.getElementById('dq-hint-'+qIdx);if(hint)hint.style.display='block';
+  setTimeout(function(){{
+    dqCurrent++;
+    if(dqCurrent<dqTotal){{document.getElementById('dq-'+qIdx).style.display='none';document.getElementById('dq-'+dqCurrent).style.display='block';}}
+    else{{
+      document.getElementById('dq-container').style.display='none';
+      document.getElementById('dq-result').style.display='block';
+      var pct=Math.round(dqScore/dqTotal*100);
+      document.getElementById('dq-final-score').textContent='You scored '+dqScore+' out of '+dqTotal;
+      document.getElementById('dq-result-emoji').textContent=pct>=80?'🎉':pct>=50?'👍':'📚';
+      document.getElementById('dq-final-msg').textContent=pct>=80?'Excellent! Well prepared for GK sections.':pct>=50?'Good effort — keep reading daily current affairs.':'Keep practicing — read today\'s CA and try again.';
+    }}
+  }},1400);
+}}
+function dqRestart(){{
+  dqAnswered=new Array(dqTotal).fill(false);dqScore=0;dqCurrent=0;
+  document.getElementById('dq-score').textContent='0 / '+dqTotal;
+  document.getElementById('dq-result').style.display='none';
+  document.getElementById('dq-container').style.display='block';
+  for(var i=0;i<dqTotal;i++){{
+    var el=document.getElementById('dq-'+i);if(el)el.style.display=i===0?'block':'none';
+    document.querySelectorAll('.dq-opt[data-idx="'+i+'"]').forEach(function(o){{o.classList.remove('correct','wrong','disabled');}});
+    var hint=document.getElementById('dq-hint-'+i);if(hint)hint.style.display='none';
+  }}
+}}
+</script>
+<footer style="border-top:1px solid var(--border);background:var(--navy);padding:24px 0;margin-top:40px;"><div style="max-width:1100px;margin:0 auto;padding:0 20px;color:var(--grey-400);font-size:.85rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;"><span>© {YR} NaukriBulletin</span><span><a href="/" style="color:var(--grey-700);">Home</a> · <a href="/jobs/" style="color:var(--grey-700);">Jobs</a> · <a href="/alerts/" style="color:var(--grey-700);">Alerts</a></span></div></footer>
+<script>(function(){{var b=document.getElementById("navHamburger");var u=document.querySelector("nav ul");if(!b||!u)return;b.addEventListener("click",function(){{u.classList.toggle("mobile-open");b.classList.toggle("active");}});u.querySelectorAll("a").forEach(function(a){{a.addEventListener("click",function(){{u.classList.remove("mobile-open");b.classList.remove("active");}});}});}})();</script>
+</body></html>'''
+
+    quiz_dir = SITE_ROOT / "daily-quiz"
+    quiz_dir.mkdir(exist_ok=True)
+    (quiz_dir / "index.html").write_text(page, encoding="utf-8")
+    print(f"[QUIZ-PAGE] ✅ /daily-quiz/ rebuilt with {len(q_set)} questions")
+
+# ─── END DAILY QUIZ PAGE BUILDER ──────────────────────────────────────────────
+
+
+
+# ─── CLOSING SOON + EDUCATION FILTER BUILDERS ────────────────────────────────
+
+def build_closing_soon(all_jobs):
+    """Jobs closing in 1/3/7/14 days — with countdown cards."""
+    from datetime import date as _date, datetime as _dt
+    import re as _re
+
+    today = _date.today()
+    MONTHS = {'january':1,'february':2,'march':3,'april':4,'may':5,'june':6,
+              'july':7,'august':8,'september':9,'october':10,'november':11,'december':12}
+
+    urgent = []
+    for j in all_jobs:
+        ld = (j.get('last_date') or '').strip()
+        if not ld or ld == 'N/A': continue
+        # Parse "30 July 2026" format
+        m = _re.match(r'(\d{1,2})\s+(\w+)\s+(\d{4})', ld, _re.I)
+        if not m: continue
+        try:
+            day,mon,yr = int(m.group(1)), MONTHS.get(m.group(2).lower(),0), int(m.group(3))
+            if not mon: continue
+            ld_date = _date(yr,mon,day)
+            diff = (ld_date - today).days
+            if 0 <= diff <= 14:
+                urgent.append({**j, 'days_left': diff, 'ld_date': ld_date})
+        except: continue
+
+    urgent.sort(key=lambda x: x['days_left'])
+    if not urgent: return ""
+
+    def urgency_colour(d):
+        if d <= 1: return "#FF4444"
+        if d <= 3: return "#FF8C33"
+        if d <= 7: return "#FFD56C"
+        return "#63FFDA"
+
+    cards = ""
+    for j in urgent[:8]:
+        d = j['days_left']
+        col = urgency_colour(d)
+        label = "TODAY!" if d==0 else f"{d} day{'s' if d!=1 else ''} left"
+        cards += f'''
+    <a href="/jobs/{j.get('slug','')}/" style="background:var(--card-bg);border:2px solid {col}22;border-radius:14px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:.2s;" onmouseover="this.style.borderColor='{col}'" onmouseout="this.style.borderColor='{col}22'">      <div style="background:{col};color:#000;font-weight:800;font-size:.75rem;padding:4px 10px;border-radius:20px;align-self:flex-start;">{label}</div>      <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--white);font-size:.92rem;line-height:1.3;">{j.get('title','')[:55]}</div>      <div style="font-size:.78rem;color:var(--grey-700);">{j.get('dept','')} · 👥 {j.get('vacancies','N/A')}</div>      <div style="font-size:.78rem;color:{col};font-weight:600;">⏰ Last date: {j.get('last_date','N/A')}</div>    </a>'''
+
+    return f'''
+<!-- NB-CLOSING-START -->
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
+      ⚡ Closing <span style="color:var(--accent);">Soon</span>
+    </h2>
+    <a href="/jobs/" style="color:var(--accent);font-size:.87rem;font-weight:600;text-decoration:none;">All jobs →</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;">
+    {cards}
+  </div>
+</section>
+<!-- NB-CLOSING-END -->
+'''
+
+
+def build_education_filter(all_jobs):
+    """Jobs grouped by qualification — 10th/12th/Graduate/Engineering etc."""
+    from collections import Counter
+
+    QUAL_MAP = [
+        ('10th', ['10th','matriculation','sslc','class 10'],'10th Pass','🏫'),
+        ('12th', ['12th','intermediate','hsc','class 12','10+2'],'12th Pass','📗'),
+        ('graduate', ['graduate','graduation','bachelor','b.a','b.sc','b.com','any degree'],'Any Graduate','🎓'),
+        ('engineering', ['engineer','b.tech','b.e.','b.e ','btech'],'Engineering','⚙️'),
+        ('diploma', ['diploma'],'Diploma','📋'),
+        ('postgraduate', ['post graduate','master','mba','m.a','m.sc','m.com'],'Post Graduate','🏛️'),
+        ('medical', ['mbbs','b.pharm','nursing','gnm','anm','b.pharma'],'Medical','🏥'),
+    ]
+
+    counts = {}
+    for key, kws, label, emoji in QUAL_MAP:
+        c = sum(1 for j in all_jobs
+                if any(kw in (j.get('qualification','') + j.get('category','') + j.get('title','')).lower()
+                       for kw in kws))
+        counts[key] = (label, emoji, c)
+
+    if not any(v[2] for v in counts.values()): return ""
+
+    cat_links = ""
+    for key, (label, emoji, count) in counts.items():
+        if count == 0: continue
+        h_on  = "this.style.borderColor='var(--accent)'"
+        h_off = "this.style.borderColor='var(--border)'"
+        cat_links += (
+            f'<a href="/jobs/?qual={key}" style="background:var(--surface);border:1px solid var(--border);'
+            f'border-radius:12px;padding:14px 12px;text-align:center;text-decoration:none;'
+            f'display:flex;flex-direction:column;gap:6px;transition:.15s;"'
+            f' onmouseover="{h_on}" onmouseout="{h_off}">'
+            f'<span style="font-size:1.5rem;">{emoji}</span>'
+            f'<span style="font-family:var(--font-display);font-size:.85rem;font-weight:700;color:var(--text);">{label}</span>'
+            f'<span style="font-size:.72rem;color:var(--muted);">{count} jobs</span>'
+            f'</a>'
+        )
+
+    return f'''
+<!-- NB-EDUFIL-START -->
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
+      🎓 Jobs by <span style="color:var(--accent);">Qualification</span>
+    </h2>
+    <a href="/jobs/" style="color:var(--accent);font-size:.87rem;font-weight:600;text-decoration:none;">Browse all →</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;">
+    {cat_links}
+  </div>
+</section>
+<!-- NB-EDUFIL-END -->
+'''
+
+# ─── END CLOSING SOON + EDUCATION FILTER ─────────────────────────────────────
+
+
+
+def build_state_pills():
+    """Quick-nav state abbreviation pills — inject below hero."""
+    STATES_SHORT = [
+        ("AP","Andhra Pradesh","andhra-pradesh"),
+        ("AS","Assam","assam"),
+        ("BR","Bihar","bihar"),
+        ("CG","Chhattisgarh","chhattisgarh"),
+        ("DL","Delhi","delhi"),
+        ("GJ","Gujarat","gujarat"),
+        ("HR","Haryana","haryana"),
+        ("HP","Himachal Pradesh","himachal-pradesh"),
+        ("JH","Jharkhand","jharkhand"),
+        ("KA","Karnataka","karnataka"),
+        ("KL","Kerala","kerala"),
+        ("MP","Madhya Pradesh","madhya-pradesh"),
+        ("MH","Maharashtra","maharashtra"),
+        ("MN","Manipur","manipur"),
+        ("OD","Odisha","odisha"),
+        ("PB","Punjab","punjab"),
+        ("RJ","Rajasthan","rajasthan"),
+        ("SK","Sikkim","sikkim"),
+        ("TN","Tamil Nadu","tamil-nadu"),
+        ("TS","Telangana","telangana"),
+        ("TR","Tripura","tripura"),
+        ("UP","Uttar Pradesh","uttar-pradesh"),
+        ("UK","Uttarakhand","uttarakhand"),
+        ("WB","West Bengal","west-bengal"),
+        ("JK","Jammu & Kashmir","jammu-kashmir"),
+        ("LA","Ladakh","ladakh"),
+    ]
+    pills = "".join(
+        f'<a href="/jobs/{slug}/" style="background:var(--navy-soft);border:1px solid var(--border);'
+        f'color:var(--white);padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:700;'
+        f'text-decoration:none;transition:.15s;white-space:nowrap;"'
+        f' title="{name}">{abbr}</a>'
+        for abbr,name,slug in STATES_SHORT
+    )
+    return f"""<!-- NB-STATE-PILLS-START -->
+<div style="max-width:1200px;margin:0 auto;padding:12px 5%;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border);">
+  {pills}
+</div>
+<!-- NB-STATE-PILLS-END -->"""
+
+
+def build_three_col(all_jobs, results_items=None, admit_items=None):
+    """Three-column homepage section: Latest Jobs | Admit Cards | Results."""
+    import re as _re
+    from pathlib import Path as _Path
+
+    SITE_ROOT_LOCAL = SITE_ROOT
+
+    def read_items(folder, limit=8):
+        d = SITE_ROOT_LOCAL / folder
+        items = []
+        if not d.exists(): return items
+        for sub in sorted(d.iterdir(), reverse=True)[:limit*2]:
+            if not sub.is_dir(): continue
+            idx = sub/"index.html"
+            if not idx.exists(): continue
+            try:
+                content = idx.read_text(encoding="utf-8", errors="ignore")
+                h = _re.search(r'<h1[^>]*>(.*?)</h1>', content, _re.S)
+                title = _re.sub(r'<[^>]+>','',h.group(1)).strip() if h else sub.name
+                items.append({"title":title[:65],"slug":sub.name})
+            except: pass
+            if len(items)>=limit: break
+        return items
+
+    jobs_rows = "".join(
+        f'<a href="/jobs/{j.get("slug","")}/" style="display:block;padding:9px 16px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--white);font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.1s;">{j.get("title","")}</a>'
+        for j in (all_jobs[:8] if all_jobs else [])
+    ) or '<div style="padding:12px 16px;color:var(--grey-400);font-size:.85rem;">No jobs today</div>'
+
+    admit_list = read_items("admit-card")
+    admit_rows = "".join(
+        f'<a href="/admit-card/{i["slug"]}/" style="display:block;padding:9px 16px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--white);font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.1s;">{i["title"]}</a>'
+        for i in admit_list
+    ) or '<div style="padding:12px 16px;color:var(--grey-400);font-size:.85rem;">Check back soon</div>'
+
+    results_list = read_items("results")
+    result_rows = "".join(
+        f'<a href="/results/{i["slug"]}/" style="display:block;padding:9px 16px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--white);font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.1s;">{i["title"]}</a>'
+        for i in results_list
+    ) or '<div style="padding:12px 16px;color:var(--grey-400);font-size:.85rem;">Check back soon</div>'
+
+    def col(title, accent, rows, view_href, icon):
+        return (f'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;">'                f'<div style="background:{accent};padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">'                f'<span style="font-family:var(--font-display);font-size:.95rem;font-weight:700;color:#fff;">{icon} {title}</span>'                f'<a href="{view_href}" style="font-size:.75rem;color:rgba(255,255,255,.85);text-decoration:none;font-weight:600;">View All →</a>'                f'</div>{rows}</div>')
+
+    return f"""<!-- NB-3COL-START -->
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    {col("Job Notifications","#E65100",jobs_rows,"/jobs/","📋")}
+    {col("Admit Cards","#1565C0",admit_rows,"/admit-card/","📄")}
+    {col("Results","#2E7D32",result_rows,"/results/","📊")}
+  </div>
+  <style>@media(max-width:768px){{section:has(.nb-3col){{display:none}}}}</style>
+</section>
+<!-- NB-3COL-END -->"""
 
 
 def rebuild_homepage():
@@ -2907,14 +3328,23 @@ def rebuild_homepage():
         if len(affairs_full) >= 25: break
 
     quiz_html       = build_daily_quiz(affairs_full)
+    rebuild_daily_quiz_page(affairs_full)
     flashcard_html  = build_flashcards(all_jobs[:12])
     jobnews_html    = build_job_news(affairs_full, all_jobs[:10])
 
-    daily_block = quiz_html + flashcard_html + jobnews_html
+    state_pills   = build_state_pills()
+    three_col_html = build_three_col(all_jobs)
+    closing_html  = build_closing_soon(all_jobs)
+    edu_html      = build_education_filter(all_jobs)
+    daily_block   = state_pills + three_col_html + closing_html + edu_html + quiz_html + flashcard_html + jobnews_html
 
     # Inject before </footer> (idempotent: replace existing or insert fresh)
     import re as _re
     for marker_pair in [
+        ("<!-- NB-STATE-PILLS-START -->", "<!-- NB-STATE-PILLS-END -->"),
+        ("<!-- NB-3COL-START -->", "<!-- NB-3COL-END -->"),
+        ("<!-- NB-CLOSING-START -->", "<!-- NB-CLOSING-END -->"),
+        ("<!-- NB-EDUFIL-START -->", "<!-- NB-EDUFIL-END -->"),
         ("<!-- NB-QUIZ-START -->", "<!-- NB-QUIZ-END -->"),
         ("<!-- NB-FLASHCARDS-START -->", "<!-- NB-FLASHCARDS-END -->"),
         ("<!-- NB-JOBNEWS-START -->", "<!-- NB-JOBNEWS-END -->"),
@@ -2982,6 +3412,8 @@ def rebuild_jobs_listing():
     <li><a href="/syllabus/">Syllabus</a></li>
     <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -3088,6 +3520,8 @@ def rebuild_jobs_listing():
           <ul>
             <li><a href="/cut-off/">Cut Off</a></li>
             <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
             <li><a href="/syllabus/">Syllabus</a></li>
             <li><a href="/current-affairs/">Current Affairs</a></li>
           </ul>
@@ -3284,6 +3718,8 @@ def rebuild_affairs_listing():
     <li><a href="/syllabus/">Syllabus</a></li>
     <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
