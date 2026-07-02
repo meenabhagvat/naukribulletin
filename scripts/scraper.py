@@ -2976,50 +2976,6 @@ def build_education_filter(all_jobs):
 
 
 
-def build_state_pills():
-    """Quick-nav state abbreviation pills — inject below hero."""
-    STATES_SHORT = [
-        ("AP","Andhra Pradesh","andhra-pradesh"),
-        ("AS","Assam","assam"),
-        ("BR","Bihar","bihar"),
-        ("CG","Chhattisgarh","chhattisgarh"),
-        ("DL","Delhi","delhi"),
-        ("GJ","Gujarat","gujarat"),
-        ("HR","Haryana","haryana"),
-        ("HP","Himachal Pradesh","himachal-pradesh"),
-        ("JH","Jharkhand","jharkhand"),
-        ("KA","Karnataka","karnataka"),
-        ("KL","Kerala","kerala"),
-        ("MP","Madhya Pradesh","madhya-pradesh"),
-        ("MH","Maharashtra","maharashtra"),
-        ("MN","Manipur","manipur"),
-        ("OD","Odisha","odisha"),
-        ("PB","Punjab","punjab"),
-        ("RJ","Rajasthan","rajasthan"),
-        ("SK","Sikkim","sikkim"),
-        ("TN","Tamil Nadu","tamil-nadu"),
-        ("TS","Telangana","telangana"),
-        ("TR","Tripura","tripura"),
-        ("UP","Uttar Pradesh","uttar-pradesh"),
-        ("UK","Uttarakhand","uttarakhand"),
-        ("WB","West Bengal","west-bengal"),
-        ("JK","Jammu & Kashmir","jammu-kashmir"),
-        ("LA","Ladakh","ladakh"),
-    ]
-    pills = "".join(
-        f'<a href="/jobs/{slug}/" style="background:var(--navy-soft);border:1px solid var(--border);'
-        f'color:var(--white);padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:700;'
-        f'text-decoration:none;transition:.15s;white-space:nowrap;"'
-        f' title="{name}">{abbr}</a>'
-        for abbr,name,slug in STATES_SHORT
-    )
-    return f"""<!-- NB-STATE-PILLS-START -->
-<div style="max-width:1200px;margin:0 auto;padding:12px 5%;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border);">
-  {pills}
-</div>
-<!-- NB-STATE-PILLS-END -->"""
-
-
 def build_three_col(all_jobs, results_items=None, admit_items=None):
     """Three-column homepage section: Latest Jobs | Admit Cards | Results."""
     import re as _re
@@ -3331,16 +3287,14 @@ def rebuild_homepage():
     flashcard_html  = build_flashcards(all_jobs[:12])
     jobnews_html    = build_job_news(affairs_full, all_jobs[:10])
 
-    state_pills   = build_state_pills()
     three_col_html = build_three_col(all_jobs)
     closing_html  = build_closing_soon(all_jobs)
     edu_html      = build_education_filter(all_jobs)
-    daily_block   = state_pills + three_col_html + closing_html + edu_html + quiz_html + flashcard_html + jobnews_html
+    daily_block   = three_col_html + closing_html + edu_html + quiz_html + flashcard_html + jobnews_html
 
     # Inject before </footer> (idempotent: replace existing or insert fresh)
     import re as _re
     for marker_pair in [
-        ("<!-- NB-STATE-PILLS-START -->", "<!-- NB-STATE-PILLS-END -->"),
         ("<!-- NB-3COL-START -->", "<!-- NB-3COL-END -->"),
         ("<!-- NB-CLOSING-START -->", "<!-- NB-CLOSING-END -->"),
         ("<!-- NB-EDUFIL-START -->", "<!-- NB-EDUFIL-END -->"),
