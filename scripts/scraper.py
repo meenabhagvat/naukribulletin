@@ -2076,7 +2076,7 @@ STATES = [
     ("andaman-nicobar",   "Andaman & Nicobar",    "🏝️",  ["andaman nicobar","andaman","port blair"]),
     ("chandigarh",        "Chandigarh",           "🌹",  ["chandigarh administration","chandigarh ut","chandigarh police"]),
     ("dadra-nagar-haveli","Dadra & Nagar Haveli", "🌿",  ["dadra nagar haveli","dnh","silvassa"]),
-    ("daman-diu",         "Daman & Diu",          "⛵",  ["daman diu","daman","diu"]),
+    ("daman-diu",         "Daman & Diu",          "⛵",  ["daman and diu","daman & diu","daman diu"]),
     ("delhi",             "Delhi",                "🏛️",  ["dsssb","delhi police","delhi government","new delhi","delhi"]),
     ("jammu-kashmir",     "Jammu & Kashmir",      "❄️",  ["jkpsc","jkssb","jkpsc","jammu kashmir","srinagar","jammu"]),
     ("ladakh",            "Ladakh",               "🏔️",  ["lahdc","ladakh","leh","kargil"]),
