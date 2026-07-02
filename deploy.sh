@@ -1,25 +1,11 @@
 #!/bin/bash
-# NaukriBulletin — local deploy script
+# NaukriBulletin — local deploy script (conflict-proof)
 
 set -e
 
-# ── 1. Sync with remote before doing anything ─────────────────────────────────
-echo "📥 Pulling latest from remote..."
-git fetch origin
-
-LOCAL=$(git rev-parse HEAD)
-REMOTE=$(git rev-parse origin/main)
-
-if [ "$LOCAL" != "$REMOTE" ]; then
-  echo "   Remote has new commits — rebasing..."
-  git stash
-  git rebase origin/main
-  git stash pop 2>/dev/null || true
-fi
-
-# ── 1b. SEO hardening pass (idempotent) ───────────────────────────────────────
+# ── 1. SEO hardening ──────────────────────────────────────────────────────────
 echo "🛡️  Running SEO hardening pass..."
-python3 scripts/seo_perfect.py --apply || echo "   (seo_perfect skipped)"
+python3 scripts/seo_perfect.py --apply
 
 # ── 2. Sync dist/ ─────────────────────────────────────────────────────────────
 echo "🔄 Syncing dist/..."
@@ -41,13 +27,18 @@ rsync -a --delete \
 
 cp _redirects dist/_redirects 2>/dev/null || true
 
-# ── 3. Commit local changes if any ───────────────────────────────────────────
-if ! git diff --quiet HEAD; then
-  echo "📝 Committing local changes..."
-  git add .
-  git commit -m "Deploy: $(date +'%d %b %Y %H:%M')"
+# ── 3. Commit + push (ours wins, no rebase) ───────────────────────────────────
+echo "📝 Committing and pushing..."
+git add -A
+git diff --cached --quiet || git commit -m "Deploy: $(date +'%d %b %Y %H:%M')"
+
+# Fetch remote but DON'T rebase — just force our version through
+git fetch origin main
+git push origin main --force-with-lease || {
+  # If force-with-lease fails (rare), pull CI changes then push
+  git pull origin main --no-rebase -X ours --no-edit 2>/dev/null || true
   git push origin main
-fi
+}
 
 # ── 4. Deploy to Cloudflare ───────────────────────────────────────────────────
 echo "🚀 Deploying to Cloudflare..."
