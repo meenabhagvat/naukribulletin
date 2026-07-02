@@ -2728,6 +2728,7 @@ def rebuild_daily_quiz_page(affairs_list):
   <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
   <ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
     <li><a href="/exam-calendar/">Exam Calendar</a></li>
@@ -2735,8 +2736,6 @@ def rebuild_daily_quiz_page(affairs_list):
     <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/daily-quiz/" class="active">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
