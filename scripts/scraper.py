@@ -33,6 +33,144 @@ SITE_URL  = "https://naukribulletin.in"
 #           current affairs = PIB + DD News (official only)
 #           news sources = The Hindu kept for current affairs only
 
+
+# ─── CONTENT ENRICHMENT MODULE ────────────────────────────────────────────────
+
+EXAM_KB = {
+    "coral":            {"exams":["UPSC","SSC CGL"],"section":"Environment","why":"Coral reefs, bleaching and translocation appear almost every year in UPSC Prelims GS1 Environment section."},
+    "tiger":            {"exams":["UPSC","SSC CGL"],"section":"Environment","why":"Tiger reserves and Project Tiger are standard static GK for SSC and UPSC."},
+    "ramsar":           {"exams":["UPSC","SSC CGL","IBPS PO"],"section":"Environment","why":"Ramsar wetland sites appear in Banking, SSC and UPSC GK sections."},
+    "national park":    {"exams":["UPSC","SSC CGL","RRB NTPC"],"section":"Environment","why":"National parks and wildlife sanctuaries are standard GK for all competitive exams."},
+    "climate":          {"exams":["UPSC"],"section":"Environment","why":"Climate policy and international agreements are core UPSC Prelims and Mains topics."},
+    "election commission":{"exams":["UPSC","SSC CGL","IBPS PO"],"section":"Polity","why":"Election Commission powers and functions are directly asked in Polity sections."},
+    "supreme court":    {"exams":["UPSC","SSC CGL"],"section":"Polity","why":"Supreme Court judgments and constitutional provisions are standard UPSC/SSC topics."},
+    "parliament":       {"exams":["UPSC","SSC CGL"],"section":"Polity","why":"Parliamentary procedures and bills are asked in Polity sections across exams."},
+    "rbi":              {"exams":["IBPS PO","SBI PO","RBI Grade B","UPSC"],"section":"Banking","why":"RBI policies, rates and functions are the most asked topic in Banking exams GA section."},
+    "repo rate":        {"exams":["IBPS PO","SBI PO","RBI Grade B"],"section":"Banking","why":"Monetary policy and repo rate changes are asked in every Banking exam GA section."},
+    "gdp":              {"exams":["UPSC","IBPS PO"],"section":"Economy","why":"GDP growth and economic indicators are core topics for Banking and UPSC."},
+    "budget":           {"exams":["UPSC","IBPS PO","SSC CGL"],"section":"Economy","why":"Union Budget is extensively covered in GA sections of all major exams."},
+    "inflation":        {"exams":["IBPS PO","SBI PO","RBI Grade B"],"section":"Banking","why":"Inflation, WPI, CPI are standard Banking GA topics asked almost every year."},
+    "indian army":      {"exams":["UPSC","SSC CGL","CDS"],"section":"Defence","why":"Army exercises and appointments appear in Defence Affairs section of UPSC and SSC."},
+    "indian navy":      {"exams":["UPSC","SSC CGL","CDS"],"section":"Defence","why":"Naval exercises and acquisitions are standard Current Affairs for UPSC and SSC."},
+    "isro":             {"exams":["UPSC","SSC CGL","RRB NTPC"],"section":"Science & Tech","why":"ISRO missions are among the most asked Science & Tech questions across all exams."},
+    "drdo":             {"exams":["UPSC","SSC CGL"],"section":"Science & Tech","why":"DRDO tests and defence technology are asked in Science & Tech sections."},
+    "missile":          {"exams":["UPSC","SSC CGL"],"section":"Science & Tech","why":"Missile systems and defence technology appear in Science & Technology GK."},
+    "tunnel":           {"exams":["UPSC","SSC CGL","RRB NTPC"],"section":"Infrastructure","why":"Major infrastructure projects like tunnels appear in Geography and Current Affairs."},
+    "railway":          {"exams":["RRB NTPC","RRB Group D","UPSC"],"section":"Infrastructure","why":"Railway projects are directly relevant for Railway exams and UPSC."},
+    "g20":              {"exams":["UPSC","IBPS PO","SSC CGL"],"section":"International","why":"G20 summits and outcomes are extensively covered in all competitive exam GA sections."},
+    "india japan":      {"exams":["UPSC"],"section":"International","why":"Bilateral relations and defence pacts are core UPSC Mains GS2 topics."},
+    "united nations":   {"exams":["UPSC","SSC CGL"],"section":"International","why":"UN bodies and India's role are asked in International Relations sections."},
+    "appointed":        {"exams":["UPSC","SSC CGL","IBPS PO","RRB NTPC"],"section":"Appointments","why":"Key appointments appear in GA sections of all exams."},
+    "award":            {"exams":["UPSC","SSC CGL","IBPS PO"],"section":"Awards","why":"National and international awards are standard Current Affairs."},
+    "scheme":           {"exams":["UPSC","SSC CGL","IBPS PO"],"section":"Government Schemes","why":"Government schemes and their beneficiaries are asked in Welfare and Polity sections."},
+    "mission":          {"exams":["UPSC","SSC CGL"],"section":"Government Schemes","why":"Government missions and flagship programmes appear in Current Affairs sections."},
+}
+
+SECTION_CONTEXT = {
+    "Environment":   "India is committed to protecting biodiversity under the Biological Diversity Act 2002 and the Convention on Biological Diversity (CBD). India has 106 National Parks, 567 Wildlife Sanctuaries and 18 Biosphere Reserves.",
+    "Polity":        "India's governance is based on the Constitution of India (1950). The Union List, State List and Concurrent List in the Seventh Schedule distribute legislative powers between Centre and States.",
+    "Banking":       "India's banking sector is regulated by the Reserve Bank of India (RBI), established in 1935. The RBI controls monetary policy including repo rate, reverse repo rate, CRR and SLR.",
+    "Economy":       "India targets becoming a $5 trillion economy. The Union Budget and Economic Survey are key documents. India is the world's 5th largest economy by nominal GDP.",
+    "Defence":       "India's defence is coordinated by the Ministry of Defence. India follows a policy of Aatmanirbhar Bharat (self-reliance) in defence production under DRDO and DPSUs.",
+    "Science & Tech":"India's S&T ecosystem includes ISRO (space), DRDO (defence), CSIR (research) and IITs. India's space programme has achieved Mars Orbiter Mission, Chandrayaan and Gaganyaan.",
+    "Infrastructure":"India's National Infrastructure Pipeline (NIP) targets ₹111 lakh crore by 2025. PM GatiShakti is the master plan for multimodal connectivity across India.",
+    "International": "India follows strategic autonomy in foreign affairs. India is part of QUAD, BRICS, SCO, G20 and maintains bilateral relations with all major powers.",
+    "Appointments":  "Constitutional office holders are appointed by the President. Key positions include Chief Justice of India, RBI Governor, Army/Navy/Air Force Chiefs and CEC.",
+    "Awards":        "India confers Bharat Ratna, Padma Awards and Gallantry Awards annually. The Nobel Prize, Booker Prize and other international awards are also covered in Current Affairs.",
+    "Government Schemes": "Key flagship schemes include PM Awas Yojana, Ayushman Bharat, PM Kisan, Jal Jeevan Mission, MGNREGS and PM GatiShakti. Knowing scheme names, benefits and target beneficiaries is essential.",
+}
+
+def get_exam_relevance(title, summary):
+    """Match article to exam relevance using EXAM_KB."""
+    text = (title + " " + summary).lower()
+    for keyword, info in EXAM_KB.items():
+        if keyword in text:
+            return info
+    return {"exams":["UPSC","SSC CGL","IBPS PO"],"section":"General Awareness",
+            "why":"Current affairs from all domains appear in the GA sections of SSC, Banking and UPSC exams."}
+
+def build_ca_rich_block(title, summary):
+    """Build exam-relevance block for a CA article."""
+    from datetime import date as _date
+    rel = get_exam_relevance(title, summary)
+    exams_str = " · ".join(rel["exams"])
+    exam_tags = "".join(
+        f'<span style="background:rgba(255,107,0,.12);color:var(--saffron);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;">{e}</span>'
+        for e in rel["exams"]
+    )
+    context = SECTION_CONTEXT.get(rel["section"], SECTION_CONTEXT["General Awareness"] if "General Awareness" in SECTION_CONTEXT else "Current affairs form the General Awareness section of all competitive exams.")
+    
+    sentences = [s.strip() for s in re.split(r'[.!?]+', summary) if len(s.strip()) > 20]
+    key_facts = sentences[:3] if sentences else [summary[:120]]
+    kf_html = "".join(f'<li style="padding:5px 0;color:var(--grey-700);font-size:.9rem;">{f}.</li>' for f in key_facts)
+    
+    return f'''
+<div style="background:rgba(255,107,0,.06);border:1px solid rgba(255,107,0,.2);border-radius:12px;padding:14px 18px;margin-bottom:20px;">
+  <div style="font-size:.72rem;font-weight:700;color:var(--saffron);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">📚 Exam Relevance — {rel["section"]}</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">{exam_tags}</div>
+  <div style="font-size:.85rem;color:var(--grey-700);">{rel["why"]}</div>
+</div>
+<h2 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin:0 0 10px;">What happened</h2>
+<p style="color:var(--grey-700);line-height:1.8;font-size:.95rem;margin-bottom:20px;">{summary}</p>
+<h2 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin:0 0 10px;">Key facts for exam</h2>
+<ul style="margin:0 0 20px;padding-left:20px;">{kf_html}
+<li style="padding:5px 0;color:var(--grey-700);font-size:.9rem;">Topic section: <strong style="color:var(--white);">{rel["section"]}</strong> — relevant for <strong style="color:var(--white);">{exams_str}</strong>.</li></ul>
+<h2 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin:0 0 10px;">Background & context</h2>
+<p style="color:var(--grey-700);line-height:1.8;font-size:.95rem;margin-bottom:20px;">{context}</p>
+<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:20px;">
+  <div style="font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:6px;">🎯 Likely exam question pattern</div>
+  <div style="font-size:.88rem;color:var(--grey-700);font-style:italic;">Questions on this topic typically appear as MCQs asking about the organisation involved, the location, the policy name, or the year. Review the key facts above carefully.</div>
+</div>'''
+
+def build_job_rich_block(job_data):
+    """Build rich eligibility + application guide for job pages."""
+    title    = job_data.get("title","")
+    dept     = job_data.get("dept","")
+    vac      = job_data.get("vacancies","N/A")
+    qual     = job_data.get("qualification","N/A")
+    age      = job_data.get("age_limit","N/A")
+    salary   = job_data.get("salary","N/A")
+    ld       = job_data.get("last_date","N/A")
+    loc      = job_data.get("location","All India")
+    apply_url= job_data.get("apply_url","")
+
+    steps = [
+        f"Visit the official website of <strong style='color:var(--white);'>{dept}</strong> and navigate to the Recruitment / Careers section.",
+        "Read the official notification PDF carefully — note vacancies, eligibility, fee and important dates.",
+        f"Check eligibility: qualification required is <strong style='color:var(--white);'>{qual}</strong>{f', age limit: {age}' if age != 'N/A' else ''}.",
+        "Register online, fill the application form with accurate details and upload required documents.",
+        f"Pay the application fee (if applicable) and submit before <strong style='color:var(--white);'>{ld}</strong>.",
+        "Save your application number and download the confirmation / admit card when released.",
+    ]
+    steps_html = "".join(f'<li style="padding:8px 0;color:var(--grey-700);border-bottom:1px solid var(--border);font-size:.9rem;line-height:1.6;">{step}</li>' for step in steps)
+    
+    docs = ["10th / 12th marksheet","Graduation certificate (if required)","Caste certificate (for reserved categories)","Age proof (Date of Birth certificate)","Passport-size photograph","Valid signature","ID proof (Aadhaar / PAN / Voter ID)"]
+    docs_html = "".join(f'<li style="padding:5px 0;color:var(--grey-700);font-size:.88rem;">✓ {d}</li>' for d in docs)
+
+    salary_block = ""
+    if salary and salary != "N/A":
+        salary_block = f'<div style="background:rgba(99,255,218,.06);border:1px solid rgba(99,255,218,.2);border-radius:10px;padding:14px 18px;margin-bottom:16px;"><div style="font-size:.8rem;font-weight:700;color:#63FFDA;text-transform:uppercase;margin-bottom:4px;">💰 Salary / Pay Scale</div><div style="color:var(--white);font-weight:600;">{salary}</div></div>'
+
+    return f'''
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;">
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Total Vacancies</div><div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--saffron);">{vac}</div></div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Last Date</div><div style="font-size:.95rem;font-weight:700;color:#FF6C8A;">{ld}</div></div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Location</div><div style="font-size:.9rem;color:var(--white);">{loc}</div></div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Qualification</div><div style="font-size:.85rem;color:var(--white);">{qual}</div></div>
+</div>
+{salary_block}
+<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;">
+  <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--navy-soft);"><h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0;">📋 How to Apply — Step by Step</h2></div>
+  <div style="padding:4px 18px 12px;"><ol style="margin:0;padding-left:18px;">{steps_html}</ol></div>
+</div>
+<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;">
+  <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--navy-soft);"><h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0;">📄 Documents Required</h2></div>
+  <div style="padding:8px 18px 14px;"><ul style="margin:0;padding-left:18px;">{docs_html}</ul></div>
+</div>'''
+
+# ─── END CONTENT ENRICHMENT MODULE ───────────────────────────────────────────
+
+
 SOURCES = [
 
     # ── CENTRAL / NATIONAL ─────────────────────────────────────────────────
@@ -1292,6 +1430,11 @@ def generate_job_html(job):
         </table>
       </div>
 
+      <!-- Rich job content -->
+      <div style="margin:24px 0;">
+        {build_job_rich_block(job)}
+      </div>
+
       <div style="text-align:center;margin:32px 0;">
         <a href="{job.get('apply_link') or job.get('source_url') or '#'}" target="_blank" rel="nofollow noopener"
            style="background:#FF6B00;color:#fff;padding:14px 40px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;display:inline-block;">
@@ -1384,91 +1527,103 @@ def generate_job_html(job):
 def generate_affairs_html(affair):
     slug       = affair.get("slug") or make_slug(affair.get("title", "news"))
     today      = datetime.now().strftime("%d %B %Y")
+    title      = affair.get("title", "Current Affairs")
+    summary    = affair.get("summary", "")
     key_facts  = affair.get("key_facts", [])
-    facts_html = "".join([f"<li style='margin-bottom:8px;font-size:0.9rem;'>{f}</li>" for f in key_facts])
+    dept       = affair.get("dept", "")
+    category   = affair.get("category", "current-affairs")
+
+    # Rich content block from content enrichment module
+    rich_block = build_ca_rich_block(title, summary)
+
+    # Key facts HTML
+    facts_html = "".join(
+        f'<li style="padding:6px 0;color:var(--grey-700);border-bottom:1px solid var(--border);font-size:.9rem;">{f}</li>'
+        for f in key_facts
+    ) if key_facts else ""
+
+    # Standard nav
+    nav_html = '''<nav>
+  <a href="/" class="logo" style="text-decoration:none;"><span class="logo-naukri">Naukri</span><span class="logo-bull">Bulletin</span></a>
+  <ul id="navLinks">
+    <li><a href="/jobs/">Jobs</a></li>
+    <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
+    <li><a href="/current-affairs/" class="active">Current Affairs</a></li>
+    <li><a href="/results/">Results</a></li>
+    <li><a href="/exam-calendar/">Exam Calendar</a></li>
+    <li><a href="/syllabus/">Syllabus</a></li>
+    <li><a href="/mock-test/">Mock Tests</a></li>
+    <li><a href="/admit-card/">Admit Cards</a></li>
+    <li><a href="/daily-quiz/">Daily Quiz</a></li>
+    <li><a href="/previous-year-papers/">PYP</a></li>
+  </ul>
+  <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>'''
+
+    schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": title,
+        "description": summary[:155],
+        "datePublished": datetime.now().strftime("%Y-%m-%d"),
+        "author": {"@type": "Organization", "name": "NaukriBulletin Editorial Team"},
+        "publisher": {"@type": "Organization", "name": "NaukriBulletin", "url": "https://naukribulletin.in"}
+    })
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{affair.get('title', 'Current Affairs')} — NaukriBulletin</title>
-  <meta name="description" content="{affair.get('summary', '')[:155]}">
+  <title>{title} | Current Affairs {today} — NaukriBulletin</title>
+  <meta name="description" content="{summary[:155]}">
   <link rel="canonical" href="https://naukribulletin.in/current-affairs/{slug}/">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap"></noscript></noscript>
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{summary[:155]}">
+  <meta name="robots" content="index,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap">
   <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">{schema}</script>
 </head>
-<body style="font-family:'DM Sans',sans-serif;background:#F7F8FA;margin:0;">
-  <nav style="background:#0A0F2C;border-bottom:3px solid #FF6B00;padding:0 20px;">
-    <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;height:60px;">
-      <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;text-decoration:none;">NaukriBulletin</a>
+<body>
+{nav_html}
+<header style="background:var(--navy);border-bottom:1px solid var(--border);padding:36px 20px 28px;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="font-size:.78rem;color:var(--grey-400);margin-bottom:10px;">
+      <a href="/" style="color:var(--grey-400);">Home</a> ›
+      <a href="/current-affairs/" style="color:var(--grey-400);">Current Affairs</a> ›
+      {title[:50]}
     </div>
-  </nav>
-
-  <main style="max-width:900px;margin:0 auto;padding:32px 20px;">
-    <div style="font-size:0.8rem;color:#9BA3B8;margin-bottom:16px;">
-      <a href="/" style="color:#9BA3B8;">Home</a> ›
-      <a href="/current-affairs/" style="color:#9BA3B8;">Current Affairs</a> ›
-      <span>{affair.get('category', '')}</span>
+    <div style="font-size:.72rem;font-weight:700;color:var(--saffron);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">CURRENT AFFAIRS · {today}</div>
+    <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.7rem;color:var(--white);margin:0 0 10px;line-height:1.3;">{title}</h1>
+    <p style="color:var(--grey-700);font-size:.92rem;margin:0;">By <strong style="color:var(--white);">NaukriBulletin Editorial Team</strong> · Updated {today}</p>
+  </div>
+</header>
+<main style="max-width:900px;margin:0 auto;padding:28px 20px;">
+  {rich_block}
+  {'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:20px;"><h3 style="font-family:Syne,sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0 0 12px;">Key Points</h3><ul style="margin:0;padding-left:18px;">' + facts_html + '</ul></div>' if facts_html else ''}
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px;margin-top:24px;">
+    <h3 style="font-family:'Syne',sans-serif;font-size:.95rem;color:var(--white);margin:0 0 12px;">Practice for the exam</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="/daily-quiz/" style="background:var(--saffron);color:#fff;padding:9px 18px;border-radius:9px;font-weight:700;text-decoration:none;font-size:.88rem;">📝 Take Daily Quiz</a>
+      <a href="/mock-test/" style="background:var(--card-bg);border:1px solid var(--border);color:var(--white);padding:9px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:.88rem;">Practice Mock Test</a>
+      <a href="/current-affairs/" style="background:var(--card-bg);border:1px solid var(--border);color:var(--white);padding:9px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:.88rem;">More Current Affairs</a>
     </div>
-    <article>
-      <div style="background:#0A0F2C;border-radius:16px;padding:32px;margin-bottom:24px;">
-        <div style="color:#FF6B00;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;margin-bottom:8px;">{affair.get('category', '').upper()} • {today}</div>
-        <h1 style="font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px;">{affair.get('title', '')}</h1>
-        <div style="color:#9BA3B8;font-size:0.75rem;">Exam Relevance: <strong style="color:#FF8C33;">{affair.get('exam_relevance', 'All Exams')}</strong></div>
-      </div>
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:24px;margin-bottom:20px;">
-        <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:12px;">Summary</h2>
-        <p style="color:#1A1F35;font-size:0.95rem;line-height:1.7;">{affair.get('summary', '')}</p>
-      </div>
-      <div style="background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;padding:24px;margin-bottom:20px;">
-        <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:16px;">📌 Key Facts for Exam</h2>
-        <ul style="list-style:none;padding:0;">{facts_html}</ul>
-      </div>
-      <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_CLIENT}" data-ad-slot="{ADSENSE_SLOT_TOP}" data-ad-format="auto"></ins>
-    </article>
-  </main>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-<script>
-(function() {{
-  var btn = document.getElementById('navHamburger');
-  var links = document.querySelector('nav ul');
-  if (!btn || !links) return;
-
-  var overlay = document.createElement('div');
-  overlay.className = 'nav-overlay';
-  document.body.appendChild(overlay);
-
-  function closeMenu() {{
-    btn.classList.remove('active');
-    links.classList.remove('mobile-open');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }}
-  function openMenu() {{
-    btn.classList.add('active');
-    links.classList.add('mobile-open');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }}
-  btn.addEventListener('click', function() {{
-    links.classList.contains('mobile-open') ? closeMenu() : openMenu();
-  }});
-  overlay.addEventListener('click', closeMenu);
-  links.querySelectorAll('a').forEach(function(a) {{
-    a.addEventListener('click', closeMenu);
-  }});
-}})();
-</script>
+  </div>
+</main>
+<footer style="border-top:1px solid var(--border);background:var(--navy);padding:24px 0;margin-top:32px;">
+  <div style="max-width:900px;margin:0 auto;padding:0 20px;color:var(--grey-400);font-size:.85rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;">
+    <span>© {datetime.now().year} NaukriBulletin</span>
+    <span><a href="/" style="color:var(--grey-700);">Home</a> · <a href="/current-affairs/" style="color:var(--grey-700);">Current Affairs</a> · <a href="/daily-quiz/" style="color:var(--grey-700);">Daily Quiz</a></span>
+  </div>
+</footer>
+<script>(function(){{var b=document.getElementById("navHamburger");var u=document.querySelector("nav ul");if(!b||!u)return;b.addEventListener("click",function(){{u.classList.toggle("mobile-open");b.classList.toggle("active");}});u.querySelectorAll("a").forEach(function(a){{a.addEventListener("click",function(){{u.classList.remove("mobile-open");b.classList.remove("active");}});}});}})();</script>
 </body>
 </html>"""
     return slug, html
 
-
-# ─── SITE BUILDER ─────────────────────────────────────────────────────────────
 
 def save_page(slug, html, folder):
     page_dir = SITE_ROOT / folder / slug
