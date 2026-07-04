@@ -96,6 +96,7 @@ def _extract_and_append(block, title, jobs):
         'title': title, 'slug': make_slug(title), 'dept': dept, 'category': cat,
         'start_date': start_date, 'last_date': last_date,
         'source_url': source_url, 'vacancies': vacancies,
+        'qualification': qualification, 'salary': salary,
         'urgent': bool(re.search(r'last date soon|urgent|closing soon', block, re.I)),
     })
 
@@ -220,6 +221,7 @@ def generate_page(job):
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">⏰ Last Date</div><div style="font-size:.9rem;font-weight:700;color:#FF6C8A;">{ld}</div></div>
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">📅 Start Date</div><div style="font-size:.9rem;color:var(--white);">{sd}</div></div>
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">📍 Location</div><div style="font-size:.9rem;color:var(--white);">All India</div></div>
+    {"".join([f'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">🎓 Qualification</div><div style="font-size:.88rem;color:var(--white);">{job["qualification"]}</div></div>' if job.get("qualification") else "", f'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">💰 Salary</div><div style="font-size:.88rem;color:#63FFDA;">{job["salary"]}</div></div>' if job.get("salary") else ""])}
   </div>
   <div style="text-align:center;margin-bottom:28px;">
     <a href="{src}" target="_blank" rel="nofollow noopener" style="background:linear-gradient(135deg,#FF6B00,#FF8C33);color:#fff;padding:14px 40px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;display:inline-block;">Apply Now →</a>
