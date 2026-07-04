@@ -1,27 +1,14 @@
-#!/bin/bash
+# Inject NaukriBot on all pages
+python3 -c "
+import pathlib, shutil
+root=pathlib.Path('.')
+tag='<script src=\"/js/naukribot.js\" defer></script>'
+[f.write_text(f.read_text(errors='ignore').replace('</body>',tag+chr(10)+'</body>',1)) for f in root.rglob('*.html') if 'dist' not in str(f) and '.git' not in str(f) and 'naukribot' not in f.read_text(errors='ignore') and '</body>' in f.read_text(errors='ignore')]
+shutil.copy2('scripts/naukribot.js','dist/js/naukribot.js') if (pathlib.Path('scripts/naukribot.js').exists()) else None
+"
 # NaukriBulletin — local deploy script (conflict-proof)
 
 set -e
-
-# ── 0. Inject NaukriBot on all pages ──────────────────────────────────────────
-echo "🤖 Injecting NaukriBot widget..."
-mkdir -p dist/js
-cp scripts/naukribot.js dist/js/naukribot.js 2>/dev/null || true
-python3 -c "
-import pathlib
-root=pathlib.Path('.')
-tag='<script src=\"/js/naukribot.js\" defer></script>'
-fixed=0
-for f in root.rglob('*.html'):
-    if 'dist' in str(f) or '.git' in str(f): continue
-    try:
-        s=f.read_text(errors='ignore')
-        if '</body>' in s and 'naukribot' not in s:
-            f.write_text(s.replace('</body>',tag+chr(10)+'</body>',1))
-            fixed+=1
-    except: pass
-print(f'NaukriBot: {fixed} pages updated')
-"
 
 # ── 1. SEO hardening ──────────────────────────────────────────────────────────
 echo "🛡️  Running SEO hardening pass..."
@@ -47,17 +34,15 @@ rsync -a --delete \
 
 cp _redirects dist/_redirects 2>/dev/null || true
 
-# Keep naukribot.js in dist after rsync
-mkdir -p dist/js
-cp scripts/naukribot.js dist/js/naukribot.js 2>/dev/null || true
-
-# ── 3. Commit + push ──────────────────────────────────────────────────────────
+# ── 3. Commit + push (ours wins, no rebase) ───────────────────────────────────
 echo "📝 Committing and pushing..."
 git add -A
 git diff --cached --quiet || git commit -m "Deploy: $(date +'%d %b %Y %H:%M')"
 
+# Fetch remote but DON'T rebase — just force our version through
 git fetch origin main
 git push origin main --force-with-lease || {
+  # If force-with-lease fails (rare), pull CI changes then push
   git pull origin main --no-rebase -X ours --no-edit 2>/dev/null || true
   git push origin main
 }
