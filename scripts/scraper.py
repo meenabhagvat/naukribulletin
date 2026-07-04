@@ -169,10 +169,49 @@ def build_job_rich_block(job_data):
     if salary and salary != "N/A":
         salary_block = f'<div style="background:rgba(99,255,218,.06);border:1px solid rgba(99,255,218,.2);border-radius:10px;padding:14px 18px;margin-bottom:16px;"><div style="font-size:.8rem;font-weight:700;color:#63FFDA;text-transform:uppercase;margin-bottom:4px;">💰 Salary / Pay Scale</div><div style="color:var(--white);font-weight:600;">{salary}</div></div>'
 
+    # Age calculator HTML (defined outside f-string to avoid backslash issues)
+    _age_calc = (
+        "<div style=\"background:var(--card-bg);border:1px solid var(--border);"
+        "border-radius:14px;padding:18px;margin-bottom:16px;\">"
+        "<h2 style=\"font-family:Syne,sans-serif;font-size:1rem;font-weight:700;"
+        "color:var(--white);margin:0 0 12px;\">🎂 Age Eligibility Calculator</h2>"
+        "<p style=\"font-size:.85rem;color:var(--grey-700);margin:0 0 12px;\">"
+        "Enter your date of birth to check eligibility for this post.</p>"
+        "<div style=\"display:flex;gap:10px;flex-wrap:wrap;align-items:center;\">"
+        "<input type=\"date\" id=\"nb-dob\" style=\"background:var(--navy-soft);"
+        "border:1px solid var(--border);color:var(--white);padding:8px 12px;"
+        "border-radius:8px;font-size:.9rem;\" />"
+        "<button onclick=\"nbCalcAge()\" style=\"background:var(--saffron);color:#fff;"
+        "border:none;padding:9px 18px;border-radius:8px;font-weight:700;cursor:pointer;"
+        "font-size:.88rem;\">Check Age</button></div>"
+        "<div id=\"nb-age-result\" style=\"margin-top:10px;font-size:.88rem;\"></div></div>"
+        "<script>"
+        "function nbCalcAge(){"
+        "var dob=new Date(document.getElementById(\"nb-dob\").value);"
+        "if(isNaN(dob.getTime())){document.getElementById(\"nb-age-result\").textContent="
+        "\"Please enter your date of birth.\";return;}"
+        "var t=new Date(),y=t.getFullYear()-dob.getFullYear(),"
+        "mo=t.getMonth()-dob.getMonth(),d=t.getDate()-dob.getDate();"
+        "if(d<0){mo--;d+=new Date(t.getFullYear(),t.getMonth(),0).getDate();}"
+        "if(mo<0){y--;mo+=12;}"
+        "var el=document.getElementById(\"nb-age-result\");"
+        "var msg=\"Your age: \"+y+\" years \"+mo+\" months \"+d+\" days\";"
+        "if(y>=18&&y<=42){el.innerHTML=\"<strong>\"+msg+\"</strong>"
+        "<br><small style=color:#63FFDA>Within typical range (18-42). Verify official notification.</small>\"}"
+        "else if(y<18){el.innerHTML=\"<strong>\"+msg+\"</strong>"
+        "<br><small style=color:#FF6C8A>Below minimum age (18 years).</small>\"}"
+        "else{el.innerHTML=\"<strong>\"+msg+\"</strong>"
+        "<br><small style=color:#FFD56C>May exceed limit. Check relaxations in official notification.</small>\"}"
+        "}"
+        "</script>"
+    )
+
+    _dl_tag = ("<div style=\"font-size:.75rem;font-weight:700;color:" + _dl_colour + ";margin-top:3px\">" + _dl_label + "</div>") if _dl_label else ""
+
     return f'''
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;">
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Total Vacancies</div><div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--saffron);">{vac}</div></div>
-  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">⏰ Last Date</div><div style="font-size:.95rem;font-weight:700;color:{_dl_colour};">{ld}</div>{"<div style=\'font-size:.75rem;font-weight:700;color:" + _dl_colour + ";margin-top:3px;\'>" + _dl_label + "</div>" if _dl_label else ""}</div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">⏰ Last Date</div><div style="font-size:.95rem;font-weight:700;color:{_dl_colour};">{ld}</div>{_dl_tag}</div>
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Location</div><div style="font-size:.9rem;color:var(--white);">{loc}</div></div>
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Qualification</div><div style="font-size:.85rem;color:var(--white);">{qual}</div></div>
 </div>
@@ -185,68 +224,12 @@ def build_job_rich_block(job_data):
   <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--navy-soft);"><h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0;">📄 Documents Required</h2></div>
   <div style="padding:8px 18px 14px;"><ul style="margin:0;padding-left:18px;">{docs_html}</ul></div>
 </div>
-<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px;">
-  <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0 0 12px;">🎂 Age Eligibility Calculator</h2>
-  <p style="font-size:.85rem;color:var(--grey-700);margin:0 0 12px;">Enter your date of birth to check if you meet the age criteria for this post.</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-    <input type="date" id="nb-dob" style="background:var(--navy-soft);border:1px solid var(--border);color:var(--white);padding:8px 12px;border-radius:8px;font-size:.9rem;" />
-    <button onclick="nbCalcAge()" style="background:var(--saffron);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.88rem;">Check Age</button>
-  </div>
-  <div id="nb-age-result" style="margin-top:10px;font-size:.88rem;"></div>
-</div>
-<script>
-function nbCalcAge(){{
-  var dob=new Date(document.getElementById('nb-dob').value);
-  if(isNaN(dob.getTime())){{document.getElementById('nb-age-result').textContent='Please enter your date of birth.';return;}}
-  var t=new Date(),yrs=t.getFullYear()-dob.getFullYear(),mos=t.getMonth()-dob.getMonth(),days=t.getDate()-dob.getDate();
-  if(days<0){{mos--;days+=new Date(t.getFullYear(),t.getMonth(),0).getDate();}}
-  if(mos<0){{yrs--;mos+=12;}}
-  var el=document.getElementById('nb-age-result');
-  el.innerHTML='<strong style="color:var(--white);">Your age: '+yrs+' years '+mos+' months '+days+' days</strong>';
-  if(yrs>=18&&yrs<=42)el.innerHTML+='<div style="color:#63FFDA;margin-top:6px;font-size:.85rem;">✅ Within typical govt job age range (18-42 years). Check official notification for exact limit.</div>';
-  else if(yrs<18)el.innerHTML+='<div style="color:#FF6C8A;margin-top:6px;font-size:.85rem;">❌ Below minimum age (18 years) for most government jobs.</div>';
-  else el.innerHTML+='<div style="color:#FFD56C;margin-top:6px;font-size:.85rem;">⚠️ Age may exceed limit for some posts. Check official notification — age relaxation applies for SC/ST/OBC/PH.</div>';
-}}
-</script>'''
-
-# ─── END CONTENT ENRICHMENT MODULE ───────────────────────────────────────────
-
+{_age_calc}
+'''
 
 SOURCES = [
-
-    # ── CENTRAL / NATIONAL ─────────────────────────────────────────────────
     {
-        "url": "https://ssc.gov.in/WhatsNew",
-        "fallback_url": "https://ssc.gov.in/NoticeDetail",
-        "type": "html",
-        "selector": "a[href*='notification'], a[href*='advt'], a[href*='exam'], td a, li a",
-        "dept": "SSC",
-        "category": "ssc",
-        "priority": 1,
-        "content_type": "job",
-    },
-    {
-        "url": "https://www.rrbapply.gov.in/",
-        "fallback_url": "https://www.rrbapply.gov.in/",
-        "type": "html",
-        "dept": "Indian Railways",
-        "category": "railway",
-        "priority": 1,
-        "content_type": "job",
-    },
-    {
-        "url": "https://upsc.gov.in/whatsnew",
-        "fallback_url": "https://upsc.gov.in/recruitment/recruitment-notices",
-        "type": "html",
-        "selector": ".view-content a, td a, li a",
-        "dept": "UPSC",
-        "category": "upsc",
-        "priority": 1,
-        "content_type": "job",
-    },
-    {
-        "url": "https://www.ibps.in/feed/",
-        "fallback_url": "https://www.ibps.in/",
+        "url": "https://www.ibps.in/",
         "type": "rss",
         "dept": "IBPS",
         "category": "banking",
