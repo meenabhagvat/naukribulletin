@@ -1594,6 +1594,7 @@ def generate_job_html(job):
   }});
 }})();
 </script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>"""
     return slug, html
@@ -1695,6 +1696,7 @@ def generate_affairs_html(affair):
   </div>
 </footer>
 <script>(function(){{var b=document.getElementById("navHamburger");var u=document.querySelector("nav ul");if(!b||!u)return;b.addEventListener("click",function(){{u.classList.toggle("mobile-open");b.classList.toggle("active");}});u.querySelectorAll("a").forEach(function(a){{a.addEventListener("click",function(){{u.classList.remove("mobile-open");b.classList.remove("active");}});}});}})();</script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>"""
     return slug, html
@@ -2265,6 +2267,7 @@ def rebuild_syllabus():
   }});
 }})();
 </script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>"""
 
@@ -2527,6 +2530,7 @@ def rebuild_states():
 <script>
 (function(){{var btn=document.getElementById('navHamburger');var links=document.querySelector('nav ul');if(!btn||!links)return;btn.addEventListener('click',function(){{links.classList.toggle('mobile-open');btn.classList.toggle('active');}});links.querySelectorAll('a').forEach(function(a){{a.addEventListener('click',function(){{links.classList.remove('mobile-open');btn.classList.remove('active');}});}});}})();
 </script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>"""
         (state_dir / "index.html").write_text(page, encoding="utf-8")
@@ -3903,6 +3907,7 @@ window.NBSave={{toggle:function(j){{var l=JSON.parse(localStorage.getItem('nb_sa
 function nbToggleSave(btn){{event.preventDefault();event.stopPropagation();var job={{slug:btn.dataset.saveSlug,title:btn.dataset.saveTitle,dept:btn.dataset.saveDept,last_date:btn.dataset.saveLd,emoji:btn.dataset.saveEmoji||'📋'}};var saved=NBSave.toggle(job);btn.textContent=saved?'🔖':'＋';btn.style.background=saved?'var(--saffron)':'transparent';btn.style.color=saved?'#fff':'var(--grey-400)';btn.title=saved?'Saved':'Save job';}}
 document.addEventListener('DOMContentLoaded',function(){{var saved=JSON.parse(localStorage.getItem('nb_saved')||'[]');saved.forEach(function(j){{var b=document.querySelector('[data-save-slug="'+j.slug+'"]');if(b){{b.textContent='🔖';b.style.background='var(--saffron)';b.style.color='#fff';}}}})}});
 </script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>"""
 
@@ -4090,6 +4095,7 @@ def rebuild_affairs_listing():
   }});
 }})();
 </script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>"""
 
