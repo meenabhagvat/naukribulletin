@@ -1,20 +1,18 @@
-name: Daily NaukriBulletin.in Update (Phase 4)
+name: Daily NaukriBulletin.in Update
 
 on:
   schedule:
-    # 3× daily IST: 7 AM (1:30 UTC), 1 PM (7:30 UTC), 7 PM (13:30 UTC)
-    - cron: "30 1 * * *"
-    - cron: "30 7 * * *"
-    - cron: "30 13 * * *"
-    # Weekly Sunday 6 AM IST (0:30 UTC) — full state/category page rebuild
-    - cron: "30 0 * * 0"
+    - cron: "30 1 * * *"   # 7 AM IST
+    - cron: "30 7 * * *"   # 1 PM IST
+    - cron: "30 13 * * *"  # 7 PM IST
+    - cron: "30 0 * * 0"   # Sunday 6 AM IST — full rebuild
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  scrape-and-notify:
+  scrape-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 55
 
@@ -39,7 +37,7 @@ jobs:
           git config --global user.name "NaukriBulletin Bot"
           git config --global user.email "bot@naukribulletin.in"
 
-      - name: Run Job Scraper & Generator
+      - name: Run Scraper
         run: python scripts/scraper.py
         env:
           GROQ_API_KEY:      ${{ secrets.GROQ_API_KEY }}
@@ -48,21 +46,82 @@ jobs:
           ADSENSE_SLOT_MID:  ${{ secrets.ADSENSE_SLOT_MID }}
           INDEXNOW_KEY:      ${{ secrets.INDEXNOW_KEY }}
 
-      - name: SEO hardening pass (schema, ads.txt, enrich, consent, ad-slots, sitemap)
-        run: python scripts/seo_perfect.py --apply
-        env:
-          ADSENSE_SLOT_TOP: ${{ secrets.ADSENSE_SLOT_TOP }}
-          ADSENSE_SLOT_MID: ${{ secrets.ADSENSE_SLOT_MID }}
-
-      - name: Commit Scraped Jobs
+      - name: Fix nav + inject NaukriBot on all pages
         run: |
-          git add -A
-          git diff --cached --quiet || git commit -m "chore: scrape jobs [$(date -u '+%Y-%m-%d %H:%M')] [skip ci]"
-          git pull --rebase origin main
-          git push
+          python3 - << 'PYEOF'
+          import re, pathlib, shutil
+          root = pathlib.Path('.')
+
+          # 1. Fix nav consistency
+          OLD_NAV = re.compile(r'<ul id="navLinks">.*?</ul>', re.S)
+          NEW_NAV = '''<ul id="navLinks">
+              <li><a href="/jobs/">Jobs</a></li>
+              <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
+              <li><a href="/current-affairs/">Current Affairs</a></li>
+              <li><a href="/results/">Results</a></li>
+              <li><a href="/exam-calendar/">Exam Calendar</a></li>
+              <li><a href="/syllabus/">Syllabus</a></li>
+              <li><a href="/mock-test/">Mock Tests</a></li>
+              <li><a href="/admit-card/">Admit Cards</a></li>
+              <li><a href="/daily-quiz/">Daily Quiz</a></li>
+              <li><a href="/previous-year-papers/">PYP</a></li>
+            </ul>'''
+
+          nav_fixed = 0
+          bot_fixed = 0
+          tag = '<script src="/js/naukribot.js" defer></script>'
+
+          for f in root.rglob('*.html'):
+              if 'dist' in str(f) or '.git' in str(f): continue
+              try:
+                  s = f.read_text(errors='ignore')
+                  changed = False
+
+                  # Fix nav
+                  if 'id="navLinks"' in s:
+                      m = re.search(r'<ul id="navLinks">(.*?)</ul>', s, re.S)
+                      if m:
+                          links = re.findall(r'href="([^"]+)"', m.group(1))
+                          if '/daily-quiz/' not in links or '/sarkari-naukri/' not in links:
+                              s = OLD_NAV.sub(NEW_NAV, s, count=1)
+                              nav_fixed += 1
+                              changed = True
+
+                  # Inject bot
+                  if '</body>' in s and 'naukribot' not in s:
+                      s = s.replace('</body>', tag + '\n</body>', 1)
+                      bot_fixed += 1
+                      changed = True
+
+                  if changed:
+                      f.write_text(s)
+              except: pass
+
+          # Copy naukribot.js to dist/js
+          js_dir = root / 'js'
+          js_dir.mkdir(exist_ok=True)
+          src = root / 'scripts' / 'naukribot.js'
+          if src.exists():
+              shutil.copy2(src, js_dir / 'naukribot.js')
+              print(f"NaukriBot JS copied to /js/naukribot.js")
+
+          print(f"Nav fixed: {nav_fixed} pages")
+          print(f"NaukriBot injected: {bot_fixed} pages")
+          PYEOF
+
+      - name: Run SEO hardening
+        run: python scripts/seo_perfect.py --apply
         continue-on-error: true
 
-      - name: Send Telegram + OneSignal Push
+      - name: Commit all changes
+        run: |
+          git add -A
+          git diff --cached --quiet || git commit -m "Auto: $(date -u '+%d %b %Y %H:%M') [skip ci]"
+          git fetch origin main
+          git push origin main --force-with-lease || git push origin main
+        continue-on-error: true
+
+      - name: Send Telegram + Push notifications
         run: python scripts/telegram_notify.py
         env:
           TELEGRAM_BOT_TOKEN:  ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -81,23 +140,18 @@ jobs:
           WA_BUSINESS_ACCOUNT_ID: ${{ secrets.WA_BUSINESS_ACCOUNT_ID }}
         continue-on-error: true
 
-      - name: Commit Notification State
-        run: |
-          git add scripts/_data/ scripts/tg_posted.json
-          git diff --cached --quiet || git commit -m "chore: update notification state [skip ci]"
-          git pull --rebase origin main
-          git push
-        continue-on-error: true
-
-      - name: Sync dist/ for deployment
+      - name: Sync dist/
         run: |
           rsync -a --delete \
             --exclude='.git' --exclude='.github' --exclude='scripts' \
-            --exclude='*.py' --exclude='node_modules' --exclude='dist' \
-            --exclude='.wrangler' --exclude='.wranglerignore' \
+            --exclude='*.py' --exclude='*.sh' --exclude='node_modules' \
+            --exclude='dist' --exclude='.wrangler' --exclude='*.toml' \
+            --exclude='.gitignore' --exclude='.DS_Store' \
             . dist/
+          mkdir -p dist/js
+          cp scripts/naukribot.js dist/js/naukribot.js 2>/dev/null || true
 
-      - name: Deploy to Cloudflare Workers
+      - name: Deploy to Cloudflare
         run: |
           npm install -g wrangler
           wrangler deploy
@@ -106,8 +160,9 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         continue-on-error: true
 
-      - name: Notify on failure
-        if: failure()
+      - name: Commit notification state
         run: |
-          echo "::warning::One or more steps failed — check logs above"
-          echo "Failure at $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git add scripts/_data/ scripts/tg_posted.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "state: notifications [skip ci]"
+          git push origin main --force-with-lease || true
+        continue-on-error: true
