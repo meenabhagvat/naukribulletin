@@ -57,7 +57,7 @@ def make_slug(title):
 
 def _extract_and_append(block, title, jobs):
     skip = ['whatsapp','telegram','channel','mpcareer.in','freejobalert.com',
-            'job alert','our websites','join us','अप्लाई','कैसे करें','how to apply','apply now','direct link','government job alert','mp government','mp private']
+            'job alert','our websites','join us']
     if any(k in title.lower() for k in skip): return
     start_date = last_date = ''
     for pattern, attr in [
@@ -323,6 +323,12 @@ def main():
             page_dir = JOBS_DIR / job['slug']
             if page_dir.exists():
                 print(f"  ⏭  Skip (exists): {job['title'][:50]}")
+                continue
+            # Also check for similar slugs (partial match on first 40 chars)
+            slug_prefix = job['slug'][:40]
+            similar = [p for p in JOBS_DIR.iterdir() if p.is_dir() and p.name.startswith(slug_prefix[:25])]
+            if similar:
+                print(f"  ⏭  Skip (similar exists): {job['title'][:50]} → {similar[0].name}")
                 continue
 
             page_dir.mkdir(parents=True, exist_ok=True)
