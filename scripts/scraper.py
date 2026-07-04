@@ -2908,67 +2908,165 @@ def build_job_news(affairs_list, jobs_list):
 
 # Pre-built question templates for common exam topics
 MCQ_TEMPLATES = {
+    # Environment & Ecology
     "coral": [
-        ("Which organisation is responsible for the zoological survey of India?", 
-         ["Zoological Survey of India (ZSI)","Botanical Survey of India (BSI)","Wildlife Institute of India (WII)","National Biodiversity Authority (NBA)"], 0),
-        ("Coral translocation helps in:", 
-         ["Coral reef restoration","Mineral extraction","Deep sea mining","Fish farming"], 0),
+        ("Coral reefs are found in which type of water?", ["Warm shallow tropical water","Cold deep ocean water","Freshwater rivers","Polar seas"], 0),
+        ("Great Nicobar Island is part of which Union Territory?", ["Andaman & Nicobar Islands","Lakshadweep","Puducherry","Daman & Diu"], 0),
+        ("Which organisation conducts the Zoological Survey of India?", ["Ministry of Environment","Ministry of Science","ZSI under MoEFCC","ISRO"], 2),
+    ],
+    "tiger": [
+        ("Project Tiger was launched in which year?", ["1973","1980","1992","2006"], 0),
+        ("Which state has the highest number of tigers in India?", ["Madhya Pradesh","Karnataka","Uttarakhand","Maharashtra"], 0),
+        ("National Tiger Conservation Authority (NTCA) was established under which act?", ["Wildlife Protection Act 1972","Forest Conservation Act 1980","Environment Protection Act 1986","Biological Diversity Act 2002"], 0),
+    ],
+    "ramsar": [
+        ("Ramsar Convention is related to:", ["Wetland conservation","Forest conservation","Marine pollution","Climate change"], 0),
+        ("Chilika Lake in Odisha is a Ramsar site known for:", ["Migratory birds","Tiger reserve","Coral reefs","Mangrove forests"], 0),
+    ],
+    "national park": [
+        ("Jim Corbett National Park is located in which state?", ["Uttarakhand","Uttar Pradesh","Madhya Pradesh","Himachal Pradesh"], 0),
+        ("Which is the oldest National Park in India?", ["Jim Corbett","Kaziranga","Gir","Sundarban"], 0),
+    ],
+    "climate": [
+        ("Paris Agreement aims to limit global temperature rise to:", ["1.5-2°C above pre-industrial levels","3°C above pre-industrial levels","0.5°C above current levels","2.5°C above 1990 levels"], 0),
+        ("UNFCCC stands for:", ["UN Framework Convention on Climate Change","UN Forum for Climate Control","UN Fund for Climate Crisis","UN Framework for Carbon Control"], 0),
     ],
     "tunnel": [
-        ("Zojila Tunnel connects which regions?",
-         ["Kashmir Valley and Ladakh","Shimla and Manali","Leh and Kargil","Srinagar and Jammu"], 0),
-        ("Zojila Tunnel is located in which state/UT?",
-         ["Jammu & Kashmir / Ladakh","Himachal Pradesh","Uttarakhand","Sikkim"], 0),
+        ("Zojila Tunnel connects which two regions?", ["Kashmir Valley and Ladakh","Shimla and Manali","Leh and Kargil","Srinagar and Jammu"], 0),
+        ("Atal Tunnel (Rohtang) is located in:", ["Himachal Pradesh","Uttarakhand","Jammu & Kashmir","Sikkim"], 0),
+        ("Which is the longest road tunnel in India?", ["Atal Tunnel Rohtang","Zojila Tunnel","Banihal Tunnel","Sela Tunnel"], 1),
     ],
-    "isro": [
-        ("ISRO stands for:",
-         ["Indian Space Research Organisation","International Space Research Organisation","Indian Scientific Research Organisation","Indian Satellite Research Organisation"], 0),
-        ("ISRO headquarters is located in:",
-         ["Bengaluru","Mumbai","Hyderabad","Chennai"], 0),
-    ],
-    "rbi": [
-        ("RBI was established in which year?",
-         ["1935","1947","1950","1955"], 0),
-        ("The Governor of RBI is appointed by:",
-         ["Central Government","President of India","Finance Commission","Parliament"], 0),
-    ],
-    "election": [
-        ("Election Commission of India is a:",
-         ["Constitutional body","Statutory body","Executive body","Advisory body"], 0),
-        ("Chief Election Commissioner is appointed by:",
-         ["President of India","Prime Minister","Parliament","Supreme Court"], 0),
+    "highway": [
+        ("National Highway Authority of India (NHAI) was established in:", ["1988","1995","2001","1947"], 0),
+        ("Bharatmala Project is related to:", ["Highway development","Railway expansion","Port development","Airport construction"], 0),
     ],
     "railway": [
-        ("Indian Railways is under which Ministry?",
-         ["Ministry of Railways","Ministry of Transport","Ministry of Infrastructure","Ministry of Commerce"], 0),
-        ("The Indian Railway is divided into how many zones?",
-         ["18","16","14","12"], 0),
+        ("Indian Railways is the world's ___ largest railway network?", ["4th","2nd","6th","3rd"], 0),
+        ("Vande Bharat Express is a:", ["Semi-high speed train","Luxury train","Freight train","Metro train"], 0),
+        ("RRB stands for:", ["Railway Recruitment Board","Railway Revenue Branch","Regional Railway Bureau","Railway Registration Body"], 0),
+    ],
+    "isro": [
+        ("Chandrayaan-3 successfully landed on the Moon's south pole in:", ["2023","2022","2024","2021"], 0),
+        ("ISRO was established in:", ["1969","1972","1947","1962"], 0),
+        ("Gaganyaan is India's first:", ["Human spaceflight mission","Mars mission","Sun observation mission","Communication satellite"], 0),
+        ("ISRO headquarters is located in:", ["Bengaluru","Mumbai","Hyderabad","Chennai"], 0),
+    ],
+    "drdo": [
+        ("DRDO stands for:", ["Defence Research and Development Organisation","Defence Research and Development Office","Department of Research and Defence Operations","Defence Rocket Development Organisation"], 0),
+        ("DRDO is under which ministry?", ["Ministry of Defence","Ministry of Science & Technology","Ministry of Home Affairs","Ministry of Finance"], 0),
+    ],
+    "missile": [
+        ("BrahMos missile is a joint venture between India and:", ["Russia","France","USA","Israel"], 0),
+        ("Agni-V is classified as:", ["Inter-continental ballistic missile","Short-range ballistic missile","Anti-ship missile","Surface-to-air missile"], 0),
+    ],
+    "rbi": [
+        ("RBI was established in:", ["1935","1947","1950","1955"], 0),
+        ("The headquarters of RBI is in:", ["Mumbai","New Delhi","Kolkata","Chennai"], 0),
+        ("Repo rate is the rate at which RBI:", ["Lends to commercial banks","Borrows from commercial banks","Issues currency","Fixes inflation"], 0),
+        ("CRR stands for:", ["Cash Reserve Ratio","Currency Reserve Rate","Credit Reserve Ratio","Capital Reserve Ratio"], 0),
+    ],
+    "inflation": [
+        ("CPI stands for:", ["Consumer Price Index","Capital Price Index","Currency Price Indicator","Credit Price Index"], 0),
+        ("WPI measures prices at:", ["Wholesale level","Retail level","Consumer level","Export level"], 0),
+        ("The base year for India's current CPI is:", ["2012","2010","2015","2011"], 0),
+    ],
+    "bank": [
+        ("Which is the largest public sector bank in India?", ["State Bank of India","Punjab National Bank","Bank of Baroda","Canara Bank"], 0),
+        ("NABARD provides finance for:", ["Agriculture and rural development","Industry and trade","Housing projects","Defence procurement"], 0),
+    ],
+    "gdp": [
+        ("GDP stands for:", ["Gross Domestic Product","General Domestic Production","Gross Development Programme","General Development Product"], 0),
+        ("India is the ___ largest economy in the world by nominal GDP?", ["5th","3rd","7th","4th"], 0),
     ],
     "budget": [
-        ("Union Budget is presented in which house of Parliament?",
-         ["Lok Sabha","Rajya Sabha","Both Houses jointly","Standing Committee"], 0),
-        ("The interim budget presented in an election year is called:",
-         ["Vote on Account","Full Budget","Mini Budget","Supplementary Budget"], 0),
+        ("Union Budget is presented by:", ["Finance Minister","Prime Minister","President","RBI Governor"], 0),
+        ("Fiscal year in India runs from:", ["April 1 to March 31","January 1 to December 31","July 1 to June 30","October 1 to September 30"], 0),
+        ("Direct tax in India is administered by:", ["CBDT","CBIC","RBI","SEBI"], 0),
+    ],
+    "scheme": [
+        ("Ayushman Bharat provides health cover of how much per family per year?", ["Rs 5 lakh","Rs 2 lakh","Rs 10 lakh","Rs 1 lakh"], 0),
+        ("PM Kisan Samman Nidhi provides farmers:", ["Rs 6,000 per year","Rs 2,000 per year","Rs 12,000 per year","Rs 4,000 per year"], 0),
+        ("Jal Jeevan Mission aims to provide:", ["Piped water to rural households","Solar power to villages","Roads to remote areas","Internet to rural areas"], 0),
+    ],
+    "mission": [
+        ("PM GatiShakti is related to:", ["Multi-modal infrastructure connectivity","Space exploration","Clean energy","Digital India"], 0),
+        ("Swachh Bharat Mission was launched in:", ["2014","2016","2012","2018"], 0),
+    ],
+    "election": [
+        ("Election Commission of India was established in:", ["1950","1947","1952","1949"], 0),
+        ("Lok Sabha has a total of how many seats?", ["543","545","552","550"], 0),
+        ("Model Code of Conduct comes into force:", ["When election schedule is announced","On nomination filing day","On voting day","After results are declared"], 0),
     ],
     "supreme court": [
-        ("The Chief Justice of India is appointed by:",
-         ["President of India","Prime Minister","Law Commission","Parliament"], 0),
-        ("Supreme Court of India was established in:",
-         ["1950","1947","1935","1919"], 0),
+        ("The Chief Justice of India is appointed by:", ["President of India","Prime Minister","Parliament","Law Commission"], 0),
+        ("Supreme Court of India was established in:", ["1950","1947","1935","1919"], 0),
+        ("Article 32 of the Constitution deals with:", ["Right to Constitutional Remedies","Right to Equality","Right to Freedom","Right to Education"], 0),
+    ],
+    "parliament": [
+        ("Rajya Sabha is also known as:", ["Council of States","House of the People","Upper House of Parliament","Both A and C"], 2),
+        ("Money Bill can only be introduced in:", ["Lok Sabha","Rajya Sabha","Either House","Joint Session"], 0),
+        ("The term of Lok Sabha is:", ["5 years","6 years","4 years","3 years"], 0),
     ],
     "g20": [
-        ("G20 is a group of:",
-         ["20 major world economies","20 developing nations","20 Asian countries","20 UN member states"], 0),
-        ("India's G20 Presidency was in:",
-         ["2023","2022","2024","2021"], 0),
+        ("G20 was established in:", ["1999","2000","2008","1995"], 0),
+        ("India held the G20 Presidency in:", ["2023","2022","2024","2021"], 0),
+        ("G20 represents approximately what percentage of global GDP?", ["85%","60%","70%","90%"], 0),
+    ],
+    "india japan": [
+        ("India-Japan bilateral relationship is described as:", ["Special Strategic and Global Partnership","Comprehensive Economic Partnership","Strategic Cooperation Agreement","Defence Cooperation Treaty"], 0),
+        ("Japan is the ___ largest investor in India?", ["3rd","1st","5th","2nd"], 0),
+    ],
+    "united nations": [
+        ("UN was founded in:", ["1945","1947","1950","1942"], 0),
+        ("India is a founding member of:", ["United Nations","NATO","ASEAN","SCO"], 0),
+        ("The UN Security Council has how many permanent members?", ["5","7","10","15"], 0),
+    ],
+    "appointed": [
+        ("Constitutional appointments in India are made by:", ["President of India","Prime Minister","Cabinet","Parliament"], 0),
+        ("The term of the Chief Justice of India:", ["Until age 65","5 years fixed term","Until age 62","Until age 70"], 0),
+    ],
+    "award": [
+        ("Bharat Ratna is India's:", ["Highest civilian honour","Highest military honour","Second highest civilian honour","Sports achievement award"], 0),
+        ("Padma awards are announced on:", ["Republic Day (26 Jan)","Independence Day (15 Aug)","Gandhi Jayanti (2 Oct)","Constitution Day (26 Nov)"], 0),
     ],
     "padma": [
-        ("Padma Vibhushan is India's:",
-         ["Second highest civilian award","Highest civilian award","Third highest civilian award","Military award"], 0),
-        ("Padma awards are announced on:",
-         ["Republic Day (26 January)","Independence Day (15 August)","Gandhi Jayanti (2 October)","Constitution Day (26 November)"], 0),
+        ("Padma awards have how many categories?", ["3","4","2","5"], 0),
+        ("Padma Vibhushan is India's ___ highest civilian award?", ["Second","First","Third","Fourth"], 0),
+    ],
+    "cancer": [
+        ("ICMR stands for:", ["Indian Council of Medical Research","International Centre for Medical Research","Indian Committee for Medical Regulation","Indian Council of Medicine and Research"], 0),
+        ("National Cancer Awareness Day is observed on:", ["7 November","4 February","28 September","1 December"], 0),
+    ],
+    "seychelles": [
+        ("Seychelles is located in which ocean?", ["Indian Ocean","Pacific Ocean","Atlantic Ocean","Arctic Ocean"], 0),
+        ("The capital of Seychelles is:", ["Victoria","Port Louis","Nassau","Moroni"], 0),
+    ],
+    "japan": [
+        ("Japan's currency is:", ["Yen","Won","Ringgit","Baht"], 0),
+        ("Japan is part of which group?", ["G7","G20","Both G7 and G20","ASEAN"], 2),
+    ],
+    "deregulation": [
+        ("Deregulation means:", ["Reducing government control over industries","Increasing taxes on businesses","Nationalising private companies","Fixing prices of goods"], 0),
+        ("DPIIT stands for:", ["Department for Promotion of Industry and Internal Trade","Department of Public Investment and Infrastructure","Division of Planning, Industry and Innovation Technology","Department of Production, Industry and Internal Tariff"], 0),
+    ],
+    "modi": [
+        ("Narendra Modi is India's ___ Prime Minister?", ["14th","13th","15th","12th"], 0),
+        ("PM Modi launched Digital India initiative in:", ["2015","2014","2016","2013"], 0),
+    ],
+    "monsoon": [
+        ("India receives most of its rainfall from:", ["Southwest Monsoon","Northeast Monsoon","Cyclonic rainfall","Western disturbances"], 0),
+        ("Normal onset of Southwest Monsoon in Kerala is:", ["1 June","15 June","1 July","15 May"], 0),
+    ],
+    "iit": [
+        ("First IIT in India was established at:", ["Kharagpur","Mumbai","Chennai","Delhi"], 0),
+        ("IITs are institutes of:", ["National importance","State importance","International importance","Both A and C"], 0),
+    ],
+    "aiims": [
+        ("First AIIMS was established in:", ["New Delhi","Mumbai","Chennai","Kolkata"], 0),
+        ("AIIMS comes under which ministry?", ["Ministry of Health and Family Welfare","Ministry of Education","Ministry of Science and Technology","Ministry of Human Resource Development"], 0),
     ],
 }
+
 
 def build_mcq_from_article(title, summary, slug):
     """Build a proper MCQ question from a CA article."""
