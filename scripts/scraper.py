@@ -132,6 +132,24 @@ def build_job_rich_block(job_data):
     salary   = job_data.get("salary","N/A")
     ld       = job_data.get("last_date","N/A")
     loc      = job_data.get("location","All India")
+
+    # Calculate days left
+    _dl = None
+    if ld and ld != "N/A":
+        import re as _re
+        _MONTHS = {"january":1,"february":2,"march":3,"april":4,"may":5,"june":6,
+                   "july":7,"august":8,"september":9,"october":10,"november":11,"december":12}
+        _m = _re.match(r"(\d{1,2})\s+(\w+)\s+(\d{4})", ld, _re.I)
+        if _m:
+            try:
+                from datetime import date as _date
+                _mon = _MONTHS.get(_m.group(2).lower())
+                if _mon:
+                    _ld_date = _date(int(_m.group(3)), _mon, int(_m.group(1)))
+                    _dl = (_ld_date - _date.today()).days
+            except: pass
+    _dl_colour = "#FF4444" if _dl is not None and _dl <= 3 else "#FF8C33" if _dl is not None and _dl <= 7 else "#FFD56C" if _dl is not None and _dl <= 14 else "#63FFDA" if _dl is not None and _dl >= 0 else "#888"
+    _dl_label = f"{_dl} days left" if _dl is not None and _dl >= 0 else "Expired" if _dl is not None else ""
     apply_url= job_data.get("apply_url","")
 
     steps = [
@@ -154,7 +172,7 @@ def build_job_rich_block(job_data):
     return f'''
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;">
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Total Vacancies</div><div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--saffron);">{vac}</div></div>
-  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Last Date</div><div style="font-size:.95rem;font-weight:700;color:#FF6C8A;">{ld}</div></div>
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">⏰ Last Date</div><div style="font-size:.95rem;font-weight:700;color:{_dl_colour};">{ld}</div>{"<div style=\'font-size:.75rem;font-weight:700;color:" + _dl_colour + ";margin-top:3px;\'>" + _dl_label + "</div>" if _dl_label else ""}</div>
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Location</div><div style="font-size:.9rem;color:var(--white);">{loc}</div></div>
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">Qualification</div><div style="font-size:.85rem;color:var(--white);">{qual}</div></div>
 </div>
@@ -166,7 +184,30 @@ def build_job_rich_block(job_data):
 <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;">
   <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--navy-soft);"><h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0;">📄 Documents Required</h2></div>
   <div style="padding:8px 18px 14px;"><ul style="margin:0;padding-left:18px;">{docs_html}</ul></div>
-</div>'''
+</div>
+<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px;">
+  <h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0 0 12px;">🎂 Age Eligibility Calculator</h2>
+  <p style="font-size:.85rem;color:var(--grey-700);margin:0 0 12px;">Enter your date of birth to check if you meet the age criteria for this post.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <input type="date" id="nb-dob" style="background:var(--navy-soft);border:1px solid var(--border);color:var(--white);padding:8px 12px;border-radius:8px;font-size:.9rem;" />
+    <button onclick="nbCalcAge()" style="background:var(--saffron);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.88rem;">Check Age</button>
+  </div>
+  <div id="nb-age-result" style="margin-top:10px;font-size:.88rem;"></div>
+</div>
+<script>
+function nbCalcAge(){{
+  var dob=new Date(document.getElementById('nb-dob').value);
+  if(isNaN(dob.getTime())){{document.getElementById('nb-age-result').textContent='Please enter your date of birth.';return;}}
+  var t=new Date(),yrs=t.getFullYear()-dob.getFullYear(),mos=t.getMonth()-dob.getMonth(),days=t.getDate()-dob.getDate();
+  if(days<0){{mos--;days+=new Date(t.getFullYear(),t.getMonth(),0).getDate();}}
+  if(mos<0){{yrs--;mos+=12;}}
+  var el=document.getElementById('nb-age-result');
+  el.innerHTML='<strong style="color:var(--white);">Your age: '+yrs+' years '+mos+' months '+days+' days</strong>';
+  if(yrs>=18&&yrs<=42)el.innerHTML+='<div style="color:#63FFDA;margin-top:6px;font-size:.85rem;">✅ Within typical govt job age range (18-42 years). Check official notification for exact limit.</div>';
+  else if(yrs<18)el.innerHTML+='<div style="color:#FF6C8A;margin-top:6px;font-size:.85rem;">❌ Below minimum age (18 years) for most government jobs.</div>';
+  else el.innerHTML+='<div style="color:#FFD56C;margin-top:6px;font-size:.85rem;">⚠️ Age may exceed limit for some posts. Check official notification — age relaxation applies for SC/ST/OBC/PH.</div>';
+}}
+</script>'''
 
 # ─── END CONTENT ENRICHMENT MODULE ───────────────────────────────────────────
 
@@ -820,6 +861,31 @@ SOURCES = [
         "priority": 2,
         "content_type": "job",
     },
+
+    # ── FIXED PSC + CENTRAL ORG SOURCES ──────────────────────────────────────
+    {"url":"https://bpsc.bih.nic.in/Ads.html","fallback_url":"https://bpsc.bih.nic.in/","type":"html","selector":"table a, td a, a[href*='pdf']","dept":"BPSC (Bihar)","category":"state","priority":1,"content_type":"job","state":"Bihar"},
+    {"url":"https://rpsc.rajasthan.gov.in/notification","fallback_url":"https://rpsc.rajasthan.gov.in/","type":"html","selector":"table a, a[href*='advt'], a[href*='pdf']","dept":"RPSC (Rajasthan)","category":"state","priority":1,"content_type":"job","state":"Rajasthan"},
+    {"url":"https://www.tnpsc.gov.in/Notifications.html","fallback_url":"https://www.tnpsc.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='notification']","dept":"TNPSC (Tamil Nadu)","category":"state","priority":1,"content_type":"job","state":"Tamil Nadu"},
+    {"url":"https://tspsc.gov.in/notifications","fallback_url":"https://tspsc.gov.in/","type":"html","selector":"table a, a[href*='notification'], a[href*='pdf']","dept":"TGPSC (Telangana)","category":"state","priority":1,"content_type":"job","state":"Telangana"},
+    {"url":"https://psc.ap.gov.in/notifications","fallback_url":"https://psc.ap.gov.in/","type":"html","selector":"table td a, a[href*='notification']","dept":"APPSC (Andhra Pradesh)","category":"state","priority":1,"content_type":"job","state":"Andhra Pradesh"},
+    {"url":"https://wbpsc.gov.in/Notice","fallback_url":"https://wbpsc.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='Notice']","dept":"WBPSC (West Bengal)","category":"state","priority":1,"content_type":"job","state":"West Bengal"},
+    {"url":"https://kpsc.kar.nic.in/newnotifications.htm","fallback_url":"https://kpsc.kar.nic.in/","type":"html","selector":"table a, a[href*='pdf']","dept":"KPSC (Karnataka)","category":"state","priority":1,"content_type":"job","state":"Karnataka"},
+    {"url":"https://dsssb.delhi.gov.in/Advertisment.html","fallback_url":"https://dsssb.delhi.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='advt']","dept":"DSSSB (Delhi)","category":"state","priority":1,"content_type":"job","state":"Delhi"},
+    {"url":"https://hpsc.gov.in/hpsc/Advertisement","fallback_url":"https://hpsc.gov.in/","type":"html","selector":"table a, a[href*='pdf']","dept":"HPSC (Haryana)","category":"state","priority":1,"content_type":"job","state":"Haryana"},
+    {"url":"https://apsc.nic.in/apsc/Notices.aspx","fallback_url":"https://apsc.nic.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='notice']","dept":"APSC (Assam)","category":"state","priority":1,"content_type":"job","state":"Assam"},
+    {"url":"https://hppsc.hp.gov.in/hppsc/Advertisements","fallback_url":"https://hppsc.hp.gov.in/","type":"html","selector":"table a, a[href*='pdf']","dept":"HPPSC (Himachal Pradesh)","category":"state","priority":1,"content_type":"job","state":"Himachal Pradesh"},
+    {"url":"https://bsf.gov.in/recruitment.html","fallback_url":"https://bsf.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='recruit']","dept":"BSF","category":"defence","priority":1,"content_type":"job"},
+    {"url":"https://crpf.gov.in/recruitment.htm","fallback_url":"https://crpf.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='recruit']","dept":"CRPF","category":"defence","priority":1,"content_type":"job"},
+    {"url":"https://itbpolice.nic.in/Home/RecruitmentNotices","fallback_url":"https://itbpolice.nic.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='recruit']","dept":"ITBP","category":"defence","priority":1,"content_type":"job"},
+    {"url":"https://ssbrectt.gov.in/Notices.aspx","fallback_url":"https://ssbrectt.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='notice']","dept":"SSB","category":"defence","priority":1,"content_type":"job"},
+    {"url":"https://ongcindia.com/web/eng/careers","fallback_url":"https://ongcindia.com/","type":"html","selector":"a[href*='career'], a[href*='recruit'], table a","dept":"ONGC","category":"psu","priority":1,"content_type":"job"},
+    {"url":"https://www.pnbindia.in/recruitment.html","fallback_url":"https://www.pnbindia.in/","type":"html","selector":"table a, a[href*='recruit'], a[href*='pdf']","dept":"PNB","category":"banking","priority":1,"content_type":"job"},
+    {"url":"https://main.icmr.gov.in/content/vacancies","fallback_url":"https://main.icmr.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='vacanc']","dept":"ICMR","category":"central","priority":1,"content_type":"job"},
+    {"url":"https://home.iitd.ac.in/jobs-iitd.php","fallback_url":"https://home.iitd.ac.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='job']","dept":"IIT Delhi","category":"teaching","priority":1,"content_type":"job"},
+    {"url":"https://www.allahabadhighcourt.in/recruitment/recruitmentnotice.html","fallback_url":"https://www.allahabadhighcourt.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='recruit']","dept":"Allahabad High Court","category":"judiciary","priority":1,"content_type":"job","state":"Uttar Pradesh"},
+    {"url":"https://mphc.gov.in/recruitment","fallback_url":"https://mphc.gov.in/","type":"html","selector":"table a, a[href*='pdf'], a[href*='recruit']","dept":"MP High Court","category":"judiciary","priority":1,"content_type":"job","state":"Madhya Pradesh"},
+    {"url":"https://www.rrbmumbai.gov.in/pages/eng/latest-news.html","fallback_url":"https://www.rrbmumbai.gov.in/","type":"html","selector":"table td a, a[href*='pdf'], a[href*='news']","dept":"RRB Mumbai","category":"railway","priority":1,"content_type":"job"},
+    {"url":"https://www.rrbald.gov.in/pages/eng/latest-news.html","fallback_url":"https://www.rrbald.gov.in/","type":"html","selector":"table td a, a[href*='pdf'], a[href*='news']","dept":"RRB Allahabad","category":"railway","priority":1,"content_type":"job"},
 ]
 
 GROQ_MODELS  = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
@@ -829,10 +895,14 @@ PROCESSED_FILE = SITE_ROOT / "scripts" / "processed.json"
 
 # User-Agent rotator — avoids simple bot blocks on .gov.in sites
 UA_LIST = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
-    "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
-    "NaukriBulletin/2.0 (+https://naukribulletin.in/)",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
 ]
 _ua_index = 0
 
@@ -927,10 +997,15 @@ def _get(url, timeout=20, is_html=False):
     headers = {
         "User-Agent": next_ua(),
         "Accept": accept,
-        "Accept-Language": "en-IN,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "en-IN,en;q=0.9,hi;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Cache-Control": "max-age=0",
     }
     try:
         r = requests.get(url, timeout=timeout, headers=headers, allow_redirects=True)
@@ -2824,6 +2899,129 @@ def build_job_news(affairs_list, jobs_list):
 
 # ─── DAILY QUIZ PAGE BUILDER ──────────────────────────────────────────────────
 
+
+# ─── PROPER MCQ QUIZ BUILDER ─────────────────────────────────────────────────
+
+# Pre-built question templates for common exam topics
+MCQ_TEMPLATES = {
+    "coral": [
+        ("Which organisation is responsible for the zoological survey of India?", 
+         ["Zoological Survey of India (ZSI)","Botanical Survey of India (BSI)","Wildlife Institute of India (WII)","National Biodiversity Authority (NBA)"], 0),
+        ("Coral translocation helps in:", 
+         ["Coral reef restoration","Mineral extraction","Deep sea mining","Fish farming"], 0),
+    ],
+    "tunnel": [
+        ("Zojila Tunnel connects which regions?",
+         ["Kashmir Valley and Ladakh","Shimla and Manali","Leh and Kargil","Srinagar and Jammu"], 0),
+        ("Zojila Tunnel is located in which state/UT?",
+         ["Jammu & Kashmir / Ladakh","Himachal Pradesh","Uttarakhand","Sikkim"], 0),
+    ],
+    "isro": [
+        ("ISRO stands for:",
+         ["Indian Space Research Organisation","International Space Research Organisation","Indian Scientific Research Organisation","Indian Satellite Research Organisation"], 0),
+        ("ISRO headquarters is located in:",
+         ["Bengaluru","Mumbai","Hyderabad","Chennai"], 0),
+    ],
+    "rbi": [
+        ("RBI was established in which year?",
+         ["1935","1947","1950","1955"], 0),
+        ("The Governor of RBI is appointed by:",
+         ["Central Government","President of India","Finance Commission","Parliament"], 0),
+    ],
+    "election": [
+        ("Election Commission of India is a:",
+         ["Constitutional body","Statutory body","Executive body","Advisory body"], 0),
+        ("Chief Election Commissioner is appointed by:",
+         ["President of India","Prime Minister","Parliament","Supreme Court"], 0),
+    ],
+    "railway": [
+        ("Indian Railways is under which Ministry?",
+         ["Ministry of Railways","Ministry of Transport","Ministry of Infrastructure","Ministry of Commerce"], 0),
+        ("The Indian Railway is divided into how many zones?",
+         ["18","16","14","12"], 0),
+    ],
+    "budget": [
+        ("Union Budget is presented in which house of Parliament?",
+         ["Lok Sabha","Rajya Sabha","Both Houses jointly","Standing Committee"], 0),
+        ("The interim budget presented in an election year is called:",
+         ["Vote on Account","Full Budget","Mini Budget","Supplementary Budget"], 0),
+    ],
+    "supreme court": [
+        ("The Chief Justice of India is appointed by:",
+         ["President of India","Prime Minister","Law Commission","Parliament"], 0),
+        ("Supreme Court of India was established in:",
+         ["1950","1947","1935","1919"], 0),
+    ],
+    "g20": [
+        ("G20 is a group of:",
+         ["20 major world economies","20 developing nations","20 Asian countries","20 UN member states"], 0),
+        ("India's G20 Presidency was in:",
+         ["2023","2022","2024","2021"], 0),
+    ],
+    "padma": [
+        ("Padma Vibhushan is India's:",
+         ["Second highest civilian award","Highest civilian award","Third highest civilian award","Military award"], 0),
+        ("Padma awards are announced on:",
+         ["Republic Day (26 January)","Independence Day (15 August)","Gandhi Jayanti (2 October)","Constitution Day (26 November)"], 0),
+    ],
+}
+
+def build_mcq_from_article(title, summary, slug):
+    """Build a proper MCQ question from a CA article."""
+    import random
+    text = (title + " " + summary).lower()
+    
+    # Try to find a matching template
+    for keyword, questions in MCQ_TEMPLATES.items():
+        if keyword in text:
+            q_text, opts, correct_idx = random.choice(questions)
+            return {
+                "question": q_text,
+                "options": opts,
+                "correct": correct_idx,
+                "hint": f"Related: {title[:60]}",
+                "slug": slug,
+            }
+    
+    # No template match — build a factual question from the title
+    # Extract key entity (first proper noun / organisation name)
+    # Pattern: "X does Y" → "Which organisation did Y?"
+    words = title.split()
+    
+    # Try to identify the subject
+    q = None
+    if "inaugurated" in text or "launched" in text:
+        q = {
+            "question": f"Which of the following was recently in news regarding: '{title[:70]}'?",
+            "options": [title[:60], "None of the above", "Not mentioned", "Cannot be determined"],
+            "correct": 0,
+            "hint": summary[:100],
+            "slug": slug,
+        }
+    elif "appointed" in text or "takes charge" in text or "elected" in text:
+        q = {
+            "question": f"This appointment/election was recently in news. Identify: '{title[:70]}'",
+            "options": [title[:60], "Not in the news recently", "Happened last year", "Incorrect information"],
+            "correct": 0,
+            "hint": summary[:100],
+            "slug": slug,
+        }
+    
+    if q:
+        return q
+    
+    # Final fallback — simple identification question
+    return {
+        "question": f"Which of the following was recently reported in current affairs?",
+        "options": [title[:70], "Not a current affair", "Happened 5 years ago", "Fictional event"],
+        "correct": 0,
+        "hint": summary[:100],
+        "slug": slug,
+    }
+
+# ─── END MCQ BUILDER ─────────────────────────────────────────────────────────
+
+
 def rebuild_daily_quiz_page(affairs_list):
     """Regenerate /daily-quiz/index.html with fresh questions from today's CA."""
     import json as _json
@@ -2851,15 +3049,10 @@ def rebuild_daily_quiz_page(affairs_list):
 
     quiz_items = ""
     for i, q in enumerate(q_set):
-        correct_title = q["title"]
-        decoys = [t for t in all_titles if t != correct_title][:3]
-        while len(decoys) < 3:
-            decoys.append("None of the above")
-        opts = [correct_title] + decoys
-        seed_order = [(hash(correct_title + str(j)) % 4) for j in range(4)]
-        order = sorted(range(4), key=lambda x: seed_order[x])
-        shuffled = [opts[o % len(opts)] for o in order]
-        correct_idx = shuffled.index(correct_title)
+        # Use proper MCQ with real answer options
+        mcq = build_mcq_from_article(q["title"], q.get("summary",""), q["slug"])
+        correct_idx = mcq["correct"]
+        shuffled = mcq["options"]
 
         opts_html = "".join(
             f'''<button class="dq-opt" data-idx="{i}" data-val="{j}" data-correct="{correct_idx}" onclick="dqA(this)">
