@@ -37,6 +37,13 @@ jobs:
           git config --global user.name "NaukriBulletin Bot"
           git config --global user.email "bot@naukribulletin.in"
 
+      - name: Process WhatsApp forwarded jobs
+        run: python scripts/wa_forwarder.py
+        env:
+          WA_BOT_TOKEN: ${{ secrets.WA_BOT_TOKEN }}
+          WA_CHAT_ID:   ${{ secrets.WA_CHAT_ID }}
+        continue-on-error: true
+
       - name: Run Scraper
         run: python scripts/scraper.py
         env:
