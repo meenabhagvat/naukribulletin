@@ -3,16 +3,13 @@
 
 set -e
 
-# ── 0. Fix nav on ALL pages (runs every deploy) ───────────────────────────────
+# ── 0. Fix nav + inject NaukriBot on all pages ────────────────────────────────
 echo "🔧 Fixing nav consistency..."
 python3 - << 'PYEOF'
-import re, pathlib
+import re, pathlib, shutil
 
 root = pathlib.Path('.')
-OLD_NAV = re.compile(
-    r'<ul id="navLinks">.*?</ul>',
-    re.S
-)
+OLD_NAV = re.compile(r'<ul id="navLinks">.*?</ul>', re.S)
 NEW_NAV = '''<ul id="navLinks">
     <li><a href="/jobs/">Jobs</a></li>
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
@@ -24,54 +21,47 @@ NEW_NAV = '''<ul id="navLinks">
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>'''
 
-fixed = 0
-for f in root.rglob('*.html'):
-    if 'dist' in str(f) or '.git' in str(f): continue
-    try:
-        s = f.read_text(errors='ignore')
-        if 'id="navLinks"' not in s: continue
-        # Check if nav already has all 10 links
-        m = re.search(r'<ul id="navLinks">(.*?)</ul>', s, re.S)
-        if not m: continue
-        links = re.findall(r'href="([^"]+)"', m.group(1))
-        if '/daily-quiz/' in links and '/previous-year-papers/' in links and '/sarkari-naukri/' in links:
-            continue  # already correct
-        # Replace with canonical nav
-        new_s = OLD_NAV.sub(NEW_NAV, s, count=1)
-        if new_s != s:
-            f.write_text(new_s)
-            fixed += 1
-    except: pass
-print(f"Nav fixed on {fixed} pages")
-PYEOF
+BOT_TAG = '<script src="/js/naukribot.js" defer></script>'
+nav_fixed = bot_fixed = 0
 
-# ── 1. Inject NaukriBot on all pages ─────────────────────────────────────────
-echo "🤖 Injecting NaukriBot widget..."
-mkdir -p dist/js
-cp scripts/naukribot.js dist/js/naukribot.js 2>/dev/null || true
-python3 - << 'PYEOF'
-import pathlib
-root = pathlib.Path('.')
-tag = '<script src="/js/naukribot.js" defer></script>'
-fixed = 0
 for f in root.rglob('*.html'):
     if 'dist' in str(f) or '.git' in str(f): continue
     try:
         s = f.read_text(errors='ignore')
+        changed = False
+        if 'id="navLinks"' in s:
+            m = re.search(r'<ul id="navLinks">(.*?)</ul>', s, re.S)
+            if m:
+                links = re.findall(r'href="([^"]+)"', m.group(1))
+                if '/ask-ai/' not in links or '/daily-quiz/' not in links or '/sarkari-naukri/' not in links:
+                    s = OLD_NAV.sub(NEW_NAV, s, count=1)
+                    nav_fixed += 1
+                    changed = True
         if '</body>' in s and 'naukribot' not in s:
-            f.write_text(s.replace('</body>', tag + '\n</body>', 1))
-            fixed += 1
+            s = s.replace('</body>', BOT_TAG + '\n</body>', 1)
+            bot_fixed += 1
+            changed = True
+        if changed:
+            f.write_text(s)
     except: pass
-print(f"NaukriBot: {fixed} pages updated")
+
+js = root / 'dist' / 'js'
+js.mkdir(exist_ok=True)
+src = root / 'scripts' / 'naukribot.js'
+if src.exists():
+    shutil.copy2(src, js / 'naukribot.js')
+
+print(f"Nav fixed: {nav_fixed} | NaukriBot: {bot_fixed}")
 PYEOF
 
-# ── 2. SEO hardening ──────────────────────────────────────────────────────────
+# ── 1. SEO hardening ──────────────────────────────────────────────────────────
 echo "🛡️  Running SEO hardening pass..."
 python3 scripts/seo_perfect.py --apply
 
-# ── 3. Sync dist/ ─────────────────────────────────────────────────────────────
+# ── 2. Sync dist/ ─────────────────────────────────────────────────────────────
 echo "🔄 Syncing dist/..."
 rsync -a --delete \
   --exclude='.git' \
@@ -93,7 +83,7 @@ cp _redirects dist/_redirects 2>/dev/null || true
 mkdir -p dist/js
 cp scripts/naukribot.js dist/js/naukribot.js 2>/dev/null || true
 
-# ── 4. Commit + push ──────────────────────────────────────────────────────────
+# ── 3. Commit + push ──────────────────────────────────────────────────────────
 echo "📝 Committing and pushing..."
 git add -A
 git diff --cached --quiet || git commit -m "Deploy: $(date +'%d %b %Y %H:%M')"
@@ -104,7 +94,7 @@ git push origin main --force-with-lease || {
   git push origin main
 }
 
-# ── 5. Deploy to Cloudflare ───────────────────────────────────────────────────
+# ── 4. Deploy to Cloudflare ───────────────────────────────────────────────────
 echo "🚀 Deploying to Cloudflare..."
 npx wrangler deploy
 
