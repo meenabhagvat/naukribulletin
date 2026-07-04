@@ -55,79 +55,81 @@ def make_slug(title):
     s = re.sub(r'[\s_]+', '-', s).strip('-')
     return re.sub(r'-+', '-', s)[:80]
 
+def _extract_and_append(block, title, jobs):
+    skip = ['whatsapp','telegram','channel','mpcareer.in','freejobalert.com',
+            'job alert','our websites','join us','अप्लाई','कैसे करें','how to apply','apply now','direct link','government job alert','mp government','mp private']
+    if any(k in title.lower() for k in skip): return
+    start_date = last_date = ''
+    for pattern, attr in [
+        (r'Start\s*Date\s*[-:]\s*(\d{1,2}[/\-]\d{1,2}[/\-]\d{4})', 'start'),
+        (r'(?:Last Date|\U0001F4C5)[^:\n]*[:]\s*(\d{1,2}[/\-]\d{1,2}[/\-]\d{4})', 'last'),
+        (r'Last\s*Date\s*[-:]\s*(\d{1,2}[/\-]\d{1,2}[/\-]\d{4})', 'last'),
+    ]:
+        m = re.search(pattern, block, re.I)
+        if m:
+            try:
+                d = datetime.strptime(m.group(1).replace('-','/'), '%d/%m/%Y')
+                if attr == 'start': start_date = d.strftime('%d %B %Y')
+                else: last_date = d.strftime('%d %B %Y')
+            except:
+                if attr == 'start': start_date = m.group(1)
+                else: last_date = m.group(1)
+    url_m = re.search(r'(?:Direct Link|link)\s*[-:]\s*(https?://\S+)', block, re.I)
+    if not url_m: url_m = re.search(r'(https?://(?!whatsapp|t\.me)\S+)', block)
+    source_url = url_m.group(1).rstrip('.,)\n') if url_m else ''
+    vac_m = re.search(r'(?:Vacancy|\U0001F4CC)[^:\n]*:?\s*(\d[\d,]+)', block, re.I)
+    if not vac_m: vac_m = re.search(r'(\d[\d,]+)\s*(?:Post|Vacanc|Seat)', block, re.I)
+    vacancies = vac_m.group(1) if vac_m else 'Various'
+    tl = title.lower()
+    if any(x in tl for x in ['ssc','staff selection']): cat = 'SSC'
+    elif any(x in tl for x in ['railway','rrb','rail']): cat = 'Railway'
+    elif any(x in tl for x in ['bank','ibps','sbi','rbi']): cat = 'Banking'
+    elif any(x in tl for x in ['upsc','ias','civil service']): cat = 'UPSC'
+    elif any(x in tl for x in ['police','crpf','bsf','cisf','itbp','ssb']): cat = 'Defence'
+    elif any(x in tl for x in ['air force','army','navy','nda','pharmacist','agniveer']): cat = 'Defence'
+    elif any(x in tl for x in ['teacher','tgt','pgt','ctet']): cat = 'Teaching'
+    elif any(x in tl for x in ['psc','mppsc','uppsc','bpsc','rpsc']): cat = 'State PSC'
+    else: cat = 'Central Govt'
+    dept = re.sub(r'Recruitment\s*\d{4}.*$', '', title, flags=re.I).strip()
+    dept = re.sub(r'\s*[-\u2013]\s*(NIRDPR|Vacancy|Notification).*$', '', dept, flags=re.I).strip() or title[:40]
+    jobs.append({
+        'title': title, 'slug': make_slug(title), 'dept': dept, 'category': cat,
+        'start_date': start_date, 'last_date': last_date,
+        'source_url': source_url, 'vacancies': vacancies,
+        'urgent': bool(re.search(r'last date soon|urgent|closing soon', block, re.I)),
+    })
+
 def parse_job_message(text):
-    """Parse a forwarded WhatsApp job alert message."""
+    """Parse MPCareer and FreeJobAlert WhatsApp formats."""
     jobs = []
-    blocks = re.split(r'-{4,}', text)
-    
-    for block in blocks:
+
+    # Format 1: MPCareer — blocks separated by ----, titles in *bold*
+    for block in re.split(r'-{3,}', text):
         block = block.strip()
-        if not block or len(block) < 20: continue
-        
-        # Extract title
-        title_m = re.search(r'[🙋‍♀️🙋👆📢🔔✅🎯]\s*\*([^\*\n]{10,})\*', block)
-        if not title_m:
-            title_m = re.search(r'^\*([^\*\n]{10,80})\*', block, re.M)
-        if not title_m: continue
-        
-        title = title_m.group(1).strip()
-        
-        # Skip non-job content
-        skip = ['whatsapp','telegram','channel','website','mpcareer','freejobalert',
-                'कैसे करें','सर्च करें','job alert link','our websites','join us']
-        if any(k in title.lower() for k in skip): continue
-        if not any(c in title.lower() for c in ['recruit','vacanc','post','job','exam','notification']): 
-            if len(title) < 15: continue
-        
-        # Dates
-        start_date = last_date = ''
-        sm = re.search(r'Start\s*Date\s*[-:]\s*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{4})', block, re.I)
-        lm = re.search(r'Last\s*Date\s*[-:]\s*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{4})', block, re.I)
-        
-        for attr, match in [('start_date', sm), ('last_date', lm)]:
-            if match:
-                try:
-                    raw = re.sub(r'[\/\-\.]', '/', match.group(1))
-                    d = datetime.strptime(raw, '%d/%m/%Y')
-                    if attr == 'start_date': start_date = d.strftime('%d %B %Y')
-                    else: last_date = d.strftime('%d %B %Y')
-                except: 
-                    if attr == 'start_date': start_date = match.group(1)
-                    else: last_date = match.group(1)
-        
-        # URL
-        url_m = re.search(r'(?:Direct Link|link)\s*[-:]\s*(https?://\S+)', block, re.I)
-        if not url_m: url_m = re.search(r'(https?://\S+)', block)
-        source_url = url_m.group(1).rstrip('.,)') if url_m else ''
-        
-        # Vacancies
-        vac_m = re.search(r'(\d[\d,]+)\s*(?:Post|Vacanc|Seat)', block, re.I)
-        vacancies = vac_m.group(1) if vac_m else 'Various'
-        
-        # Category
-        tl = title.lower()
-        if any(x in tl for x in ['ssc','staff selection']): cat = 'SSC'
-        elif any(x in tl for x in ['railway','rrb','rail']): cat = 'Railway'
-        elif any(x in tl for x in ['bank','ibps','sbi','rbi']): cat = 'Banking'
-        elif any(x in tl for x in ['upsc','ias','civil service']): cat = 'UPSC'
-        elif any(x in tl for x in ['police','crpf','bsf','cisf','itbp']): cat = 'Defence'
-        elif any(x in tl for x in ['air force','army','navy','nda','agniveer']): cat = 'Defence'
-        elif any(x in tl for x in ['teacher','tgt','pgt','ctet']): cat = 'Teaching'
-        elif any(x in tl for x in ['psc','state']): cat = 'State PSC'
-        else: cat = 'Central Govt'
-        
-        dept = re.sub(r'Recruitment\s*\d{4}.*$', '', title, flags=re.I).strip()
-        dept = re.sub(r'\s*-\s*\w+\s*Vacanc.*$', '', dept, flags=re.I).strip()
-        
-        jobs.append({
-            'title': title, 'slug': make_slug(title),
-            'dept': dept, 'category': cat,
-            'start_date': start_date, 'last_date': last_date,
-            'source_url': source_url, 'vacancies': vacancies,
-            'urgent': 'last date soon' in block.lower(),
-        })
-    
+        if len(block) < 20: continue
+        clean = re.sub(r'[\U0001F000-\U0001FFFF\u200d\u2640\u2642\uFE0F\uF000-\uF8FF]+', '', block).strip()
+        m = re.search(r'\*([^\*\n]{10,100})\*', clean) or re.search(r'\*([^\*\n]{10,100})\*', block)
+        if not m: continue
+        title = m.group(1).strip()
+        if any(k in title.lower() for k in ['whatsapp','channel','mpcareer','direct link','government job']): continue
+        if len(title) < 10: continue
+        _extract_and_append(block, title, jobs)
+
+    # Format 2: FreeJobAlert — title on first line, emoji fields
+    for block in re.split(r'\n\n(?=[A-Z])', text):
+        block = block.strip()
+        if len(block) < 30: continue
+        lines = [l.strip() for l in block.split('\n') if l.strip()]
+        if not lines: continue
+        title = re.sub(r'^[\U0001F000-\U0001FFFF\u200d\u2640\u2642\uFE0F\s]+', '', lines[0]).strip()
+        if not any(x in title.lower() for x in ['recruit','vacanc','post','notif','apprentice']): continue
+        if len(title) < 10 or len(title) > 120: continue
+        if not re.search(r'(?:Last Date|Vacancy|\U0001F4C5|\U0001F4CC)', block, re.I): continue
+        if any(j['slug'] == make_slug(title) for j in jobs): continue
+        _extract_and_append(block, title, jobs)
+
     return jobs
+
 
 def generate_page(job):
     title = job['title']
@@ -298,11 +300,16 @@ def main():
         text = msg.get('text', '') or msg.get('caption', '')
         from_id = str(msg.get('from', {}).get('id', ''))
 
-        # Only process messages from authorized user
-        if CHAT_ID and from_id != str(CHAT_ID):
+        if not text or len(text) < 30:
             continue
 
-        if not text or len(text) < 30:
+        # Debug: show what we received
+        print(f"  Msg from_id={from_id}, CHAT_ID={CHAT_ID}, text_len={len(text)}")
+        print(f"  Preview: {repr(text[:80])}")
+
+        # Only process messages from authorized user (skip if CHAT_ID set and doesn't match)
+        if CHAT_ID and from_id != str(CHAT_ID):
+            print(f"  ⏭ Skipped (from_id {from_id} != CHAT_ID {CHAT_ID})")
             continue
 
         # Check if it looks like a job alert
