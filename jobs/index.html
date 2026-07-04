@@ -20465,5 +20465,6 @@ window.NBSave={toggle:function(j){var l=JSON.parse(localStorage.getItem('nb_save
 function nbToggleSave(btn){event.preventDefault();event.stopPropagation();var job={slug:btn.dataset.saveSlug,title:btn.dataset.saveTitle,dept:btn.dataset.saveDept,last_date:btn.dataset.saveLd,emoji:btn.dataset.saveEmoji||'📋'};var saved=NBSave.toggle(job);btn.textContent=saved?'🔖':'＋';btn.style.background=saved?'var(--saffron)':'transparent';btn.style.color=saved?'#fff':'var(--grey-400)';btn.title=saved?'Saved':'Save job';}
 document.addEventListener('DOMContentLoaded',function(){var saved=JSON.parse(localStorage.getItem('nb_saved')||'[]');saved.forEach(function(j){var b=document.querySelector('[data-save-slug="'+j.slug+'"]');if(b){b.textContent='🔖';b.style.background='var(--saffron)';b.style.color='#fff';}})});
 </script>
+<script src="/js/naukribot.js" defer></script>
 </body>
 </html>
