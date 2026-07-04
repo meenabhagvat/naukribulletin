@@ -2643,7 +2643,7 @@ def build_daily_quiz(affairs_list):
         quiz_items += f'''
         <div class="dq-item" id="dq-{i}" style="display:{'block' if i==0 else 'none'}">
           <div class="dq-num">Question {i+1} of {len(q_set)}</div>
-          <div class="dq-q">{q["summary"][:160] if q["summary"] else q["title"]}</div>
+          <div class="dq-q">{q["summary"] if q["summary"] else q["title"]}</div>
           <div class="dq-opts">{opts_html}</div>
           <div class="dq-hint" id="dq-hint-{i}" style="display:none">
             📖 <a href="{hint_url}" style="color:var(--saffron);">Read full article →</a>
@@ -3163,7 +3163,7 @@ def rebuild_daily_quiz_page(affairs_list):
             </button>''' for j in range(len(shuffled))
         )
         hint_url = f'/current-affairs/{q["slug"]}/'
-        hint_text = q["summary"][:120] if q["summary"] else q["title"]
+        hint_text = q["summary"] if q["summary"] else q["title"]
         quiz_items += f'''
 <div class="dq-item" id="dq-{i}" style="display:{'block' if i==0 else 'none'}">
   <div class="dq-num">Question {i+1} of {len(q_set)}</div>
