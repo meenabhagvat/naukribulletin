@@ -1425,6 +1425,7 @@ def generate_job_html(job):
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -1616,6 +1617,7 @@ def generate_affairs_html(affair):
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -2160,6 +2162,7 @@ def rebuild_syllabus():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -2335,6 +2338,7 @@ def rebuild_states():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -3174,6 +3178,7 @@ def rebuild_daily_quiz_page(affairs_list):
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -3806,6 +3811,7 @@ def rebuild_jobs_listing():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -4114,6 +4120,7 @@ def rebuild_affairs_listing():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
+    <li><a href="/ask-ai/">Ask AI</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
