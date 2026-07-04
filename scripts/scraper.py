@@ -1407,6 +1407,7 @@ def generate_job_html(job):
   <link rel="stylesheet" href="/css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
   <nav>
@@ -1645,6 +1646,7 @@ def generate_affairs_html(affair):
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">{schema}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
 {nav_html}
@@ -2139,6 +2141,7 @@ def rebuild_syllabus():
     .scat {{ transition: opacity .2s; }}
     .scat.hidden {{ display: none; }}
   </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -2454,6 +2457,7 @@ def rebuild_states():
   {{"@type":"FAQPage","mainEntity":{faq_str}}}
   ]}}
   </script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
 {NAV}
@@ -3186,6 +3190,7 @@ def rebuild_daily_quiz_page(affairs_list):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap">
   <link rel="stylesheet" href="/css/style.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
 {nav_html}
@@ -3783,6 +3788,7 @@ def rebuild_jobs_listing():
   <link rel="stylesheet" href="/css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WQJ4W7T1N"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-6WQJ4W7T1N');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
   <nav>
@@ -4090,6 +4096,7 @@ def rebuild_affairs_listing():
     .cat-government {{background:rgba(0,105,92,0.2);color:#80CBC4;}}
     .cat-environment {{background:rgba(51,105,30,0.2);color:#AED581;}}
   </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1001412206051588" crossorigin="anonymous"></script>
 </head>
 <body>
   <nav>
