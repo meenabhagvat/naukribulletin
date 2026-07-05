@@ -42,8 +42,9 @@ for f in root.rglob('*.html'):
                     changed = True
 
         # Remove state grid from homepage only
-        if f.name == 'index.html' and f.parent == root and 'NB-STATES-START' in s:
+        if f.name == 'index.html' and f.parent == root and ('NB-STATES-START' in s or 'NB-STATE-PILLS-START' in s):
             s = re.sub(r'<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->', '', s, flags=re.S)
+            s = re.sub(r'<!-- NB-STATE-PILLS-START -->.*?<!-- NB-STATE-PILLS-END -->', '', s, flags=re.S)
             state_removed += 1
             changed = True
 
