@@ -2565,9 +2565,10 @@ def rebuild_states():
 </section>
 <!-- NB-STATES-END -->"""
 
-    if "NB-STATES-START" in html:
-        html = re.sub(r"<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->", state_section.strip(), html, flags=re.S)
-    else:
+    # State grid disabled - removed from homepage (keep marker but don't regenerate)
+    # if "NB-STATES-START" in html:
+    #     html = re.sub(r"<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->", state_section.strip(), html, flags=re.S)
+    if False:
         # Inject after the current-affairs section (before the footer)
         if "</section>" in html:
             # Find last </section> before footer and inject after it
