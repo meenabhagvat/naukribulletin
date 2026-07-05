@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MP Scheme Eligibility Checker — Find Government Schemes You Qualify For</title>
+  <meta name="description" content="Check which Madhya Pradesh government welfare schemes you are eligible for. Free, instant, no login required.">
+  <style>
+    :root {
+      --bg: #0A0A0F; --card: #12121A; --border: rgba(255,255,255,.1);
+      --text: #E8E8F0; --muted: #9BA3B8; --saffron: #FF6B00;
+      --green: #63FFDA; --red: #FF6C8A; --yellow: #FFD56C;
+      --radius: 12px; --font: 'DM Sans', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+    
+    header { background: linear-gradient(135deg, #0A0A0F, #12121A); border-bottom: 1px solid var(--border); padding: 20px; text-align: center; }
+    header h1 { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    header h1 span { color: var(--saffron); }
+    header p { color: var(--muted); font-size: .9rem; }
+    .lang-toggle { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+    .lang-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 5px 14px; border-radius: 20px; cursor: pointer; font-size: .82rem; transition: .15s; }
+    .lang-btn.active { background: rgba(255,107,0,.15); border-color: var(--saffron); color: var(--saffron); }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 24px 16px; }
+
+    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+    .form-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; color: #fff; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media(max-width:500px) { .form-grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1/-1; }
+    label { font-size: .8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    input, select { background: rgba(255,255,255,.05); border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-size: .9rem; font-family: var(--font); outline: none; width: 100%; transition: border-color .15s; }
+    input:focus, select:focus { border-color: var(--saffron); }
+    select option { background: #1a1a2e; }
+
+    .btn-check { width: 100%; background: linear-gradient(135deg, #FF6B00, #FF8C33); color: #fff; border: none; border-radius: var(--radius); padding: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 18px; transition: .15s; }
+    .btn-check:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(255,107,0,.3); }
+    .btn-check:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .results { display: none; }
+    .results-header { text-align: center; margin-bottom: 20px; }
+    .results-header .count { font-size: 2.5rem; font-weight: 800; color: var(--saffron); }
+    .results-header p { color: var(--muted); font-size: .9rem; }
+
+    .scheme-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 14px; animation: fadeIn .3s ease; }
+    .scheme-card.matched { border-color: rgba(99,255,218,.3); }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .scheme-name { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .scheme-benefit { display: inline-block; background: rgba(99,255,218,.1); color: var(--green); padding: 3px 10px; border-radius: 20px; font-size: .78rem; font-weight: 700; margin-bottom: 10px; }
+    .why-qualify { background: rgba(255,107,0,.08); border-left: 3px solid var(--saffron); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: .88rem; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+    .why-qualify.loading { color: var(--muted); font-style: italic; }
+    .scheme-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: .78rem; color: var(--muted); }
+    .scheme-docs { font-size: .82rem; color: var(--muted); margin-bottom: 12px; }
+    .scheme-docs strong { color: var(--text); }
+    .scheme-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .apply-btn { background: var(--saffron); color: #fff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: .82rem; font-weight: 700; }
+    .verified-date { font-size: .72rem; color: var(--muted); }
+
+    .no-match { text-align: center; padding: 32px; background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); }
+    .no-match p { color: var(--muted); line-height: 1.7; }
+
+    .disclaimer { background: rgba(255,214,108,.06); border: 1px solid rgba(255,214,108,.2); border-radius: var(--radius); padding: 14px 18px; margin-top: 20px; font-size: .82rem; color: var(--yellow); line-height: 1.6; }
+
+    .loading-bar { display: none; text-align: center; padding: 20px; color: var(--muted); }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap">
+</head>
+<body>
+
+<header>
+  <h1>🏛️ MP <span>Scheme</span> Eligibility Checker</h1>
+  <p id="header-sub">Find which Madhya Pradesh government schemes you qualify for — instantly, free</p>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">English</button>
+    <button class="lang-btn" onclick="setLang('hi')">हिंदी</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="form-card">
+    <h2 id="form-title">📋 Enter Your Details</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label id="lbl-age">Age</label>
+        <input type="number" id="age" min="1" max="100" placeholder="e.g. 28">
+      </div>
+      <div class="field">
+        <label id="lbl-gender">Gender</label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-marital">Marital Status</label>
+        <select id="marital">
+          <option value="">Select</option>
+          <option value="unmarried">Unmarried</option>
+          <option value="married">Married</option>
+          <option value="widowed">Widowed</option>
+          <option value="divorced">Divorced</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-category">Category</label>
+        <select id="category">
+          <option value="">Select</option>
+          <option value="general">General</option>
+          <option value="obc">OBC</option>
+          <option value="sc">SC</option>
+          <option value="st">ST</option>
+          <option value="ews">EWS</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-income">Annual Family Income (₹)</label>
+        <input type="number" id="income" placeholder="e.g. 150000">
+      </div>
+      <div class="field">
+        <label id="lbl-area">Area Type</label>
+        <select id="area">
+          <option value="">Select</option>
+          <option value="rural">Rural</option>
+          <option value="urban">Urban</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-district">District</label>
+        <select id="district">
+          <option value="">Select District</option>
+                    <option>Agar Malwa</option>
+          <option>Alirajpur</option>
+          <option>Anuppur</option>
+          <option>Ashoknagar</option>
+          <option>Balaghat</option>
+          <option>Barwani</option>
+          <option>Betul</option>
+          <option>Bhind</option>
+          <option>Bhopal</option>
+          <option>Burhanpur</option>
+          <option>Chhatarpur</option>
+          <option>Chhindwara</option>
+          <option>Damoh</option>
+          <option>Datia</option>
+          <option>Dewas</option>
+          <option>Dhar</option>
+          <option>Dindori</option>
+          <option>Guna</option>
+          <option>Gwalior</option>
+          <option>Harda</option>
+          <option>Indore</option>
+          <option>Jabalpur</option>
+          <option>Jhabua</option>
+          <option>Katni</option>
+          <option>Khandwa</option>
+          <option>Khargone</option>
+          <option>Maihar</option>
+          <option>Mandla</option>
+          <option>Mandsaur</option>
+          <option>Mauganj</option>
+          <option>Morena</option>
+          <option>Murwara (Katni)</option>
+          <option>Narmadapuram</option>
+          <option>Narsinghpur</option>
+          <option>Neemuch</option>
+          <option>Niwari</option>
+          <option>Panna</option>
+          <option>Pithampur</option>
+          <option>Raisen</option>
+          <option>Rajgarh</option>
+          <option>Ratlam</option>
+          <option>Rewa</option>
+          <option>Sagar</option>
+          <option>Satna</option>
+          <option>Sehore</option>
+          <option>Seoni</option>
+          <option>Shahdol</option>
+          <option>Shajapur</option>
+          <option>Shivpuri</option>
+          <option>Sidhi</option>
+          <option>Singrauli</option>
+          <option>Tikamgarh</option>
+          <option>Ujjain</option>
+          <option>Umaria</option>
+          <option>Vidisha</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-occupation">Occupation</label>
+        <select id="occupation">
+          <option value="">Select</option>
+          <option value="farmer">Farmer</option>
+          <option value="student">Student</option>
+          <option value="unemployed">Unemployed</option>
+          <option value="self-employed">Self-employed</option>
+          <option value="salaried">Salaried</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-education">Education Level</label>
+        <select id="education">
+          <option value="">Select</option>
+          <option value="below10">Below 10th</option>
+          <option value="10th">10th Pass</option>
+          <option value="12th">12th Pass</option>
+          <option value="graduate">Graduate</option>
+          <option value="postgraduate">Post-graduate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="lbl-disability">Disability</label>
+        <select id="disability">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkEligibility()" id="check-btn">
+      🔍 Check My Eligibility
+    </button>
+  </div>
+
+  <div class="loading-bar" id="loading">
+    <p>⏳ Checking schemes and generating explanations...</p>
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-header">
+      <div class="count" id="match-count">0</div>
+      <p id="match-label">schemes you qualify for</p>
+    </div>
+    <div id="scheme-list"></div>
+    <div class="disclaimer">
+      ⚠️ <strong>Disclaimer:</strong> This tool is for guidance only. Please verify final eligibility on the official MP government portal before applying. Scheme rules may change — always check the "Last Verified" date and confirm with official sources.
+    </div>
+  </div>
+</div>
+
+<script>
+// ── SCHEME DATA ───────────────────────────────────────────────────────────────
+// Add/edit schemes here. Each scheme must have all fields.
+const SCHEMES = [
+  {
+    id: "ladli_behna",
+    name: "Ladli Behna Yojana",
+    name_hi: "लाडली बहना योजना",
+    description: "Monthly financial assistance to married women of MP",
+    benefit: "₹1,250/month",
+    eligibility: {
+      gender: ["female"],
+      marital: ["married","widowed","divorced"],
+      age_min: 23, age_max: 60,
+      income_max: 250000,
+      area: null, // any
+      category: null, // any
+      occupation: null,
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Samagra ID","Bank account details","Residence proof"],
+    apply_link: "https://cmladlibahna.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "pm_awas_gramin",
+    name: "PM Awas Yojana (Gramin)",
+    name_hi: "प्रधानमंत्री आवास योजना (ग्रामीण)",
+    description: "Financial assistance to construct a pucca house for homeless rural families",
+    benefit: "₹1.2 lakh for plains, ₹1.3 lakh for hilly areas",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 18, age_max: 100,
+      income_max: 200000,
+      area: ["rural"],
+      category: null,
+      occupation: null,
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","BPL certificate","Bank account","Land ownership proof"],
+    apply_link: "https://pmayg.nic.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "mukhyamantri_kisan",
+    name: "Mukhyamantri Kisan Kalyan Yojana",
+    name_hi: "मुख्यमंत्री किसान कल्याण योजना",
+    description: "Additional ₹4,000/year to farmers already enrolled in PM-KISAN",
+    benefit: "₹4,000/year (₹2,000 in two installments)",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 18, age_max: 100,
+      income_max: 500000,
+      area: ["rural"],
+      category: null,
+      occupation: ["farmer"],
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Kisan credit card / PM-KISAN registration","Land records (Khasra-Khatauni)","Bank account"],
+    apply_link: "https://saara.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "sambal",
+    name: "Mukhyamantri Jan Kalyan (Sambal) Yojana",
+    name_hi: "मुख्यमंत्री जन कल्याण (संबल) योजना",
+    description: "Welfare scheme for unorganised workers covering death benefit, education assistance and more",
+    benefit: "₹4 lakh on accidental death, ₹2 lakh natural death, education support",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 18, age_max: 60,
+      income_max: 200000,
+      area: null,
+      category: null,
+      occupation: ["farmer","self-employed","unemployed","other"],
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Samagra ID","Sambal registration card","Bank account"],
+    apply_link: "https://sambal.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "medhavi",
+    name: "Mukhyamantri Medhavi Vidyarthi Yojana",
+    name_hi: "मुख्यमंत्री मेधावी विद्यार्थी योजना",
+    description: "Fee reimbursement for meritorious students pursuing higher education",
+    benefit: "Full tuition fee reimbursement for govt colleges; up to ₹1.5 lakh for private",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 17, age_max: 30,
+      income_max: 600000,
+      area: null,
+      category: null,
+      occupation: ["student"],
+      education: ["12th","graduate"],
+      disability: null,
+    },
+    documents: ["Aadhaar card","12th marksheet (75%+ in MP Board or 85%+ in CBSE)","Income certificate","College admission letter"],
+    apply_link: "https://scholarshipportal.mp.nic.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "viklang_pension",
+    name: "Viklang Pension Yojana (MP)",
+    name_hi: "विकलांग पेंशन योजना",
+    description: "Monthly pension for persons with disabilities in MP",
+    benefit: "₹600/month",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 6, age_max: 100,
+      income_max: 200000,
+      area: null,
+      category: null,
+      occupation: null,
+      education: null,
+      disability: ["yes"],
+    },
+    documents: ["Aadhaar card","Disability certificate (40%+ disability from CMO)","Income certificate","Samagra ID","Bank account"],
+    apply_link: "https://socialsecurity.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "vriddha_pension",
+    name: "Mukhyamantri Vriddha Pension Yojana",
+    name_hi: "मुख्यमंत्री वृद्धा पेंशन योजना",
+    description: "Monthly pension for senior citizens of MP",
+    benefit: "₹600-₹1000/month based on age",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 60, age_max: 100,
+      income_max: 200000,
+      area: null,
+      category: null,
+      occupation: null,
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Age proof","Income certificate","Samagra ID","Bank account"],
+    apply_link: "https://socialsecurity.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "vidhwa_pension",
+    name: "Vidhwa Pension Yojana (MP)",
+    name_hi: "विधवा पेंशन योजना",
+    description: "Monthly pension for widows of MP below poverty line",
+    benefit: "₹600/month",
+    eligibility: {
+      gender: ["female"],
+      marital: ["widowed"],
+      age_min: 18, age_max: 100,
+      income_max: 200000,
+      area: null,
+      category: null,
+      occupation: null,
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Husband's death certificate","BPL card","Samagra ID","Bank account"],
+    apply_link: "https://socialsecurity.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "sikho_kamao",
+    name: "Mukhyamantri Seekho Kamao Yojana",
+    name_hi: "मुख्यमंत्री सीखो कमाओ योजना",
+    description: "Paid skill training for unemployed youth — earn while you learn",
+    benefit: "₹8,000-₹10,000/month stipend during training",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 18, age_max: 29,
+      income_max: 1000000,
+      area: null,
+      category: null,
+      occupation: ["unemployed","student"],
+      education: ["10th","12th","graduate","postgraduate"],
+      disability: null,
+    },
+    documents: ["Aadhaar card","Educational certificates","Samagra ID","Bank account"],
+    apply_link: "https://mmsky.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "udyam_kranti",
+    name: "Mukhyamantri Udyam Kranti Yojana",
+    name_hi: "मुख्यमंत्री उद्यम क्रांति योजना",
+    description: "Subsidised bank loans for self-employment / new business",
+    benefit: "Loan up to ₹25 lakh (manufacturing) or ₹10 lakh (service sector) with 3% interest subvention",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 18, age_max: 45,
+      income_max: 1200000,
+      area: null,
+      category: null,
+      occupation: ["unemployed","self-employed","other"],
+      education: ["10th","12th","graduate","postgraduate"],
+      disability: null,
+    },
+    documents: ["Aadhaar card","Educational certificate","Business plan","Bank account","Residence proof"],
+    apply_link: "https://samast.mponline.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "ladli_laxmi",
+    name: "Ladli Laxmi Yojana 2.0",
+    name_hi: "लाडली लक्ष्मी योजना 2.0",
+    description: "Financial support for girl children in MP — scholarship and education support",
+    benefit: "₹1,18,000 total (paid in installments from Class 6 to graduation)",
+    eligibility: {
+      gender: ["female"],
+      marital: ["unmarried"],
+      age_min: 0, age_max: 21,
+      income_max: 500000,
+      area: null,
+      category: null,
+      occupation: ["student"],
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Birth certificate","Parent's Samagra ID","School enrollment certificate"],
+    apply_link: "https://ladlilaxmi.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+  {
+    id: "annapurna",
+    name: "Annapurna Yojana (MP)",
+    name_hi: "अन्नपूर्णा योजना",
+    description: "Free food grains to destitute persons not covered under NFSA",
+    benefit: "10 kg free grain per month",
+    eligibility: {
+      gender: null,
+      marital: null,
+      age_min: 60, age_max: 100,
+      income_max: 100000,
+      area: null,
+      category: null,
+      occupation: ["unemployed","other"],
+      education: null,
+      disability: null,
+    },
+    documents: ["Aadhaar card","Age proof","Income certificate","Samagra ID"],
+    apply_link: "https://food.mp.gov.in/",
+    last_verified: "June 2026"
+  },
+];
+
+// ── TRANSLATIONS ──────────────────────────────────────────────────────────────
+const T = {
+  en: {
+    header_sub: "Find which Madhya Pradesh government schemes you qualify for — instantly, free",
+    form_title: "📋 Enter Your Details",
+    check_btn: "🔍 Check My Eligibility",
+    match_label: "schemes you qualify for",
+    no_match: "No schemes matched your profile. Double-check your inputs — especially income and age. Some schemes have very specific eligibility criteria.",
+    loading: "⏳ Checking schemes and generating explanations...",
+    docs_label: "Documents needed:",
+    apply: "Apply Now →",
+    verified: "Last verified:",
+    why_loading: "Generating personalised explanation...",
+  },
+  hi: {
+    header_sub: "मध्य प्रदेश की सरकारी योजनाओं में अपनी पात्रता तुरंत जांचें — मुफ्त",
+    form_title: "📋 अपनी जानकारी दर्ज करें",
+    check_btn: "🔍 पात्रता जांचें",
+    match_label: "योजनाएं जिनके लिए आप पात्र हैं",
+    no_match: "आपकी प्रोफ़ाइल से कोई योजना मेल नहीं खाती। कृपया अपनी जानकारी दोबारा जांचें — विशेषकर आय और आयु।",
+    loading: "⏳ योजनाएं जांची जा रही हैं...",
+    docs_label: "आवश्यक दस्तावेज़:",
+    apply: "आवेदन करें →",
+    verified: "अंतिम सत्यापन:",
+    why_loading: "व्यक्तिगत विवरण तैयार हो रहा है...",
+  }
+};
+
+let lang = 'en';
+const GROQ_KEY = 'YOUR_GROQ_API_KEY'; // Replace or pass via server
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.includes(l === 'en' ? 'English' : 'हिंदी')));
+  const t = T[l];
+  document.getElementById('header-sub').textContent = t.header_sub;
+  document.getElementById('form-title').textContent = t.form_title;
+  document.getElementById('check-btn').textContent = t.check_btn;
+  document.getElementById('match-label').textContent = t.match_label;
+}
+
+// ── RULE ENGINE ───────────────────────────────────────────────────────────────
+function matches(scheme, user) {
+  const e = scheme.eligibility;
+  if (e.gender && !e.gender.includes(user.gender)) return false;
+  if (e.marital && !e.marital.includes(user.marital)) return false;
+  if (user.age < e.age_min || user.age > e.age_max) return false;
+  if (e.income_max && user.income > e.income_max) return false;
+  if (e.area && !e.area.includes(user.area)) return false;
+  if (e.category && !e.category.includes(user.category)) return false;
+  if (e.occupation && !e.occupation.includes(user.occupation)) return false;
+  if (e.education && !e.education.includes(user.education)) return false;
+  if (e.disability && !e.disability.includes(user.disability)) return false;
+  return true;
+}
+
+// ── AI EXPLANATION ────────────────────────────────────────────────────────────
+async function getExplanation(scheme, user) {
+  const prompt = lang === 'hi'
+    ? `उपयोगकर्ता की जानकारी: उम्र ${user.age}, लिंग ${user.gender}, वैवाहिक स्थिति ${user.marital}, श्रेणी ${user.category}, वार्षिक आय ₹${user.income}, क्षेत्र ${user.area}, पेशा ${user.occupation}।\n\nयोजना "${scheme.name_hi || scheme.name}" के लिए 2-3 वाक्यों में बताएं कि यह व्यक्ति क्यों पात्र है। सरल हिंदी में लिखें।`
+    : `User: age ${user.age}, gender ${user.gender}, marital status ${user.marital}, category ${user.category}, annual income ₹${user.income}, area ${user.area}, occupation ${user.occupation}.\n\nIn 2-3 sentences, explain in simple English why this person qualifies for the "${scheme.name}" scheme. Be specific and warm.`;
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_KEY}` },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 120, temperature: 0.4
+      })
+    });
+    const d = await res.json();
+    return d.choices?.[0]?.message?.content || '';
+  } catch { return ''; }
+}
+
+// ── MAIN CHECKER ──────────────────────────────────────────────────────────────
+async function checkEligibility() {
+  const user = {
+    age:        parseInt(document.getElementById('age').value) || 0,
+    gender:     document.getElementById('gender').value,
+    marital:    document.getElementById('marital').value,
+    category:   document.getElementById('category').value,
+    income:     parseInt(document.getElementById('income').value) || 0,
+    area:       document.getElementById('area').value,
+    district:   document.getElementById('district').value,
+    occupation: document.getElementById('occupation').value,
+    education:  document.getElementById('education').value,
+    disability: document.getElementById('disability').value,
+  };
+
+  if (!user.age || !user.gender || !user.marital || !user.category || !user.income || !user.area || !user.occupation || !user.education) {
+    alert('Please fill in all fields before checking.'); return;
+  }
+
+  const btn = document.getElementById('check-btn');
+  const t = T[lang];
+  btn.disabled = true; btn.textContent = t.loading;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('results').style.display = 'none';
+
+  const matched = SCHEMES.filter(s => matches(s, user));
+
+  document.getElementById('match-count').textContent = matched.length;
+  document.getElementById('match-label').textContent = t.match_label;
+
+  const list = document.getElementById('scheme-list');
+  list.innerHTML = '';
+
+  if (matched.length === 0) {
+    list.innerHTML = `<div class="no-match"><p>${t.no_match}</p></div>`;
+  } else {
+    for (const scheme of matched) {
+      const card = document.createElement('div');
+      card.className = 'scheme-card matched';
+      card.innerHTML = `
+        <div class="scheme-name">${lang === 'hi' && scheme.name_hi ? scheme.name_hi : scheme.name}</div>
+        <div class="scheme-benefit">💰 ${scheme.benefit}</div>
+        <div class="why-qualify loading" id="why-${scheme.id}">${t.why_loading}</div>
+        <div class="scheme-docs"><strong>${t.docs_label}</strong> ${scheme.documents.join(' · ')}</div>
+        <div class="scheme-footer">
+          <a href="${scheme.apply_link}" target="_blank" class="apply-btn">${t.apply}</a>
+          <span class="verified-date">${t.verified} ${scheme.last_verified}</span>
+        </div>`;
+      list.appendChild(card);
+
+      // Get AI explanation asynchronously
+      getExplanation(scheme, user).then(explanation => {
+        const el = document.getElementById(`why-${scheme.id}`);
+        if (el) {
+          el.textContent = explanation || `You meet the eligibility criteria for ${scheme.name} based on your age, income, and other details.`;
+          el.classList.remove('loading');
+        }
+      });
+    }
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+  btn.disabled = false; btn.textContent = t.check_btn;
+
+  // Log match counts (anonymous)
+  try {
+    const log = JSON.parse(localStorage.getItem('scheme_hits') || '{}');
+    matched.forEach(s => { log[s.id] = (log[s.id] || 0) + 1; });
+    localStorage.setItem('scheme_hits', JSON.stringify(log));
+  } catch {}
+}
+</script>
+</body>
+</html>
