@@ -131,12 +131,6 @@ def _extract_and_append(block, title, jobs):
     url_m = re.search(r'(?:Direct Link|link)\s*[-:]\s*(https?://\S+)', block, re.I)
     if not url_m: url_m = re.search(r'(https?://(?!whatsapp|t\.me)\S+)', block)
     source_url = url_m.group(1).rstrip('.,)\n') if url_m else ''
-    official_url, is_aggregator = find_official_url(title, source_url)
-
-    qualification = ''
-
-    salary = ''
-
     vac_m = re.search(r'(?:Vacancy|\U0001F4CC)[^:\n]*:?\s*(\d[\d,]+)', block, re.I)
     if not vac_m: vac_m = re.search(r'(\d[\d,]+)\s*(?:Post|Vacanc|Seat)', block, re.I)
     vacancies = vac_m.group(1) if vac_m else 'Various'
@@ -171,7 +165,7 @@ def parse_job_message(text):
         clean = re.sub(r'[\U0001F000-\U0001FFFF\u200d\u2640\u2642\uFE0F\uF000-\uF8FF]+', '', block).strip()
         m = re.search(r'\*([^\*\n]{10,100})\*', clean) or re.search(r'\*([^\*\n]{10,100})\*', block)
         if not m: continue
-        title = m.group(1).strip().strip('*').strip()
+        title = m.group(1).strip()
         if any(k in title.lower() for k in ['whatsapp','channel','mpcareer','direct link','government job']): continue
         if len(title) < 10: continue
         _extract_and_append(block, title, jobs)
