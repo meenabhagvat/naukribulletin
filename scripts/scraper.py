@@ -1419,15 +1419,11 @@ def generate_job_html(job):
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -2160,15 +2156,11 @@ def rebuild_syllabus():
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -2338,15 +2330,11 @@ def rebuild_states():
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -2573,9 +2561,10 @@ def rebuild_states():
 </section>
 <!-- NB-STATES-END -->"""
 
-    # State grid disabled - removed from homepage (keep marker but don't regenerate)
-    # if "NB-STATES-START" in html:
-    #     html = re.sub(r"<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->", state_section.strip(), html, flags=re.S)
+    # Actively REMOVE state grid from homepage if present
+    import re as _re2
+    if "NB-STATES-START" in html:
+        html = _re2.sub(r"<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->", "", html, flags=_re2.S)
     if False:
         # Inject after the current-affairs section (before the footer)
         if "</section>" in html:
@@ -2595,152 +2584,41 @@ def rebuild_states():
 # ─── DAILY QUIZ + FLASHCARDS + JOB NEWS ───────────────────────────────────────
 
 def build_daily_quiz(affairs_list):
-    """
-    Build 10 MCQ questions from today's current affairs.
-    Returns HTML for the quiz section.
-    """
-    import random
-    questions = []
-    for a in affairs_list[:20]:
-        title   = a.get("title","")
-        summary = a.get("summary","")
-        slug    = a.get("slug","")
-        if not title or len(title) < 15: continue
-
-        # Extract the key fact from the title to form a question
-        # Pattern: "X does Y" → "Which body/person did Y?"
-        # Use the title as the question stem with one correct + 3 decoy options
-        # We generate deterministic decoys from other article titles
-        questions.append({"title": title, "summary": summary, "slug": slug})
-
-    if len(questions) < 4: return ""
-
-    # Pick up to 10
-    q_set = questions[:10]
-    all_titles = [q["title"] for q in questions]
-
-    quiz_items = ""
-    for i, q in enumerate(q_set):
-        correct = q["title"]
-        # 3 decoys: other titles from the same set
-        decoys = [t for t in all_titles if t != correct][:3]
-        while len(decoys) < 3:
-            decoys.append("None of the above")
-        opts = [correct] + decoys
-        # Shuffle deterministically by index
-        seed_order = [(hash(correct + str(j)) % 4) for j in range(4)]
-        order = sorted(range(4), key=lambda x: seed_order[x])
-        shuffled = [opts[o % len(opts)] for o in order]
-        correct_idx = shuffled.index(correct)
-
-        opts_html = "".join(
-            f'''<button class="dq-opt" data-idx="{i}" data-val="{j}" data-correct="{correct_idx}" onclick="dqA(this)">
-              <span class="dq-letter">{chr(65+j)}</span>
-              <span class="dq-text">{shuffled[j][:90]}</span>
-            </button>''' for j in range(len(shuffled))
-        )
-        hint_url = f'/current-affairs/{q["slug"]}/'
-        quiz_items += f'''
-        <div class="dq-item" id="dq-{i}" style="display:{'block' if i==0 else 'none'}">
-          <div class="dq-num">Question {i+1} of {len(q_set)}</div>
-          <div class="dq-q">{q["summary"] if q["summary"] else q["title"]}</div>
-          <div class="dq-opts">{opts_html}</div>
-          <div class="dq-hint" id="dq-hint-{i}" style="display:none">
-            📖 <a href="{hint_url}" style="color:var(--saffron);">Read full article →</a>
-          </div>
-        </div>'''
-
-    return f'''
+    """Build a quiz teaser card on homepage linking to /daily-quiz/."""
+    from datetime import datetime as _dt
+    today = _dt.now().strftime("%d %B %Y")
+    topics = []
+    for a in affairs_list[:6]:
+        t = a.get("title","")
+        if t and len(t) > 15:
+            topics.append(t[:55] + ("…" if len(t) > 55 else ""))
+    topics_html = "".join(
+        f'<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:8px 12px;'
+        f'font-size:.82rem;color:var(--grey-700);border-left:2px solid var(--saffron);">'
+        f'📰 {t}</div>'
+        for t in topics[:4]
+    )
+    return f"""
 <!-- NB-QUIZ-START -->
-<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;background:transparent;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-    <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
-      📝 Daily <span style="color:var(--accent);">Quiz</span>
-    </h2>
-    <a href="/current-affairs/" style="color:var(--accent);font-size:.87rem;font-weight:600;text-decoration:none;">More CA →</a>
-  </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;">
-    <div id="dq-score-bar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);">
-      <span style="font-size:.85rem;color:var(--muted);">Test your knowledge of today's news</span>
-      <span style="font-size:.85rem;font-weight:700;color:var(--accent);" id="dq-score">0 / {len(q_set)}</span>
+<section style="max-width:1200px;margin:0 auto;padding:0 5% 48px;">
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:18px;overflow:hidden;">
+    <div style="background:linear-gradient(135deg,rgba(255,107,0,.15),rgba(255,140,51,.05));padding:24px 28px;border-bottom:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin:0 0 6px;color:var(--white);">📝 Daily Quiz — {today}</h2>
+          <p style="color:var(--grey-700);font-size:.88rem;margin:0;">10 MCQ from today's current affairs — SSC, UPSC, Banking, Railway</p>
+        </div>
+        <a href="/daily-quiz/" style="background:linear-gradient(135deg,#FF6B00,#FF8C33);color:#fff;padding:11px 24px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;text-decoration:none;font-size:.9rem;white-space:nowrap;">Start Quiz →</a>
+      </div>
     </div>
-    <div id="dq-container">
-      {quiz_items}
-    </div>
-    <div id="dq-result" style="display:none;text-align:center;padding:20px 0;">
-      <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:8px;" id="dq-final-score"></div>
-      <div style="color:var(--muted);font-size:.9rem;margin-bottom:16px;" id="dq-final-msg"></div>
-      <button onclick="dqRestart()" style="background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;">🔄 Retry</button>
-      <a href="/current-affairs/" style="display:inline-block;margin-left:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 24px;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;">Read all CA →</a>
+    <div style="padding:20px 28px;">
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;">Today's Topics</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">{topics_html}</div>
     </div>
   </div>
-  <style>
-    .dq-num{{font-size:.75rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}}
-    .dq-q{{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:18px;}}
-    .dq-opts{{display:flex;flex-direction:column;gap:10px;}}
-    .dq-opt{{display:flex;align-items:center;gap:12px;background:var(--card-bg);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;text-align:left;transition:.15s;width:100%;}}
-    .dq-opt:hover{{border-color:var(--accent);background:rgba(255,107,0,.06);}}
-    .dq-opt.correct{{border-color:#63FFDA;background:rgba(99,255,218,.08);pointer-events:none;}}
-    .dq-opt.wrong{{border-color:#FF6C8A;background:rgba(255,108,138,.08);pointer-events:none;}}
-    .dq-opt.disabled{{pointer-events:none;opacity:.6;}}
-    .dq-letter{{width:28px;height:28px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;}}
-    .dq-text{{font-size:.88rem;color:var(--text);line-height:1.4;}}
-    .dq-hint{{margin-top:12px;font-size:.82rem;color:var(--muted);}}
-  </style>
-  <script>
-    var dqAnswered=new Array({len(q_set)}).fill(false);
-    var dqScore=0;
-    var dqTotal={len(q_set)};
-    var dqCurrent=0;
-    function dqA(btn){{
-      var qIdx=+btn.dataset.idx;var val=+btn.dataset.val;var correct=+btn.dataset.correct;
-      dqAnswer(qIdx,val,correct,btn);
-    }}
-    function dqAnswer(qIdx,val,correct,btn){{
-      if(dqAnswered[qIdx])return;
-      dqAnswered[qIdx]=true;
-      var opts=document.querySelectorAll('.dq-opt[data-idx="'+qIdx+'"]');
-      opts.forEach(function(o){{o.classList.add('disabled');}});
-      if(val===correct){{
-        btn.classList.remove('disabled');btn.classList.add('correct');
-        dqScore++;document.getElementById('dq-score').textContent=dqScore+' / '+dqTotal;
-      }}else{{
-        btn.classList.remove('disabled');btn.classList.add('wrong');
-        var optArr=Array.from(opts);if(optArr[correct]){{optArr[correct].classList.remove('disabled');optArr[correct].classList.add('correct');}}
-      }}
-      document.getElementById('dq-hint-'+qIdx).style.display='block';
-      setTimeout(function(){{
-        dqCurrent++;
-        if(dqCurrent<dqTotal){{
-          document.getElementById('dq-'+qIdx).style.display='none';
-          document.getElementById('dq-'+dqCurrent).style.display='block';
-        }}else{{
-          document.getElementById('dq-container').style.display='none';
-          document.getElementById('dq-result').style.display='block';
-          var pct=Math.round(dqScore/dqTotal*100);
-          document.getElementById('dq-final-score').textContent='You scored '+dqScore+' out of '+dqTotal;
-          document.getElementById('dq-final-msg').textContent=pct>=80?'🎉 Excellent! You're exam-ready.':pct>=50?'👍 Good effort — keep reading current affairs.':'📚 Keep practicing — read today's articles.';
-        }}
-      }},1200);
-    }}
-    function dqRestart(){{
-      dqAnswered=new Array(dqTotal).fill(false);dqScore=0;dqCurrent=0;
-      document.getElementById('dq-score').textContent='0 / '+dqTotal;
-      document.getElementById('dq-result').style.display='none';
-      document.getElementById('dq-container').style.display='block';
-      for(var i=0;i<dqTotal;i++){{
-        var el=document.getElementById('dq-'+i);
-        if(el)el.style.display=i===0?'block':'none';
-        var opts=document.querySelectorAll('.dq-opt[data-idx="'+i+'"]');
-        opts.forEach(function(o){{o.classList.remove('correct','wrong','disabled');}});
-        var hint=document.getElementById('dq-hint-'+i);
-        if(hint)hint.style.display='none';
-      }}
-    }}
-  </script>
 </section>
 <!-- NB-QUIZ-END -->
-'''
+"""
 
 
 def build_flashcards(jobs_list):
@@ -3181,15 +3059,11 @@ def rebuild_daily_quiz_page(affairs_list):
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -3816,15 +3690,11 @@ def rebuild_jobs_listing():
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -4152,15 +4022,11 @@ def rebuild_affairs_listing():
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>

@@ -3,8 +3,8 @@
 
 set -e
 
-# ── 0. Fix nav + inject NaukriBot on all pages ────────────────────────────────
-echo "🔧 Fixing nav consistency..."
+# ── 0. Fix nav + inject NaukriBot + remove state grid ─────────────────────────
+echo "🔧 Fixing nav + cleanup..."
 python3 - << 'PYEOF'
 import re, pathlib, shutil
 
@@ -15,37 +15,44 @@ NEW_NAV = '''<ul id="navLinks">
     <li><a href="/sarkari-naukri/">सरकारी नौकरी</a></li>
     <li><a href="/current-affairs/">Current Affairs</a></li>
     <li><a href="/results/">Results</a></li>
-    <li><a href="/exam-calendar/">Exam Calendar</a></li>
-    <li><a href="/syllabus/">Syllabus</a></li>
-    <li><a href="/mock-test/">Mock Tests</a></li>
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
-    <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
     <li><a href="/blog/">Blog</a></li>
-    <li><a href="/schemes/">Schemes</a></li>
+    <li><a href="/schemes/">Schemes 🏛️</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
   </ul>'''
 
 BOT_TAG = '<script src="/js/naukribot.js" defer></script>'
-nav_fixed = bot_fixed = 0
+nav_fixed = bot_fixed = state_removed = 0
 
 for f in root.rglob('*.html'):
     if 'dist' in str(f) or '.git' in str(f): continue
     try:
         s = f.read_text(errors='ignore')
         changed = False
+
+        # Fix nav
         if 'id="navLinks"' in s:
             m = re.search(r'<ul id="navLinks">(.*?)</ul>', s, re.S)
             if m:
                 links = re.findall(r'href="([^"]+)"', m.group(1))
-                if '/blog/' not in links or '/schemes/' not in links or '/ask-ai/' not in links:
+                if '/blog/' not in links or '/schemes/' not in links or len(links) != 9:
                     s = OLD_NAV.sub(NEW_NAV, s, count=1)
                     nav_fixed += 1
                     changed = True
+
+        # Remove state grid from homepage only
+        if f.name == 'index.html' and f.parent == root and 'NB-STATES-START' in s:
+            s = re.sub(r'<!-- NB-STATES-START -->.*?<!-- NB-STATES-END -->', '', s, flags=re.S)
+            state_removed += 1
+            changed = True
+
+        # Inject bot
         if '</body>' in s and 'naukribot' not in s:
             s = s.replace('</body>', BOT_TAG + '\n</body>', 1)
             bot_fixed += 1
             changed = True
+
         if changed:
             f.write_text(s)
     except: pass
@@ -56,7 +63,7 @@ src = root / 'scripts' / 'naukribot.js'
 if src.exists():
     shutil.copy2(src, js / 'naukribot.js')
 
-print(f"Nav fixed: {nav_fixed} | NaukriBot: {bot_fixed}")
+print(f"Nav fixed: {nav_fixed} | NaukriBot: {bot_fixed} | State grid removed: {state_removed}")
 PYEOF
 
 # ── 1. SEO hardening ──────────────────────────────────────────────────────────
