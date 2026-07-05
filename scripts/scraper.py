@@ -2644,7 +2644,7 @@ def build_daily_quiz(affairs_list):
 
     return f'''
 <!-- NB-QUIZ-START -->
-<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;background:transparent;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
       📝 Daily <span style="color:var(--accent);">Quiz</span>
@@ -2764,7 +2764,7 @@ def build_flashcards(jobs_list):
 
     return f'''
 <!-- NB-FLASHCARDS-START -->
-<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;background:transparent;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
       ⚡ Job <span style="color:var(--accent);">Flash Cards</span>
@@ -3342,11 +3342,11 @@ def build_closing_soon(all_jobs):
         col = urgency_colour(d)
         label = "TODAY!" if d==0 else f"{d} day{'s' if d!=1 else ''} left"
         cards += f'''
-    <a href="/jobs/{j.get('slug','')}/" style="background:var(--card-bg);border:2px solid {col}22;border-radius:14px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:.2s;" onmouseover="this.style.borderColor='{col}'" onmouseout="this.style.borderColor='{col}22'">      <div style="background:{col};color:#000;font-weight:800;font-size:.75rem;padding:4px 10px;border-radius:20px;align-self:flex-start;">{label}</div>      <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--white);font-size:.92rem;line-height:1.3;">{j.get('title','')[:55]}</div>      <div style="font-size:.78rem;color:var(--grey-700);">{j.get('dept','')} · 👥 {j.get('vacancies','N/A')}</div>      <div style="font-size:.78rem;color:{col};font-weight:600;">⏰ Last date: {j.get('last_date','N/A')}</div>    </a>'''
+    <a href="/jobs/{j.get('slug','')}/" style="background:#12121A;border:2px solid {col}33;border-radius:14px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:.2s;" onmouseover="this.style.borderColor='{col}';this.style.background='#1a1a28'" onmouseout="this.style.borderColor='{col}33';this.style.background='#12121A'">      <div style="background:{col};color:#000;font-weight:800;font-size:.75rem;padding:4px 10px;border-radius:20px;align-self:flex-start;">{label}</div>      <div style="font-family:'Syne',sans-serif;font-weight:700;color:#FFFFFF;font-size:.92rem;line-height:1.3;">{j.get('title','')[:55]}</div>      <div style="font-size:.78rem;color:#9BA3B8;">{j.get('dept','')} · 👥 {j.get('vacancies','N/A')}</div>      <div style="font-size:.78rem;color:{col};font-weight:600;">⏰ Last date: {j.get('last_date','N/A')}</div>    </a>'''
 
     return f'''
 <!-- NB-CLOSING-START -->
-<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;background:transparent;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
       ⚡ Closing <span style="color:var(--accent);">Soon</span>
@@ -3402,7 +3402,7 @@ def build_education_filter(all_jobs):
 
     return f'''
 <!-- NB-EDUFIL-START -->
-<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;background:transparent;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:0;">
       🎓 Jobs by <span style="color:var(--accent);">Qualification</span>
@@ -3465,7 +3465,7 @@ def build_three_col(all_jobs, results_items=None, admit_items=None):
         return (f'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;">'                f'<div style="background:{accent};padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">'                f'<span style="font-family:var(--font-display);font-size:.95rem;font-weight:700;color:#fff;">{icon} {title}</span>'                f'<a href="{view_href}" style="font-size:.75rem;color:rgba(255,255,255,.85);text-decoration:none;font-weight:600;">View All →</a>'                f'</div>{rows}</div>')
 
     return f"""<!-- NB-3COL-START -->
-<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;">
+<section style="max-width:1200px;margin:0 auto 0;padding:0 5% 48px;background:transparent;">
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
     {col("Job Notifications","#E65100",jobs_rows,"/jobs/","📋")}
     {col("Admit Cards","#1565C0",admit_rows,"/admit-card/","📄")}
