@@ -55,6 +55,60 @@ def make_slug(title):
     s = re.sub(r'[\s_]+', '-', s).strip('-')
     return re.sub(r'-+', '-', s)[:80]
 
+
+# ── Official website mapping ──────────────────────────────────────────────────
+OFFICIAL_SITES = {
+    'nirdpr':        'https://nird.org.in/',
+    'panchayati raj':'https://panchayat.gov.in/',
+    'drdo':          'https://drdo.gov.in/careers',
+    'isro':          'https://www.isro.gov.in/Careers.html',
+    'upsc':          'https://upsconline.nic.in/',
+    'ssc':           'https://ssc.gov.in/',
+    'ibps':          'https://www.ibps.in/',
+    'sbi ':          'https://bank.sbi/web/careers',
+    'rbi ':          'https://www.rbi.org.in/Scripts/Vacancies.aspx',
+    'nbe ':          'https://natboard.edu.in/',
+    'aiims':         'https://www.aiims.edu/en/notices/recruitment-notices.html',
+    'icmr':          'https://main.icmr.gov.in/content/vacancies',
+    'nclt':          'https://nclt.gov.in/recruitment',
+    'mppsc':         'https://mppsc.mp.gov.in/',
+    'bpsc':          'https://bpsc.bih.nic.in/',
+    'rpsc':          'https://rpsc.rajasthan.gov.in/',
+    'tnpsc':         'https://www.tnpsc.gov.in/',
+    'kpsc':          'https://kpsc.kar.nic.in/',
+    'air force':     'https://careerindianairforce.cdac.in/',
+    'indian navy':   'https://www.joinindiannavy.gov.in/',
+    'indian army':   'https://joinindianarmy.nic.in/',
+    'cisf':          'https://cisfrectt.cisf.gov.in/',
+    'crpf':          'https://crpf.gov.in/recruitment.htm',
+    'bsf ':          'https://bsf.gov.in/recruitment.html',
+    'itbp':          'https://itbpolice.nic.in/',
+    'agniveer':      'https://agnipathvayu.cdac.in/',
+    'railways':      'https://indianrailways.gov.in/',
+    'rrb ':          'https://www.rrbapply.gov.in/',
+    'rrb ntpc':      'https://www.rrbapply.gov.in/',
+    'high court':    'https://districts.ecourts.gov.in/',
+    'district court':'https://districts.ecourts.gov.in/',
+    'nabard':        'https://nabard.org/recruitment.aspx',
+    'ongc':          'https://ongcindia.com/web/eng/careers',
+    'ntpc':          'https://careers.ntpc.co.in/',
+    'pnb ':          'https://www.pnbindia.in/recruitment.html',
+    'iit ':          'https://www.iitd.ac.in/jobs-iitd.php',
+    'nit ':          'https://www.nitdelhi.ac.in/careers/',
+    'du ':           'https://www.du.ac.in/',
+    'university':    '',  # too generic
+}
+
+def find_official_url(title, source_url):
+    """Return official apply URL or source URL with is_aggregator flag."""
+    tl = title.lower()
+    for keyword, official_url in OFFICIAL_SITES.items():
+        if keyword in tl and official_url:
+            return official_url, False
+    if any(x in source_url for x in ['.gov.in','.nic.in','.edu.in','.ac.in']):
+        return source_url, False
+    return source_url, True  # is aggregator
+
 def _extract_and_append(block, title, jobs):
     skip = ['whatsapp','telegram','channel','mpcareer.in','freejobalert.com',
             'job alert','our websites','join us']
@@ -95,7 +149,7 @@ def _extract_and_append(block, title, jobs):
     jobs.append({
         'title': title, 'slug': make_slug(title), 'dept': dept, 'category': cat,
         'start_date': start_date, 'last_date': last_date,
-        'source_url': source_url, 'vacancies': vacancies,
+        'source_url': source_url, 'official_url': official_url, 'is_aggregator': is_aggregator, 'vacancies': vacancies,
         'qualification': qualification, 'salary': salary,
         'urgent': bool(re.search(r'last date soon|urgent|closing soon', block, re.I)),
     })
@@ -138,7 +192,8 @@ def generate_page(job):
     ld    = job['last_date'] or 'Check official notification'
     sd    = job['start_date'] or TODAY
     vac   = job['vacancies']
-    src   = job['source_url']
+    src   = job.get('official_url') or job['source_url']
+    is_agg = job.get('is_aggregator', False)
     cat   = job['category']
     slug  = job['slug']
     ub    = '<span style="background:#FF4444;color:#fff;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;">🔥 URGENT</span>' if job['urgent'] else ''
@@ -224,8 +279,9 @@ def generate_page(job):
     {"".join([f'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">🎓 Qualification</div><div style="font-size:.88rem;color:var(--white);">{job["qualification"]}</div></div>' if job.get("qualification") else "", f'<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;"><div style="font-size:.72rem;color:var(--grey-400);font-weight:700;text-transform:uppercase;margin-bottom:4px;">💰 Salary</div><div style="font-size:.88rem;color:#63FFDA;">{job["salary"]}</div></div>' if job.get("salary") else ""])}
   </div>
   <div style="text-align:center;margin-bottom:28px;">
-    <a href="{src}" target="_blank" rel="nofollow noopener" style="background:linear-gradient(135deg,#FF6B00,#FF8C33);color:#fff;padding:14px 40px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;display:inline-block;">{"View Full Details →" if any(x in src for x in ["mpcareer","freejobalert","sarkariresult","rojgarresult","indgovtjobs"]) else "Apply Now →"}</a>
-    <p style="margin-top:8px;font-size:.78rem;color:var(--grey-400);">{"⚠️ This link opens a job portal. Find the official Apply link on that page." if any(x in src for x in ["mpcareer","freejobalert","sarkariresult","rojgarresult"]) else "Apply only on official govt portals. Verify all details before applying."}</p>
+    <a href="{src}" target="_blank" rel="nofollow noopener" style="background:linear-gradient(135deg,#FF6B00,#FF8C33);color:#fff;padding:14px 40px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;display:inline-block;">Apply Now →</a>
+    {"" if not is_agg else '<p style="margin-top:6px;font-size:.78rem;color:#FFD56C;">⚠️ Also check the <a href="' + job.get("source_url","") + '" target="_blank" rel="nofollow" style="color:#FFD56C;">source page</a> for the direct official link.</p>'}
+    <p style="margin-top:8px;font-size:.78rem;color:var(--grey-400);">Apply only on official govt portals. Verify all details before applying.</p>
   </div>
   <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;">
     <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--navy-soft);"><h2 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin:0;">📋 How to Apply — Step by Step</h2></div>
