@@ -22,6 +22,8 @@ NEW_NAV = '''<ul id="navLinks">
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
     <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>'''
 
 BOT_TAG = '<script src="/js/naukribot.js" defer></script>'
@@ -36,7 +38,7 @@ for f in root.rglob('*.html'):
             m = re.search(r'<ul id="navLinks">(.*?)</ul>', s, re.S)
             if m:
                 links = re.findall(r'href="([^"]+)"', m.group(1))
-                if '/ask-ai/' not in links or '/daily-quiz/' not in links or '/sarkari-naukri/' not in links:
+                if '/blog/' not in links or '/schemes/' not in links or '/ask-ai/' not in links:
                     s = OLD_NAV.sub(NEW_NAV, s, count=1)
                     nav_fixed += 1
                     changed = True

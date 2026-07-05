@@ -1425,7 +1425,9 @@ def generate_job_html(job):
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -1617,7 +1619,9 @@ def generate_affairs_html(affair):
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -2162,7 +2166,9 @@ def rebuild_syllabus():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -2338,7 +2344,9 @@ def rebuild_states():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -3179,7 +3187,9 @@ def rebuild_daily_quiz_page(affairs_list):
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right"><a href="/alerts/" class="nav-cta">🔔 Get Alerts</a></div>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -3812,7 +3822,9 @@ def rebuild_jobs_listing():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
@@ -4055,26 +4067,51 @@ def rebuild_affairs_listing():
             items.append(meta)
 
     print(f"[LISTING] Rebuilding /current-affairs/ with {len(items)} items")
-    cards_html = ""
+    # Group items by Month Year
+    from collections import OrderedDict
+    months_dict = OrderedDict()
     for item in items:
         parts = item["date_str"].split(" ")
         day   = parts[0] if parts else ""
-        month = parts[1] if len(parts) > 1 else ""
+        mon   = parts[1] if len(parts) > 1 else ""
+        yr_   = parts[2] if len(parts) > 2 else str(datetime.now().year)
+        key   = f"{mon} {yr_}"
+        if key not in months_dict:
+            months_dict[key] = []
+        months_dict[key].append((day, mon, item))
+
+    cards_html = ""
+    for mi, (month_label, month_items) in enumerate(months_dict.items()):
+        is_open = "open" if mi == 0 else ""
         cards_html += f"""
-      <a href="/current-affairs/{item['slug']}/" class="affairs-card fade-up" style="text-decoration:none;color:inherit;">
-        <div style="background:var(--navy);border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;color:var(--white);flex-shrink:0;">
-          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;">{day}</div>
-          <div style="font-size:0.65rem;opacity:0.7;text-transform:uppercase;">{month}</div>
+<details {is_open} style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;">
+  <summary style="padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;user-select:none;" onclick="this.parentElement.querySelector('.ca-chevron').style.transform=this.parentElement.open?'rotate(0deg)':'rotate(180deg)'">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);">📅 {month_label}</span>
+      <span style="background:rgba(255,107,0,.15);color:var(--saffron);padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:700;">{len(month_items)} articles</span>
+    </div>
+    <span class="ca-chevron" style="color:var(--muted);font-size:1rem;transition:transform .2s;transform:{'rotate(180deg)' if mi==0 else 'rotate(0deg)'};">▼</span>
+  </summary>
+  <div style="border-top:1px solid var(--border);">"""
+        for day, mon, item in month_items:
+            cards_html += f"""
+    <a href="/current-affairs/{item['slug']}/" style="text-decoration:none;color:inherit;display:flex;gap:14px;align-items:flex-start;padding:14px 20px;border-bottom:1px solid var(--border);transition:.15s;" onmouseover="this.style.background='rgba(255,107,0,.04)'" onmouseout="this.style.background='transparent'">
+      <div style="background:var(--navy-soft);border-radius:8px;padding:8px 10px;text-align:center;min-width:44px;flex-shrink:0;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);line-height:1;">{day}</div>
+        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;">{mon}</div>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px;">
+          <span class="cat-pill {item['cat_class']}">{item['category'].upper()}</span>
+          <span style="font-size:.72rem;color:var(--grey-400);">📚 {item['exam_rel']}</span>
         </div>
-        <div style="flex:1;min-width:0;">
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
-            <span class="cat-pill {item['cat_class']}">{item['category'].upper()}</span>
-            <span style="font-size:0.72rem;color:var(--grey-400);">📚 {item['exam_rel']}</span>
-          </div>
-          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:6px;line-height:1.3;">{item['title']}</div>
-          <p style="font-size:0.82rem;color:var(--grey-700);line-height:1.5;margin:0;">{item['summary']}</p>
-        </div>
-      </a>"""
+        <div style="font-family:'Syne',sans-serif;font-size:.93rem;font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.3;">{item['title']}</div>
+        <p style="font-size:.82rem;color:var(--grey-700);line-height:1.5;margin:0;">{item['summary']}</p>
+      </div>
+    </a>"""
+        cards_html += """
+  </div>
+</details>"""
 
     yr    = datetime.now().year
     count = len(items)
@@ -4121,7 +4158,9 @@ def rebuild_affairs_listing():
     <li><a href="/admit-card/">Admit Cards</a></li>
     <li><a href="/daily-quiz/">Daily Quiz</a></li>
     <li><a href="/previous-year-papers/">PYP</a></li>
-    <li><a href="/ask-ai/">Ask AI</a></li>
+    <li><a href="/ask-ai/">Ask AI 🤖</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/schemes/">Schemes</a></li>
   </ul>
   <div class="nav-right">
     <a href="/alerts/" class="nav-cta">🔔 Get Alerts</a>
