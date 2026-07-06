@@ -131,6 +131,7 @@ def _extract_and_append(block, title, jobs):
     url_m = re.search(r'(?:Direct Link|link)\s*[-:]\s*(https?://\S+)', block, re.I)
     if not url_m: url_m = re.search(r'(https?://(?!whatsapp|t\.me)\S+)', block)
     source_url = url_m.group(1).rstrip('.,)\n') if url_m else ''
+    official_url, is_aggregator = find_official_url(title, source_url)
     vac_m = re.search(r'(?:Vacancy|\U0001F4CC)[^:\n]*:?\s*(\d[\d,]+)', block, re.I)
     if not vac_m: vac_m = re.search(r'(\d[\d,]+)\s*(?:Post|Vacanc|Seat)', block, re.I)
     vacancies = vac_m.group(1) if vac_m else 'Various'
