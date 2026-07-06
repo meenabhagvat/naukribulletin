@@ -114,6 +114,7 @@ def _extract_and_append(block, title, jobs):
             'job alert','jobs alert','our websites','join us','अप्लाई','कैसे करें',
             'how to apply','mp jobs','latest job','job update','job news','direct link']
     if any(k in title.lower() for k in skip): return
+    if any(k in title for k in ['अप्लाई', 'कैसे करें', 'कैसे भरें']): return
     start_date = last_date = ''
     for pattern, attr in [
         (r'Start\s*Date\s*[-:]\s*(\d{1,2}[/\-]\d{1,2}[/\-]\d{4})', 'start'),
