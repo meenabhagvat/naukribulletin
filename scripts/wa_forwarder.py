@@ -111,7 +111,8 @@ def find_official_url(title, source_url):
 
 def _extract_and_append(block, title, jobs):
     skip = ['whatsapp','telegram','channel','mpcareer.in','freejobalert.com',
-            'job alert','our websites','join us']
+            'job alert','jobs alert','our websites','join us','अप्लाई','कैसे करें',
+            'how to apply','mp jobs','latest job','job update','job news','direct link']
     if any(k in title.lower() for k in skip): return
     start_date = last_date = ''
     for pattern, attr in [
