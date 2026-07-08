@@ -110,11 +110,24 @@ def find_official_url(title, source_url):
     return source_url, True  # is aggregator
 
 def _extract_and_append(block, title, jobs):
-    skip = ['whatsapp','telegram','channel','mpcareer.in','freejobalert.com',
-            'job alert','jobs alert','our websites','join us','अप्लाई','कैसे करें',
-            'how to apply','mp jobs','latest job','job update','job news','direct link']
+    skip = [
+        'whatsapp','telegram','channel','mpcareer.in','freejobalert.com',
+        'our websites','join us','job alert','jobs alert','mp jobs',
+        'latest job','job update','job news','direct link','mp government',
+        'mp private','government job alert','private job',
+        'how to apply','apply now','syllabus','cut-off','cutoff',
+        'previous year','question paper','exam date','result declared',
+        'merit list','answer key','pdf download','study material',
+        'mock test','preparation','jio jobs','amazon','private jobs',
+        'yojana link','सरकारी योजना','योजना की जानकारी',
+    ]
     if any(k in title.lower() for k in skip): return
     if any(k in title for k in ['अप्लाई', 'कैसे करें', 'कैसे भरें']): return
+    job_kw = ['recruit','vacanc','post','notif','apprentice','bharti','भर्ती',
+              'officer','constable','engineer','teacher','clerk','assistant',
+              'inspector','operator','driver','technician','pharmacist','nurse']
+    if not any(k in title.lower() for k in job_kw) and len(title) < 40:
+        return
     start_date = last_date = ''
     for pattern, attr in [
         (r'Start\s*Date\s*[-:]\s*(\d{1,2}[/\-]\d{1,2}[/\-]\d{4})', 'start'),
@@ -133,9 +146,6 @@ def _extract_and_append(block, title, jobs):
     url_m = re.search(r'(?:Direct Link|link)\s*[-:]\s*(https?://\S+)', block, re.I)
     if not url_m: url_m = re.search(r'(https?://(?!whatsapp|t\.me)\S+)', block)
     source_url = url_m.group(1).rstrip('.,)\n') if url_m else ''
-    official_url, is_aggregator = find_official_url(title, source_url)
-    qualification = ''
-    salary = ''
     vac_m = re.search(r'(?:Vacancy|\U0001F4CC)[^:\n]*:?\s*(\d[\d,]+)', block, re.I)
     if not vac_m: vac_m = re.search(r'(\d[\d,]+)\s*(?:Post|Vacanc|Seat)', block, re.I)
     vacancies = vac_m.group(1) if vac_m else 'Various'
