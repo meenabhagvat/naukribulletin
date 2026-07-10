@@ -992,7 +992,8 @@ def _get(url, timeout=20, is_html=False):
     }
     try:
         r = requests.get(url, timeout=timeout, headers=headers, allow_redirects=True)
-        r.raise_for_status()
+        if r.status_code in (403, 429, 503, 502, 504):
+            raise requests.exceptions.HTTPError(f"{r.status_code} for {url}")
         return r
     except requests.exceptions.HTTPError as e:
         code = e.response.status_code if e.response is not None else 0
@@ -1736,10 +1737,18 @@ def run():
         print(f"  URL: {url}")
 
         if source["type"] == "rss":
-            items = scrape_rss(url, dept, fallback_url=source.get("fallback_url"))
+            try:
+                items = scrape_rss(url, dept, fallback_url=source.get("fallback_url"))
+            except Exception as e:
+                print(f"  [ERROR] {dept} RSS ({url[:60]}): {e}")
+                items = []
         else:
             selector = source.get("selector")
-            items = scrape_html_smart(url, dept, selector=selector)
+            try:
+                items = scrape_html_smart(url, dept, selector=selector)
+            except Exception as e:
+                print(f"  [ERROR] {dept} ({url[:60]}): {e}")
+                items = []
 
         if not items:
             print(f"  ⚠ No items fetched — source may be down")
