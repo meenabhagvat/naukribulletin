@@ -213,6 +213,12 @@ def iso_date(s):
     m = re.match(r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", s)
     if m and m.group(2).lower() in MONTHS:
         return f"{m.group(3)}-{MONTHS[m.group(2).lower()]:02d}-{int(m.group(1)):02d}"
+    # DD-MM-YYYY or DD/MM/YYYY (day-first, matches how dates are written on this site)
+    m = re.match(r"^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$", s)
+    if m:
+        day, month, year = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        if 1 <= day <= 31 and 1 <= month <= 12:
+            return f"{year:04d}-{month:02d}-{day:02d}"
     return ""
 
 def esc(t): return (t or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace('"',"&quot;")
