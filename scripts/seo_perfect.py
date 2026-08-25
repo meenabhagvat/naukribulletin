@@ -797,7 +797,8 @@ def main():
                     all_noindexed.add(p.parent.name)
             except Exception:
                 pass
-    report["sitemap_pruned"]=prune_sitemap(all_noindexed | noidx)    report["guides_in_sitemap"]=ensure_guides_in_sitemap()
+    report["sitemap_pruned"]=prune_sitemap(all_noindexed | noidx)
+    report["guides_in_sitemap"]=ensure_guides_in_sitemap()
     report["ca_nav_fixed"]=_NAV["fixed"]
 
     print("\n=== seo_perfect v3 report ({}): ===".format("APPLIED" if APPLY else "DRY-RUN"))
