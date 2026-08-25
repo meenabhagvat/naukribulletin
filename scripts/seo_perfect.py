@@ -411,13 +411,17 @@ def prune_sitemap(noindex_slugs):
     sm = ROOT / "sitemap.xml"
     if not sm.exists() or not noindex_slugs: return 0
     s = sm.read_text(encoding="utf-8")
-    slugset = {f"/{x}/" for x in noindex_slugs}
+    # Exact path-segment match only. A naive substring check here is dangerous: a
+    # noindexed slug that happens to equal a directory name (e.g. a stray page
+    # literally slugged "current-affairs") would match as a substring inside
+    # every URL under that directory and prune the entire section at once.
+    slug_re = re.compile(r'/(' + '|'.join(re.escape(x) for x in noindex_slugs) + r')/(?:$|["\s<])')
     matched = set(); kept = []
     for b in re.split(r'(?=<url>)', s):
         loc = re.search(r'<loc>([^<]+)</loc>', b)
-        hit = loc and next((sl for sl in slugset if sl in loc.group(1)), None)
+        hit = loc and slug_re.search(loc.group(1) + " ")
         if hit:
-            matched.add(hit); continue
+            matched.add(hit.group(1)); continue
         kept.append(b)
     if APPLY and matched:
         sm.write_text("".join(kept), encoding="utf-8")
@@ -780,8 +784,20 @@ def main():
     report["ad_slots_fixed"]=slots_fixed if AD_SLOT_TOP else "ENV UNSET — set ADSENSE_SLOT_TOP/MID"
 
     # ── prune noindexed pages from sitemap ──
-    report["sitemap_pruned"]=prune_sitemap(noidx)
-    report["guides_in_sitemap"]=ensure_guides_in_sitemap()
+    # sitemap_gen.py (called from scraper.py before this script runs) adds every
+    # page unconditionally, with no noindex awareness. `noidx` above only holds
+    # slugs this run just noindexed — a page noindexed in an earlier run would
+    # never be re-added to it and would stay stuck in the sitemap forever after
+    # every regeneration. Scan the live noindex state directly instead.
+    all_noindexed = set()
+    for base_dir, glob_pat in ((ROOT/"jobs","*/index.html"), (ROOT/"current-affairs","*/index.html")):
+        for p in base_dir.glob(glob_pat):
+            try:
+                if re.search(r'<meta name="robots"[^>]+noindex', p.read_text(encoding="utf-8", errors="ignore"), re.I):
+                    all_noindexed.add(p.parent.name)
+            except Exception:
+                pass
+    report["sitemap_pruned"]=prune_sitemap(all_noindexed | noidx)    report["guides_in_sitemap"]=ensure_guides_in_sitemap()
     report["ca_nav_fixed"]=_NAV["fixed"]
 
     print("\n=== seo_perfect v3 report ({}): ===".format("APPLIED" if APPLY else "DRY-RUN"))
