@@ -321,6 +321,56 @@ def set_noindex(s):
                       '<meta name="robots" content="noindex, follow">', s, 1)
     return s.replace("</title>", '</title>\n  <meta name="robots" content="noindex, follow">', 1)
 
+def set_canonical(s, url):
+    """Insert/replace a canonical link pointing at `url`. Idempotent."""
+    s = re.sub(r'\s*<link[^>]+rel="canonical"[^>]*>\n?', '\n', s, count=1, flags=re.I)
+    tag = f'  <link rel="canonical" href="{url}">\n'
+    m = re.search(r'(<meta name="description"[^>]*>\n?)', s)
+    if m:
+        return s[:m.end()] + tag + s[m.end():]
+    return s.replace("</head>", tag + "</head>", 1)
+
+def dedupe_current_affairs(report, noidx):
+    """Two scraper sources can independently write the same story under different
+    slugs. Nothing else in this pipeline catches that. Group CA pages by their <h1>;
+    for any group with more than one page, keep the fuller one indexable and point
+    the rest at it via canonical + noindex, so duplicate signal stops splitting."""
+    groups = {}
+    ca_dir = ROOT / "current-affairs"
+    for p in ca_dir.glob("*/index.html"):
+        if re.match(r"^\d{4}-\d{2}", p.parent.name):
+            continue
+        try:
+            s = p.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        h1 = re.sub(r"<[^>]+>", "", (re.search(r"<h1[^>]*>(.*?)</h1>", s, re.S) or [None,""])[1]).strip()
+        if not h1:
+            continue
+        groups.setdefault(h1, []).append((p, s))
+
+    deduped = 0
+    for h1, entries in groups.items():
+        if len(entries) < 2:
+            continue
+        def wordcount(pair):
+            _, s = pair
+            text = re.sub(r"<script.*?</script>", " ", s, flags=re.S)
+            text = re.sub(r"<[^>]+>", " ", text)
+            return len(re.sub(r"\s+", " ", text).split())
+        entries.sort(key=wordcount, reverse=True)
+        canonical_slug = entries[0][0].parent.name
+        canonical_url = f"{SITE}/current-affairs/{canonical_slug}/"
+        for p, s in entries[1:]:
+            if f'href="{canonical_url}"' in s and "noindex" in s:
+                continue  # already deduped in a prior run
+            new_s = set_canonical(s, canonical_url)
+            new_s = set_noindex(new_s)
+            write(p, new_s)
+            noidx.add(p.parent.name)
+            deduped += 1
+    report["ca_deduped"] = deduped
+
 def apply_ad_slots(s):
     """Replace placeholder ad slots with real ones from env. No-op if env unset."""
     if not AD_SLOT_TOP or 'data-ad-slot="0000000000"' not in s:
@@ -447,7 +497,14 @@ def enrich_job_html(s, slug):
     Returns (html, status) where status in {'hub','noindex','enriched'}.
     Safe to call at generation time AND as a backfill; idempotent."""
     url=f"{SITE}/jobs/{slug}/"
-    if '"JobPosting"' not in s:
+    # A real hub/category page (state listing, "banking jobs", "10th pass jobs", etc.) aggregates
+    # many postings and says so; a single-notification page never does, whether or not it happens
+    # to carry JobPosting schema yet. Checking for schema alone mis-swept schema-less single
+    # postings (scraper gaps, empty stubs, broken postings) into "hub" and skipped them forever.
+    is_hub = bool(re.search(
+        r'\d+\s+active notifications|Showing\s+\d+[^<]*notifications|'
+        r'Results,\s*Admit Cards\s*&(?:amp;)?\s*Notifications', s, re.I))
+    if is_hub:
         return s, "hub"
 
     title=(re.search(r"<title>(.*?)</title>", s) or [None,""])[1].replace(" — NaukriBulletin","").strip()
@@ -692,7 +749,7 @@ def write(p,s):
 def main():
     report={"homepage":"-","ads_txt":"-","job_schema":0,"job_enrich":0,"job_noindex":0,
             "job_expired":0,"job_hub_skipped":0,"ca_schema":0,"ca_enrich":0,"ca_noindex":0,
-            "guides_in_sitemap":0}
+            "ca_deduped":0,"guides_in_sitemap":0}
     noidx=set()
     write_ads_txt(report); fix_homepage(report)
     jobs=list((ROOT/"jobs").glob("*/index.html"))
@@ -704,6 +761,8 @@ def main():
     for p in cas:
         try: fix_ca(p,report,noidx)
         except Exception as e: print("CA ERR",p,e)
+    try: dedupe_current_affairs(report,noidx)
+    except Exception as e: print("CA DEDUPE ERR",e)
 
     # ── sitewide sweep: cookie-consent (Consent Mode v2) + real ad slots on EVERY page ──
     consent_added=0; slots_fixed=0; swept=0
