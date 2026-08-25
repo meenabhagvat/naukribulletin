@@ -41,3 +41,7 @@ http://naukribulletin.in/* https://naukribulletin.in/:splat 301
 /current-affairs/g20-india-2025/     /current-affairs/             301
 /previous-year/*  /previous-year-papers/:splat  301
 /previous-year/   /previous-year-papers/         301
+
+# Fix broken category links referenced sitewide but never built
+/jobs/ssc/                      /jobs/ssc-job-notifications/        301
+/jobs/upsc/                     /jobs/upsc-job/                     301
