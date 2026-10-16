@@ -1257,7 +1257,7 @@ def call_groq(prompt):
                 return resp.json()["choices"][0]["message"]["content"]
             if resp.status_code == 429:
                 print(f"  [GROQ] Rate limited on {model}, trying next...")
-                time.sleep(3)
+                time.sleep(8)
             else:
                 print(f"  [GROQ] {model} HTTP {resp.status_code}: {resp.text[:200]}")
         except Exception as e:
@@ -1296,8 +1296,65 @@ def extract_json(text):
     return None
 
 
+_JUNK = re.compile(
+    r"^(skip|go) to|navigation|menu|^home$|sitemap|search for jobs|find (domestic|international)|"
+    r"flowchart|financial results|agm|magazine|ombudsman|loan application|fees and services|"
+    r"general profile|resolution|administrative|standing orders|govt\. orders|judgments|"
+    r"syllabus$|calendar$|archive|^results?$|recruitment results|current openings$|"
+    r"related party|investor|analyst|^\w+day, \w+ \d", re.I)
+
+def is_junk_title(title):
+    t = (title or "").strip()
+    return len(t) < 8 or bool(_JUNK.search(t))
+
+
+def fetch_notice_text(link, limit=7000):
+    """Read the official page (and the first notification PDF it links to) so the
+    AI sees real dates, vacancies and eligibility instead of just a link title."""
+    if not link or not link.startswith("http"):
+        return ""
+    def pdf_text(data):
+        try:
+            import io
+            from pypdf import PdfReader
+            r = PdfReader(io.BytesIO(data))
+            return " ".join((pg.extract_text() or "") for pg in r.pages[:5])
+        except Exception:
+            return ""
+    try:
+        r = _get(link, timeout=15, is_html=True)
+        if not r or r.status_code != 200:
+            return ""
+        ctype = r.headers.get("Content-Type", "").lower()
+        if "pdf" in ctype or link.lower().endswith(".pdf"):
+            text = pdf_text(r.content)
+        else:
+            soup = BeautifulSoup(r.text, "html.parser")
+            for t in soup(["script", "style", "nav", "header", "footer", "noscript"]):
+                t.decompose()
+            main = soup.find("main") or soup.find("article") or soup.body or soup
+            text = main.get_text(" ", strip=True)
+            pdf = None
+            for a in soup.find_all("a", href=True):
+                h = a["href"]
+                if h.lower().endswith(".pdf") and re.search(r"notif|advt|advertis|recruit|vacanc", h + " " + a.get_text(), re.I):
+                    pdf = requests.compat.urljoin(r.url, h); break
+            if pdf:
+                pr = _get(pdf, timeout=20)
+                if pr is not None and pr.status_code == 200:
+                    text += " NOTIFICATION PDF: " + pdf_text(pr.content)
+        return re.sub(r"\s+", " ", text)[:limit]
+    except Exception as e:
+        print(f"  [NOTICE] could not read {link[:80]}: {e}")
+        return ""
+
+
 def format_with_ai(item, content_type="job"):
     raw_text   = f"{item.get('title', '')} {item.get('description', '')} {item.get('link', '')}"[:2500]
+    if content_type == "job":
+        notice = fetch_notice_text(item.get("link", ""))
+        if notice:
+            raw_text += "\n\nOFFICIAL PAGE / NOTIFICATION TEXT:\n" + notice
     dept       = item.get("dept", "")
     state_hint = item.get("state", "All India")
 
@@ -1840,6 +1897,12 @@ def run():
             seen_titles_this_run.add(title_key)
 
             content_type = source.get("content_type", "job")
+            if content_type != "job" and os.environ.get("NB_PUBLISH_CA") != "1":
+                processed.add(item_hash)
+                continue
+            if content_type == "job" and is_junk_title(item.get("title", "")):
+                processed.add(item_hash)
+                continue
             print(f"  → Processing: {item.get('title', '')[:70]}")
             time.sleep(0.6)  # be polite to AI APIs
 
