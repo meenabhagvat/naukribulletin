@@ -4,7 +4,7 @@ This is what silently broke the site in Aug 2026: models were retired and the
 scraper kept running with 0 new pages."""
 import os, sys, requests
 sys.path.insert(0, os.path.dirname(__file__))
-from scraper import GROQ_MODELS, GEMINI_MODEL
+from scraper import GROQ_MODELS, GEMINI_FALLBACKS
 
 ok = []
 k = os.environ.get("GROQ_API_KEY")
@@ -18,10 +18,11 @@ if k:
         if r.ok: ok.append(m)
 k = os.environ.get("GEMINI_API_KEY")
 if k:
-    r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={k}",
-        json={"contents": [{"parts": [{"text": "Reply OK"}]}]}, timeout=30)
-    print(f"Gemini {GEMINI_MODEL}: HTTP {r.status_code}")
-    if r.ok: ok.append(GEMINI_MODEL)
+    for gm in GEMINI_FALLBACKS:
+        r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={k}",
+            json={"contents": [{"parts": [{"text": "Reply OK"}]}]}, timeout=30)
+        print(f"Gemini {gm}: HTTP {r.status_code} {'' if r.ok else r.text[:120]}")
+        if r.ok: ok.append(gm)
 if not ok:
     print("::error::No AI provider is working. Update GROQ_MODELS / GEMINI_MODEL in scripts/scraper.py")
     sys.exit(1)

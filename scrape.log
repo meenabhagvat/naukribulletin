@@ -1,0 +1,23 @@
+/Users/meenabhagvat/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+============================================================
+NaukriBulletin — 2026-10-16 17:36 IST
+Sources: 82 | Phase 1 upgraded scraper
+============================================================
+
+
+[FETCH] IBPS
+  URL: https://www.ibps.in/
+  ⚠ No items fetched — source may be down
+
+[FETCH] SBI
+  URL: https://sbi.bank.in/web/careers/current-openings
+  ✓ Got 10 items
+  → Processing: APPLY ONLINE (30.09.2026 to 21.10.2026)
+  [NOTICE] read 43687 chars, sent 4363 from https://sbi.bank.in/documents/77530/57941334/1_Advertisement+_Wealth+M
+  [SAVED] /jobs/sbi-specialist-cadre-officer-wealth-management-contract-2026/
+  → Processing: APPLY ONLINE (16.10.2026 to 16.10.2026)
+  [NOTICE] read 51702 chars, sent 4363 from https://sbi.bank.in/documents/77530/57941334/16092026_ADV_CRPD_SCO_202
+  [SAVED] /jobs/sbi-dean-faculty-marketing-executive-2026/
+  → Processing: APPLY ONLINE (16.09.2026 to 06.10.2026)

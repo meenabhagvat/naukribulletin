@@ -237,8 +237,8 @@ SOURCES = [
         "content_type": "job",
     },
     {
-        "url": "https://bank.sbi/web/careers/current-openings",
-        "fallback_url": "https://bank.sbi/web/careers/current-openings",
+        "url": "https://sbi.bank.in/web/careers/current-openings",
+        "fallback_url": "https://sbi.bank.in/web/careers/current-openings",
         "type": "html",
         "dept": "SBI",
         "category": "banking",
@@ -875,6 +875,7 @@ SOURCES = [
 GROQ_MODELS  = ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]
 # gemini-1.5-flash was retired. The -latest alias follows Google's current Flash model.
 GEMINI_MODEL = "gemini-flash-latest"
+GEMINI_FALLBACKS = ["gemini-flash-latest", "gemini-3.6-flash", "gemini-3.5-flash-lite"]
 
 PROCESSED_FILE = SITE_ROOT / "scripts" / "processed.json"
 
@@ -1071,6 +1072,38 @@ def scrape_html(url, dept, selector=None):
     return items
 
 
+
+def _block_info(tag, page_url, max_up=6):
+    """Find the block (li/div/tr) around a link and return (block_text, pdf_links).
+    Sites like SBI list 'APPLY ONLINE' next to the 'Advertisement' PDF, which is
+    where the real dates, posts, age and pay are."""
+    from urllib.parse import urljoin
+    node = tag
+    for _ in range(max_up):
+        node = node.parent
+        if node is None or node.name in ("body", "html", "[document]"):
+            break
+        pdfs = [a for a in node.find_all("a", href=True) if ".pdf" in a["href"].lower()]
+        text = node.get_text(" ", strip=True)
+        if pdfs and len(text) < 3000:
+            def score(a):
+                t = (a.get_text(" ", strip=True) + " " + a["href"]).lower()
+                sc = 0
+                if re.search(r"advt|advertis|notif|detailed", t): sc += 3
+                if "eng" in t: sc += 2
+                if "hindi" in t: sc -= 2
+                if re.search(r"biodata|ctc|undertaking|result|select|scribe|booklet|call letter", t): sc -= 5
+                return -sc
+            good = [a for a in sorted(pdfs, key=score) if score(a) <= 0]
+            ordered = [urljoin(page_url, a["href"]) for a in good]
+            par = node.parent
+            if par is not None and par.name not in ("body", "html"):
+                ptext = par.get_text(" ", strip=True)
+                if len(ptext) < 2000 and len([a for a in par.find_all("a", href=True) if ".pdf" in a["href"].lower()]) <= 8:
+                    text = ptext                     # include the block heading
+            return text[:1500], ordered[:2]
+    return "", []
+
 def scrape_html_smart(url, dept, selector=None):
     """Smart HTML scraper: extracts individual notification rows.
 
@@ -1114,9 +1147,11 @@ def scrape_html_smart(url, dept, selector=None):
                     base = urlparse(url)
                     href = f"{base.scheme}://{base.netloc}{href}"
                 if title:
+                    blk, pdfs = _block_info(link_tag or node, url)
                     items.append({
                         "title":       title,
-                        "description": title,
+                        "description": blk or title,
+                        "pdf_links":   pdfs,
                         "link":        href,
                         "pubDate":     str(date.today()),
                         "dept":        dept,
@@ -1172,9 +1207,11 @@ def scrape_html_smart(url, dept, selector=None):
             from urllib.parse import urlparse
             base = urlparse(url)
             href = f"{base.scheme}://{base.netloc}{href}"
+        blk, pdfs = _block_info(a, url)
         items.append({
             "title":       text,
-            "description": text,
+            "description": blk or text,
+            "pdf_links":   pdfs,
             "link":        href,
             "pubDate":     str(date.today()),
             "dept":        dept,
@@ -1200,7 +1237,13 @@ Raw text: {raw_text}
 Department hint: {dept}
 State hint: {state}
 
-Return this exact JSON structure (fill with "N/A" if not found):
+If the advert has several posts, summarise across them instead of writing N/A, e.g.
+vacancies "6 (across 5 posts)", qualification "MBA/PGDM or Graduate, varies by post",
+age_limit "25-52 years, varies by post", salary "CTC up to Rs 199 lakh per year, varies by post".
+Dates written like 30.09.2026 TO 21.10.2026 mean the last date is 21 October 2026.
+Use "N/A" only when the text truly does not say.
+
+Return this exact JSON structure:
 {{
   "is_job_notification": true,
   "title": "Full job title including post name and organisation. Spell out abbreviations (e.g. 'Assistant Engineer' not 'AE', 'Junior Research Fellow' not 'JRF'). Do NOT include vacancy count or dates here.",
@@ -1247,7 +1290,7 @@ def call_groq(prompt):
                 json={
                     "model": model,
                     "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 3000,
+                    "max_tokens": 1500,
                     "temperature": 0.1,
                     "reasoning_effort": "low",
                 },
@@ -1266,17 +1309,20 @@ def call_groq(prompt):
 
 
 def call_gemini(prompt):
-    try:
-        resp = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}",
-            json={"contents": [{"parts": [{"text": prompt}]}]},
-            timeout=30,
-        )
-        if resp.status_code == 200:
-            return resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-        print(f"  [GEMINI] {GEMINI_MODEL} HTTP {resp.status_code}: {resp.text[:200]}")
-    except Exception as e:
-        print(f"  [GEMINI] Error: {e}")
+    for model in GEMINI_FALLBACKS:
+        try:
+            resp = requests.post(
+                f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}",
+                json={"contents": [{"parts": [{"text": prompt}]}]},
+                timeout=45,
+            )
+            if resp.status_code == 200:
+                parts = resp.json()["candidates"][0]["content"]["parts"]
+                print(f"  [GEMINI] OK via {model}")
+                return "".join(x.get("text", "") for x in parts)
+            print(f"  [GEMINI] {model} HTTP {resp.status_code}: {resp.text[:150]}")
+        except Exception as e:
+            print(f"  [GEMINI] {model} error: {e}")
     return None
 
 
@@ -1303,12 +1349,51 @@ _JUNK = re.compile(
     r"syllabus$|calendar$|archive|^results?$|recruitment results|current openings$|"
     r"related party|investor|analyst|^\w+day, \w+ \d", re.I)
 
+_JOBWORDS = re.compile(
+    r"recruit|vacanc|notif|advt|advertis|apply|engagement|walk.?in|bharti|भर्ती|post|officer|"
+    r"assistant|clerk|constable|agniveer|sepoy|havildar|jco|teacher|lecturer|professor|faculty|"
+    r"staff|trainee|apprentice|specialist|cadre|engineer|nurse|doctor|medical|paramedical|"
+    r"inspector|stenograph|typist|driver|exam|selection|junior|senior|manager|executive|"
+    r"consultant|fellow|jrf|srf|intern|grade|category no", re.I)
+
 def is_junk_title(title):
     t = (title or "").strip()
-    return len(t) < 8 or bool(_JUNK.search(t))
+    if len(t) < 8 or _JUNK.search(t):
+        return True
+    if t.lower().startswith("latest notifications from"):
+        return False                      # page-level item, may hold real notices
+    return not _JOBWORDS.search(t)
 
 
-def fetch_notice_text(link, limit=7000):
+_GROUPS = [
+    ("vacancies", re.compile(r"vacanc|no\.? of posts|number of posts|total posts|no\.? of vacanc", re.I), 900),
+    ("age",       re.compile(r"\bage\b|age limit|born (?:between|on or after)", re.I), 600),
+    ("qual",      re.compile(r"qualification|eligibility criteria", re.I), 700),
+    ("pay",       re.compile(r"salary|pay ?scale|pay level|\bctc\b|remuneration|emolument|stipend|\blakh", re.I), 800),
+    ("date",      re.compile(r"last date|closing date|\bto\s+\d{1,2}[./-]\d{1,2}[./-]20\d\d|registration.{0,40}20\d\d", re.I), 500),
+]
+
+def _key_parts(text, limit):
+    """Start of the notice + the best window for each of vacancies, age, qualification,
+    pay and dates. 'Best' = the window with the most numbers, which is where tables are."""
+    if len(text) <= limit:
+        return text
+    parts = [text[:800]]
+    for name, rx, width in _GROUPS:
+        best, best_score = "", -1
+        for i, m in enumerate(rx.finditer(text)):
+            if i >= 12:
+                break
+            w = text[max(0, m.start() - 120): m.start() - 120 + width]
+            score = len(re.findall(r"\d", w))
+            if score > best_score:
+                best, best_score = w, score
+        if best:
+            parts.append(f"[{name}] " + best)
+    return " ... ".join(parts)[: limit + 400]
+
+
+def fetch_notice_text(link, limit=4800):
     """Read the official page (and the first notification PDF it links to) so the
     AI sees real dates, vacancies and eligibility instead of just a link title."""
     if not link or not link.startswith("http"):
@@ -1318,7 +1403,7 @@ def fetch_notice_text(link, limit=7000):
             import io
             from pypdf import PdfReader
             r = PdfReader(io.BytesIO(data))
-            return " ".join((pg.extract_text() or "") for pg in r.pages[:5])
+            return " ".join((pg.extract_text() or "") for pg in r.pages[:15])
         except Exception:
             return ""
     try:
@@ -1343,16 +1428,25 @@ def fetch_notice_text(link, limit=7000):
                 pr = _get(pdf, timeout=20)
                 if pr is not None and pr.status_code == 200:
                     text += " NOTIFICATION PDF: " + pdf_text(pr.content)
-        return re.sub(r"\s+", " ", text)[:limit]
+        text = re.sub(r"\s+", " ", text)
+        out = _key_parts(text, limit)
+        print(f"  [NOTICE] read {len(text)} chars, sent {len(out)} from {link[:70]}")
+        return out
     except Exception as e:
         print(f"  [NOTICE] could not read {link[:80]}: {e}")
         return ""
 
 
 def format_with_ai(item, content_type="job"):
-    raw_text   = f"{item.get('title', '')} {item.get('description', '')} {item.get('link', '')}"[:2500]
+    raw_text   = f"{item.get('title', '')} {item.get('description', '')[:1500]} {item.get('link', '')}"[:2500]
     if content_type == "job":
-        notice = fetch_notice_text(item.get("link", ""))
+        notice = ""
+        for pdf in item.get("pdf_links") or []:
+            notice = fetch_notice_text(pdf)
+            if notice:
+                break
+        if not notice:
+            notice = fetch_notice_text(item.get("link", ""))
         if notice:
             raw_text += "\n\nOFFICIAL PAGE / NOTIFICATION TEXT:\n" + notice
     dept       = item.get("dept", "")
@@ -1394,9 +1488,9 @@ def job_passes_quality(job):
         return False, "no valid future last date"
     if _blank(job.get("apply_link")):
         return False, "no official link"
-    missing = sum(_blank(job.get(k)) for k in ("vacancies", "qualification", "age_limit", "salary"))
-    if missing > 1:
-        return False, f"{missing} key fields missing"
+    miss = [k for k in ("vacancies", "qualification", "age_limit", "salary") if _blank(job.get(k))]
+    if len(miss) > 1:
+        return False, f"missing {', '.join(miss)}"
     return True, ""
 
 
@@ -1904,7 +1998,7 @@ def run():
                 processed.add(item_hash)
                 continue
             print(f"  → Processing: {item.get('title', '')[:70]}")
-            time.sleep(0.6)  # be polite to AI APIs
+            time.sleep(12)  # Groq free tier: 8,000 tokens/minute, ~3k tokens per call
 
             formatted = format_with_ai(item, content_type)
             if not formatted:
