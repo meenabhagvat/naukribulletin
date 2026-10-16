@@ -83,7 +83,7 @@ rsync -a --delete \
   --exclude='scripts' \
   --exclude='*.py' \
   --exclude='*.md' \
-  --exclude='*.sh' \
+  --exclude='*.sh' --exclude='*.log' \
   --exclude='node_modules' \
   --exclude='dist' \
   --exclude='.wrangler' \

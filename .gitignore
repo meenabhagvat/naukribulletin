@@ -13,3 +13,4 @@ fix_*.py
 scripts/processed.json
 sitemap.xml
 robots.txt
+*.log

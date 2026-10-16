@@ -160,7 +160,7 @@ jobs:
         run: |
           rsync -a --delete \
             --exclude='.git' --exclude='.github' --exclude='scripts' \
-            --exclude='*.py' --exclude='*.sh' --exclude='node_modules' \
+            --exclude='*.py' --exclude='*.sh' --exclude='*.log' --exclude='node_modules' \
             --exclude='dist' --exclude='.wrangler' --exclude='*.toml' \
             --exclude='.gitignore' --exclude='.DS_Store' \
             . dist/
