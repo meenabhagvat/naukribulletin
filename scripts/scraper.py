@@ -1237,9 +1237,14 @@ Raw text: {raw_text}
 Department hint: {dept}
 State hint: {state}
 
-If the advert has several posts, summarise across them instead of writing N/A, e.g.
-vacancies "6 (across 5 posts)", qualification "MBA/PGDM or Graduate, varies by post",
-age_limit "25-52 years, varies by post", salary "CTC up to Rs 199 lakh per year, varies by post".
+If the advert has MORE THAN ONE post:
+- fill "posts" with one row per post, copied from the advert's tables (max 12 rows);
+- vacancies = the total of all posts, e.g. "6 (5 posts)";
+- age_limit = lowest to highest across posts, e.g. "25-52 years (varies by post)";
+- salary = lowest to highest across posts, e.g. "CTC Rs 37.2-199 lakh per year (varies by post)";
+- qualification = short summary, e.g. "Graduate / MBA / PGDM (varies by post)".
+Never report one post's figures as if they applied to all posts.
+If there is only one post, return "posts": [].
 Dates written like 30.09.2026 TO 21.10.2026 mean the last date is 21 October 2026.
 Use "N/A" only when the text truly does not say.
 
@@ -1259,7 +1264,8 @@ Return this exact JSON structure:
   "summary": "2 plain-English sentences about this job opportunity",
   "meta_description": "SEO description 130-155 characters. Must include: organisation name, number of posts (if known), qualification required, and last date (if known). Example: 'DRDO SAG Paid Internship 2026: 40 posts for B.Tech/M.Tech graduates. Apply online before 15 June 2026 at the official DRDO website.'",
   "exam_relevance": "Which exams this relates to e.g. SSC CGL, Railway NTPC",
-  "slug": "url-friendly-slug-max-60-chars"
+  "slug": "url-friendly-slug-max-60-chars",
+  "posts": [{{"post": "Post name", "vacancies": "number", "age": "e.g. 30-45 years", "qualification": "short", "pay": "pay level / scale / CTC"}}]
 }}
 """
 
@@ -1494,6 +1500,31 @@ def job_passes_quality(job):
     return True, ""
 
 
+def build_posts_table(job):
+    """Post-wise table for adverts with several posts (age/pay differ per post)."""
+    import html as _h
+    rows = job.get("posts") or []
+    if not isinstance(rows, list):
+        return ""
+    rows = [r for r in rows if isinstance(r, dict) and str(r.get("post", "")).strip()][:12]
+    if len(rows) < 2:
+        return ""
+    td = 'style="padding:10px 12px;border-bottom:1px solid #ECEEF2;font-size:0.85rem;vertical-align:top;"'
+    th = 'style="padding:10px 12px;background:#F7F8FA;text-align:left;font-size:0.8rem;color:#4A5270;"'
+    body = "".join(
+        "<tr>" + "".join(f"<td {td}>{_h.escape(str(r.get(k, '') or '-'))}</td>" for k in ("post", "vacancies", "age", "qualification", "pay")) + "</tr>"
+        for r in rows)
+    return f"""
+      <h2 style="font-size:1.1rem;margin:8px 0 12px;">Post-wise details</h2>
+      <div style="overflow-x:auto;background:#fff;border-radius:12px;border:1.5px solid #ECEEF2;margin-bottom:24px;">
+        <table style="width:100%;border-collapse:collapse;min-width:560px;">
+          <thead><tr><th {th}>Post</th><th {th}>Posts</th><th {th}>Age</th><th {th}>Qualification</th><th {th}>Pay</th></tr></thead>
+          <tbody>{body}</tbody>
+        </table>
+      </div>
+      <p style="font-size:0.78rem;color:#6B7280;margin:-12px 0 24px;">As given in the official advertisement. Age is for the unreserved category; relaxations apply as per rules.</p>"""
+
+
 def generate_job_html(job):
     slug  = job.get("slug") or make_slug(job.get("title", "job"))
     today = datetime.now().strftime("%d %B %Y")
@@ -1670,6 +1701,8 @@ def generate_job_html(job):
           </tbody>
         </table>
       </div>
+
+      {build_posts_table(job)}
 
       <!-- Rich job content -->
       <div style="margin:24px 0;">
@@ -1945,7 +1978,8 @@ def run():
                 item["state"] = source["state"]
 
             item_hash = make_hash(item.get("title", "") + item.get("description", "")[:100])
-            if item_hash in processed:
+            _force = os.environ.get("NB_FORCE_DEPT", "").lower()
+            if item_hash in processed and not (_force and _force in str(source.get("dept", "")).lower()):
                 continue
 
             # Skip thin/generic nav titles — these create low-quality pages
