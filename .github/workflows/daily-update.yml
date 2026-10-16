@@ -120,6 +120,9 @@ jobs:
         run: python scripts/seo_perfect.py --apply
         continue-on-error: true
 
+      - name: Quality gate (noindex thin pages, rebuild sitemap)
+        run: python scripts/quality_gate.py
+
       - name: Commit all changes
         run: |
           git add -A

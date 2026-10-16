@@ -71,6 +71,10 @@ PYEOF
 echo "🛡️  Running SEO hardening pass..."
 python3 scripts/seo_perfect.py --apply
 
+# ── 1b. Quality gate ──────────────────────────────────────────────────────────
+echo "🧹 Quality gate..."
+python3 scripts/quality_gate.py
+
 # ── 2. Sync dist/ ─────────────────────────────────────────────────────────────
 echo "🔄 Syncing dist/..."
 rsync -a --delete \

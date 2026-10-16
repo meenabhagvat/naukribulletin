@@ -1310,6 +1310,33 @@ def format_with_ai(item, content_type="job"):
 
 # ─── HTML GENERATORS ──────────────────────────────────────────────────────────
 
+# ── Quality gate (AdSense / Google spam-policy safe) ─────────────────────────
+_EMPTY = {"", "n/a", "na", "none", "null", "not specified", "-", "0"}
+def _blank(v):
+    return str(v or "").strip().lower() in _EMPTY
+
+def job_passes_quality(job):
+    """Publish a job only when it has real, checkable facts.
+    Required: a parseable future last date and an official link.
+    Plus at most 1 of vacancies / qualification / age_limit / salary missing."""
+    from datetime import datetime as _d
+    ld = str(job.get("last_date", "") or "").strip()
+    dt = None
+    for fmt in ["%d %B %Y", "%d %b %Y", "%B %d, %Y", "%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"]:
+        try:
+            dt = _d.strptime(ld, fmt); break
+        except Exception:
+            pass
+    if not dt or dt.date() < _d.now().date():
+        return False, "no valid future last date"
+    if _blank(job.get("apply_link")):
+        return False, "no official link"
+    missing = sum(_blank(job.get(k)) for k in ("vacancies", "qualification", "age_limit", "salary"))
+    if missing > 1:
+        return False, f"{missing} key fields missing"
+    return True, ""
+
+
 def generate_job_html(job):
     slug  = job.get("slug") or make_slug(job.get("title", "job"))
     today = datetime.now().strftime("%d %B %Y")
@@ -1324,9 +1351,7 @@ def generate_job_html(job):
             break
         except Exception:
             pass
-    if not _valid_through:
-        from datetime import datetime as _dt2, timedelta as _td
-        _valid_through = (_dt2.now() + _td(days=90)).strftime("%Y-%m-%dT23:59:59")
+    # Never invent a validThrough date (Google Jobs policy). Gate rejects these jobs anyway.
     _sal = job.get("salary", "") or ""
     _sal_desc = _sal.replace('"', "'") if _sal and _sal.strip().lower() not in ("n/a", "", "as per govt norms") else "As per Government Pay Scale"
 
@@ -1825,6 +1850,10 @@ def run():
                     # Preserve state from source if AI returned N/A
                     if source.get("state") and job.get("state") in ("N/A", "All India", ""):
                         job["state"] = source["state"]
+                    ok, why = job_passes_quality(job)
+                    if not ok:
+                        print(f"  [SKIP] Thin job ({why}): {job.get('title','')[:60]}")
+                        continue
                     slug, html = generate_job_html(job)
                     if is_valid_slug(slug, item.get("title","")):
                         save_page(slug, html, "jobs")
@@ -1838,6 +1867,11 @@ def run():
                     collected_jobs.append(job)
             else:
                 affairs = formatted if isinstance(formatted, list) else [formatted]
+                # Auto-written news rewrites = "scaled content abuse" for Google and
+                # "low value content" for AdSense. Off unless NB_PUBLISH_CA=1.
+                if os.environ.get("NB_PUBLISH_CA") != "1":
+                    processed.add(item_hash)
+                    continue
                 for affair in affairs:
                     slug, html = generate_affairs_html(affair)
                     if is_valid_slug(slug, item.get("title","")):
