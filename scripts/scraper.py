@@ -871,8 +871,10 @@ SOURCES = [
     {"url":"https://www.rrbald.gov.in/pages/eng/latest-news.html","fallback_url":"https://www.rrbald.gov.in/","type":"html","selector":"table td a, a[href*='pdf'], a[href*='news']","dept":"RRB Allahabad","category":"railway","priority":1,"content_type":"job"},
 ]
 
-GROQ_MODELS  = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama3-70b-8192"]
-GEMINI_MODEL = "gemini-1.5-flash"
+# Old Llama/Mixtral models were shut down by Groq (llama-3.3-70b on 16 Aug 2026).
+GROQ_MODELS  = ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]
+# gemini-1.5-flash was retired. The -latest alias follows Google's current Flash model.
+GEMINI_MODEL = "gemini-flash-latest"
 
 PROCESSED_FILE = SITE_ROOT / "scripts" / "processed.json"
 
@@ -1245,8 +1247,9 @@ def call_groq(prompt):
                 json={
                     "model": model,
                     "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 1000,
+                    "max_tokens": 3000,
                     "temperature": 0.1,
+                    "reasoning_effort": "low",
                 },
                 timeout=30,
             )
@@ -1255,6 +1258,8 @@ def call_groq(prompt):
             if resp.status_code == 429:
                 print(f"  [GROQ] Rate limited on {model}, trying next...")
                 time.sleep(3)
+            else:
+                print(f"  [GROQ] {model} HTTP {resp.status_code}: {resp.text[:200]}")
         except Exception as e:
             print(f"  [GROQ] Error with {model}: {e}")
     return None
@@ -1269,6 +1274,7 @@ def call_gemini(prompt):
         )
         if resp.status_code == 200:
             return resp.json()["candidates"][0]["content"]["parts"][0]["text"]
+        print(f"  [GEMINI] {GEMINI_MODEL} HTTP {resp.status_code}: {resp.text[:200]}")
     except Exception as e:
         print(f"  [GEMINI] Error: {e}")
     return None
@@ -3950,8 +3956,14 @@ def get_affairs_meta_from_html(html_path):
         exam_rel = exam_tag.get_text(strip=True) if exam_tag else "All Exams"
         summary_p = soup.find("p", style=lambda s: s and "1.7" in str(s))
         summary = (summary_p.get_text(strip=True)[:120] + "...") if summary_p else ""
-        mtime    = html_path.stat().st_mtime
-        date_str = datetime.fromtimestamp(mtime).strftime("%d %b")
+        # Use the article's own publish date. File mtime is "now" on every CI checkout,
+        # which stamped every old article with today's date.
+        m = re.search(r'"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})', content)
+        if m:
+            pub = datetime.strptime(m.group(1), "%Y-%m-%d")
+        else:
+            pub = datetime.fromtimestamp(html_path.stat().st_mtime)
+        date_str = pub.strftime("%d %b %Y")
         cat_class_map = {
             "economy": "cat-economy", "science": "cat-science",
             "international": "cat-international", "sports": "cat-sports",
@@ -3960,7 +3972,8 @@ def get_affairs_meta_from_html(html_path):
         }
         cat_class = next((v for k, v in cat_class_map.items() if k in category.lower()), "cat-government")
         return {"slug": slug, "title": title, "category": category, "cat_class": cat_class,
-                "exam_rel": exam_rel, "summary": summary, "date_str": date_str}
+                "exam_rel": exam_rel, "summary": summary, "date_str": date_str,
+                "sort_key": pub.strftime("%Y-%m-%d")}
     except Exception as e:
         print(f"[META] Error reading {html_path}: {e}")
         return None
@@ -3979,6 +3992,7 @@ def rebuild_affairs_listing():
         if meta and meta.get("title"):
             items.append(meta)
 
+    items.sort(key=lambda x: (x.get("sort_key", ""), x["title"]), reverse=True)
     print(f"[LISTING] Rebuilding /current-affairs/ with {len(items)} items")
     # Group items by Month Year
     from collections import OrderedDict
@@ -4081,7 +4095,7 @@ def rebuild_affairs_listing():
       <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px;">
         Daily <span style="color:var(--saffron);">Current Affairs {yr}</span>
       </h1>
-      <p style="color:var(--grey-400);font-size:0.95rem;">{count}+ articles — exam-ready summaries, updated daily</p>
+      <p style="color:var(--grey-400);font-size:0.95rem;">Archive of {count} current-affairs summaries, newest first, each shown with its original date</p>
     </div>
   </div>
   <div class="container">
