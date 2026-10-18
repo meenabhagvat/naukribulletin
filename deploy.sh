@@ -103,7 +103,7 @@ git add -A
 git diff --cached --quiet || git commit -m "Deploy: $(date +'%d %b %Y %H:%M')"
 
 git fetch origin main
-git push origin main --force-with-lease || {
+git pull origin main --no-rebase -X ours --no-edit && git push origin main || {
   git pull origin main --no-rebase -X ours --no-edit 2>/dev/null || true
   git push origin main
 }
