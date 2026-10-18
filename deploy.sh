@@ -73,6 +73,7 @@ python3 scripts/seo_perfect.py --apply
 
 # ── 1b. Quality gate ──────────────────────────────────────────────────────────
 echo "🧹 Quality gate..."
+python3 scripts/dedupe_jobs.py
 python3 scripts/quality_gate.py
 
 # ── 2. Sync dist/ ─────────────────────────────────────────────────────────────

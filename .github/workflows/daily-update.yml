@@ -127,7 +127,7 @@ jobs:
         continue-on-error: true
 
       - name: Quality gate (noindex thin pages, rebuild sitemap)
-        run: python scripts/quality_gate.py
+        run: python scripts/dedupe_jobs.py && python scripts/quality_gate.py
 
       - name: Commit all changes
         run: |

@@ -19,7 +19,8 @@ if k:
 k = os.environ.get("GEMINI_API_KEY")
 if k:
     for gm in GEMINI_FALLBACKS:
-        r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={k}",
+        r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent",
+            headers={"x-goog-api-key": k},
             json={"contents": [{"parts": [{"text": "Reply OK"}]}]}, timeout=30)
         print(f"Gemini {gm}: HTTP {r.status_code} {'' if r.ok else r.text[:120]}")
         if r.ok: ok.append(gm)

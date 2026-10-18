@@ -1318,7 +1318,8 @@ def call_gemini(prompt):
     for model in GEMINI_FALLBACKS:
         try:
             resp = requests.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}",
+                f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+                headers={"x-goog-api-key": GEMINI_API_KEY},
                 json={"contents": [{"parts": [{"text": prompt}]}]},
                 timeout=45,
             )
@@ -1498,6 +1499,42 @@ def job_passes_quality(job):
     if len(miss) > 1:
         return False, f"missing {', '.join(miss)}"
     return True, ""
+
+
+_LINK_INDEX = None
+
+def _norm_link(u):
+    u = (u or "").strip().lower().split("#")[0]
+    u = re.sub(r"[?&]utm_[^&]*", "", u).rstrip("?&").rstrip("/")
+    return u.replace("http://", "https://")
+
+def _specific_link(u):
+    """Only advert-specific links identify an advert; a bare homepage like
+    keralapsc.gov.in is shared by many different jobs."""
+    from urllib.parse import urlparse
+    pu = urlparse(u)
+    segs = [x for x in pu.path.split("/") if x]
+    return ".pdf" in u or len(segs) >= 2 or (len(segs) == 1 and bool(pu.query))
+
+def existing_slug_for(job):
+    """Same official apply link = same advert = same page. Stops the AI from
+    creating a second page under a slightly different slug on every run."""
+    global _LINK_INDEX
+    if _LINK_INDEX is None:
+        _LINK_INDEX = {}
+        for f in (SITE_ROOT / "jobs").glob("*/index.html"):
+            try:
+                m = re.search(r'<a href="([^"]+)"[^>]*>\s*Apply Online', f.read_text(errors="ignore"))
+            except Exception:
+                m = None
+            if m and m.group(1).startswith("http"):
+                _LINK_INDEX.setdefault(_norm_link(m.group(1)), f.parent.name)
+    link = _norm_link(job.get("apply_link"))
+    return _LINK_INDEX.get(link) if link and _specific_link(link) else None
+
+def remember_slug(job, slug):
+    if _LINK_INDEX is not None and job.get("apply_link"):
+        _LINK_INDEX[_norm_link(job["apply_link"])] = slug
 
 
 def build_posts_table(job):
@@ -2051,7 +2088,12 @@ def run():
                     if not ok:
                         print(f"  [SKIP] Thin job ({why}): {job.get('title','')[:60]}")
                         continue
+                    _same = existing_slug_for(job)
+                    if _same:
+                        job["slug"] = _same
+                        print(f"  [UPDATE] same advert as /jobs/{_same}/, updating it")
                     slug, html = generate_job_html(job)
+                    remember_slug(job, slug)
                     if is_valid_slug(slug, item.get("title","")):
                         save_page(slug, html, "jobs")
                     else:
